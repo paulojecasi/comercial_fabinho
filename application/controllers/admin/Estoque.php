@@ -63,15 +63,16 @@ class Estoque extends CI_Controller {
 			$emitente 	= $this->input->post('emitente');
 			$valornota  = $this->input->post('valornota');
 
-			if ($this->modelestoque->adicionar($nrnota, $serie, $emitente, $valornota)){
-				$mensagem ="Nota Adicionada Com Sucesso! Agora Adicione os itens";
+			$retorno = $this->modelestoque->adicionar($nrnota,$serie,$emitente,$valornota); 
+
+			if ($retorno){
+				$mensagem ="Nota -(".$nrnota.")- foi Adicionada com Sucesso! Agora Adicione os ITENS";
 				// usando seção da framework (session)
 				$this->session->set_userdata('mensagem',$mensagem); 
 
-				// consultando a nota adicionada para exibir 
-				//$idestoque = $this->db->insert_id();
-				//$this->consulta_nota_adicionada(md5($idestoque)); 
-				redirect(base_url('admin/estoque'));
+				// vamos pegar o id do nota adicionada 
+				$idestoque = $this->db->insert_id();
+				redirect(base_url('admin/estoque/itens/'.md5($idestoque)));
 				
 			} else {
 
@@ -99,7 +100,6 @@ class Estoque extends CI_Controller {
 		$dados['produtos'] = $this->modelprodutos->listar_produtos();
 		$dados['estoque_entrada'] = $this->modelestoque->listar_estoque($idestoque);
 		$dados['estoque_entrada_itens']=$this->modelestoque->listar_estoque_itens($idestoque); 
-
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
@@ -159,8 +159,6 @@ class Estoque extends CI_Controller {
 				// vamos chamar o metodo itens com o idproduto definido - PJCS 
 				$this->itens($idestoque_entrada, $idproduto);
 			} 
-
-			
 			
 		}
 	} 
@@ -187,7 +185,14 @@ class Estoque extends CI_Controller {
 			$vltotal = $this->input->post('vltotal'); 
 			
 			if ($this->modelestoque->inserir_estoque_item($idproduto, $idestoque,$vlunitario,$quantidade,$vltotal)){
-				$mensagem ="Item da Nota/Estoque Adicionada Com Sucesso !"; 
+
+				$produto = $this->listar_produto($idproduto);
+
+				foreach ($produto as $produto_add) {
+					$desproduto = $produto_add->desproduto; 
+				}
+
+				$mensagem ="O Item- (".$desproduto.")- foi Adicionada Com Sucesso na Nota/Estoque!"; 
 
 				$this->session->set_userdata('mensagem',$mensagem); 
 				
@@ -202,7 +207,10 @@ class Estoque extends CI_Controller {
 			redirect(base_url('admin/estoque/itens/'.md5($idestoque)));
 
 		}
+	}
 
+	public function listar_produto($idproduto){
+		return $this->modelprodutos->listar_produto($idproduto);
 	}
 
 }
