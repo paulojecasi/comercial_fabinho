@@ -63,23 +63,65 @@ class Estoque_model extends CI_Model {
 		
 	}
 
-	public function inserir_estoque_item($idproduto, $idestoque,$vlunitario,$quantidade,$vltotal){
+	public function inserir_estoque_item($idproduto, $idestoque_entrada,$vlunitario,$quantidade,$vltotal){
 
 		$dados = array (
-			"idestoque_entrada" => $idestoque,
+			"idestoque_entrada" => $idestoque_entrada,
 			"idproduto" 				=> $idproduto, 
 			"quantidade"				=> $quantidade,
 			"vlunitario"				=> $vlunitario,
 			"vltotal"			=> $vltotal
 		); 
 
+		$this->movimento_estoque($idproduto,$idestoque_entrada,1,$quantidade);
+
 		return $this->db->insert('estoque_entrada_item',$dados); 
 		
 	}
 
-	public function movimento_estoque($tipomov,$idproduto,$idestoque){
-		$this->db->from('estoque_movimento);
-		$where
+	public function movimento_estoque($idproduto,$idestoque_entrada,$tipomovimento,$quantidade){
+
+		if ($tipomovimento ==1){ // 1 =  entrada no estoque 
+				$dados = array (
+					"idproduto" 				=> $idproduto, 
+					"idestoque_entrada" => $idestoque_entrada,
+					"tipomovimento"			=> $tipomovimento,
+					"quantidade"				=> $quantidade
+				); 
+				$this->db->insert('estoque_movimento',$dados); 
+				$this->atualiza_estoque_saldo($idproduto,$quantidade); 
+		} 
+	}
+
+	public function atualiza_estoque_saldo($idproduto, $quantidade){
+		$this->db->select('qtsaldo'); 
+		$this->db->where('idproduto=', $idproduto);
+		$resultado = $this->db->get('estoque_saldo')->result();
+
+		if ($resultado){
+			// se existir, vamos atualizar o saldo - update
+			foreach ($resultado as $key) {
+				$saldo_atualizado = $key->qtsaldo; 
+			}
+
+			$saldo_atualizado = $saldo_atualizado + $quantidade; 
+
+			$dados = array (
+				"qtsaldo"	=> $saldo_atualizado
+			); 
+			$this->db->where('idproduto=',$idproduto); 
+			$this->db->update('estoque_saldo',$dados); 
+
+		}else{
+			// se nao existir, vamos criar - insert 
+			$dados = array (
+				"idproduto" 				=> $idproduto, 
+				"qtsaldo"				=> $quantidade
+			); 
+
+			$this->db->insert('estoque_saldo',$dados); 
+
+		}
 
 	}
 
