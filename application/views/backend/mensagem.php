@@ -1,5 +1,5 @@
 
-	<div class="text-center text-uppercase">  
+	<div class="text-center mensagem">  
 			<?php 
       // BLOCO DE MENSAGENS 
       if (!is_null($this->session->userdata('mensagem'))) 

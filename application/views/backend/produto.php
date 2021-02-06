@@ -216,6 +216,8 @@
 
                             foreach ($produtos as $produto)
                             {   
+                                $id = $produto->idproduto;
+                                $nome = $produto->desproduto; 
                               
                                 if ($produto->img !=''){
                                     $foto   = img($produto->img);
@@ -244,10 +246,33 @@
                                 }
 
                                 
-                                $botaoalterar = anchor(base_url('admin/produto/alterar/'.md5($produto->idproduto)),
+                                $botaoalterar = anchor(base_url('admin/produto/alterar/'.md5($id)),
                                     '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> Alterar </h4>');
-                                $botaoexcluir = anchor(base_url('admin/produto/excluir/'.md5($produto->idproduto)),
-                                    '<h4 class="btn-excluir"><i class="fa fa-remove fa-fw"> </i> Excluir </h4> ');
+                     
+                                $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Excluir </h4> </button>';
+
+                                echo $modal= ' <div class="modal fade excluir-modal-'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel2"> <i class="fa fa-remove fa-fw"></i> Exclusão de Produto </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>Deseja Excluir o Produto '.$nome.'?</h4>
+                                                <p>Após Excluido, o Produto <b>'.$nome.'</b> não ficara mais disponível no Sistema.</p>
+                                                <p>Todos os itens relacionados ao Produto <b>'.$nome.'</b> serão afetados e não aparecerão no site até que sejam editados.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                <a type="button" class="btn btn-danger" href="'.base_url('admin/produto/excluir/'.md5($id)).'">Excluir</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>';
 
                                 $this->table->add_row($foto, $desproduto,$site,$ativo,$destaque, $botaoalterar,$botaoexcluir); 
                             }

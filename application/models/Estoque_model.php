@@ -27,14 +27,28 @@ class Estoque_model extends CI_Model {
 		
 	}
 
-	public function listar_estoque_itens($idestoque){
+	public function valida_produtos(){
+		$this->db->where('produtoativo=',1);
+		$this->db->where('desproduto!=',"");
+		$this->db->where('vlpreco > ',0); 
+	}
 
+	public function listar_estoque_itens($idestoque){
+		
+		$this->valida_produtos(); 
 		$this->db->from('estoque_entrada_item');
+		$this->db->join('produto','produto.idproduto=estoque_entrada_item.idproduto');
 		$this->db->where('md5(idestoque_entrada)=', $idestoque);
 		return $this->db->get()->result(); 
 		
 	}
 
+	public function verifica_item_existente($idproduto, $idestoque_entrada){
+
+		$this->db->where('md5(idestoque_entrada)=', $idestoque_entrada);
+		$this->db->where('md5(idproduto)=', $idproduto);
+		return $this->db->get('estoque_entrada_item')->result(); 
+	}
 
 	public function adicionar($nrnota, $serie, $emitente, $valornota){
 
@@ -48,6 +62,28 @@ class Estoque_model extends CI_Model {
 		return $this->db->insert('estoque_entrada',$dados); 
 		
 	}
+
+	public function inserir_estoque_item($idproduto, $idestoque,$vlunitario,$quantidade,$vltotal){
+
+		$dados = array (
+			"idestoque_entrada" => $idestoque,
+			"idproduto" 				=> $idproduto, 
+			"quantidade"				=> $quantidade,
+			"vlunitario"				=> $vlunitario,
+			"vltotal"			=> $vltotal
+		); 
+
+		return $this->db->insert('estoque_entrada_item',$dados); 
+		
+	}
+
+	public function movimento_estoque($tipomov,$idproduto,$idestoque){
+		$this->db->from('estoque_movimento);
+		$where
+
+	}
+
+
 
 /*
 	public function excluir($id){

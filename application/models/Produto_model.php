@@ -42,9 +42,17 @@ class Produto_model extends CI_Model
 
 	public function listar_produto($id)
 	{
-		$this->db->where('md5(idproduto)=', $id); 
-		return $this->db->get('produto')->result(); 
 
+		$this->db->where('md5(idproduto)=', $id); 
+		$return = $this->db->get('produto')->result(); 
+
+		// vou precisar de algumas consulta que não aceitara o MD5 entao... PJCS
+		if ($return){
+			return $return;
+		}else {
+			$this->db->where('idproduto=', $id); 
+			return $this->db->get('produto')->result(); 
+		}
 	}
 
 	public function listagem_produto_escolha(){
@@ -181,11 +189,8 @@ class Produto_model extends CI_Model
 	// seleciona somente produtos aptos para o site
 	public function valida_produtos(){
 		$this->db->where('produtoativo=',1);
-		$this->db->where('produtosite=',1);
 		$this->db->where('desproduto!=',"");
 		$this->db->where('vlpreco > ',0); 
-		$this->db->where('img!=',"");
-
 	}
 
 	public function lista_produtos_site($categoria=null){

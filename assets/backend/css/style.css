@@ -38,7 +38,7 @@
   	color: blue;
   	background-color: #F8F8FF;
   	font-weight: bold;
-  	font-size: 18px;
+  	font-size: 16px;
 }
 
 .layout-campos div option{
@@ -138,11 +138,16 @@ li p.menu-admin{
 }
 
 button.consulta {
-	margin-top: -15px; 
+	margin-top: -12px; 
 	margin-bottom: -10px; 
 }
 
-button.consulta img.lupa{
+button.consulta{
+	width: 130px;
+	font-size: 17px;  
+
+}
+button.consulta img{
 	width: 20px;
 	height: 20px;
 }
@@ -153,13 +158,24 @@ div.protected-fields input{
 }
 
 .title-itens {
-	margin-top: -10px; 
+	margin-top: -12px; 
+}
+
+div.panel-dados{
+	margin-top: -20px;
+	margin-bottom: -15px;
+}
+
+div.panel-dados-cad{
+	margin-top: -0px;
+	margin-bottom: -15px;
 }
 
 .dados-notagravada h4{
-	margin-top: 3px;
-	margin-bottom: -7px;
+	margin-top: 0px;
+	margin-bottom: -10px;
 	color: #0000FF ;
+	font-size: 17px; 
 }
 
 .dados-notagravada h4 b{
@@ -169,7 +185,7 @@ div.protected-fields input{
 
 
 h4.btn-itens {
-	margin-top: 0px;
+	margin-top: 2px;
 	color: #228B22;
 	font-size: 15px;  
 }
@@ -188,12 +204,43 @@ h4.btn-excluir {
 }
 
 h4.title-itens {
-	margin-top: 4px; 
-	margin-bottom: 4px; 
+	margin-top: -5px; 
+	margin-bottom: -5px; 
 }
 
+h4.title-itens-nota {
+	margin-top: 10px; 
+	margin-bottom: -5px; 
+}
 
+div.title-itens-c {
+	margin-top: -9px; 
+	margin-bottom: 11px; 
 
+}
+
+div.title-itens-c div h4 {
+	margin-top: -6px; 
+	margin-bottom: -5px; 
+	color: #FF8C00;
+}
+
+div.title-itens-c div label {
+	color: #FF8C00;
+}
+
+.mensagem div b{
+	font-style: italic;
+	font-size: 20px; 
+}
+
+div.cons-item input{
+	pointer-events: none;  
+	background-color: #DCDCDC; 
+	color:#0000FF;
+	font-size: 17px; 
+	font-weight: bold;
+}
 
     
       

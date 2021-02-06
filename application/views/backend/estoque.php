@@ -102,7 +102,7 @@
                                 $emitente= $estoque->emitente;
                                 $valornota= number_format($estoque->valornota,2,",","."); 
 
-                                $botaoitens = anchor(base_url('admin/estoque/itens/'.md5($estoque->id)),'<h4 class="btn-itens"> <i class="fa fa-file-text"> </i> Ver Itens </h4>');
+                                $botaoitens = anchor(base_url('admin/estoque/itens/'.md5($estoque->id)),'<h4 class="btn-itens"> <i class="fa fa-file-text"> </i> Itens da Nota </h4>');
                                 $botaoalterar = anchor(base_url('admin/estoque/alterar/'.md5($id)),
                                     '<h4 class="btn-alterar"> <i class="fas fa-edit"> </i> Alterar </h4>');
                                 $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Excluir </h4> </button>';
@@ -154,3 +154,5 @@
     </div>
 
 </div>
+
+

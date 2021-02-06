@@ -13,10 +13,9 @@ class Estoque extends CI_Controller {
 				redirect(base_url('admin/login')); 
 		}
 
-				// vamos chamar o model "Categorias_model" para listagem dos models cadastrados
-				// como fosse:
-				// modelcategorias = new Categorias_model(); 
+		
 		$this->load->model('estoque_model','modelestoque');
+		$this->load->model('produto_model','modelprodutos');
 		$this->estoques = $this->modelestoque->listar_entradas(); 
 
 	}
@@ -87,24 +86,123 @@ class Estoque extends CI_Controller {
 
 	}
 
-
-	public function itens($idestoque){
+	public function itens($idestoque, $idproduto=null){
 
 		// vamos carregar a biblioteca de TABELAS
 		$this->load->library('table'); 
 
-		$dados = array(
-			'estoque_entrada' => $this->modelestoque->listar_estoque($idestoque),
-			'estoque_itens'		=> $this->modelestoque->listar_estoque_itens($idestoque) 
-		);
+		if ($idproduto){
+			$dados['produtoitem'] = $this->modelprodutos->listar_produto($idproduto); 
+		}else{
+			$dados['produtoitem'] = null; 
+		}
+		$dados['produtos'] = $this->modelprodutos->listar_produtos();
+		$dados['estoque_entrada'] = $this->modelestoque->listar_estoque($idestoque);
+		$dados['estoque_entrada_itens']=$this->modelestoque->listar_estoque_itens($idestoque); 
+
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
-		$this->load->view('backend/mensagem');
 		$this->load->view('backend/estoque-itens');
+		//if ($idproduto){
+		//		$this->load->view('backend/estoque-item-consultado');
+		//}
 		$this->load->view('backend/template/html-footer'); 
 
 	}
 
+	public function buscar_produto()
+	{
+		
+		$idestoque_entrada  = $this->input->post('idestoque');
+		$idcodbarras  = $this->input->post('idcodbarras');
+		$idcodproduto = $this->input->post('idcodproduto');
+		$iddesproduto = $this->input->post('iddesproduto');
+		
+
+		if ($idcodproduto && $iddesproduto 
+				||
+				$idcodproduto && $idcodbarras 
+				||
+				$iddesproduto && $idcodbarras){
+
+				$mensagem ="ATENÇÃO! Selecione Somente Uma Opcao: Cod Barras, Código Produto ou Nome Produto.";
+
+				$this->session->set_userdata('mensagemErro',$mensagem);
+
+				$this->itens($idestoque_entrada);
+
+		}elseif (!$idcodproduto && !$iddesproduto && !$idcodbarras){
+
+				$mensagem ="ATENÇÃO! Selecione ao menos Uma Opcao: Cod Barras, Código Produto ou Nome Produto.";
+
+				$this->session->set_userdata('mensagemErro',$mensagem);
+
+				$this->itens($idestoque_entrada);
+		}else{
+
+			if ($idcodproduto){
+				$idproduto = $idcodproduto;
+			}elseif ($iddesproduto) {
+				$idproduto = $iddesproduto;
+			}else {
+				$idproduto = $idcodbarras;
+			}
+			// vamor verficar se o item ja foi gravado 
+			if ($this->modelestoque->verifica_item_existente($idproduto,$idestoque_entrada)){
+
+					$mensagem ="ATENÇÃO! Produto já está cadastrado na Nota, verifique!";
+					$this->session->set_userdata('mensagemErro',$mensagem);
+					$this->itens($idestoque_entrada);  // se nao validar, retorna para a pagina
+
+			}else{
+				// vamos chamar o metodo itens com o idproduto definido - PJCS 
+				$this->itens($idestoque_entrada, $idproduto);
+			} 
+
+			
+			
+		}
+	} 
+
+	public function inserir_estoque_item()
+	{
+		// validar form
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('vlunitario','Valor Unitario','required'); 
+		$this->form_validation->set_rules('quantidade','Quantidade Itens','required');
+		$this->form_validation->set_rules('vltotal','Valor Total','required');  
+
+		if ($this->form_validation->run() == FALSE){
+
+				$idestoque = $this->input->post('idestoque_entrada'); 
+				$this->itens($idestoque);   // se nao validar, retorna para a pagina
+
+		} else {
+
+			$idproduto= $this->input->post('idproduto');
+			$idestoque = $this->input->post('idestoque');
+			$vlunitario = $this->input->post('vlunitario');
+			$quantidade = $this->input->post('quantidade');
+			$vltotal = $this->input->post('vltotal'); 
+			
+			if ($this->modelestoque->inserir_estoque_item($idproduto, $idestoque,$vlunitario,$quantidade,$vltotal)){
+				$mensagem ="Item da Nota/Estoque Adicionada Com Sucesso !"; 
+
+				$this->session->set_userdata('mensagem',$mensagem); 
+				
+			} else {
+
+				$mensagem = "Houve um erro ao adicionar Item da Nota/Estoque !"; 
+
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+
+			}
+
+			redirect(base_url('admin/estoque/itens/'.md5($idestoque)));
+
+		}
+
+	}
 
 }
