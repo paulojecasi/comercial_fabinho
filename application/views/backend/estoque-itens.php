@@ -112,7 +112,7 @@
                             
                             // vamos abrir o formulário,
                                         // apontando para:admin/controlador/metodo
-                            echo form_open('admin/estoque/buscar_produto');
+                            echo form_open('admin/estoque/buscar_produto/itens-nota');
   
                             $this->load->view('backend/mensagem');
                 
@@ -125,27 +125,6 @@
 
                                 <div class="panel-body">
 
-                                     <!--
-                                    <div class="form-group col-lg-3 cons-item"> 
-                                        <label> Informe COD BARRA </label>
-                                        <input id="codbarras" name="codbarras" type="text" class="form-control" placeholder ="Passe Produto no Leitor" value="<?php echo set_value('codbarras') ?>">
-
-                                    </div>
-                                    <div class="form-group col-lg-4 cons-item"> 
-                                        <label> ou COD PRODUTO </label>
-                                        <input id="serie" name="serie" type="text"class = "form-control" placeholder ="Digite Codigo do Produto" value="<?php echo set_value('serie') ?>">
-                                    </div>
-
-                               
-                                    
-                                    
-                                    <div class="form-group col-lg-6 cons-item"> 
-                                        <label> ou NOME DO PRODUTO </label>
-                                        <input id="emitente" name="emitente" type="text"class = "form-control" placeholder ="Digite Nome do Produto" value="<?php echo set_value('emitente') ?>">
-                                    </div>
-                                    -->
-
-                                    
                                      <div class="form-group col-lg-3">
                                         <label for="idcodbarras"> Informe CODBARRA</label>
                                         <select class="form-control" id="idcodbarras" name="idcodbarras">
@@ -220,11 +199,14 @@
                                         $idestoque_entrada = md5($estoque->id); 
                                         ?>
                                         <!-- INPUT OCULTO PARA ENVIAR O ID--> 
-                                        <input type="hidden" id="idestoque" name="idestoque" value= "<?php echo $idestoque_entrada ?>" 
+                                        <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" 
                                         >
+                                       
                                         <?php 
                                     endforeach; 
                                     ?>
+
+
 
                                     <div class ="col-lg-12 col-sm-12 text-center ">
                                         <a href="">
@@ -295,9 +277,12 @@
                                 <?php
                                 foreach ($estoque_entrada as $estoqu):
                                     $idestoque_entrada = $estoqu->id; 
+                                    $nrnota = $estoqu->nrnota; 
                                     ?>
                                     <!-- INPUT OCULTO PARA ENVIAR O ID--> 
-                                    <input type="hidden" id="idestoque" name="idestoque" value= "<?php echo $idestoque_entrada ?>" 
+                                    <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" 
+                                    >
+                                    <input type="hidden" id="nrnota" name="nrnota" value= "<?php echo $nrnota ?>" 
                                     >
                                     <?php 
                                 endforeach; 
@@ -309,7 +294,7 @@
                                 <div class ="col-lg-12 col-sm-12 ">
                                     <a href="">
                                         <button class="btn btn-primary" > 
-                                            Adicionar Estoque/Nota
+                                            Adicionar Produto 
                                         </button> 
                                     </a>
                                 </div>
@@ -341,23 +326,71 @@
                   
                             <!-- gerar tabela de categorias pela framework PJCS --> 
                             <?php
-                            $this->table->set_heading("Codigo","Descrição","Quantidade", "Vl Unitario","Vl Total"); 
+                            $this->table->set_heading("Codigo","Descrição","Situação","Quantidade", "Vl Unitario","Vl Total","Cancelar"); 
 
                             foreach ($estoque_entrada_itens as $estoque_item)
                             { 
-                                $id     = $estoque_item->idproduto;
+                                $id         = $estoque_item->id;
+                                $idproduto    = $estoque_item->idproduto;
+                                $idestoque_entrada = $estoque_item->idestoque_entrada; 
                                 $desproduto = $estoque_item->desproduto;  
-                                $codproduto = $estoque_item->codproduto; 
+                                $codproduto = $estoque_item->codproduto;
+
+                                $tpsituacao = $estoque_item->tiposituacao;
+                                foreach ($situacao_nota as $situacao_nt): 
+                                    if ($situacao_nt->tiposituacao == $tpsituacao):
+                                        $dessituacao = $situacao_nt->dessituacao;
+                                        if ($tpsituacao==0):  
+                                            $dessituacao  = 
+                                            '<p class="field-aberta">'
+                                                .$dessituacao.'
+                                            </p>';
+                                        endif; 
+                                        if ($tpsituacao==1):  
+                                            $dessituacao  = 
+                                            '<p class="field-fechada">'
+                                                .$dessituacao.'
+                                            </p>';
+                                        endif; 
+                                        if ($tpsituacao==2):  
+                                            $dessituacao  = 
+                                            '<p class="field-cancelada">'
+                                                .$dessituacao.'
+                                            </p>';
+                                        endif;
+                                    endif;  
+                                endforeach; 
+                                 
                                 $qtd    = $estoque_item->quantidade;
                                 $vluni  = $estoque_item->vlunitario; 
                                 $vltot  = $estoque_item->vltotal; 
                            
-                                $botaoalterar = anchor(base_url('admin/estoque/alterar/'.md5($estoque_item->id)),
-                                    '<i class="fas fa-edit"> </i> Alterar');
-                                $botaoexcluir = anchor(base_url('admin/estoque/excluir/'.md5($estoque_item->id)),
-                                    '<i class="fa fa-remove fa-fw"> </i> Excluir');
+                                $botaocancelar= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$idproduto.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Cancelar Item </h4> </button>';
 
-                                $this->table->add_row($codproduto,$desproduto,$qtd,$vluni,$vltot,$botaoalterar,$botaoexcluir); 
+                                echo $modal= ' <div class="modal fade excluir-modal-'.$idproduto.'" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel2"> <i class="fa fa-remove fa-fw"></i> Cancelamento de Itens da Nota de Entrada </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>Deseja Cancelar o Item <p> <b>'.$desproduto.'? </b> </h4>
+                                                <p>Após cancelado, o Item <b>'.$desproduto.'</b> não ficara mais disponível no Sistema.</p>
+                                                <p> O saldo do Item '.$desproduto.'</b> será reduzido no estoque.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                <a type="button" class="btn btn-danger" href="'.base_url('admin/estoque/cancelar_item/'.md5($id).'/'.md5($idproduto)).'/'.md5($idestoque_entrada).'"> Confirmar </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>';
+
+                                $this->table->add_row($codproduto,$desproduto,$dessituacao,$qtd,$vluni,$vltot,$botaocancelar); 
                             }
 
                             $this->table->set_template(array(

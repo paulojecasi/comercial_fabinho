@@ -23,4 +23,9 @@ class Picklist_model extends CI_Model {
 		
 	}
 
+	public function situacao_nota(){
+		$this->db->order_by('tiposituacao','ASC');
+		return $this->db->get('situacao_nota')->result(); 
+	}
+
 }

@@ -60,7 +60,7 @@
                             <a href="<?php echo base_url('admin/estoque') ?>"><i class="fa fa-edit fa-fw"></i> Entrada no Estoque </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('admin/estoque/consulta_estoque') ?>"><i class="fa fa-edit fa-fw"></i> Consultar Estoque </a>
+                            <a href="<?php echo base_url('admin/estoque/estoque_consulta') ?>"><i class="fa fa-edit fa-fw"></i> Consultar Estoque </a>
                         </li>
 
                         <li>

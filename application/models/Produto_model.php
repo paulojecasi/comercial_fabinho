@@ -35,6 +35,7 @@ class Produto_model extends CI_Model
 		} 
 		$this->listagem_produto_escolha(); 
 		
+		$this->valida_produtos(); 
 		$this->db->order_by('desproduto','ASC'); 
 		return $this->db->get('produto')->result(); 
 

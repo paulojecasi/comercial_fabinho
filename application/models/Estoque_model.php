@@ -19,10 +19,10 @@ class Estoque_model extends CI_Model {
 
 	}
 
-	public function listar_estoque($idestoque){
+	public function listar_estoque($idestoque_entrada){
 
 		$this->db->from('estoque_entrada');
-		$this->db->where('md5(id)=', $idestoque);
+		$this->db->where('md5(id)=', $idestoque_entrada);
 		return $this->db->get()->result(); 
 		
 	}
@@ -33,12 +33,12 @@ class Estoque_model extends CI_Model {
 		$this->db->where('vlpreco > ',0); 
 	}
 
-	public function listar_estoque_itens($idestoque){
+	public function listar_estoque_itens($idestoque_entrada){
 		
 		$this->valida_produtos(); 
 		$this->db->from('estoque_entrada_item');
 		$this->db->join('produto','produto.idproduto=estoque_entrada_item.idproduto');
-		$this->db->where('md5(idestoque_entrada)=', $idestoque);
+		$this->db->where('md5(idestoque_entrada)=', $idestoque_entrada);
 		return $this->db->get()->result(); 
 		
 	}
@@ -63,48 +63,77 @@ class Estoque_model extends CI_Model {
 		
 	}
 
-	public function inserir_estoque_item($idproduto, $idestoque_entrada,$vlunitario,$quantidade,$vltotal){
+	public function inserir_estoque_item($idproduto, $idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal){
 
 		$dados = array (
 			"idestoque_entrada" => $idestoque_entrada,
+			"nrnota" 						=> $nrnota,
 			"idproduto" 				=> $idproduto, 
 			"quantidade"				=> $quantidade,
 			"vlunitario"				=> $vlunitario,
-			"vltotal"			=> $vltotal
+			"vltotal"						=> $vltotal
 		); 
 
-		$this->movimento_estoque($idproduto,$idestoque_entrada,1,$quantidade);
+		$this->movimento_estoque($nrnota,$idproduto,$idestoque_entrada,1,$quantidade);
 
 		return $this->db->insert('estoque_entrada_item',$dados); 
 		
 	}
 
-	public function movimento_estoque($idproduto,$idestoque_entrada,$tipomovimento,$quantidade){
+	public function consulta_estoque_saldo($idproduto){
+		// vamos consultar o saldo atual  
+		$this->db->select('qtsaldo'); 
+		$this->db->where('md5(idproduto)=', $idproduto);
+		$resultado = $this->db->get('estoque_saldo')->result();
+		if ($resultado){
+			foreach ($resultado as $key) {
+				$saldo_atual = $key->qtsaldo; 
+			}
 
-		if ($tipomovimento ==1){ // 1 =  entrada no estoque 
-				$dados = array (
-					"idproduto" 				=> $idproduto, 
-					"idestoque_entrada" => $idestoque_entrada,
-					"tipomovimento"			=> $tipomovimento,
-					"quantidade"				=> $quantidade
-				); 
-				$this->db->insert('estoque_movimento',$dados); 
-				$this->atualiza_estoque_saldo($idproduto,$quantidade); 
+			return $saldo_atual;  
 		} 
 	}
 
-	public function atualiza_estoque_saldo($idproduto, $quantidade){
-		$this->db->select('qtsaldo'); 
-		$this->db->where('idproduto=', $idproduto);
-		$resultado = $this->db->get('estoque_saldo')->result();
+	public function movimento_estoque($nrnota,$idproduto,$idestoque_entrada,$tipomovimento,$quantidade){
 
-		if ($resultado){
+		// vamos consultar o saldo atual do produto
+		$saldo_atual = $this->consulta_estoque_saldo(md5($idproduto)); 
+		
+		$dados['nrnota']						= $nrnota; 
+		$dados['idproduto'] 				= $idproduto; 
+		$dados['idestoque_entrada'] = $idestoque_entrada;
+		$dados['tipomovimento']			= $tipomovimento;
+		$dados['quantidade']				= $quantidade; 
+
+		if ($tipomovimento ==1 ||$tipomovimento ==2)	{
+			// ENTTRADAS
+				$dados['saldo']							= $quantidade + $saldo_atual;
+		}else{
+			// SAIDAS 
+				$dados['saldo']							= $saldo_atual - $quantidade;
+		}
+
+		$this->db->insert('estoque_movimento',$dados); 
+		$this->atualiza_estoque_saldo($idproduto, $quantidade, $tipomovimento); 
+	
+	}
+
+
+	public function atualiza_estoque_saldo($idproduto, $quantidade, $tipomovimento){
+
+		$saldo_atualizado = $this->consulta_estoque_saldo(md5($idproduto)); 
+
+		if ($saldo_atualizado){
 			// se existir, vamos atualizar o saldo - update
-			foreach ($resultado as $key) {
-				$saldo_atualizado = $key->qtsaldo; 
-			}
+			if ($tipomovimento == 1 || $tipomovimento == 2 ){
 
-			$saldo_atualizado = $saldo_atualizado + $quantidade; 
+				$saldo_atualizado = $saldo_atualizado + $quantidade; 
+
+			}	else {
+
+				$saldo_atualizado = $saldo_atualizado - $quantidade;
+
+			}
 
 			$dados = array (
 				"qtsaldo"	=> $saldo_atualizado
@@ -115,7 +144,7 @@ class Estoque_model extends CI_Model {
 		}else{
 			// se nao existir, vamos criar - insert 
 			$dados = array (
-				"idproduto" 				=> $idproduto, 
+				"idproduto" 		=> $idproduto, 
 				"qtsaldo"				=> $quantidade
 			); 
 
@@ -125,56 +154,43 @@ class Estoque_model extends CI_Model {
 
 	}
 
+	public function consulta_movimento_estoque($idproduto,$datainicial,$datafinal){
 
+		//$this->db->where('datamovimento>=',$datainicial);
+		//$this->db->where('datamovimento<=',$datafinal); 
 
-/*
-	public function excluir($id){
-
-		$this->db->where('md5(id)=', $id);
-		return $this->db->delete('categoria');  
-
+		$this->db->from('estoque_movimento');
+		$this->db->join('tipo_movimento',
+										'tipo_movimento.id = estoque_movimento.tipomovimento'); 
+		$this->db->where('DATE(datamovimento) >=', date('Y-m-d',strtotime($datainicial)));
+		$this->db->where('DATE(datamovimento) <=', date('Y-m-d',strtotime($datafinal)));
+		$this->db->where('md5(idproduto)=', $idproduto);		
+		return $this->db->get()->result();
 	}
 
-	public function listar_categoria($id){
-
-		$this->db->from('categoria');
-		$this->db->where('md5(id)=', $id);
-		return $this->db->get()->result(); 
+	public function cancelar_item($id, $idproduto, $idestoque_entrada){
 		
+		// atualizando movimento de saida do estoque e saldo 
+		$this->db->where('md5(idproduto)=',$idproduto);
+		$this->db->where('md5(idestoque_entrada)=',$idestoque_entrada);
+		$estoque_movimento_saida = $this->db->get('estoque_movimento')->result();
+ 
+		if ($estoque_movimento_saida){
+			foreach ($estoque_movimento_saida as $estoque_movimento) {
+				$nrnota = $estoque_movimento->nrnota;
+				$idproduto = $estoque_movimento->idproduto;
+				$idestoque_entrada = $estoque_movimento->idestoque_entrada;
+				$tipomovimento = $estoque_movimento->tipomovimento;
+				$quantidade = $estoque_movimento->quantidade; 
+			}
+
+			$this->movimento_estoque($nrnota,$idproduto,$idestoque_entrada,4,$quantidade); 
+
+			//-------  cancelar item de entrada na nota 
+			$dados['tiposituacao'] = 2; 
+			$this->db->where('md5(id)=',$id);
+			return $this->db->update('estoque_entrada_item',$dados); 
+
+		} 
 	}
-	
-
-	public function alterar($alterar_categoria, $destaquenosite, $id){
-	
-		$dados = array (
-			"titulo" 				=> $alterar_categoria, 
-			"categoriadest" => $destaquenosite,
-		); 
-		$this->db->where('id=', $id); 
-		return $this->db->update('categoria', $dados); 
-		
-
-	}
-
-	public function carrega_categorias_html(){
-
-		$this->db->order_by('titulo','ASC'); 
-		$categorias = $this->db->get('categoria')->result();  
-
-
-		$html_cat = []; 
-		$base_url = base_url('home/lista_produtos/'); 
-		foreach ($categorias as $row){
-			array_push($html_cat,'<a class="dropdown-item" href="'.$base_url.md5($row->id).'"> '.$row->titulo.' </a>');
-		}
-
-		file_put_contents("application"	. DIRECTORY_SEPARATOR . 
-											"views" 			. DIRECTORY_SEPARATOR . 	
-											"frontend" 		. DIRECTORY_SEPARATOR .
-											"template" 		. DIRECTORY_SEPARATOR .
-											"categorias-menu.php",$html_cat); 
-
-	}
-	*/ 
-
 }

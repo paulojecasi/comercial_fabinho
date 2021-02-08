@@ -231,7 +231,7 @@ div.title-itens-c div label {
 
 .mensagem div b{
 	font-style: italic;
-	font-size: 20px; 
+	font-size: 18px; 
 }
 
 div.cons-item input{
@@ -241,6 +241,125 @@ div.cons-item input{
 	font-size: 17px; 
 	font-weight: bold;
 }
+
+/* template de consulta de estoque */ 
+div.panel-dados-cons-estoque div.panel-body{
+	margin-top: -10px; 
+	margin-bottom: -5px; 
+
+}
+
+div.panel-dados-cons-estoque div.title-cons{
+	margin-top: 10px; 
+}
+
+div.panel-dados-cons-estoque div h4{
+	margin-top: -5px; 
+	font-size: 17px; 
+}
+
+div.panel-dados-cons-estoque div.campo-data input{
+	align-items: center;
+	font-size: 17px; 
+}
+
+div.panel-mov-est {
+	background-color: #F0F8FF;
+}
+
+div h4.title-itens-nota {
+	margin-left: 10px; 
+	font-size: 16px; 
+}
+
+div h4.title-itens-nota b {
+	color: blue;
+}
+
+div h4.title-itens-nota b.font-saldo {
+	color: red;
+	margin-right: 0px; 
+}
+
+div.descricao-item-consulta-mov h4{
+	
+	color: blue; 
+	margin-left: 25px; 
+	margin-top: 15px;
+	margin-bottom: -10px; 
+	font-weight: bold;
+
+	border-top: 1px solid; 
+	border-bottom: 1px solid;
+	border-color: #C0C0C0; 
+	padding: 8px;
+
+}
+
+h2.mens-nao-estoque{
+	padding: 20px; 
+	color: #F4A460 ;
+	border: 2px solid;
+	border-radius: 10px; 
+}
+h2.mens-nao-estoque b{
+	color: blue ;
+}
+
+div.title-itens-mov{
+	margin-top: -10px; 
+	border-bottom: 1px solid; 
+	padding: 10px; 
+	margin-bottom: 0px; 
+
+}
+
+/* formatando cor das fontes das colunas da tabela da consulta de estoque */ 
+p.field-qt-entrada{
+	font-size: 15px; 
+	color: #228B22; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+p.field-qt-saida{
+	font-size: 15px;
+	color: #0000FF; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+p.field-saldo{
+	font-size: 15px;
+	color: #5F9EA0; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+/* formatando cor das fontes das colunas da tabela da consulta de intens da nota */ 
+
+p.field-aberta{
+	font-size: 15px;
+	color: #006400; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+p.field-fechada{
+	font-size: 15px;
+	color: blue; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+p.field-cancelada{
+	font-size: 15px;
+	color: red; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+
+}
+
 
     
       

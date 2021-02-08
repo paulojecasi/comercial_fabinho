@@ -12,11 +12,12 @@ class Estoque extends CI_Controller {
 		if (!$this->session->userdata('logado')){
 				redirect(base_url('admin/login')); 
 		}
-
 		
 		$this->load->model('estoque_model','modelestoque');
 		$this->load->model('produto_model','modelprodutos');
+		$this->load->model('picklist_model','modellist'); 
 		$this->estoques = $this->modelestoque->listar_entradas(); 
+		$this->situacao_nota = $this->modellist->situacao_nota(); 
 
 	}
 
@@ -29,7 +30,7 @@ class Estoque extends CI_Controller {
 		$dados = array(
 			'estoques' 	=> $this->estoques,
 			'estoque_entrada' 	
-										=> $this->modelestoque->listar_estoque($idestoque=null),   
+										=> $this->modelestoque->listar_estoque($idestoque_entrada=null),   
 			'titulo' 		 	=> 'Painel de Controle',
 			'subtitulo'  	=> 'Estoque '
 		);
@@ -70,9 +71,10 @@ class Estoque extends CI_Controller {
 				// usando seção da framework (session)
 				$this->session->set_userdata('mensagem',$mensagem); 
 
-				// vamos pegar o id do nota adicionada 
-				$idestoque = $this->db->insert_id();
-				redirect(base_url('admin/estoque/itens/'.md5($idestoque)));
+				// vamos pegar o id do nota adicionada e redirecionar diretamente
+				// para a template de cadastro dos itens
+				$idestoque_entrada = $this->db->insert_id();
+				redirect(base_url('admin/estoque/itens/'.md5($idestoque_entrada)));
 				
 			} else {
 
@@ -87,7 +89,7 @@ class Estoque extends CI_Controller {
 
 	}
 
-	public function itens($idestoque, $idproduto=null){
+	public function itens($idestoque_entrada, $idproduto=null){
 
 		// vamos carregar a biblioteca de TABELAS
 		$this->load->library('table'); 
@@ -97,9 +99,10 @@ class Estoque extends CI_Controller {
 		}else{
 			$dados['produtoitem'] = null; 
 		}
+		$dados['situacao_nota']= $this->situacao_nota;
 		$dados['produtos'] = $this->modelprodutos->listar_produtos();
-		$dados['estoque_entrada'] = $this->modelestoque->listar_estoque($idestoque);
-		$dados['estoque_entrada_itens']=$this->modelestoque->listar_estoque_itens($idestoque); 
+		$dados['estoque_entrada'] = $this->modelestoque->listar_estoque($idestoque_entrada);
+		$dados['estoque_entrada_itens']=$this->modelestoque->listar_estoque_itens($idestoque_entrada); 
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
@@ -111,13 +114,46 @@ class Estoque extends CI_Controller {
 
 	}
 
-	public function buscar_produto()
+	public function estoque_consulta($idproduto=null, $datainicial=null, $datafinal=null)
+	{
+		// vamos carregar a biblioteca de TABELAS
+		$this->load->library('table'); 
+
+		if ($idproduto){
+			$dados['produto_est_mov'] = 
+					$this->modelprodutos->listar_produto($idproduto);
+			$dados['estoque_mov'] 		=	
+					$this->modelestoque->consulta_movimento_estoque($idproduto,$datainicial,$datafinal); 
+			$dados['estoque_saldo_atual'] = 
+					$this->modelestoque->consulta_estoque_saldo($idproduto); 
+		} else {
+			$dados['produto_est_mov'] =null; 
+			$dados['estoque_mov']=null; 
+			$dados['estoque_saldo_atual'] = null; 
+		}
+
+		$dados['produtos'] 	=  $this->modelprodutos->listar_produtos();
+	
+		$this->load->view('backend/template/html-header', $dados);
+		$this->load->view('backend/template/template');
+		$this->load->view('backend/mensagem');
+		$this->load->view('backend/estoque-consulta');
+		$this->load->view('backend/template/html-footer'); 
+
+	}
+
+	public function buscar_produto($idsolicitante)
 	{
 		
-		$idestoque_entrada  = $this->input->post('idestoque');
+		$idestoque_entrada  = $this->input->post('idestoque_entrada');
 		$idcodbarras  = $this->input->post('idcodbarras');
 		$idcodproduto = $this->input->post('idcodproduto');
 		$iddesproduto = $this->input->post('iddesproduto');
+
+		if ($idsolicitante == "consulta-estoque"){
+			$datainicial = $this->input->post('datainicial');
+			$datafinal = $this->input->post('datafinal'); 
+		} 
 		
 
 		if ($idcodproduto && $iddesproduto 
@@ -126,19 +162,27 @@ class Estoque extends CI_Controller {
 				||
 				$iddesproduto && $idcodbarras){
 
-				$mensagem ="ATENÇÃO! Selecione Somente Uma Opcao: Cod Barras, Código Produto ou Nome Produto.";
+				$mensagem ="ATENÇÃO! Selecione Somente Uma Opção: Cod Barras, Código Produto ou Nome Produto.";
 
 				$this->session->set_userdata('mensagemErro',$mensagem);
 
-				$this->itens($idestoque_entrada);
+				if ($idsolicitante == "itens-nota"){
+					$this->itens($idestoque_entrada);
+				} elseif ($idsolicitante == "consulta-estoque"){
+					$this->estoque_consulta(); 
+				}
 
 		}elseif (!$idcodproduto && !$iddesproduto && !$idcodbarras){
 
-				$mensagem ="ATENÇÃO! Selecione ao menos Uma Opcao: Cod Barras, Código Produto ou Nome Produto.";
+				$mensagem ="ATENÇÃO! Selecione ao menos Uma Opção: Cod Barras, Código Produto ou Nome Produto.";
 
 				$this->session->set_userdata('mensagemErro',$mensagem);
+				if ($idsolicitante == "itens-nota"){
+					$this->itens($idestoque_entrada);
+				} elseif ($idsolicitante == "consulta-estoque"){
+					$this->estoque_consulta(); 
+				} 
 
-				$this->itens($idestoque_entrada);
 		}else{
 
 			if ($idcodproduto){
@@ -148,16 +192,24 @@ class Estoque extends CI_Controller {
 			}else {
 				$idproduto = $idcodbarras;
 			}
-			// vamor verficar se o item ja foi gravado 
+			// vamos verficar se o item ja foi gravado 
 			if ($this->modelestoque->verifica_item_existente($idproduto,$idestoque_entrada)){
 
 					$mensagem ="ATENÇÃO! Produto já está cadastrado na Nota, verifique!";
 					$this->session->set_userdata('mensagemErro',$mensagem);
-					$this->itens($idestoque_entrada);  // se nao validar, retorna para a pagina
+					if ($idsolicitante == "itens-nota"){
+						$this->itens($idestoque_entrada);  // se nao validar, retorna para a pagina
+					} elseif ($idsolicitante == "consulta-estoque"){
+						$this->estoque_consulta(); 
+					} 
 
 			}else{
 				// vamos chamar o metodo itens com o idproduto definido - PJCS 
-				$this->itens($idestoque_entrada, $idproduto);
+				if ($idsolicitante == "itens-nota"){
+						$this->itens($idestoque_entrada, $idproduto);
+				} elseif ($idsolicitante == "consulta-estoque"){
+						$this->estoque_consulta($idproduto,$datainicial,$datafinal); 
+				}
 			} 
 			
 		}
@@ -173,18 +225,19 @@ class Estoque extends CI_Controller {
 
 		if ($this->form_validation->run() == FALSE){
 
-				$idestoque = $this->input->post('idestoque_entrada'); 
-				$this->itens($idestoque);   // se nao validar, retorna para a pagina
+				$idestoque_entrada = $this->input->post('idestoque_entrada'); 
+				$this->itens($idestoque_entrada);  // se nao validar, retorna para a pagina
 
 		} else {
 
 			$idproduto= $this->input->post('idproduto');
-			$idestoque = $this->input->post('idestoque');
+			$idestoque_entrada = $this->input->post('idestoque_entrada');
+			$nrnota = $this->input->post('nrnota');
 			$vlunitario = $this->input->post('vlunitario');
 			$quantidade = $this->input->post('quantidade');
 			$vltotal = $this->input->post('vltotal'); 
 			
-			if ($this->modelestoque->inserir_estoque_item($idproduto, $idestoque,$vlunitario,$quantidade,$vltotal)){
+			if ($this->modelestoque->inserir_estoque_item($idproduto,$idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal)){
 
 				$produto = $this->listar_produto($idproduto);
 
@@ -204,13 +257,28 @@ class Estoque extends CI_Controller {
 
 			}
 
-			redirect(base_url('admin/estoque/itens/'.md5($idestoque)));
+			redirect(base_url('admin/estoque/itens/'.md5($idestoque_entrada)));
 
 		}
 	}
 
 	public function listar_produto($idproduto){
-		return $this->modelprodutos->listar_produto($idproduto);
+		$this->modelprodutos->listar_produto($idproduto);
 	}
+
+	public function cancelar_item($id, $idproduto, $idestoque_entrada){
+
+		if ($this->modelestoque->cancelar_item($id, $idproduto, $idestoque_entrada)){
+				$mensagem ="Item Cancelado com Sucesso!";
+				$this->session->set_userdata('mensagem',$mensagem);
+
+				$this->itens($idestoque_entrada);
+
+		} else {
+				$mensagem ="Erro ao Cancelar o Item, Verifique!";
+				$this->session->set_userdata('mensagemErro',$mensagem);
+		} 
+	}
+
 
 }
