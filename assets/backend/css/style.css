@@ -137,19 +137,16 @@ li p.menu-admin{
 	margin-top: -10px; 
 }
 
-button.consulta {
-	margin-top: -12px; 
-	margin-bottom: -10px; 
-}
 
 button.consulta{
+	margin-top: -12px; 
+	margin-bottom: -10px; 
 	width: 130px;
 	font-size: 17px;  
-
 }
 button.consulta img{
-	width: 20px;
-	height: 20px;
+	width: 15px;
+	height: 15px;
 }
 
 div.protected-fields input{

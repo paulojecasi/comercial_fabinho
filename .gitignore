@@ -26,4 +26,3 @@ application/config/database.php
 *.stTheme.cache
 *.sublime-workspace
 *.sublime-project
-application/views/frontend/*

@@ -144,17 +144,22 @@ class Estoque extends CI_Controller {
 
 	public function buscar_produto($idsolicitante)
 	{
-		
 		$idestoque_entrada  = $this->input->post('idestoque_entrada');
 		$idcodbarras  = $this->input->post('idcodbarras');
 		$idcodproduto = $this->input->post('idcodproduto');
 		$iddesproduto = $this->input->post('iddesproduto');
+		$quantidade   = $this->input->post('quantidade');
+
+		if ($idsolicitante == "venda"){
+			$this->session->set_userdata('quantidade',$quantidade);
+			$this->session->set_userdata('solicitante',$idsolicitante);
+		}
 
 		if ($idsolicitante == "consulta-estoque"){
 			$datainicial = $this->input->post('datainicial');
 			$datafinal = $this->input->post('datafinal'); 
 		} 
-		
+
 
 		if ($idcodproduto && $iddesproduto 
 				||
@@ -170,10 +175,12 @@ class Estoque extends CI_Controller {
 					$this->itens($idestoque_entrada);
 				} elseif ($idsolicitante == "consulta-estoque"){
 					$this->estoque_consulta(); 
+				}	elseif ($idsolicitante == "venda"){
+					redirect(base_url('home')); 
 				}
 
 		}elseif (!$idcodproduto && !$iddesproduto && !$idcodbarras){
-
+	
 				$mensagem ="ATENÇÃO! Selecione ao menos Uma Opção: Cod Barras, Código Produto ou Nome Produto.";
 
 				$this->session->set_userdata('mensagemErro',$mensagem);
@@ -181,7 +188,9 @@ class Estoque extends CI_Controller {
 					$this->itens($idestoque_entrada);
 				} elseif ($idsolicitante == "consulta-estoque"){
 					$this->estoque_consulta(); 
-				} 
+				} elseif ($idsolicitante == "venda"){
+					redirect(base_url('home')); 
+				}
 
 		}else{
 
@@ -201,7 +210,9 @@ class Estoque extends CI_Controller {
 						$this->itens($idestoque_entrada);  // se nao validar, retorna para a pagina
 					} elseif ($idsolicitante == "consulta-estoque"){
 						$this->estoque_consulta(); 
-					} 
+					} elseif ($idsolicitante == "venda"){
+						redirect(base_url('home')); 
+					}
 
 			}else{
 				// vamos chamar o metodo itens com o idproduto definido - PJCS 
@@ -209,6 +220,8 @@ class Estoque extends CI_Controller {
 						$this->itens($idestoque_entrada, $idproduto);
 				} elseif ($idsolicitante == "consulta-estoque"){
 						$this->estoque_consulta($idproduto,$datainicial,$datafinal); 
+				}	elseif ($idsolicitante == "venda"){
+						redirect(base_url('home/listar_produto/'.$idproduto)); 
 				}
 			} 
 			
@@ -263,7 +276,9 @@ class Estoque extends CI_Controller {
 	}
 
 	public function listar_produto($idproduto){
+
 		$this->modelprodutos->listar_produto($idproduto);
+		
 	}
 
 	public function cancelar_item($id, $idproduto, $idestoque_entrada){
