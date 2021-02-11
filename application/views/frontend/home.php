@@ -1,4 +1,3 @@
-
           
 <div class = "row">
     <div class = "col-lg-6 col-sm-6">
@@ -245,7 +244,7 @@
         <?php
             echo form_open('admin/estoque/inserir_estoque_item');
 
-
+            $this->load->view('backend/mensagem');
             if ($produtoitem):
                 foreach ($produtoitem as $produto_con):
                     $codbar = $produto_con->codbarras;
@@ -371,7 +370,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                                <a type="button" class="btn btn-danger" href="'.base_url('admin/categoria/excluir/'.md5($id)).'">Excluir</a>
+                                                <a type="button" class="btn btn-danger" href="'.base_url('home/excluir_produto_temp/'.md5($id)).'">Excluir</a>
                                             </div>
 
                                         </div>

@@ -16,6 +16,7 @@ class Home extends CI_Controller {
 
 		$this->load->model('produto_model','modelprodutos'); 
 		$this->load->model('picklist_model','model_tipo_pagamento');
+		$this->load->model('venda_model','modelvendas_produto_temp');
 		
 				// vamos cria uma var "$categorias" e carrega-la com o resultado 
 		$this->produtos = $this->modelprodutos->listar_produtos(); 
@@ -27,7 +28,7 @@ class Home extends CI_Controller {
 	{
 
 		$idcaixa=1; 
-		$produtos_temp = $this->modelprodutos->listar_produtos_temp($idcaixa);
+		$produtos_temp = $this->modelvendas_produto_temp->listar_produtos_temp($idcaixa);
 		if ($produtos_temp){
 			$this->load->library('table'); 
 			$dados['produtos_temp'] = $produtos_temp;
@@ -40,7 +41,7 @@ class Home extends CI_Controller {
 
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
-		$this->load->view('backend/mensagem');
+		//$this->load->view('backend/mensagem');
 		$this->load->view('frontend/home');
 		$this->load->view('frontend/template/aside');
 		$this->load->view('frontend/template/footer');
@@ -66,11 +67,11 @@ class Home extends CI_Controller {
 	
 		
 		$idcaixa=1; 
-		$dados['produtos_temp'] = $this->modelprodutos->listar_produtos_temp($idcaixa);
+		$dados['produtos_temp'] = $this->modelvendas_produto_temp->listar_produtos_temp($idcaixa);
 	
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
-		$this->load->view('backend/mensagem');
+		//$this->load->view('backend/mensagem');
 		$this->load->view('frontend/home');
 		$this->load->view('frontend/template/aside');
 		$this->load->view('frontend/template/footer');
@@ -99,7 +100,7 @@ class Home extends CI_Controller {
 			
 		} 
 
-		if ($this->modelprodutos->adicionar_temp($idcaixa,	$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
+		if ($this->modelvendas_produto_temp->adicionar_temp($idcaixa,	$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
 			
 		} else {
 
@@ -109,5 +110,18 @@ class Home extends CI_Controller {
 		}
 
 	}
+
+	 public function excluir_produto_temp($id){
+	 		
+	 		if ($this->modelvendas_produto_temp->excluir_produto_temp($id)){
+	 				$mensagem = "Item Excluido Com Sucesso !"; 
+					$this->session->set_userdata('mensagem',$mensagem);
+	 		} else {
+	 				$mensagem = "Erro ao Excluir o Item "; 
+					$this->session->set_userdata('mensagemErro',$mensagem);
+	 		} 
+
+	 		$this->index(); 
+	 }
 
 }

@@ -22,7 +22,7 @@
       if (!is_null($this->session->userdata('mensagemErro'))) 
       { 
       ?>
-          <div class="alert alert-warning" role="alert">
+          <div class="alert alert-danger" role="alert">
               <b> 
                   <?php
                    echo $this->session->userdata('mensagemErro'); 

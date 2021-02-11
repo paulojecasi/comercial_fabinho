@@ -26,7 +26,5 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/owl.carousel.css') ?> ">
     <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/style.css') ?> ">
     <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/responsive.css') ?> ">
-
-
   </head>
   <body>
