@@ -16,7 +16,7 @@ class Home extends CI_Controller {
 
 		$this->load->model('produto_model','modelprodutos'); 
 		$this->load->model('picklist_model','model_tipo_pagamento');
-		$this->load->model('venda_model','modelvendas_produto_temp');
+		$this->load->model('venda_model','modelvendas');
 		
 				// vamos cria uma var "$categorias" e carrega-la com o resultado 
 		$this->produtos = $this->modelprodutos->listar_produtos(); 
@@ -28,7 +28,7 @@ class Home extends CI_Controller {
 	{
 
 		$idcaixa=1; 
-		$produtos_temp = $this->modelvendas_produto_temp->listar_produtos_temp($idcaixa);
+		$produtos_temp = $this->modelvendas->listar_produtos_temp($idcaixa);
 		if ($produtos_temp){
 			$this->load->library('table'); 
 			$dados['produtos_temp'] = $produtos_temp;
@@ -67,7 +67,7 @@ class Home extends CI_Controller {
 	
 		
 		$idcaixa=1; 
-		$dados['produtos_temp'] = $this->modelvendas_produto_temp->listar_produtos_temp($idcaixa);
+		$dados['produtos_temp'] = $this->modelvendas->listar_produtos_temp($idcaixa);
 	
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
@@ -100,7 +100,7 @@ class Home extends CI_Controller {
 			
 		} 
 
-		if ($this->modelvendas_produto_temp->adicionar_temp($idcaixa,	$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
+		if ($this->modelvendas->adicionar_temp($idcaixa,	$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
 			
 		} else {
 
@@ -113,7 +113,7 @@ class Home extends CI_Controller {
 
 	 public function excluir_produto_temp($id){
 	 		
-	 		if ($this->modelvendas_produto_temp->excluir_produto_temp($id)){
+	 		if ($this->modelvendas->excluir_produto_temp($id)){
 	 				$mensagem = "Item Excluido Com Sucesso !"; 
 					$this->session->set_userdata('mensagem',$mensagem);
 	 		} else {
@@ -123,5 +123,92 @@ class Home extends CI_Controller {
 
 	 		$this->index(); 
 	 }
+
+
+	 function consultajquery()
+		{
+	 	$output = '';
+	 	$desproduto = ''; 
+
+ 		if ($this->input->post('nomeproduto'))
+ 		{
+	 		$desproduto = $this->input->post('nomeproduto'); 
+	 	}
+
+	 	$dados = $this->modelprodutos->consultajquery($desproduto);
+
+ 		$output .= '
+ 		<div class= "form-group picklist-prod">
+
+ 			<div class picklist-tit> 
+	 			<label class= "codigo">
+	 					Codigo  
+	 			</label>
+	 			<label class= "descricao">
+	 					Codido de Barras 
+	 			</label>
+	 			<label class="barras">
+	 					 Descricao 
+	 			</label>
+	 		</div> 
+      <select multiple class="form-control" id="idproduto">
+	 		';
+	 		if ($dados->num_rows() > 0){
+	 			foreach ($dados->result() as $row) {
+	 				$codigo = str_pad($row->codproduto,30);
+	 				$output .= '
+			 			<option>'.$codigo. 
+			 								$row->desproduto.  
+			 								$row->codbarras. 
+			 			'</option>'; 
+	 			}
+
+	 		}
+	 		else {
+	 			$output .= '
+	 			<option>---- Nenhum item informado ---- </option>';
+	 		}
+
+	 		$output .= '
+ 			</select>
+ 		</div>'; 
+
+ 		echo $output;
+ 		exit; 
+
+	}
+
+	public function venda_pagamento($id_caixa){
+
+		$venda = $this->modelvendas->venda_pagamento($id_caixa); 
+		$valor_total =0; 
+		$vl_tot_acre =0;
+		$vl_tot_desc =0; 
+		$numero_itens=0;
+
+		foreach ($venda as $totaliza):
+        $vl_tot_desc +=$totaliza->valordesconto;
+        
+        $vl_tot_acre +=$totaliza->valoracrescimo;
+        
+        $valor_total += $totaliza->valortotal; 
+
+        $numero_itens += $totaliza->quantidadeitens;
+    endforeach; 
+
+    $valor_total = ($valor_total + $vl_tot_acre - $vl_tot_desc);
+    $dados['valortotal'] 	= reais($valor_total); 
+    $dados['vl_tot_desc'] = reais($vl_tot_desc);
+    $dados['vl_tot_acre'] = reais($vl_tot_acre);
+
+		$this->load->view('frontend/template/html-header', $dados);
+		$this->load->view('frontend/template/header');
+		$this->load->view('backend/mensagem');
+		$this->load->view('frontend/venda_pagamento');
+		$this->load->view('frontend/template/footer');
+		$this->load->view('frontend/template/html-footer');
+
+
+	}
 
 }

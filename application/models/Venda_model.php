@@ -30,6 +30,7 @@ class Venda_model extends CI_Model
 		$dados["valordesconto"]			= $valordesconto;
 		$dados["valoracrescimo"]	= $valoracrescimo;
 		$dados["valortotal"]	= $valortotal;
+		$dados["situacao"]	= 0;
 
 		return $this->db->insert('produto_caixa_temp',$dados); 
 	}
@@ -45,6 +46,15 @@ class Venda_model extends CI_Model
 		$this->db->where('idcaixa=',$idcaixa); 
 		$this->db->order_by('id','DESC'); 
 		return $this->db->get('produto_caixa_temp')->result(); 
+
+	}
+
+	public function venda_pagamento($id_caixa)
+	{
+		$this->db->where('md5(idcaixa)=',$id_caixa); 
+		//$this->db->where('situacao=',0); 
+		return $this->db->get('produto_caixa_temp')->result();
+
 
 	}
 

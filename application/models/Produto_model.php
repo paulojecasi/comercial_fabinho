@@ -227,4 +227,40 @@ class Produto_model extends CI_Model
 	}
 
 
+	public function buscaprodutos($nomeproduto){
+
+		$this->db->select("*"); 
+		$this->db->from('produto'); 
+		if ($nomeproduto != ''){
+
+			$this->db->like('desproduto', $nomeproduto); 
+			$this->db->or_like('codbarras', $nomeproduto);
+			$this->db->or_like('codproduto', $nomeproduto);
+
+		}
+
+		$this->db->order_by('desproduto','DESC');
+		return $this->db->get(); 
+
+
+	}
+
+	function consultajquery($desproduto)
+	{
+
+		if (strlen($desproduto)>0) 
+		{
+			$this->db->like('desproduto', $desproduto); 
+			$this->db->or_like('codbarras', $desproduto);
+			$this->db->or_like('codproduto', $desproduto);
+			$this->db->order_by('desproduto','DESC');
+			return $this->db->get('produto'); 
+		} else {
+			$this->db->where('desproduto=', 'NULL'); 
+			return $this->db->get('produto'); 
+		}
+
+	}
+
+
 }

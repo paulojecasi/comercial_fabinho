@@ -1,55 +1,19 @@
 
-.floatleft { float: left }
-.floatright { float: right }
-.alignleft {
-    float: left;
-    margin-right: 15px;
-}
-.alignright {
-    float: right;
-    margin-left: 15px;
-}
-.aligncenter {
-    display: block;
-    margin: 0 auto 15px;
-}
-a:focus {
-  outline: 0px solid 
-}
-
 img {
     max-width: 100%;
     height: auto;
 }
-.fix { overflow: hidden }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0 0 15px;
-}
-body { font-family:Arial, Helvetica, sans-serif; }
 
-
-.header-area {
-    background: none repeat scroll 0 0 #f4f4f4;
-    /* background: #FFFF00; */
-    padding: 2px; 
-}
-.header-area a {
-    color: #888;
-    padding: 10px; 
+.container{
+  width: 100%;
+  height: 100%;
+  
 }
 
-.area-logo{
-  background: none repeat scroll 0 0 #f4f4f4;
-    /*background: #FFFF00;*/
-
+.footer-bottom-area {background: #000;color: #fff; 
+  width: 100%;
+  height: 100%;
 }
-
-.footer-bottom-area {background: #000;color: #fff}
 .footer-about-us span {
   color: #e67e22;
 }
@@ -76,7 +40,6 @@ body { font-family:Arial, Helvetica, sans-serif; }
     padding: 5px 0;color: #999
 }
 
-
 .footer-social a {
   background: none repeat scroll 0 0 #e67e22;
   color: #fff;
@@ -94,27 +57,6 @@ body { font-family:Arial, Helvetica, sans-serif; }
 
 .footer-social {margin-top: 20px}
 
-
-.newsletter-form input[type="email"] {
-    background: none repeat scroll 0 0 #fff;
-    border: medium none;
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 100%;
-}
-.newsletter-form input[type="submit"] {
-    background: none repeat scroll 0 0 #e67e22;
-    border: medium none;
-    color: #fff;
-    display: inline-block;
-    font-size: 18px;
-    padding: 7px 20px;
-    text-transform: uppercase;border: 1px solid #e67e22;
-}
-.newsletter-form input[type="submit"]:hover {background: #222;border-color: #666}
-.newsletter-form {
-    margin-top: 25px;
-}
 a {color: #e67e22}
 a:hover, a:focus {color: #17a78b}
 .footer-bottom-area {
@@ -127,31 +69,41 @@ a:hover, a:focus {color: #17a78b}
 /* MINHAS ESTILIZAÇÕES */ 
 
 div.panel-vendas1{
-  background-color: #F5F5F5; 
+  background-color: #DCDCDC; 
   margin-top: -5px; 
   margin-left: 0px; 
   margin-bottom: 0px; 
-  right: 100%;
-  left: 100%
+}
+
+div.area-vendas1 div.nomeproduto{
+  margin-top: -10px; 
 }
 div.panel-vendas2{
+  background-color: #F5F5DC;
   margin-top: -5px; 
-  margin-left: -20px;
+  margin-left: -30px;
   margin-bottom: 0px;  
-  right: 100%;
-  left: 100%
+  border-left:4px solid; 
+}
+div.panel-vendas2 table{
+  background-color: #F5F5F5; 
+  font-weight: bold; 
+}
+
+div.panel-vendas2 table b{
+  color: blue; 
+  font-size: 17px; 
 }
 
 div.flexline, div.flexline div{
     display: flex;
-    aling-ites: center;
+    align-items:center;
     justify-content: space-between;
 }
 
 
 div.flexline select{
     width: 80%;
-
 }
 div.flexline input{
     width: 70%;
@@ -160,21 +112,12 @@ div.flexline input{
     font-weight: bold; 
 }
 
-button.qtitem-maior{
-  margin-top: 0px; 
-  margin-bottom: -10px; 
-  width: 65px;
-  font-size: 17px; 
-  background-color: #D3D3D3; 
-}
-
-button.qtitem-maior img{
-  width: 20px;
-  height: 20px;
+div.resultado{
+  margin-top: -20px;
 }
 
 button.consulta{
-  margin-top: -5px; 
+  margin-top: 23px; 
   margin-bottom: 10px; 
   width: 130px;
   font-size: 17px;  
@@ -186,16 +129,30 @@ button.consulta img{
 }
 
 div.area-vendas1{
-  border-bottom: 1px solid; 
+  border-bottom: 1px solid;
+}
+
+div.area-vendas1 input, div.picklist-prod select{
+  font-size: 20px; 
+  background-color: #FFFFF0; 
+}
+
+
+div.area-vendas1 input#quantidade{
+  font-size: 23px; 
+  text-align: center; 
+
 }
 div.area-vendas2 {
   margin-top: 10px ; 
+
 }
 
 h3.descricao-prod-caixa{
   color: blue; 
   font-size: 30px; 
   font-weight: bold;
+  margin-top: 0px; 
   margin-bottom: 0px;  
 }
 div.panel-item-escolhido{
@@ -203,7 +160,7 @@ div.panel-item-escolhido{
 }
 
 div.desc-precos-compras {
-  margin-top: 0px; 
+  margin-top: -10px; 
   margin-bottom: 0px; 
 }
 
@@ -212,8 +169,45 @@ div.desc-precos-compras h3 {
  font-weight: bold; 
  font-size: 30px; 
  margin-bottom: -8px;
+ margin-top: 0px; 
  border-bottom: 1px solid;
  text-align: center;
+}
+
+div.tela-numero-itens h1{
+  color: #FF6347;
+  font-weight: bold; 
+  font-size: 40px;
+  text-align: center; 
+  margin-top: -10px;
+  margin-bottom: 0px; 
+  border-bottom: 1px solid; 
+  border-color: #D2691E;
+  
+}
+
+div.tela-preco-desconto h1{
+  color: #FF6347;
+  font-weight: bold; 
+  font-size: 40px;
+  text-align: center; 
+  margin-top: -10px;
+  margin-bottom: 0px; 
+  border-bottom: 1px solid; 
+  border-color: #D2691E;
+  
+}
+
+div.tela-preco-acrescimo h1{
+  color: #FF6347;
+  font-weight: bold; 
+  font-size: 40px;
+  text-align: center; 
+  margin-top: -10px;
+  margin-bottom: 0px; 
+  border-bottom: 1px solid; 
+  border-color: #D2691E; 
+ 
 }
 
 div.tela-preco-total h1{
@@ -283,11 +277,18 @@ div.btn-finalizar-venda{
   margin-top: 25px; 
 }
 
+div.btn-finalizar-venda button{
+  width: 170px;
+  height: 50px;
+  font-size: 18px; 
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
 div.header-titulo{
   background-color: #000; 
   margin-bottom: 8px; 
-  width: 100%;
-  height: 100%px;
+  /*width: 100%;
+   height: 100%px;*/ 
 }
 
 div.logo-marca h3{
@@ -296,8 +297,6 @@ div.logo-marca h3{
   margin-left: 4px; 
   font-size: 20px; 
   color: #FFFF00;
-  right: 100%;
-  left: 100%; 
   border: 8px ridge;
   border-radius: 20px 0px; 
   border-color: #FF0000;
@@ -307,8 +306,6 @@ div.logo-titulo h1.desc-titulo{
   margin-top: 10px;
   font-size: 30px; 
   color: #fff;
-  right: 100%;
-  left: 100%; 
 }
 
 div.usuario-caixa{
@@ -327,4 +324,79 @@ div.usuario-caixa h4.desc-operador2{
   margin-bottom: 15px;
   
 }
+
+div.picklist-prod div label{
+  margin-right:40px; 
+}
+
+.titulo-tela-tipopag{
+  margin-top: -5px; 
+  background-color: #1C1C1C;
+}
+
+.titulo-tela-tipopag div h2{
+  color: yellow; 
+}
+
+.titulo-tela-tipopag div h1{
+  color: red; 
+  font-size: 60px; 
+}
+
+div.avista, div.debito, div.credito, div.crediario{
+  margin-top: -20px; 
+  width: 70%;
+  padding: 0px; 
+}
+
+div.credito a{
+  color: blue;
+}
+
+div.avista:hover, div.debito:hover, div.credito:hover, div.crediario:hover{
+  margin-top: -20px; 
+  width: 60%;
+  opacity: 0.5; 
+
+}
+
+div.tipo-de-pagamento{
+  background-color: #1C1C1C;
+  border-top: 3px solid; 
+  border-color: white; 
+  padding-bottom: 20px; 
+}
+
+div.tipo-de-pagamento h2{
+  color: white;
+  margin-top: 0px;
+  margin-bottom: 30px; 
+}
+
+div.tipo-de-pagamento h4{
+  color: #FFFF00;
+
+}
+
+button.voltar-venda{
+  margin-top: 23px; 
+  margin-bottom: 10px; 
+  width: 30%;
+  font-size: 19px;  
+
+}
+
+button.voltar-venda img{
+  padding-right: 10px; 
+
+}
+
+
+
+
+
+
+
+ 
+
 

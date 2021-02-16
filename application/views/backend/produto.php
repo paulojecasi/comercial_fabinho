@@ -97,6 +97,7 @@
                         <div class="col-lg-7">
                            <h4> <?php echo "Manutenção de ".$subtitulo ?> </h4>
                        </div>
+                       <!-- 
                        <div class="item-page col-lg-5">
                            
                             <label class= "text-right"> 
@@ -197,12 +198,11 @@
                                 50 
                             </a>
 
-                          
+                          --> 
                        </div>
                     </div>
 
                 </div>
-
 
                 <div class="panel-body">
                     <div class="row">
@@ -210,6 +210,7 @@
                   
                             <!-- gerar tabela de categorias pela framework PJCS --> 
                             <?php
+                         
                             $semFoto = "assets/frontend/img/products/sem_foto.jpg";
 
                             $this->table->set_heading("Imagem","Nome do Produto","Site","Ativo","Destaq","Alterar", "Excluir"); 
@@ -278,13 +279,41 @@
                             }
 
                             $this->table->set_template(array(
-                                'table_open' => '<table class="table table-striped">'
+                                'table_open' => '<table class="table table-striped display" id="mtabela" >'
                             ));
 
                             echo $this->table->generate(); 
-                            echo "<div class='paginacao'>".$links_paginacao."</div>";
+
+                            //echo "<div class='paginacao'>".$links_paginacao."</div>";
 
                             ?>
+
+                            <!-- 
+
+                            <table id = "mtabela">
+                                <thead>
+                                    <tr>
+                                        <td> Imagem  </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php 
+                                foreach ($produtos as $produto)
+                                {   
+                                    $id = $produto->idproduto;
+                                    $nome = $produto->desproduto; 
+                                  
+                                    ?>
+                                    <tr> 
+                                    <td> <?php echo $nome ?> </td>
+                                    </tr>
+                                    <?php
+                                }  
+                                ?>
+                                    
+                                </tbody>
+                            </table>
+                        --> 
                                         
                         </div>
                         

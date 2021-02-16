@@ -1,23 +1,51 @@
+ <!-- jQuery -->
+    <script src="<?php echo base_url('/assets/backend/js/jquery.min.js') ?>"></script>
 
-   
-    <!-- Latest jQuery form server -->
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-    
-    <!-- Bootstrap JS form CDN -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    
-    <!-- jQuery sticky menu -->
-    <script src="<?php echo base_url('/assets/frontend/js/owl.carousel.min.js') ?> "></script>
-    <script src="<?php echo base_url('/assets/frontend/js/jquery.sticky.js') ?>"></script>
-    
-    <!-- jQuery easing -->
-    <script src="<?php echo base_url('/assets/frontend/js/jquery.easing.1.3.min.js') ?>"></script>
-    
-    <!-- Main Script -->
-    <script src="<?php echo base_url('/assets/frontend/js/main.js') ?>"></script>
-    
-    <!-- Slider -->
-    <script type="text/javascript" src="<?php echo base_url('/assets/frontend/js/bxslider.min.js') ?>"></script>
-	<script type="text/javascript" src="<?php echo base_url('/assets/frontend/js/script.slider.js') ?>"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo base_url('/assets/backend/js/bootstrap.min.js') ?>"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="<?php echo base_url('/assets/backend/js/sb-admin-2.js') ?>"></script>
+    <!-- meus scripts PJCS  -->
+    <script src="<?php echo base_url('/assets/backend/js/myscripts.js') ?>"></script>
+
+    <!-- tabelas --> 
+    <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"> </script>
+
+    <script src="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"> </script>
+
   </body>
 </html>
+
+<script>
+
+    $(document).ready(function(){
+
+        load_data();
+
+        function load_data(nomeproduto)
+        {
+            $.ajax({
+                url:"<?php echo base_url(); ?>home/consultajquery",
+                method:"POST",
+                data:{nomeproduto:nomeproduto},
+                success:function(data){
+                    $('#resultado').html(data); 
+                }
+            })
+        } 
+
+        $('#nomeproduto').keyup(function(){
+            var nomeproduto = $(this).val();
+            if (nomeproduto!= '')
+            {
+                load_data(nomeproduto);
+            }else 
+            {
+                load_data(); 
+            }
+
+        });
+    });  
+
+</script>
