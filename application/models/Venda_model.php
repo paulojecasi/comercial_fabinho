@@ -52,7 +52,7 @@ class Venda_model extends CI_Model
 	public function venda_pagamento($id_caixa)
 	{
 		$this->db->where('md5(idcaixa)=',$id_caixa); 
-		//$this->db->where('situacao=',0); 
+		$this->db->where('situacao=',0); 
 		return $this->db->get('produto_caixa_temp')->result();
 
 

@@ -280,6 +280,7 @@ div.btn-finalizar-venda{
 div.btn-finalizar-venda button{
   width: 170px;
   height: 50px;
+  border: 2px solid;
   font-size: 18px; 
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
@@ -343,6 +344,7 @@ div.picklist-prod div label{
   font-size: 60px; 
 }
 
+
 div.avista, div.debito, div.credito, div.crediario{
   margin-top: -20px; 
   width: 70%;
@@ -355,7 +357,7 @@ div.credito a{
 
 div.avista:hover, div.debito:hover, div.credito:hover, div.crediario:hover{
   margin-top: -20px; 
-  width: 60%;
+  width: 65%;
   opacity: 0.5; 
 
 }
@@ -378,7 +380,31 @@ div.tipo-de-pagamento h4{
 
 }
 
+div.tipo-de-pagamento-escolha{
+  margin-top: -5px; 
+  margin-bottom: 9px; 
+  background-color: #2F4F4F;
+  border-top: 0px solid; 
+  border-color: white; 
+  padding-bottom: 10px; 
+}
+
+div.tipo-de-pagamento-escolha h2{
+  color: white;
+  margin-top: 0px;
+  margin-bottom: 0px; 
+  padding: 20px; 
+
+}
+
+div.tipo-de-pagamento-escolha h4{
+  color: #FFFF00;
+
+}
+
 button.voltar-venda{
+  background-color: #4169E1; 
+  border: 2px solid;
   margin-top: 23px; 
   margin-bottom: 10px; 
   width: 30%;
@@ -390,6 +416,27 @@ button.voltar-venda img{
   padding-right: 10px; 
 
 }
+
+h1.valor-recebido-venda input{
+  color: #fff; 
+  font-size: 50px; 
+  background-color: #1C1C1C;
+  width: 50%;
+  height: 60px; 
+
+}
+
+h1.valor-recebido-troco input{
+  color: #fff; 
+  font-size: 50px; 
+  background-color: #1C1C1C;
+  width: 50%;
+  height: 60px; 
+  pointer-events :none;
+
+}
+
+
 
 
 

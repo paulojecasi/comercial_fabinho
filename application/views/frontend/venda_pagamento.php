@@ -6,28 +6,12 @@
     
     // vamos abrir o formulário,
                 // apontando para:admin/controlador/metodo
-    echo form_open('admin/estoque/buscar_produto/venda');
+    //echo form_open('home/venda_pagamento');
 
+    // tela VALOR DA VENDA
+    $this->load->view('frontend/template/valor-venda');
     ?>
-    <div class = "col-lg-12 col-sm-12 titulo-tela-tipopag">
-        <div class="row">
-            <div class="col-lg-3 col-sm-12">
-                <div class="form-group">
-                    <h2> Valor da Venda R$ : </h2>
-                </div>
-            </div>
-            <div class="col-lg-9 col-sm-12">
-                <div class="form-group">
-                    <h1 class="valor-total-venda">
-                        <?php echo $valortotal ?> 
-                    </h1>
-                  
-                </div>
-            </div> 
-        </div>
-    
-    </div>
- 
+   
 
     <div class = "panel-body tipo-de-pagamento col-lg-12"> 
         <div class = "text-center">
@@ -38,7 +22,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 ">
                         <div class="form-group text-center text-center avista">
-                            <a href="<?php echo base_url('home'); ?>">
+                            <a href="<?php echo base_url('home/venda_pagamento/').$id_caixa.'/money' ?>">
                                 <img  src="<?php echo base_url('/assets/frontend/img/avista.png') ?>" >
                             </a> 
                             <h4> Dinheiro  </h4>
@@ -49,12 +33,12 @@
                 </div>
             </div>
         </div>
-        <div class = "col-lg-3 col-sm-6 ">
+        <div class = "col-lg-3 col-sm-6">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 ">
                         <div class="form-group nomeproduto text-center debito">
-                             <a href="<?php echo base_url('home'); ?>">
+                            <a href="<?php base_url('home/venda_pagamentooo/').md5($id_caixa).'/money' ?>">
                                 <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/card.png') ?>" >
                             </a> 
                              <h4> Cartão Débito </h4>
@@ -101,8 +85,8 @@
         </div>
         <div class="form-group"> 
             <div class ="col-lg-12 text-center">
-                <a href="">
-                    <button class="btn btn-info voltar-venda" id="voltar-vendar" name="btn_buscar"> <?php echo img(base_url('assets/frontend/img/voltar.png')); ?>
+                <a href="<?php echo base_url('home') ?>">
+                    <button class="btn btn-info voltar-venda" id="voltar-venda" name="voltar-venda"> <?php echo img(base_url('assets/frontend/img/voltar.png')); ?>
                         Voltar para Venda
                     </button> 
                 </a>
@@ -111,7 +95,7 @@
     </div>
     <?php 
     // fechar o formulario 
-    echo form_close();
+    //echo form_close();
 
     ?>
     

@@ -14,6 +14,9 @@
 
     <script src="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"> </script>
 
+    <!-- para mascarar numeros --> 
+    <script src="<?php echo base_url('/assets/backend/js/jquery.mask.min.js') ?>"></script>  
+
   </body>
 </html>
 

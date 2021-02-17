@@ -178,7 +178,9 @@ class Home extends CI_Controller {
 
 	}
 
-	public function venda_pagamento($id_caixa){
+	public function venda_pagamento($id_caixa, $tipo_pagamento=null){
+
+		
 
 		$venda = $this->modelvendas->venda_pagamento($id_caixa); 
 		$valor_total =0; 
@@ -198,17 +200,27 @@ class Home extends CI_Controller {
 
     $valor_total = ($valor_total + $vl_tot_acre - $vl_tot_desc);
     $dados['valortotal'] 	= reais($valor_total); 
+    $dados['valortotal_sem_conversao'] 	= $valor_total;
     $dados['vl_tot_desc'] = reais($vl_tot_desc);
     $dados['vl_tot_acre'] = reais($vl_tot_acre);
+    $dados['id_caixa']		= $id_caixa; 
+
+
 
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
 		$this->load->view('backend/mensagem');
-		$this->load->view('frontend/venda_pagamento');
+		if ($tipo_pagamento == "money"){
+			$this->load->view('frontend/venda_pagamento_money');
+		} else {
+
+			$this->load->view('frontend/venda_pagamento');
+		}
+		
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');
 
-
 	}
+
 
 }
