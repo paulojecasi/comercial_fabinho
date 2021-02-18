@@ -5,6 +5,11 @@
        		<?php echo $titulo ?>
        </h1>
     </div>
+    <h2>
+	    <?php
+	    	$this->load->view('backend/mensagem');
+	    ?> 
+  	</h2>
     <div class="panel-body">
 
 			<div class = "btn-acesso"> 

@@ -8,11 +8,10 @@ class Venda extends CI_Controller {
 
 		parent::__construct(); 
 
-		// como vai aparecer em todas a paginas, chamamos o model aqui no construtor - PJCS 
-		// vamos chamar o model "Categorias_model" para listagem dos models cadastrados
-				// como fosse:
-				// modelcategorias = new Categorias_model(); 
-		//$this->load->model('categorias_model','modelcategorias');
+		if (!$this->session->userdata('logado')){
+			$this->session->set_userdata('tipo_acesso',"venda");
+			redirect(base_url('admin/login')); 
+		}
 
 		$this->load->model('produto_model','modelprodutos'); 
 		$this->load->model('picklist_model','model_tipo_pagamento');

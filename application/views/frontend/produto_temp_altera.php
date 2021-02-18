@@ -78,7 +78,7 @@
                         endforeach;
                         ?> 
                        
-                        <div class="form-group col-lg-12 btn-link"> 
+                        <div class="form-group col-lg-12 btn-link panel-btn-aplicar-voltar"> 
                             <div class ="col-lg-6 col-sm-12 btn-finalizar-venda text-center">
                                 <a href=" ">
                                     <button class="btn btn-success" type="submit" > 

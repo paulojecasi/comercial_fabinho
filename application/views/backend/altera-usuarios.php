@@ -26,47 +26,71 @@
             
                             foreach ($lista_usuario as $usuario_alt)  :
                             ?>
-                            <div class = "form-group">
-                                <label> Nome do Usuario </label>
-                                <input id="txt-nome" name="txt-nome" type="text"class = "form-control" placeholder ="Digite o nome do Usuario"
-                                value = "<?php echo $usuario_alt->nome?>"> 
+                                <div class = "form-group">
+                                    <label> Nome do Usuario </label>
+                                    <input id="txt-nome" name="txt-nome" type="text"class = "form-control" placeholder ="Digite o nome do Usuario"
+                                    value = "<?php echo $usuario_alt->nome?>"> 
 
-                            </div>
-                            <div class = "form-group">
-                                <label> E-mail </label>
-                                <input id="txt-email" name="txt-email" type="email" class = "form-control" placeholder ="Digite o e-mail"
-                                value = "<?php echo $usuario_alt->email ?>">
-                            </div>
+                                </div>
+                                <div class = "form-group">
+                                    <label> E-mail </label>
+                                    <input id="txt-email" name="txt-email" type="email" class = "form-control" placeholder ="Digite o e-mail"
+                                    value = "<?php echo $usuario_alt->email ?>">
+                                </div>
 
-                            <div class = "form-group">
-                                <label> Historico </label>
-                                <textarea id="txt-historico" name="txt-historico" type="text"class = "form-control" placeholder ="Digite Historico">
-                                    <?php echo $usuario_alt->historico ?>
-                                </textarea>
-                            </div>
-                            <div class = "form-group">
-                                <label> Login </label>
-                                <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login do Usuario"
-                                value = "<?php echo $usuario_alt->user ?>">
-                            </div>
-                            <div class = "form-group">
-                                <label> Senha </label>
-                                <input id="txt-senha" name="txt-senha" type="password"class = "form-control" >
-                            </div>
-                            <div class = "form-group">
-                                <label> Confirmar Senha  </label>
-                                <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" >
-                            </div>
+                                <div class = "form-group">
+                                    <label> Historico </label>
+                                    <textarea id="txt-historico" name="txt-historico" type="text"class = "form-control" placeholder ="Digite Historico">
+                                        <?php echo $usuario_alt->historico ?>
+                                    </textarea>
+                                </div>
 
-                            <!-- INPUT OCULTO PARA ENVIAR O ID--> 
-                            <input  type="hidden" id="txt-id" name="txt-id" value= "<?php echo $usuario_alt->id ?>" 
-                            >
-                            <button type="submit" class="btn btn-primary" > Alterar </button> 
-                      
-                            <?php 
-                            // fechar o formulario 
-                            echo form_close();
-                            ?> 
+                                <div class="form-group">
+                                  <label for="idtipo_acesso"> Tipo de Acesso do Usuário </label>
+                                  <select class="form-control" id="idtipo_acesso" name="idtipo_acesso">
+                                
+                                    <?php 
+                                     foreach ($lista_tipo_acesso as $tipo_acesso): 
+                                       ?> 
+                                        <option  value =" <?php echo $tipo_acesso->id ?> "
+                                            <?php 
+                                            if ($tipo_acesso->id==$usuario_alt->tipo_acesso): ?>
+                                                    selected
+                                                    <?php                                          
+                                            endif;
+                                            ?> 
+                                        > 
+                                          <?php echo $tipo_acesso->desacesso ?>
+                                        </option>
+                                      <?php
+                                      endforeach;
+                                    ?> 
+                                  </select>
+                                </div>
+                                <div class = "form-group">
+                                    <label> Login </label>
+                                    <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login do Usuario"
+                                    value = "<?php echo $usuario_alt->user ?>">
+                                </div>
+                                <div class = "form-group">
+                                    <label> Senha </label>
+                                    <input id="txt-senha" name="txt-senha" type="password"class = "form-control" >
+                                </div>
+                                <div class = "form-group">
+                                    <label> Confirmar Senha  </label>
+                                    <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" >
+                                </div>
+
+                                <!-- INPUT OCULTO PARA ENVIAR O ID--> 
+                                <input  type="hidden" id="txt-id" name="txt-id" value= "<?php echo $usuario_alt->id ?>" 
+                                >
+                                <button type="submit" class="btn btn-primary" > Alterar </button> 
+                          
+                                <?php 
+                                // fechar o formulario 
+                                // OBS --- o FOREACH termina mais abaixo 
+                                echo form_close();
+                                ?> 
                         </div>
                         
                     </div>

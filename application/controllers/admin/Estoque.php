@@ -178,7 +178,7 @@ class Estoque extends CI_Controller {
 				} elseif ($idsolicitante == "consulta-estoque"){
 					$this->estoque_consulta(); 
 				}	elseif ($idsolicitante == "venda"){
-					redirect(base_url('home')); 
+					redirect(base_url('venda')); 
 				}
 
 		}elseif (!$idcodproduto && !$iddesproduto && !$idcodbarras){
@@ -191,7 +191,7 @@ class Estoque extends CI_Controller {
 				} elseif ($idsolicitante == "consulta-estoque"){
 					$this->estoque_consulta(); 
 				} elseif ($idsolicitante == "venda"){
-					redirect(base_url('home')); 
+					redirect(base_url('venda')); 
 				}
 
 		}else{
@@ -213,7 +213,7 @@ class Estoque extends CI_Controller {
 					} elseif ($idsolicitante == "consulta-estoque"){
 						$this->estoque_consulta(); 
 					} elseif ($idsolicitante == "venda"){
-						redirect(base_url('home')); 
+						redirect(base_url('venda')); 
 					}
 
 			}else{
@@ -223,7 +223,7 @@ class Estoque extends CI_Controller {
 				} elseif ($idsolicitante == "consulta-estoque"){
 						$this->estoque_consulta($idproduto,$datainicial,$datafinal); 
 				}	elseif ($idsolicitante == "venda"){
-						redirect(base_url('home/listar_produto/'.$idproduto)); 
+						redirect(base_url('venda/listar_produto/'.$idproduto)); 
 				}
 			} 
 			

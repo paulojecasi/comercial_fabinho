@@ -357,7 +357,8 @@ div.cactosdev_acesso p img.email, div.cactosdev_acesso p img.whats{
 
 
 div.btn-finalizar-venda{
-  margin-top: 25px; 
+  margin-top: 20px; 
+  margin-bottom: 0px; 
 }
 
 div.btn-finalizar-venda button{
@@ -399,16 +400,43 @@ div.usuario-caixa{
 }
 
 div.usuario-caixa h4.desc-operador{
-  margin-top: 8px;
-  margin-bottom: 3px;
-  font-size: 14px; 
+  margin-top: 2px;
+  margin-bottom: 0px;
+  font-size: 10px; 
   color: #fff;
+  text-align: right; 
+  margin-right: 30px; 
 }
 
 div.usuario-caixa h4.desc-operador2{
+  margin-top: 1px; 
+  margin-bottom: 0px;
+  font-size: 15px; 
+  text-align: right; 
+}
 
-  margin-bottom: 15px;
-  
+div.usuario-caixa h4.desc-operador3{
+  margin-top: 4px; 
+  margin-bottom: 5px;
+  font-size: 12px; 
+  color: #fff;
+  text-align: right;
+   
+}
+
+div.usuario-caixa h4.desc-operador3 a{
+  color: yellow;
+   
+}
+
+div.usuario-caixa-foto img{
+  width: 40px;
+  height: 50px;
+  border:1px solid;
+  border-color: white; 
+  border-radius: 3px;
+  margin-top: 1px; 
+
 }
 
 div.picklist-prod div label{
@@ -624,6 +652,10 @@ div.altera-itens-venda-titulo h2{
 
 div.panel-dados-item{
   margin-top: -13px; 
+}
+
+div.panel-btn-aplicar-voltar{
+  margin-bottom: 20px; 
 }
 
 

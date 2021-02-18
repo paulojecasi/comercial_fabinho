@@ -9,7 +9,10 @@ class Usuarios extends CI_Controller {
 		parent::__construct(); 
 
 		$this->load->model('usuarios_model','modelusuarios');
-		$this->lista_usuarios = $this->modelusuarios->listar_usuarios(); 
+		$this->load->model('picklist_model','model_tipo_usuario'); 
+		$this->lista_usuarios = $this->modelusuarios->listar_usuarios();
+		$this->lista_tipo_acesso = $this->model_tipo_usuario->lista_tipo_acesso();  
+
 
 	}
 
@@ -27,6 +30,7 @@ class Usuarios extends CI_Controller {
 		$dados['titulo'] 		= 'Painel de Controle';
 		$dados['subtitulo'] = 'Usuarios';
 		$dados['lista_usuarios']  = $this->lista_usuarios;  
+		$dados['lista_tipo_acesso'] = $this->lista_tipo_acesso;
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
@@ -51,8 +55,8 @@ class Usuarios extends CI_Controller {
 		$this->form_validation->set_rules('txt-email', 'E-mail',		 
 		'required|is_unique[usuario.email]');
 
-		$this->form_validation->set_rules('txt-historico', 'Historico',		 
-		'required|min_length[10]');
+		$this->form_validation->set_rules('idtipo_acesso', 'Tipo de Acesso',		 
+		'required');
 
 		$this->form_validation->set_rules('txt-user', 'Login',		 
 		'required|min_length[3]|is_unique[usuario.user]');
@@ -71,11 +75,12 @@ class Usuarios extends CI_Controller {
 
 			$nome= $this->input->post('txt-nome');
 			$email= $this->input->post('txt-email');
+			$idtipo_acesso= $this->input->post('idtipo_acesso');
 			$historico= $this->input->post('txt-historico');
 			$user= $this->input->post('txt-user');
 			$senha= $this->input->post('txt-senha');
 
-			if ($this->modelusuarios->adicionar($nome,$email,$historico,$user,$senha)){
+			if ($this->modelusuarios->adicionar($nome,$email,$idtipo_acesso,$historico,$user,$senha)){
 				$mensagem ="Usuario Adicionada Com Sucesso !"; 
 
 				// usando seção da framework (session)
@@ -127,7 +132,8 @@ class Usuarios extends CI_Controller {
 
 		$dados['titulo'] 		= 'Painel de Controle';
 		$dados['subtitulo'] = 'Usuarios - Alteração';
-		$dados['lista_usuario']  = $lista_usuario;  
+		$dados['lista_usuario']  = $lista_usuario; 
+		$dados['lista_tipo_acesso'] = $this->lista_tipo_acesso; 
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
@@ -153,8 +159,8 @@ class Usuarios extends CI_Controller {
 		$this->form_validation->set_rules('txt-email', 'E-mail',		 
 		'required');
 
-		$this->form_validation->set_rules('txt-historico', 'Historico',		 
-		'required|min_length[10]');
+		$this->form_validation->set_rules('idtipo_acesso', 'Tipo de Acesso',		 
+		'required');
 
 		$this->form_validation->set_rules('txt-user', 'Login',		 
 		'required|min_length[3]');
@@ -174,11 +180,12 @@ class Usuarios extends CI_Controller {
 			$nome= $this->input->post('txt-nome');
 			$email= $this->input->post('txt-email');
 			$historico= $this->input->post('txt-historico');
+			$idtipo_acesso= $this->input->post('idtipo_acesso');
 			$user= $this->input->post('txt-user');
 			$senha= $this->input->post('txt-senha');
 			$id = $this->input->post('txt-id'); 
 
-			if ($this->modelusuarios->alterar($nome,$email,$historico,$user,$senha,$id)){
+			if ($this->modelusuarios->alterar($nome,$email,$historico,$idtipo_acesso,$user,$senha,$id)){
 				$mensagem ="Usuario Adicionada Com Sucesso !"; 
 
 				// usando seção da framework (session)
@@ -287,20 +294,49 @@ class Usuarios extends CI_Controller {
 				$this->db->where('senha=',md5($senha));
 				$userLogado = $this->db->get('usuario')->result();
 
+				foreach ($userLogado as $user_log) {
+					 $tp_acesso = $user_log->tipo_acesso; 
+				}
+
 				if (count($userLogado) == 1){
 						$dadosSessao['userLogado'] = $userLogado[0];
 						$dadosSessao['logado'] = TRUE; 
 						$this->session->set_userdata($dadosSessao); 
-						redirect(base_url('admin')); 
+						// para acesso a venda
+						if ($this->session->userdata('tipo_acesso')=="venda"){ 
+							
+								if ($tp_acesso ==1 || $tp_acesso == 3)
+								{
+									// encerrar a secao
+	          			$this->session->unset_userdata('tipo_acesso'); 
+									redirect(base_url('venda'));
+								}else{
+									$mensagem ="Usuario não tem permissão para o Acesso!"; 
+									$this->session->set_userdata('mensagemErro',$mensagem); 
+									$this->logout();
+								}
+
+						}else{
+
+								if ($tp_acesso ==2 || $tp_acesso == 3) 
+								{
+									redirect(base_url('admin'));
+								}else{
+									$mensagem ="Usuario não tem permissão para o Acesso!"; 
+									$this->session->set_userdata('mensagemErro',$mensagem); 
+									$this->logout();
+								}
+
+								
+						} 
+
 				} else {
-						$dadosSessao['userLogado'] = NULL; 
-						$dadosSessao['logado'] = FALSE; 
-						$this->session->unset_userdata($dadosSessao); 
+					 
 
 						$mensagem ="Usuario ou senha invalidos"; 
 						$this->session->set_userdata('mensagemErro',$mensagem); 
-
-						redirect(base_url('admin/login')); 
+						//redirect(base_url('admin/login')); 
+						$this->logout(); 
 
 				}
 		}
@@ -316,8 +352,9 @@ class Usuarios extends CI_Controller {
 		$this->session->unset_userdata('itensPorPagina');
 		$this->session->unset_userdata('qtdItensInfo');
 		$this->session->unset_userdata('tipolista');
+		$this->session->unset_userdata('tipo_acesso');
 
-		redirect(base_url('admin/login')); 
+		redirect(base_url('home')); 
 
 	}
 

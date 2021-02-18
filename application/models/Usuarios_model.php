@@ -37,11 +37,12 @@ class Usuarios_model extends CI_Model {
 
 	}
 
-	public function adicionar($nome,$email,$historico,$user,$senha){
+	public function adicionar($nome,$email,$idtipo_acesso,$historico,$user,$senha){
 
 		$dados["nome"]= $nome; 
 		$dados["email"]= $email;
 		$dados["historico"]= $historico;
+		$dados["tipo_acesso"]= $idtipo_acesso;
 		$dados["user"]= $user;
 		$dados["senha"]= md5($senha);
 		return $this->db->insert('usuario',$dados); 
@@ -60,10 +61,11 @@ class Usuarios_model extends CI_Model {
 		return $this->db->get('usuario')->result(); 
 	}
 
-	public function alterar($nome,$email,$historico,$user,$senha,$id){
+	public function alterar($nome,$email,$historico,$idtipo_acesso,$user,$senha,$id){
 		$dados['nome']  = $nome;
 		$dados['email'] = $email;
 		$dados['historico'] = $historico;
+		$dados["tipo_acesso"]= $idtipo_acesso;
 		$dados['user'] = $user;
 		$dados['senha'] = md5($senha);
 

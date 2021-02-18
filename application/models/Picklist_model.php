@@ -35,4 +35,8 @@ class Picklist_model extends CI_Model {
 		return $this->db->get('situacao_nota')->result(); 
 	}
 
+	public function lista_tipo_acesso(){
+		$this->db->order_by('tipo_acesso','ASC');
+		return $this->db->get('tipoacesso')->result(); 
+	}
 }

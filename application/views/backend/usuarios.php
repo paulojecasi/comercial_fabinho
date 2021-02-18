@@ -50,6 +50,26 @@
                                     "<?php echo set_value('txt-historico') ?>"
                                 </textarea>
                             </div>
+
+                            <div class="form-group">
+                              <label for="idtipo_acesso"> Tipo de Acesso do Usuário </label>
+                              <select class="form-control" id="idtipo_acesso" name="idtipo_acesso">
+                            
+                                <?php 
+                                foreach ($lista_tipo_acesso as $tipo_acesso) 
+
+                                { ?> 
+                                    <option  value ="<?php echo $tipo_acesso->id ?>"
+                                        
+                                    >
+                                        <?php echo $tipo_acesso->desacesso ?>
+                                    </option>
+                                <?php
+                                 }
+                                ?> 
+                              </select>
+                            </div>
+
                             <div class = "form-group">
                                 <label> Login </label>
                                 <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login do Usuario"
