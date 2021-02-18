@@ -14,6 +14,8 @@
 
     <script src="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"> </script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
     <!-- para mascarar numeros --> 
     <script src="<?php echo base_url('/assets/backend/js/jquery.mask.min.js') ?>"></script>  
 
@@ -29,7 +31,7 @@
         function load_data(nomeproduto)
         {
             $.ajax({
-                url:"<?php echo base_url(); ?>home/consultajquery",
+                url:"<?php echo base_url(); ?>venda/consultajquery",
                 method:"POST",
                 data:{nomeproduto:nomeproduto},
                 success:function(data){

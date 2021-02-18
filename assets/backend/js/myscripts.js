@@ -31,7 +31,7 @@ jQuery(document).ready(function(){
 
     var vl_troco = (parseFloat(vl_recebido) - parseFloat(vl_total));
    
-    var vl_troco = vl_troco.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"});
+    var vl_troco = vl_troco.toLocaleString("pt-BR");
     
     jQuery('#vl_troco').val(vl_troco);
 
@@ -44,8 +44,19 @@ jQuery(document).ready(function(){
 
 // formata campos 
 jQuery(function($){
-   $("#vl_recebido").mask('#.##0,00', {reverse: true});
+   $("#vl_recebido").mask('###0.00', {reverse: true});
 });
+
+
+function EnterTab(InputId,Evento){
+
+    if(Evento.keyCode == 13){       
+
+        document.getElementById(InputId).focus();
+
+    }
+
+}
 
 
 

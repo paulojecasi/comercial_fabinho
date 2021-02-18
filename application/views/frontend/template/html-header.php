@@ -18,6 +18,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
 
+    <!-- para icones  -->
+    <script src="https://kit.fontawesome.com/006642858d.js"></script>
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/bootstrap.min.css') ?> ">
     

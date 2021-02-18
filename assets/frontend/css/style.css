@@ -7,7 +7,6 @@ img {
 .container{
   width: 100%;
   height: 100%;
-  
 }
 
 .footer-bottom-area {background: #000;color: #fff; 
@@ -68,29 +67,65 @@ a:hover, a:focus {color: #17a78b}
 
 /* MINHAS ESTILIZAÇÕES */ 
 
-div.panel-vendas1{
-  background-color: #DCDCDC; 
-  margin-top: -5px; 
-  margin-left: 0px; 
+div.btn-acesso{
+  margin-top: 25px; 
+  padding-bottom: 50px; 
+}
+
+div.btn-acesso button{
+  background-color: #191970;
+  width: 100%;
+  height: 100%;
+  border: 3px solid;
+  font-size: 18px; 
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0 rgba(0,0,0,0.4);
+  border-radius: 10px; 
+}
+
+div.btn-acesso button:hover{
+  background-color: #0000CD;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8), 0 6px 20px 0 rgba(0,0,0,0.8);
+  border-color: white; 
+  
+}
+
+.panel-geral-vendas{
+  background-color: #C0C0C0;
   margin-bottom: 0px; 
+}
+
+div.panel-geral-vendas1{
+  background-color: #C0C0C0; 
+  border-right: 3px solid;
+
+}
+
+div.panel-vendas1{
+  background-color: #C0C0C0; 
+  /*margin-left: 0px; */
+  margin-bottom: 0px;  
 }
 
 div.area-vendas1 div.nomeproduto{
   margin-top: -10px; 
 }
-div.panel-vendas2{
+div.panel-vendas2-1{
   background-color: #F5F5DC;
-  margin-top: -5px; 
-  margin-left: -30px;
-  margin-bottom: 0px;  
-  border-left:4px solid; 
+  margin-top: 0px; 
+  margin-left: -10px;
+  margin-right:-10px;
+  margin-bottom: 15px;  
+  border:2px solid; 
+  height: 383px;
+  overflow-y: scroll;
+
 }
-div.panel-vendas2 table{
+div.panel-vendas2-1 table{
   background-color: #F5F5F5; 
   font-weight: bold; 
 }
 
-div.panel-vendas2 table b{
+div.panel-vendas2-1 table b{
   color: blue; 
   font-size: 17px; 
 }
@@ -116,14 +151,30 @@ div.resultado{
   margin-top: -20px;
 }
 
-button.consulta{
+button.btn-consulta{
   margin-top: 23px; 
   margin-bottom: 10px; 
   width: 130px;
   font-size: 17px;  
-
 }
-button.consulta img{
+
+button.btn-consulta:focus{
+  background-color: #32CD32;   
+}
+
+div.quantidade-ites input:focus{
+  background-color: #E0FFFF; 
+}
+div.nomeproduto input:focus{
+  background-color: #E0FFFF; 
+}
+
+div.picklist-prod select:focus{
+  background-color: #E0FFFF; 
+}
+
+
+button.btn-consulta img{
   width: 15px;
   height: 15px;
 }
@@ -143,9 +194,21 @@ div.area-vendas1 input#quantidade{
   text-align: center; 
 
 }
-div.area-vendas2 {
-  margin-top: 10px ; 
 
+div.panel-geral-vendas2{
+    background-color: #C0C0C0; 
+    /*margin-top: -10px; 
+    margin-bottom: 5px; 
+    margin-left: 0px;
+    border:3px solid; */ 
+}
+
+div.panel-vendas2{
+
+}
+
+div.panel-item-escolhido{
+  margin-top: 0px; 
 }
 
 h3.descricao-prod-caixa{
@@ -153,15 +216,7 @@ h3.descricao-prod-caixa{
   font-size: 30px; 
   font-weight: bold;
   margin-top: 0px; 
-  margin-bottom: 0px;  
-}
-div.panel-item-escolhido{
-  margin-top: -10px; 
-}
-
-div.desc-precos-compras {
-  margin-top: -10px; 
-  margin-bottom: 0px; 
+  margin-bottom: -10px;  
 }
 
 div.desc-precos-compras h3 {
@@ -175,7 +230,7 @@ div.desc-precos-compras h3 {
 }
 
 div.tela-numero-itens h1{
-  color: #FF6347;
+  color: blue;
   font-weight: bold; 
   font-size: 40px;
   text-align: center; 
@@ -187,7 +242,7 @@ div.tela-numero-itens h1{
 }
 
 div.tela-preco-desconto h1{
-  color: #FF6347;
+  color: blue;
   font-weight: bold; 
   font-size: 40px;
   text-align: center; 
@@ -199,7 +254,7 @@ div.tela-preco-desconto h1{
 }
 
 div.tela-preco-acrescimo h1{
-  color: #FF6347;
+  color: blue;
   font-weight: bold; 
   font-size: 40px;
   text-align: center; 
@@ -232,19 +287,14 @@ div.tela-preco-troco h1{
 }
 
 
-h4.btn-excluir {
-  margin-left: -20px; 
-  margin-top: -12px; 
-  margin-bottom: -15px;
-  color: #FF0000;
-  font-size: 15px;  
-}
+
 
 div.footer-card-icon i{
   margin-top: 3px; 
   font-size: 16px; 
 }
 
+  /* DO RODAPE*/
 div.cactosdev{
   margin-bottom: -45px; 
 }
@@ -273,23 +323,58 @@ div.cactosdev p img.email, div.cactosdev p img.whats{
     height: 15px;
 }
 
+/* DA TELA DE ACESSO */
+
+div.cactosdev_acesso{
+  margin-top: 20px; 
+
+}
+div.cactosdev_acesso p.des-por{
+  margin-top: 20px; 
+  font-size: 15px; 
+  margin-bottom: 0px; 
+  margin-left: 30px;
+}
+
+div.cactosdev_acesso h3 {
+  margin-top: 0px; 
+  margin-bottom: 5px; 
+  font-size: 20px; 
+}
+div.cactosdev_acesso h3 img{
+  margin-top: 0px; 
+  margin-bottom: 0px; 
+  width: 40px;
+  height: 40px;
+}
+
+div.cactosdev_acesso p img.email, div.cactosdev_acesso p img.whats{
+    margin-top: 0px; 
+    margin-bottom: 0px; 
+    width: 25px;
+    height: 25px;
+}
+
+
 div.btn-finalizar-venda{
   margin-top: 25px; 
 }
 
 div.btn-finalizar-venda button{
-  width: 170px;
-  height: 50px;
-  border: 2px solid;
+  width: 100%;
+  height: 100%;
+  border: 3px solid;
   font-size: 18px; 
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  border-radius: 10px; 
 }
 
 div.header-titulo{
   background-color: #000; 
-  margin-bottom: 8px; 
-  /*width: 100%;
-   height: 100%px;*/ 
+ /* margin-bottom: 8px; */
+  border-bottom: 3px solid; 
+  border-color: #fff; 
+
 }
 
 div.logo-marca h3{
@@ -331,7 +416,7 @@ div.picklist-prod div label{
 }
 
 .titulo-tela-tipopag{
-  margin-top: -5px; 
+  margin-top: 0px; 
   background-color: #1C1C1C;
 }
 
@@ -340,6 +425,20 @@ div.picklist-prod div label{
 }
 
 .titulo-tela-tipopag div h1{
+  color: red; 
+  font-size: 60px; 
+}
+
+.titulo-tela-tipopag2{
+  margin-top: 0px; 
+  background-color: #1C1C1C;
+}
+
+.titulo-tela-tipopag2 div h2{
+  color: yellow; 
+}
+
+.titulo-tela-tipopag2 div h1{
   color: red; 
   font-size: 60px; 
 }
@@ -381,12 +480,12 @@ div.tipo-de-pagamento h4{
 }
 
 div.tipo-de-pagamento-escolha{
-  margin-top: -5px; 
-  margin-bottom: 9px; 
-  background-color: #2F4F4F;
-  border-top: 0px solid; 
+  /*margin-top: -5px; */
+  /*margin-bottom: 9px; */
+  background-color: #2E8B57;
+  border-bottom:  3px solid; 
   border-color: white; 
-  padding-bottom: 10px; 
+  /*padding-bottom: 10px; */
 }
 
 div.tipo-de-pagamento-escolha h2{
@@ -402,20 +501,12 @@ div.tipo-de-pagamento-escolha h4{
 
 }
 
-button.voltar-venda{
-  background-color: #4169E1; 
-  border: 2px solid;
-  margin-top: 23px; 
-  margin-bottom: 10px; 
-  width: 30%;
+div.link-voltar{
+  margin-top: 20px; 
+  margin-bottom: 0px; 
   font-size: 19px;  
-
 }
 
-button.voltar-venda img{
-  padding-right: 10px; 
-
-}
 
 h1.valor-recebido-venda input{
   color: #fff; 
@@ -423,17 +514,116 @@ h1.valor-recebido-venda input{
   background-color: #1C1C1C;
   width: 50%;
   height: 60px; 
+  text-align: left;
 
 }
 
 h1.valor-recebido-troco input{
-  color: #fff; 
+  color: #FFD700; 
   font-size: 50px; 
   background-color: #1C1C1C;
   width: 50%;
   height: 60px; 
   pointer-events :none;
 
+}
+div.btn-link {
+  margin-top:20px; 
+  margin-bottom: 40px;
+}
+
+h4.btn-itens {
+  margin-top: 2px;
+  color: #228B22;
+  font-size: 15px;  
+}
+
+h4.btn-alterar {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: -5px; 
+  color: #4169E1;
+  font-size: 15px;  
+}
+
+h4.btn-excluir {
+  margin-left: -10px; 
+  margin-top: -12px; 
+  margin-right: -25px; 
+  margin-bottom: -15px;
+  color: #FF0000;
+  font-size: 15px;  
+}
+
+div.mensagem-sistema{
+  height: 10px;
+  margin-top: 2px; 
+
+}
+
+/* ---- ALTERAÇAO DO ITEM DA VENDA ----*/
+
+.panel-principal-altera-itens-da-venda{
+  background-color: #D3D3D3; 
+}
+
+div.altera-itens-venda-titulo h2{
+  color: blue;
+  margin-top: 5px; 
+}
+
+.panel-principal-altera-itens-da-venda input#codproduto,
+.panel-principal-altera-itens-da-venda input#desproduto,
+.panel-principal-altera-itens-da-venda input#vlpreco,
+.panel-principal-altera-itens-da-venda input#valortotal
+{
+  background-color: #DCDCDC; 
+  color: #808080;
+  font-size: 30px; 
+  height:50px; 
+  text-align: center; 
+  pointer-events :none;
+
+}
+
+.panel-principal-altera-itens-da-venda input#quantidadeitens,
+.panel-principal-altera-itens-da-venda input#valordesconto,
+.panel-principal-altera-itens-da-venda input#valoracrescimo
+{
+  background-color: #FFFAF0; 
+  color: #999;
+  font-size: 30px; 
+  height:50px; 
+  text-align: center; 
+ 
+}
+
+.panel-principal-altera-itens-da-venda input#valortotal
+{
+  color: black;
+  font-size: 50px; 
+  height:60px; 
+  font-weight: bold; 
+
+
+}
+
+.panel-principal-altera-itens-da-venda input#quantidadeitens:focus,
+.panel-principal-altera-itens-da-venda input#valordesconto:focus,
+.panel-principal-altera-itens-da-venda input#valoracrescimo:focus
+{
+  background-color: #ADD8E6; 
+  color: #000;
+}
+
+.panel-principal-altera-itens-da-venda label
+{
+  color: #008080;
+  font-size: 16px; 
+}
+
+div.panel-dados-item{
+  margin-top: -13px; 
 }
 
 

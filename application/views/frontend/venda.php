@@ -59,7 +59,7 @@
 
                                 $id_caixa = 1;  
                               
-                                echo form_open('home/venda_pagamento/'.md5($id_caixa));
+                                echo form_open('venda/venda_pagamento/'.md5($id_caixa));
 
                                 $valor_total =0; 
                                 $vl_tot_desc=0;
@@ -251,7 +251,7 @@
                                         $valortotal =
                                             '<b>'.reais($valortotal).'</b>';
 
-                                        $botaoalterar = anchor(base_url('home/produto_temp_altera/'.md5($id)),
+                                        $botaoalterar = anchor(base_url('venda/produto_temp_altera/'.md5($id)),
                                             '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> </h4>');
 
                                         $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i> </h4> </button>';
@@ -271,7 +271,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                                        <a type="button" class="btn btn-danger" href="'.base_url('home/excluir_produto_temp/'.md5($id)).'">Excluir</a>
+                                                        <a type="button" class="btn btn-danger" href="'.base_url('venda/excluir_produto_temp/'.md5($id)).'">Excluir</a>
                                                     </div>
 
                                                 </div>

@@ -252,7 +252,7 @@ class Produto_model extends CI_Model
 		{
 			$this->db->like('desproduto', $desproduto); 
 			$this->db->or_like('codbarras', $desproduto);
-			$this->db->or_like('codproduto', $desproduto);
+			$this->db->or_where('codproduto=', $desproduto);
 			$this->db->order_by('desproduto','DESC');
 			return $this->db->get('produto'); 
 		} else {

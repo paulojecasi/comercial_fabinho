@@ -153,6 +153,8 @@ class Estoque extends CI_Controller {
 		if ($idsolicitante == "venda"){
 			$this->session->set_userdata('quantidade',$quantidade);
 			$this->session->set_userdata('solicitante',$idsolicitante);
+ 			$idcodproduto = $this->input->post('idproduto_res');
+ 		
 		}
 
 		if ($idsolicitante == "consulta-estoque"){

@@ -40,6 +40,14 @@ class Venda_model extends CI_Model
 		return $this->db->delete('produto_caixa_temp');
 	}
 
+	public function listar_produto_temp($id)
+	{
+
+		$this->db->where('md5(id)=',$id); 
+		return $this->db->get('produto_caixa_temp')->result(); 
+
+	}
+
 	public function listar_produtos_temp($idcaixa)
 	{
 
