@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 ">
                         <div class="form-group nomeproduto text-center debito">
-                            <a href="<?php base_url('venda/venda_pagamentooo/').md5($id_caixa).'/money' ?>">
+                            <a href="<?php base_url('venda/venda_pagamento/').$id_caixa.'/money' ?>">
                                 <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/card.png') ?>" >
                             </a> 
                              <h4> Cartão Débito </h4>

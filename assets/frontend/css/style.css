@@ -600,10 +600,10 @@ div.altera-itens-venda-titulo h2{
   margin-top: 5px; 
 }
 
-.panel-principal-altera-itens-da-venda input#codproduto,
-.panel-principal-altera-itens-da-venda input#desproduto,
-.panel-principal-altera-itens-da-venda input#vlpreco,
-.panel-principal-altera-itens-da-venda input#valortotal
+.panel-principal-altera-itens-da-venda input#codproduto_alt,
+.panel-principal-altera-itens-da-venda input#desproduto_alt,
+.panel-principal-altera-itens-da-venda input#vlpreco_alt,
+.panel-principal-altera-itens-da-venda input#valortotal_alt
 {
   background-color: #DCDCDC; 
   color: #808080;
@@ -614,9 +614,9 @@ div.altera-itens-venda-titulo h2{
 
 }
 
-.panel-principal-altera-itens-da-venda input#quantidadeitens,
-.panel-principal-altera-itens-da-venda input#valordesconto,
-.panel-principal-altera-itens-da-venda input#valoracrescimo
+.panel-principal-altera-itens-da-venda input#quantidadeitens_alt,
+.panel-principal-altera-itens-da-venda input#valordesconto_alt,
+.panel-principal-altera-itens-da-venda input#valoracrescimo_alt
 {
   background-color: #FFFAF0; 
   color: #999;
@@ -626,7 +626,7 @@ div.altera-itens-venda-titulo h2{
  
 }
 
-.panel-principal-altera-itens-da-venda input#valortotal
+.panel-principal-altera-itens-da-venda input#valortotal_alt
 {
   color: black;
   font-size: 50px; 
@@ -636,9 +636,9 @@ div.altera-itens-venda-titulo h2{
 
 }
 
-.panel-principal-altera-itens-da-venda input#quantidadeitens:focus,
-.panel-principal-altera-itens-da-venda input#valordesconto:focus,
-.panel-principal-altera-itens-da-venda input#valoracrescimo:focus
+.panel-principal-altera-itens-da-venda input#quantidadeitens_alt:focus,
+.panel-principal-altera-itens-da-venda input#valordesconto_alt:focus,
+.panel-principal-altera-itens-da-venda input#valoracrescimo_alt:focus
 {
   background-color: #ADD8E6; 
   color: #000;

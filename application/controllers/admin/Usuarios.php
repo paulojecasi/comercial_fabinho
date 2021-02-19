@@ -264,7 +264,12 @@ class Usuarios extends CI_Controller {
 	public function page_login()
 	{
 		$dados['titulo'] 		= 'Painel de Controle';
-		$dados['subtitulo'] = 'Entrar no Sistema';
+
+		if ($this->session->userdata('tipo_acesso')=="venda") {
+			$dados['subtitulo'] = 'Acesso ao Sistema de Vendas';
+		}else{
+			$dados['subtitulo'] = 'Acesso a Administração do Sistema';
+		}
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/login');

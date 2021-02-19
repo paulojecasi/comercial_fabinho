@@ -22,9 +22,10 @@
                         
                         // vamos abrir o formulário,
                                     // apontando para:admin/controlador/metodo
-                        echo form_open('admin/produto/inserir');
+                        echo form_open('venda/salvar_alteracoes_produto_temp');
 
                         foreach ($produto_temp_altera as $pro_ten_alt) :
+                            $id         = $pro_ten_alt->id; 
                             $desc       = $pro_ten_alt->desproduto;
                             $codpro     = $pro_ten_alt->codproduto; 
                             $vlunit     = reais($pro_ten_alt->vlpreco);
@@ -38,42 +39,44 @@
                             <div class="form-group col-lg-2">
                                 <label> Codigo do Produto  
                                 </label>
-                                <input id="codproduto" name="codproduto" type="text"class = "form-control"  value="<?php echo $codpro ?>" disabled>
+                                <input id="codproduto_alt" name="codproduto_alt" type="text"class = "form-control"  value="<?php echo $codpro ?>" disabled>
                             </div>
 
                             <div class="form-group col-lg-7">
                                 <label> Descrição </label>
-                                <input id="desproduto" name="desproduto" type="text"class = "form-control"  value="<?php echo $desc ?> " disabled> 
+                                <input id="desproduto_alt" name="desproduto_alt" type="text"class = "form-control"  value="<?php echo $desc ?> " disabled> 
                             </div>
-
                             
                             <div class="form-group col-lg-3">  
                                 <label> Valor Unitario </label>
-                                <input type="text" class="form-control" id="vlpreco" name="vlpreco" step="0.01" placeholder="0.00" value="<?php echo $vlunit ?>" disabled>
+                                <input type="text" class="form-control" id="vlpreco_alt" name="vlpreco_alt" step="0.01" placeholder="0.00" value="<?php echo $vlunit ?>" disabled>
                             </div>
 
                            
                             <div class="form-group col-lg-4"> 
                                 <label> Quantidade de itens </label>
-                                <input type="number" class="form-control" id="quantidadeitens" name="quantidadeitens" placeholder="0" value="<?php echo $qtd ?>" autofocus="true" >
+                                <input type="number" class="form-control" id="quantidadeitens_alt" name="quantidadeitens_alt" placeholder="0" value="<?php echo $qtd ?>" autofocus="true" >
                             </div>
+
 
                             
                             <div class="form-group col-lg-4">  
                                 <label> Valor Desconto R$ </label>
-                                <input type="number" class="form-control" id="valordesconto" name="valordesconto" step="0.01" placeholder="0.00" value="<?php echo $vldesc ?>">
+                                <input type="number" class="form-control" id="valordesconto_alt" name="valordesconto_alt" step="0.01" placeholder="0,00" value="<?php echo $vldesc ?>">
                             </div>
 
                             <div class="form-group col-lg-4">  
                                 <label> Valor Acrescimo R$  </label>
-                                <input type="number" class="form-control" id="valoracrescimo" name="valoracrescimo" step="0.01" placeholder="0.00" value="<?php echo $vlacres ?>">
+                                <input type="number" class="form-control" id="valoracrescimo_alt" name="valoracrescimo_alt" step="0.01" placeholder="0,00" value="<?php echo $vlacres ?>">
                             </div>
 
                             <div class="form-group col-lg-12 text-center">  
                                 <label> Valor Total R$ </label>
-                                <input type="text" class="form-control" id="valortotal" name="valortotal" step="0.01" placeholder="0.00" value="<?php echo $vltot ?>" disabled>
+                                <input type="number" class="form-control" id="valortotal_alt" name="valortotal_alt" step="0.01" placeholder="0,00" value="<?php echo $vltot ?>">
                             </div>
 
+                            <input type="hidden" id="id_produto_temp" name="id_produto_temp" value="<?php echo $id ?>" />
+                           
                         <?php 
                         endforeach;
                         ?> 

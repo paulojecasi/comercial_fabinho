@@ -1,12 +1,17 @@
 
       <div class = "container"> 
         <div class = "row header-titulo">
+          <div class="logo-marca text-center col-lg-1 col-sm-1">
+              <?php 
+                $this->load->view('frontend/template/sidebar');
+              ?>
+          </div>
         	<div class="logo-marca text-center col-lg-3 col-sm-3">
                 <h3> 
                     Comercial Fabinho
                 </h3>
           </div>
-          <div class="logo-titulo text-center col-lg-6 col-sm-6">
+          <div class="logo-titulo text-center col-lg-5 col-sm-5">
               <h1 class = "desc-titulo"> 
                   Sistema de Vendas
               </h1>

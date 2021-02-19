@@ -17,7 +17,6 @@ class Venda extends CI_Controller {
 		$this->load->model('picklist_model','model_tipo_pagamento');
 		$this->load->model('venda_model','modelvendas');
 		
-				// vamos cria uma var "$categorias" e carrega-la com o resultado 
 		$this->produtos = $this->modelprodutos->listar_produtos(); 
 		$this->tipo_pagamento = $this->model_tipo_pagamento->lista_tipos_pagamentos(); 
 
@@ -27,12 +26,14 @@ class Venda extends CI_Controller {
 	{
 
 		$idcaixa=1; 
-		$produtos_temp = $this->modelvendas->listar_produtos_temp($idcaixa);
-		if ($produtos_temp){
+		//$produtos_temp = $this->modelvendas->listar_produtos_temp($idcaixa);
+		$dados = $this->totalizador_venda_caixa($idcaixa);
+
+		if ($dados['produtos_temp']){
 			$this->load->library('table'); 
-			$dados['produtos_temp'] = $produtos_temp;
 		} else {
 			$dados['produtos_temp'] = null; 
+	
 		}
 		$dados['tipo_pagamento'] = $this->tipo_pagamento; 
 		$dados['produtoitem'] = null; 
@@ -49,13 +50,14 @@ class Venda extends CI_Controller {
 
 	public function listar_produto($idproduto){
 
+	
+		if ($idproduto == "----%20Nenhum%20item%20informado%20----"){
+			$this->index(); 
+		}
+
 		$this->load->library('table'); 
 
-		$dados['tipo_pagamento'] = $this->tipo_pagamento;
-		$dados['produtos']=$this->produtos;
-		$produto_temp =  
-					$dados['produtoitem'] = $this->modelprodutos->listar_produto($idproduto); 
-		$dados['quantidade_item'] = $this->session->userdata('quantidade');
+		$produto_temp = $this->modelprodutos->listar_produto($idproduto); 
 
 		if ($this->session->userdata('solicitante') == "venda"){
 				// --- aqui, vamos adicionar temporariamente o item da vendas
@@ -63,9 +65,14 @@ class Venda extends CI_Controller {
 				$this->session->unset_userdata('solicitante'); 
 		}  
 	
-		
 		$idcaixa=1; 
-		$dados['produtos_temp'] = $this->modelvendas->listar_produtos_temp($idcaixa);
+		//$dados['produtos_temp'] = $this->modelvendas->listar_produtos_temp($idcaixa);
+		$dados = $this->totalizador_venda_caixa($idcaixa);
+
+		$dados['tipo_pagamento'] = $this->tipo_pagamento;
+		$dados['produtos']=$this->produtos;
+		$dados['produtoitem'] = $produto_temp; 
+		$dados['quantidade_item'] = $this->session->userdata('quantidade');
 	
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
@@ -81,7 +88,7 @@ class Venda extends CI_Controller {
 	{
 		foreach ($produto_temp as $produto_t) {
 
-			$idcaixa= 1;   
+			$idcaixa= 1;  
 			$idproduto= $produto_t->idproduto;
 			$codproduto= $produto_t->codproduto; 
 			$desproduto= $produto_t->desproduto;
@@ -97,7 +104,7 @@ class Venda extends CI_Controller {
 			
 		} 
 
-		if ($this->modelvendas->adicionar_temp($idcaixa,	$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
+		if ($this->modelvendas->adicionar_temp($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
 			
 		} else {
 
@@ -128,12 +135,38 @@ class Venda extends CI_Controller {
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
 		$this->load->view('backend/mensagem');
-		$this->load->view('frontend/produto_temp_altera');
+		$this->load->view('frontend/venda_produto_temp_altera');
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');  
 
 	}
 
+
+	public function salvar_alteracoes_produto_temp()
+	{
+		$quantidadeitens= $this->input->post('quantidadeitens_alt');
+		$valordesconto  = $this->input->post('valordesconto_alt');
+		$valoracrescimo = $this->input->post('valoracrescimo_alt');
+		$valortotal 		= $this->input->post('valortotal_alt');
+		$id 						= $this->input->post('id_produto_temp'); 
+
+		if ($this->modelvendas->alterar_produto_temp_tem($quantidadeitens,$valordesconto,$valoracrescimo,$valortotal,$id))
+		{
+			$mensagem ="Alterações aplicadas no Item com Sucesso  !"; 
+
+			$this->session->set_userdata('mensagem',$mensagem); 
+			
+		} else {
+
+			$mensagem = "Houve erro ao aplicar as alterações no Item!"; 
+
+			$this->session->set_userdata('mensagemErro',$mensagem); 
+
+		}
+
+		redirect(base_url('venda'));
+
+	}
 
 	 function consultajquery()
 		{
@@ -191,11 +224,8 @@ class Venda extends CI_Controller {
 
 	}
 
-	public function venda_pagamento($id_caixa, $tipo_pagamento=null){
-
-		
-
-		$venda = $this->modelvendas->venda_pagamento($id_caixa); 
+	private function totalizador_venda_caixa($id_caixa){
+		$venda = $this->modelvendas->listar_produtos_temp($id_caixa);
 		$valor_total =0; 
 		$vl_tot_acre =0;
 		$vl_tot_desc =0; 
@@ -209,16 +239,24 @@ class Venda extends CI_Controller {
         $valor_total += $totaliza->valortotal; 
 
         $numero_itens += $totaliza->quantidadeitens;
-    endforeach; 
+    endforeach;
 
-    $valor_total = ($valor_total + $vl_tot_acre - $vl_tot_desc);
-    $dados['valortotal'] 	= reais($valor_total); 
-    $dados['valortotal_sem_conversao'] 	= $valor_total;
-    $dados['vl_tot_desc'] = reais($vl_tot_desc);
-    $dados['vl_tot_acre'] = reais($vl_tot_acre);
+		$dados['valortotal_sem_conversao'] 	= $valor_total;
+    $dados['valortotal'] 	=  $valor_total; 
+    $dados['vl_tot_desc'] =  $vl_tot_desc;
+    $dados['vl_tot_acre'] =  $vl_tot_acre;
+    $dados['numero_itens'] = $numero_itens;
     $dados['id_caixa']		= $id_caixa; 
+    $dados['produtos_temp'] = $venda; 
+
+    return $dados; 
+
+	}
+
+	public function venda_pagamento($id_caixa, $tipo_pagamento=null){
 
 
+    $dados = $this->totalizador_venda_caixa($id_caixa); 
 
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
@@ -232,6 +270,59 @@ class Venda extends CI_Controller {
 		
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');
+
+	}
+
+
+	public function finalizar_venda($tipo_pagamento,$id_caixa){
+
+
+		// Id do Usuario
+		$idusuario = $this->session->userdata('userLogado')->id;
+		
+		// dados da venda temporaria
+		$venda = $this->totalizador_venda_caixa($id_caixa); 
+		//var_dump($venda);
+		//exit;
+
+		$valor_total = $venda['valortotal']; 
+		$vl_tot_acre = $venda['vl_tot_acre'];
+		$vl_tot_desc = $venda['vl_tot_desc'];
+		$numero_itens= $venda['numero_itens'];
+
+    // vamos gravar a venda (tabela VENDA)
+
+    $idcaixa 				= $id_caixa; 
+    $codigousuario 	= $idusuario;
+    $situacaovenda 	= 1;  // 1 fechada, 2 cancelada (tabela SITUACAO_VENDA)
+    $tipovenda			=	1;  // 1 Padrao, 2 Fiado (tabela TIPO_VENDA)
+    $valorvenda			=	$valor_total;
+    $valoracrescimo = $vl_tot_acre;
+    $valordesconto 	= $vl_tot_desc;
+    $idcliente			= 0;
+    $tipopagamento  = $tipo_pagamento; // tabela TIPO_PAGAMENTO
+
+    if ($this->modelvendas->gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento )){
+			
+		} else {
+
+			$mensagem = "Houve um erro ao Gravar a Venda (Tabela VENDA)"; 
+			$this->session->set_userdata('mensagemErro',$mensagem); 
+			$this->index();  
+
+		}
+
+		$this->finalizar_produto_caixa_temp($id_caixa); 
+
+		$mensagem = "Venda Realizada com Sucesso !"; 
+		$this->session->set_userdata('mensagem',$mensagem); 
+		redirect(base_url('venda'));
+
+	} 
+
+	private function finalizar_produto_caixa_temp($id_caixa){
+
+		$this->modelvendas->finalizar_produto_caixa_temp($id_caixa); 
 
 	}
 

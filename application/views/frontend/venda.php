@@ -59,40 +59,21 @@
 
                                 $id_caixa = 1;  
                               
-                                echo form_open('venda/venda_pagamento/'.md5($id_caixa));
+                                echo form_open('venda/venda_pagamento/'.$id_caixa);
 
-                                $valor_total =0; 
-                                $vl_tot_desc=0;
-                                $vl_tot_acre =0; 
-                                $numero_itens =0; 
-                                if ($produtos_temp):    
-                                    foreach ($produtos_temp as $totaliza):
-
-                                        $vl_tot_desc +=$totaliza->valordesconto;
-                                        
-                                        $vl_tot_acre +=$totaliza->valoracrescimo;
-                                        
-                                        $valor_total += $totaliza->valortotal; 
-
-                                        $numero_itens += $totaliza->quantidadeitens;
-
-                                    endforeach; 
-                                    $valor_total = ($valor_total + 
-                                                    $vl_tot_acre -
-                                                    $vl_tot_desc); 
-
-                                    $valor_total = reais($valor_total); 
-                                    $vl_tot_desc = reais($vl_tot_desc);
-                                    $vl_tot_acre = reais($vl_tot_acre); 
+                              
+                                    $valor_totalt = reais($valortotal); 
+                                    $vl_tot_desct = reais($vl_tot_desc);
+                                    $vl_tot_acret = reais($vl_tot_acre); 
+                                    $numero_itenst= $numero_itens; 
                                    
-
-                                endif;
+                               
                                 ?> 
 
                                 <div class= "tela-numero-itens">
                                     <div class="form-group col-lg-2 col-sm-12">  
                                         <label> Nr Itens </label>
-                                        <h1> <?php echo $numero_itens ?> </h1>
+                                        <h1> <?php echo $numero_itenst ?> </h1>
                                         
                                     </div>
                                 </div>
@@ -100,7 +81,7 @@
                                 <div class= "tela-preco-desconto">
                                     <div class="form-group col-lg-5 col-sm-12">  
                                         <label> Valor Desconto R$ </label>
-                                        <h1> <?php echo $vl_tot_desc ?> </h1>
+                                        <h1> <?php echo $vl_tot_desct ?> </h1>
                                         
                                     </div>
                                 </div>
@@ -108,7 +89,7 @@
                                  <div class= "tela-preco-acrescimo">
                                     <div class="form-group col-lg-5 col-sm-12">  
                                         <label> Valor Acréscimo R$ </label>
-                                        <h1> <?php echo $vl_tot_acre ?> </h1>
+                                        <h1> <?php echo $vl_tot_acret ?> </h1>
                                         
                                     </div>
                                 </div>
@@ -116,19 +97,23 @@
                                 <div class= "tela-preco-total">
                                     <div class="form-group col-lg-8 col-sm-12">  
                                         <label> Valor Total Compra R$ </label>
-                                        <h1> <?php echo $valor_total ?> </h1>
+                                        <h1> <?php echo $valor_totalt ?> </h1>
                                         
                                     </div>
                                 </div>
 
-                                <div class ="col-lg-4 col-sm-12 btn-finalizar-venda ">
-                                    <a href=" ">
-                                        <button class="btn btn-success" type="submit" > 
-                                            Finalizar Venda
-                                        </button> 
-                                    </a>
-                                </div>
                                 <?php
+                                if ($produtos_temp):
+                                ?>
+                                    <div class ="col-lg-4 col-sm-12 btn-finalizar-venda ">
+                                        <a href=" ">
+                                            <button class="btn btn-success" type="submit" > 
+                                                Finalizar Venda
+                                            </button> 
+                                        </a>
+                                    </div>
+                                    <?php
+                                endif;
 
                                     // fechar o formulario 
                                 echo form_close();

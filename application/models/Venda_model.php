@@ -52,18 +52,59 @@ class Venda_model extends CI_Model
 	{
 
 		$this->db->where('idcaixa=',$idcaixa); 
+		$this->db->where('situacao=',0); 
 		$this->db->order_by('id','DESC'); 
 		return $this->db->get('produto_caixa_temp')->result(); 
 
 	}
 
+	/*
 	public function venda_pagamento($id_caixa)
 	{
 		$this->db->where('md5(idcaixa)=',$id_caixa); 
 		$this->db->where('situacao=',0); 
 		return $this->db->get('produto_caixa_temp')->result();
+	}
+	*/
 
+	public function alterar_produto_temp_tem($quantidadeitens,$valordesconto,$valoracrescimo,$valortotal,$id)
+	{
+		$dados['quantidadeitens'] = $quantidadeitens;
+		$dados['valordesconto'] 	= $valordesconto;
+		$dados['valoracrescimo'] 	= $valoracrescimo;
+		$dados['valortotal'] 			= $valortotal;
+
+		$this->db->where('id=',$id);
+		return $this->db->update('produto_caixa_temp',$dados); 
+	}
+
+
+	public function gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento)
+	{
+
+		$dados["idcaixa"]	= $idcaixa;
+		$dados["codigousuario"]	= $codigousuario;
+		$dados["situacaovenda"]		= $situacaovenda;
+		$dados["tipovenda"]	= $tipovenda;
+		$dados["valorvenda"]	= $valorvenda;
+		$dados["valoracrescimo"]	= $valoracrescimo;
+		$dados["valordesconto"]			= $valordesconto;
+		$dados["idcliente"]		= $idcliente;
+		$dados["tipopagamento"]		= $tipopagamento;
+
+		return $this->db->insert('venda',$dados); 
+	}
+
+	public function finalizar_produto_caixa_temp($idcaixa){
+
+		$dados['situacao'] =1;
+
+		$this->db->where('idcaixa=',$idcaixa); 
+		$this->db->where('situacao=',0); 
+		return $this->db->update('produto_caixa_temp', $dados); 
 
 	}
+
+
 
 }

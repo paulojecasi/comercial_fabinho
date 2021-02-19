@@ -14,6 +14,8 @@
 
     <script src="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"> </script>
 
+    <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script> 
+
 </body>
 
 </html>

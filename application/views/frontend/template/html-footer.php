@@ -6,8 +6,14 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url('/assets/backend/js/sb-admin-2.js') ?>"></script>
+
     <!-- meus scripts PJCS  -->
     <script src="<?php echo base_url('/assets/backend/js/myscripts.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/myscripts-mask.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/myscripts-teclas.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/myscripts-troco.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/myscripts-sidenav.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/myscripts-desconto-acrescimo-prod.js') ?>"></script>
 
     <!-- tabelas --> 
     <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"> </script>
@@ -16,8 +22,16 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-    <!-- para mascarar numeros --> 
-    <script src="<?php echo base_url('/assets/backend/js/jquery.mask.min.js') ?>"></script>  
+    <!-- para mascarar numeros 
+    <script src="<?php echo base_url('/assets/backend/js/jquery.mask.min.js') ?>"></script> 
+    --> 
+     <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script> 
+
+     <!-- alertas
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+     -->
+    <script src="<?php echo base_url('/assets/backend/js/sweetalert.min.js') ?>"></script>
+  
 
   </body>
 </html>

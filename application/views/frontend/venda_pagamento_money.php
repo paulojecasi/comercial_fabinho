@@ -30,7 +30,7 @@
             <div class="col-lg-9 col-sm-12">
                 <div class="form-group">
                     <h1 class="valor-recebido-venda">
-                        <input id="vl_recebido" name="vl_recebido" type="text" class="form-control" placeholder ="0,00" autofocus="true">
+                        <input id="vl_recebido_caixa" name="vl_recebido_caixa" type="number" class="form-control" placeholder ="0,00" step="0.01" autofocus="true">
                     </h1>
                   
                 </div>
@@ -54,7 +54,7 @@
 
         <div class="form-group col-lg-12 btn-link"> 
             <div class ="col-lg-6 col-sm-12 btn-finalizar-venda text-center">
-                <a href=" ">
+                <a href="<?php echo base_url('venda/finalizar_venda/').'1/'.$id_caixa ?>">
                     <button class="btn btn-success" type="submit" > 
                         Concluir Pagamento
                     </button> 
