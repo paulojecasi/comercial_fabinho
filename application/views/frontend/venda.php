@@ -29,21 +29,22 @@
                                 <div class="form-group"> 
                                     <div class="col-lg-7 quantidade-ites text">
                                         <label> Quantidade  </label>
-                                        <input id="quantidade" name="quantidade" type="number" class="form-control" placeholder ="0" value="1">
+                                        <input id="quantidade" name="quantidade" type="number" class="form-control" placeholder ="0" value="1" onkeydown="javascript:EnterTab('nomeproduto',event)">
                                     </div>
                                 </div>
                                
                                 <div class="form-group"> 
                                     <div class ="col-lg-5 text-center">
                                         <a href="">
-                                            <button class="btn btn-info btn-consulta" id="btn_buscar" name="btn_buscar"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
+                                            <button class="btn btn-info btn-consulta btn_buscar" id="btn_buscar" name="btn_buscar" onkeydown="javascript:EnterTab('btn_buscar',event)"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
                                                 Buscar
                                             </button> 
                                         </a>
                                     </div>
                                 </div>
-                             
 
+                            
+                            
                                 <?php 
                                 // fechar o formulario 
                                 echo form_close();
@@ -216,8 +217,14 @@
                                 <?php
                                 if ($produtos_temp):
                                    
-                                    $this->table->set_heading("COD","Descrição", 
-                                    "Uni","Desc","Acres","Qtd","Total"); 
+                                    $this->table->set_heading(
+                                        '<h5>'."COD".'</h5>',
+                                        '<h5>'."Descrição".'</h5>', 
+                                        '<h5>'."Uni".'</h5>',
+                                        '<h5>'."Desc".'</h5>',
+                                        '<h5>'."Acres".'</h5>',
+                                        '<h5>'."Qtd".'</h5>',
+                                        '<h5>'."Total".'</h5>'); 
 
                                     foreach ($produtos_temp as $produto_t):
                                         $id = $produto_t->id; 

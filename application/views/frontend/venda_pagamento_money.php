@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <h1 class="valor-recebido-troco">
                         <!-- <?php echo $valortotal ?> --> 
-                        <input id="vl_troco" name="vl_troco" type="text" class="form-control"  placeholder="0,00" >
+                        <input id="vl_troco" name="vl_troco" type="text" class="form-control"  placeholder="0,00" disabled>
                     </h1>
                   
                 </div>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="form-group col-lg-12 btn-link"> 
-            <div class ="col-lg-6 col-sm-12 btn-finalizar-venda text-center">
+            <div class ="col-lg-6 col-sm-12 btn-finalizar-venda btn-finalizar-venda-money text-center">
                 <a href="<?php echo base_url('venda/finalizar_venda/').'1/'.$id_caixa ?>">
                     <button class="btn btn-success" type="submit" > 
                         Concluir Pagamento

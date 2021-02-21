@@ -12,9 +12,11 @@
             </div>
 
             <div class="col-lg-9 text-center mensagem-sistema">
-            	<?php
-               	$this->load->view('backend/mensagem');
-               ?> 
+            	<h4>
+                    <?php
+                        $this->load->view('frontend/template/mensagem-alert');
+                    ?> 
+                </h4>
             </div>
         </div>
 </div> <!-- End footer bottom area --> 

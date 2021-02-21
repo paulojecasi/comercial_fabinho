@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 ">
                         <div class="form-group text-center text-center avista">
-                            <a href="<?php echo base_url('venda/venda_pagamento/').$id_caixa.'/money' ?>">
+                            <a href="<?php echo base_url('venda/venda_pagamento/').$id_caixa.'/1' ?>">
                                 <img  src="<?php echo base_url('/assets/frontend/img/avista.png') ?>" >
                             </a> 
                             <h4> Dinheiro  </h4>
@@ -56,7 +56,7 @@
 
                         <div class="form-group nomeproduto text-center credito">
                             <a href="<?php echo base_url('venda'); ?>">
-                                <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/credit.png') ?>" >
+                                <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/creditoc.png') ?>" >
                             </a> 
                             <h4> Cartão Crédito </h4>
                         </div>
@@ -72,8 +72,8 @@
                 <div class="row">
                     <div class="col-lg-12 col-sm-12">
                         <div class="form-group nomeproduto text-center crediario">
-                            <a href="<?php echo base_url('venda'); ?>">
-                                <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/crediario.png') ?>" >
+                            <a href="<?php echo base_url('venda/venda_pagamento/').$id_caixa.'/4' ?>">
+                                <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/fiado.png') ?>" >
                             </a> 
                             <h4> Crediário </h4>
                         </div>

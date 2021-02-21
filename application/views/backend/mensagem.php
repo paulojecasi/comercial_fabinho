@@ -4,6 +4,7 @@
       // BLOCO DE MENSAGENS 
       if (!is_null($this->session->userdata('mensagem'))) 
       { 
+
       ?>
           <div class="alert alert-success" role="alert">
               <b> 

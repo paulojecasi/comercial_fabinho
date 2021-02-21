@@ -232,10 +232,10 @@ class Produto_model extends CI_Model
 		$this->db->select("*"); 
 		$this->db->from('produto'); 
 		if ($nomeproduto != ''){
-
+			$this->valida_produtos();
 			$this->db->like('desproduto', $nomeproduto); 
-			$this->db->or_like('codbarras', $nomeproduto);
-			$this->db->or_like('codproduto', $nomeproduto);
+			$this->db->or_where('codproduto', $nomeproduto);
+			$this->db->or_where('codbarras', $nomeproduto);
 
 		}
 

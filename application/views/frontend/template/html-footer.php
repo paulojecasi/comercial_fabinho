@@ -14,6 +14,7 @@
     <script src="<?php echo base_url('/assets/backend/js/myscripts-troco.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-sidenav.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-desconto-acrescimo-prod.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/myscripts-delay-teclas.js') ?>"></script>
 
     <!-- tabelas --> 
     <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"> </script>
@@ -27,10 +28,6 @@
     --> 
      <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script> 
 
-     <!-- alertas
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-     -->
-    <script src="<?php echo base_url('/assets/backend/js/sweetalert.min.js') ?>"></script>
   
 
   </body>
@@ -67,4 +64,35 @@
         });
     });  
 
+    $(document).ready(function(){
+
+        load_data_cli();
+
+        function load_data_cli(nomecliente)
+        {
+
+            $.ajax({
+                url:"<?php echo base_url(); ?>cliente/consultajquery_cliente",
+                method:"POST",
+                data:{nomecliente:nomecliente},
+                success:function(data){
+                    $('#resultado_cli').html(data); 
+                }
+            })
+        } 
+
+        $('#nomecliente').keyup(function(){
+            var nomecliente = $(this).val();
+            if (nomecliente!= '')
+            {
+                load_data_cli(nomecliente);
+            }else 
+            {
+                load_data_cli(); 
+            }
+
+        });
+    });  
+
 </script>
+

@@ -67,6 +67,7 @@ a:hover, a:focus {color: #17a78b}
 
 /* MINHAS ESTILIZAÇÕES */ 
 
+
 div.btn-acesso{
   margin-top: 25px; 
   padding-bottom: 50px; 
@@ -75,9 +76,9 @@ div.btn-acesso{
 div.btn-acesso button{
   background-color: #191970;
   width: 100%;
-  height: 100%;
+  height: 80px;
   border: 3px solid;
-  font-size: 18px; 
+  font-size: 22px; 
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0 rgba(0,0,0,0.4);
   border-radius: 10px; 
 }
@@ -121,8 +122,15 @@ div.panel-vendas2-1{
 
 }
 div.panel-vendas2-1 table{
-  background-color: #F5F5F5; 
+  background-color: #ADD8E6; 
   font-weight: bold; 
+  color: #696969;
+}
+
+div.panel-vendas2-1 table h5{
+  font-weight: bold; 
+  color: #000;
+
 }
 
 div.panel-vendas2-1 table b{
@@ -220,7 +228,7 @@ h3.descricao-prod-caixa{
 }
 
 div.desc-precos-compras h3 {
- color: #5F9EA0;  
+ color: blue;  
  font-weight: bold; 
  font-size: 30px; 
  margin-bottom: -8px;
@@ -379,13 +387,13 @@ div.header-titulo{
 }
 
 div.logo-marca h3{
-  margin-top: 12px;
+  margin-top: 9px;
   margin-bottom: 0px;
   margin-left: 4px; 
   font-size: 20px; 
   color: #FFFF00;
-  border: 8px ridge;
-  border-radius: 20px 0px; 
+  border: 5px ridge;
+  border-radius: 20px 20px; 
   border-color: #FF0000;
 }
 
@@ -520,12 +528,18 @@ div.tipo-de-pagamento-escolha h2{
   color: white;
   margin-top: 0px;
   margin-bottom: 0px; 
-  padding: 20px; 
+  padding: 10px; 
 
 }
 
 div.tipo-de-pagamento-escolha h4{
   color: #FFFF00;
+
+}
+
+div.tipo-de-pagamento-escolha-crediario{
+
+  background-color: #4682B4;
 
 }
 
@@ -553,8 +567,18 @@ h1.valor-recebido-troco input{
   width: 50%;
   height: 60px; 
   pointer-events :none;
-
 }
+
+h1.valor-recebido-troco input:disabled {
+  background: #1C1C1C;
+  font-weight: bold; 
+}
+
+div.btn-finalizar-venda-money{
+  margin-top: 50px; 
+  margin-bottom: 0px; 
+}
+
 div.btn-link {
   margin-top:20px; 
   margin-bottom: 40px;
@@ -586,7 +610,10 @@ h4.btn-excluir {
 div.mensagem-sistema{
   height: 10px;
   margin-top: 2px; 
+}
 
+div.mensagem-sistema h4{
+  margin-top: 0px; 
 }
 
 /* ---- ALTERAÇAO DO ITEM DA VENDA ----*/
@@ -658,6 +685,129 @@ div.panel-btn-aplicar-voltar{
   margin-bottom: 20px; 
 }
 
+/* TELA CONSULTA DE CLIENTE NO CREDIARIO */
+.panel-consulta-cliente{
+  margin-top: 5px; 
+  margin-left: 0px; 
+  margin-right: 0px;
+  margin-bottom: 0px; 
+
+  border: 3px solid; 
+  border-radius: 10px; 
+}
+div.panel-top-cliente{
+  border-bottom: 1px solid; 
+  border-color: white; 
+}
+
+div.valor-venda-crediario h4{
+  margin-bottom: -10px; 
+  color: red; 
+
+}
+
+div.valor-venda-crediario h4 b{
+  margin-bottom: -10px; 
+  color: yellow; 
+  font-size: 20px;
+}
+
+div.cadastro-cliente-crediario h4:after{
+  content: "Cliente não tem CADASTRO?"; 
+}
+
+div.cadastro-cliente-crediario h4{
+  margin-bottom: -10px; 
+  color: #00FFFF; 
+  font-size: 14px; 
+}
+
+div.cadastro-cliente-crediario h4:hover{
+  color: #fff; 
+  font-size: 15px; 
+  font-weight: bold; 
+}
+
+.panel-consulta-cliente label{
+  margin-top: 5px; 
+  color: #fff;
+}
+
+.panel-consulta-cliente div.resultado_cli{
+  margin-top: -25px; 
+}
+
+div.nomecliente input{
+  font-size: 20px;  
+}
+
+div.nomecliente input:focus{
+  background-color: #E0FFFF; 
+}
+
+div.btn-consulta-cliente{
+  text-align: right;  
+}
+
+div.btn-consulta-cliente a button.btn_buscar_cliente{
+  margin-top: -20px; 
+  align-items: right; 
+}
+
+div.btn-finalizar-venda-cliente{
+  margin-bottom: -20px; 
+}
+
+/* TELA CONSULTA DE CLIENTE SELECIONADO NO CREDIARIO- */
+.panel2-consulta-cliente{
+  margin-top: 5px; 
+  margin-left: 0px; 
+  margin-right: 0px;
+
+ /* border: 3px solid;  */
+}
+
+.panel2-consulta-cliente div label{
+  margin-top: 5px;
+  margin-bottom: 0px; 
+  color: #fff;
+}
+
+.panel2-consulta-cliente div input:disabled{
+  color: #4F4F4F;
+  background-color:#C0C0C0; 
+}
+
+.panel2-consulta-cliente div.resultado_cli{
+  margin-top: -25px; 
+}
+
+div.cliente_venda input{
+  font-size: 20px;  
+  margin-bottom: -30px; 
+}
+
+div.cliente_venda input:focus{
+  background-color: #E0FFFF; 
+}
+
+div.cadastro-cliente-aberto h4:after{
+  content: ">> Consultar vendas em aberto"; 
+}
+
+div.cadastro-cliente-aberto h4{
+  margin-top: 30px; 
+  margin-bottom: 0px; 
+  color: yellow; 
+  font-weight: bold; 
+  font-size: 16px; 
+}
+
+div.cadastro-cliente-aberto h4:hover{
+  color: #fff; 
+  font-size: 16px; 
+  font-weight: bold; 
+}
 
 
 

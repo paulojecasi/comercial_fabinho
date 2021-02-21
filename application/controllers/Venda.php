@@ -168,7 +168,7 @@ class Venda extends CI_Controller {
 
 	}
 
-	 function consultajquery()
+	function consultajquery()
 		{
 	 	$output = '';
 	 	$desproduto = ''; 
@@ -192,7 +192,7 @@ class Venda extends CI_Controller {
 	 			</label>
 	 			<label class="barras">
 	 					 Descricao 
-	 			</label>
+	 			</label> 
 	 		</div> 
       <select multiple class="form-control" id="idproduto_res" name="idproduto_res">
 	 		';
@@ -202,10 +202,9 @@ class Venda extends CI_Controller {
 	 				$id = $row->idproduto; 
 
 	 				$output .= '
-			 			<option value="'.$id.'">'.$codigo. 
+			 			<option value="'.$id.'" selected>'.$codigo. 
 			 								$row->desproduto.  
-			 								$row->codbarras."---". 
-			 								$id. 
+			 								$row->codbarras. 
 			 			'</option>'; 
 	 			}
 
@@ -223,6 +222,7 @@ class Venda extends CI_Controller {
  		exit; 
 
 	}
+
 
 	private function totalizador_venda_caixa($id_caixa){
 		$venda = $this->modelvendas->listar_produtos_temp($id_caixa);
@@ -260,9 +260,11 @@ class Venda extends CI_Controller {
 
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
-		$this->load->view('backend/mensagem');
-		if ($tipo_pagamento == "money"){
+		//$this->load->view('backend/mensagem');
+		if ($tipo_pagamento == 1){
 			$this->load->view('frontend/venda_pagamento_money');
+		}elseif ($tipo_pagamento == 4){
+			$this->load->view('frontend/venda_pagamento_crediario');
 		} else {
 
 			$this->load->view('frontend/venda_pagamento');
@@ -275,15 +277,25 @@ class Venda extends CI_Controller {
 
 
 	public function finalizar_venda($tipo_pagamento,$id_caixa){
-
-
-		// Id do Usuario
-		$idusuario = $this->session->userdata('userLogado')->id;
+ 
+		$idusuario 	= $this->session->userdata('userLogado')->id;
 		
-		// dados da venda temporaria
-		$venda = $this->totalizador_venda_caixa($id_caixa); 
-		//var_dump($venda);
-		//exit;
+		$venda 			= $this->totalizador_venda_caixa($id_caixa); 
+
+		$idcliente	= $this->input->post('idcliente');
+
+		echo "===== id cliente ".$idcliente; 
+		exit; 
+
+		if ($tipo_pagamento==4 && !$idcliente){
+
+			$mensagem = "Para concluir a venda CREDIÁRIO, é preciso informar o Cliente ! "; 
+			$this->session->set_userdata('mensagemErro',$mensagem);
+
+			redirect(base_url('venda/venda_pagamento/').$id_caixa.'/4'); 
+	
+		}
+	
 
 		$valor_total = $venda['valortotal']; 
 		$vl_tot_acre = $venda['vl_tot_acre'];
@@ -299,7 +311,6 @@ class Venda extends CI_Controller {
     $valorvenda			=	$valor_total;
     $valoracrescimo = $vl_tot_acre;
     $valordesconto 	= $vl_tot_desc;
-    $idcliente			= 0;
     $tipopagamento  = $tipo_pagamento; // tabela TIPO_PAGAMENTO
 
     if ($this->modelvendas->gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento )){

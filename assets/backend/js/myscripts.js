@@ -10,13 +10,12 @@ $(document).ready(function(){
 	});
 });
 
-/*
-function calcular() {
-  var valor1 = parseInt(document.getElementById('vl_total').value, 10);
-  var valor2 = parseInt(document.getElementById('vl_recebido').value, 10);
-  document.getElementById('vl_troco').value = valor2 - valor1;
-}
-*/
+
+
+
+
+ 
+
 
 
 

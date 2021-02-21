@@ -1,4 +1,4 @@
-    <div class = "col-lg-12 col-sm-12 titulo-tela-tipopag">
+    <div class = "titulo-tela-tipopag">
         <div class="row">
             <div class="col-lg-3 col-sm-12">
                 <div class="form-group">
