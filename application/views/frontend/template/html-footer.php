@@ -14,7 +14,6 @@
     <script src="<?php echo base_url('/assets/backend/js/myscripts-troco.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-sidenav.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-desconto-acrescimo-prod.js') ?>"></script>
-    <script src="<?php echo base_url('/assets/backend/js/myscripts-delay-teclas.js') ?>"></script>
 
     <!-- tabelas --> 
     <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"> </script>

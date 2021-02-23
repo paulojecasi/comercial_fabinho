@@ -1,7 +1,7 @@
 
       <div class = "container"> 
         <div class = "row header-titulo">
-          <div class="logo-marca text-center col-lg-1 col-sm-1">
+          <div class="logo-marca text-center col-lg-1 col-md-1 col-sm-1">
               <?php 
                 $this->load->view('frontend/template/sidebar');
               ?>

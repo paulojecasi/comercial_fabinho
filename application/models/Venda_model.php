@@ -105,6 +105,37 @@ class Venda_model extends CI_Model
 
 	}
 
+	public function atualiza_saldo_crediario($idcliente, $valorvenda){
+
+		$this->db->where('idcliente=', $idcliente);
+		$resultado = $this->db->get('venda_saldo_crediario')->result();
+		if ($resultado){
+
+			foreach ($resultado as $result) {
+				$vl_total_compras = $result->vl_total_compras;
+				$vl_total_pagamento = $result->vl_total_pagamento;
+			}
+
+			$vl_total_compras += $valorvenda;
+			$vl_saldo_devedor = $vl_total_compras - $vl_total_pagamento; 
+
+			$this->db->where('idcliente=', $idcliente);
+			$dados['vl_total_compras'] = $vl_total_compras;
+			$dados['vl_saldo_devedor'] = $vl_saldo_devedor;
+
+			$this->db->update('venda_saldo_crediario', $dados); 
+
+		}else{
+			$dados['idcliente']= $idcliente;
+			$dados['vl_total_compras'] = $valorvenda;
+			$dados['vl_total_pagamento'] =0;
+			$dados['vl_saldo_devedor'] = $valorvenda;
+
+			$this->db->insert('venda_saldo_crediario', $dados); 
+		}
+
+	}
+
 
 
 }

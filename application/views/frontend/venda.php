@@ -58,9 +58,9 @@
 
                                 <?php
 
-                                $id_caixa = 1;  
+                                $idcaixa = 1;  
                               
-                                echo form_open('venda/venda_pagamento/'.$id_caixa);
+                                echo form_open('venda/venda_pagamento/'.$idcaixa);
 
                               
                                     $valor_totalt = reais($valortotal); 

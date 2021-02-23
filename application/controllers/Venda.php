@@ -224,8 +224,8 @@ class Venda extends CI_Controller {
 	}
 
 
-	private function totalizador_venda_caixa($id_caixa){
-		$venda = $this->modelvendas->listar_produtos_temp($id_caixa);
+	private function totalizador_venda_caixa($idcaixa){
+		$venda = $this->modelvendas->listar_produtos_temp($idcaixa);
 		$valor_total =0; 
 		$vl_tot_acre =0;
 		$vl_tot_desc =0; 
@@ -246,17 +246,17 @@ class Venda extends CI_Controller {
     $dados['vl_tot_desc'] =  $vl_tot_desc;
     $dados['vl_tot_acre'] =  $vl_tot_acre;
     $dados['numero_itens'] = $numero_itens;
-    $dados['id_caixa']		= $id_caixa; 
+    $dados['idcaixa']		= $idcaixa; 
     $dados['produtos_temp'] = $venda; 
 
     return $dados; 
 
 	}
 
-	public function venda_pagamento($id_caixa, $tipo_pagamento=null){
+	public function venda_pagamento($idcaixa, $tipo_pagamento=null){
 
 
-    $dados = $this->totalizador_venda_caixa($id_caixa); 
+    $dados = $this->totalizador_venda_caixa($idcaixa); 
 
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
@@ -276,23 +276,21 @@ class Venda extends CI_Controller {
 	}
 
 
-	public function finalizar_venda($tipo_pagamento,$id_caixa){
+	public function finalizar_venda($tipo_pagamento,$idcaixa){
  
 		$idusuario 	= $this->session->userdata('userLogado')->id;
 		
-		$venda 			= $this->totalizador_venda_caixa($id_caixa); 
+		$venda 			= $this->totalizador_venda_caixa($idcaixa); 
 
-		$idcliente	= $this->input->post('idcliente');
+		$idcliente	= $this->input->post('idcliente_crediario');
 
-		echo "===== id cliente ".$idcliente; 
-		exit; 
 
 		if ($tipo_pagamento==4 && !$idcliente){
 
 			$mensagem = "Para concluir a venda CREDIÁRIO, é preciso informar o Cliente ! "; 
 			$this->session->set_userdata('mensagemErro',$mensagem);
 
-			redirect(base_url('venda/venda_pagamento/').$id_caixa.'/4'); 
+			redirect(base_url('venda/venda_pagamento/').$idcaixa.'/4'); 
 	
 		}
 	
@@ -304,7 +302,7 @@ class Venda extends CI_Controller {
 
     // vamos gravar a venda (tabela VENDA)
 
-    $idcaixa 				= $id_caixa; 
+    $idcaixa 				= $idcaixa; 
     $codigousuario 	= $idusuario;
     $situacaovenda 	= 1;  // 1 fechada, 2 cancelada (tabela SITUACAO_VENDA)
     $tipovenda			=	1;  // 1 Padrao, 2 Fiado (tabela TIPO_VENDA)
@@ -323,7 +321,11 @@ class Venda extends CI_Controller {
 
 		}
 
-		$this->finalizar_produto_caixa_temp($id_caixa); 
+		$this->finalizar_produto_caixa_temp($idcaixa); 
+
+		if ($tipo_pagamento==4){
+			$this->atualiza_saldo_crediario($idcliente, $valorvenda); 
+		}
 
 		$mensagem = "Venda Realizada com Sucesso !"; 
 		$this->session->set_userdata('mensagem',$mensagem); 
@@ -331,11 +333,19 @@ class Venda extends CI_Controller {
 
 	} 
 
-	private function finalizar_produto_caixa_temp($id_caixa){
-
-		$this->modelvendas->finalizar_produto_caixa_temp($id_caixa); 
+	private function finalizar_produto_caixa_temp($idcaixa)
+	{
+		$this->modelvendas->finalizar_produto_caixa_temp($idcaixa); 
 
 	}
+
+	private function atualiza_saldo_crediario($idcliente, $valorvenda)
+	{
+		$this->modelvendas->atualiza_saldo_crediario($idcliente, $valorvenda);
+
+	}
+
+	
 
 
 }

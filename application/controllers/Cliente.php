@@ -12,17 +12,110 @@ class Cliente extends CI_Controller {
 
 	}
 
-	public function consulta_cliente()
+	public function manutencao_clientes(){
+
+		$idcaixa =1; 
+		$dados['idcaixa'] = $idcaixa; 
+
+		$this->load->view('frontend/template/html-header',$dados);
+		$this->load->view('frontend/template/header');
+		//$this->load->view('backend/mensagem');
+		$this->load->view('frontend/cliente');
+		$this->load->view('frontend/template/footer');
+		$this->load->view('frontend/template/html-footer');
+
+	}
+
+	public function cadastro_cliente($localchamado=null){
+		$idcaixa =1;
+		$dados['localchamado'] = $localchamado; 
+		$dados['idcaixa'] = $idcaixa;
+		$this->load->view('frontend/template/html-header',$dados);
+		$this->load->view('frontend/template/header');
+		//$this->load->view('backend/mensagem');
+		$this->load->view('frontend/cliente_cadastro');
+		$this->load->view('frontend/template/footer');
+		$this->load->view('frontend/template/html-footer');
+	}
+
+
+	public function inserir($localchamado=null)
+	{
+		$idcaixa =1;
+		// validar form
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules(
+		'nome', 'Nome do Cliente','required|min_length[10]'); 
+		$this->form_validation->set_rules(
+		'cpf', 'C P F','min_length[11]|is_unique[cliente.cpf]'); 
+		$this->form_validation->set_rules(
+		'endereco', 'Endereço','min_length[8]'); 
+		$this->form_validation->set_rules(
+		'pontoreferencia', 'Ponto de Referencia','min_length[8]'); 
+
+
+		if ($this->form_validation->run() == FALSE){
+
+				$this->cadastro_cliente($localchamado);    
+
+		} else {
+
+			$nome 			= $this->input->post('nome');
+			$apelido 		= $this->input->post('apelido');
+			$cpf 				= $this->input->post('cpf');
+			$endereco 	= $this->input->post('endereco');
+			$pontoreferencia= $this->input->post('pontoreferencia');
+
+			if ($this->modelcliente->adiciona_cliente($nome,$apelido,$cpf,$endereco,$pontoreferencia)){
+
+				$idcliente_cadastrado = $this->db->insert_id(); // pega ultimo id inserido 
+				$mensagem ="Cliente Adicionado com Sucesso !"; 
+				$this->session->set_userdata('mensagem',$mensagem); 
+
+				$this->session->set_userdata('idcliente',$idcliente_cadastrado);
+				$this->session->set_userdata('nome',$nome);
+				$this->session->set_userdata('apelido',$apelido);
+				$this->session->set_userdata('endereco',$endereco);
+				$this->session->set_userdata('pontoreferencia',$pontoreferencia);
+				$this->session->set_userdata('cpf',$cpf);
+
+				if ($localchamado == "crediario"){
+
+					redirect(base_url('venda/venda_pagamento/').$idcaixa.'/4');
+
+				} else {
+					
+					$this->manutencao_clientes(); 
+
+				}
+				
+			} else {
+
+				$mensagem = "Houve um erro ao adicionar o Cliente !"; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+
+			}
+
+		}
+	}
+
+	public function consulta_cliente($localchamado=null)
 	{
 		$idcliente = $this->input->post('idclientej');
+		$idcliente = md5($idcliente); 
 		$idcaixa = $this->input->post('idcaixa'); 
 
 		if (!$idcliente){
 			$mensagem = "Cliente Invalido! Selecione ao menos um cliente para buscar"; 
 			$this->session->set_userdata('mensagemErro',$mensagem);
 
-			redirect(base_url('venda/venda_pagamento/').$idcaixa.'/4'); 
+			if ($localchamado == "cliente"){
+				redirect(base_url('cliente/manutencao_clientes/').$idcaixa);
+			}else{
+				redirect(base_url('venda/venda_pagamento/').$idcaixa.'/4');
+			} 
 		}
+		
 
 		$cliente_consultado = $this->modelcliente->consulta_cliente($idcliente);
 		if ($cliente_consultado){
@@ -31,13 +124,94 @@ class Cliente extends CI_Controller {
 				$this->session->set_userdata('nome',$clicons->nome);
 				$this->session->set_userdata('apelido',$clicons->apelido);
 				$this->session->set_userdata('endereco',$clicons->endereco);
+				$this->session->set_userdata('pontoreferencia',$clicons->pontoreferencia);
 				$this->session->set_userdata('cpf',$clicons->cpf);
 			}
 		}
-		redirect(base_url('venda/venda_pagamento/').$idcaixa.'/4');
 
-	
+		$saldo_crediario = $this->consulta_saldo_crediario($idcliente); 
+
+		if ($localchamado == "cliente"){
+			redirect(base_url('cliente/manutencao_clientes/').$idcaixa);
+		}else{
+			redirect(base_url('venda/venda_pagamento/').$idcaixa.'/4');
+		}
+		
 	}
+
+	public function altera_cliente($idcliente){
+		$idcaixa =1;
+		$dados['idcaixa'] = $idcaixa;
+		$dados['cliente_consultado'] = $this->modelcliente->consulta_cliente($idcliente);
+
+		$this->load->view('frontend/template/html-header',$dados);
+		$this->load->view('frontend/template/header');
+		//$this->load->view('backend/mensagem');
+		$this->load->view('frontend/cliente_altera');
+		$this->load->view('frontend/template/footer');
+		$this->load->view('frontend/template/html-footer');
+	}
+
+	public function confirma_alteracao($idcliente)
+	{
+		$idcaixa =1;
+		// validar form
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules(
+		'nome', 'Nome do Cliente','required|min_length[10]'); 
+		$this->form_validation->set_rules(
+		'cpf', 'C P F','min_length[11]'); 
+		$this->form_validation->set_rules(
+		'endereco', 'Endereço','min_length[8]'); 
+		$this->form_validation->set_rules(
+		'pontoreferencia', 'Ponto de Referencia','min_length[8]'); 
+
+		if ($this->form_validation->run() == FALSE){
+
+				$this->altera_cliente($idcliente);    
+
+		} else {
+
+			$nome 			= $this->input->post('nome');
+			$apelido 		= $this->input->post('apelido');
+			$cpf 				= $this->input->post('cpf');
+			$endereco 	= $this->input->post('endereco');
+			$pontoreferencia= $this->input->post('pontoreferencia');
+
+			if ($this->modelcliente->confirma_alteracao($idcliente,$nome,$apelido,$cpf,$endereco,$pontoreferencia)){
+
+
+				$mensagem ="Dados do Cliente Alterado com Sucesso !"; 
+				$this->session->set_userdata('mensagem',$mensagem); 
+
+				$this->session->set_userdata('idcliente',$idcliente);
+				$this->session->set_userdata('nome',$nome);
+				$this->session->set_userdata('apelido',$apelido);
+				$this->session->set_userdata('endereco',$endereco);
+				$this->session->set_userdata('pontoreferencia',$pontoreferencia);
+				$this->session->set_userdata('cpf',$cpf);
+		
+				$this->manutencao_clientes(); 
+				
+			} else {
+
+				$mensagem = "Houve um erro ao Alterar Dados do Cliente !"; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+
+			}
+
+		}
+	}
+
+	private function consulta_saldo_crediario($idcliente)
+	{
+		$saldo_dev = $this->modelcliente->consulta_saldo_crediario($idcliente);
+		foreach ($saldo_dev as $saldo_cred) {
+			$this->session->set_userdata('vl_saldo_devedor',$saldo_cred->vl_saldo_devedor); 
+		}
+
+	}
+
 
 	function consultajquery_cliente()
 		{

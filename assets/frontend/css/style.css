@@ -67,6 +67,39 @@ a:hover, a:focus {color: #17a78b}
 
 /* MINHAS ESTILIZAÇÕES */ 
 
+/* side-bar*/ 
+
+div.menu-vendas{
+  margin-top: 5px; 
+  text-align: left;  
+
+}
+div a.nav-link{
+  font-size: 24px; 
+}
+
+div a.nav-link:hover{
+ color: #FFFF00;
+}
+
+div#menulinks{
+
+}
+
+div#menulinks a{
+  font-size: 15px; 
+  color: white;
+}
+
+div#menulinks a i{
+  font-size: 17px; 
+  color: #FFFF00;
+}
+
+div#menulinks a:hover{
+  color: #FFFF00;
+}
+
 
 div.btn-acesso{
   margin-top: 25px; 
@@ -543,6 +576,12 @@ div.tipo-de-pagamento-escolha-crediario{
 
 }
 
+div.tipo-de-pagamento-escolha-cliente{
+
+  background-color: #363636;
+
+}
+
 div.link-voltar{
   margin-top: 20px; 
   margin-bottom: 0px; 
@@ -758,6 +797,7 @@ div.btn-finalizar-venda-cliente{
   margin-bottom: -20px; 
 }
 
+
 /* TELA CONSULTA DE CLIENTE SELECIONADO NO CREDIARIO- */
 .panel2-consulta-cliente{
   margin-top: 5px; 
@@ -787,6 +827,12 @@ div.cliente_venda input{
   margin-bottom: -30px; 
 }
 
+div.cliente_venda input#cliente_saldo{
+  font-size: 23px;  
+  color: red;
+  background-color: black; 
+}
+
 div.cliente_venda input:focus{
   background-color: #E0FFFF; 
 }
@@ -807,6 +853,46 @@ div.cadastro-cliente-aberto h4:hover{
   color: #fff; 
   font-size: 16px; 
   font-weight: bold; 
+}
+
+/* CADASTRO DE CLIENTES TELA INICIAL */
+
+div.tela-manutencao-cli{
+  background-color: #708090;
+}
+
+div.tela-manutencao-cli input{
+  text-transform: uppercase; 
+}
+
+div.btn-add-cliente button{
+  background-color: #191970;  
+}
+
+div.btn-alterar-cliente button{
+  background-color: #0000FF;  
+}
+
+div.btn-add-cliente button:hover, div.btn-alterar-cliente button:hover{
+  background-color: #4169E1;
+  border-color: blue; 
+} 
+
+div.link-voltar-tela-inicio{
+  margin-top: 25px;
+}
+
+div.link-voltar-tela-inicio a{
+  color: #fff;
+}
+
+div.link-voltar-tela-inicio a:hover{
+  color: yellow;
+}
+
+div.link-voltar-tela-inicio a i {
+  color: yellow;
+  font-size: 25px; 
 }
 
 

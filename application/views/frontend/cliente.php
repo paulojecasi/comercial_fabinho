@@ -1,7 +1,7 @@
 <div class = "row">
 
-    <div class = "text-center tipo-de-pagamento-escolha tipo-de-pagamento-escolha-crediario">
-        <h2> Crediário </h2>
+    <div class = "text-center tipo-de-pagamento-escolha tipo-de-pagamento-escolha-cliente">
+        <h2> Cadastro e Manutenção de Clientes </h2>
     </div>
 
     <?php
@@ -9,7 +9,7 @@
     //$this->load->view('frontend/template/valor-venda');
     ?>
 
-    <div class = "col-lg-12 col-sm-12 titulo-tela-tipopag2">
+    <div class = "col-lg-12 col-sm-12 tela-manutencao-cli">
 
         <?php
         // aqui vamos vericar os erros de validação
@@ -17,41 +17,30 @@
         
         // vamos abrir o formulário,
         
-        echo form_open('cliente/consulta_cliente');
+        echo form_open('cliente/consulta_cliente/cliente');
 
         $idcliente  =  $this->session->userdata('idcliente');
         $nome       =  $this->session->userdata('nome');
         $apelido    =  $this->session->userdata('apelido');
         $cpf        =  $this->session->userdata('cpf');
         $endereco   =  $this->session->userdata('endereco');
+        $pontoreferencia   =  $this->session->userdata('pontoreferencia');
         $vl_saldo   = $this->session->userdata('vl_saldo_devedor');
+
        // encerrar a secoes 
         $this->session->unset_userdata('idcliente');
         $this->session->unset_userdata('nome'); 
         $this->session->unset_userdata('apelido'); 
         $this->session->unset_userdata('cpf'); 
         $this->session->unset_userdata('endereco'); 
+        $this->session->unset_userdata('pontoreferencia');
         $this->session->unset_userdata('vl_saldo_devedor');
 
         
         ?>
         
-        <div class="panel-consulta-cliente col-lg-6">
-            <div class= "panel-top-cliente col-lg-12">
-                <div class="form-group valor-venda-crediario col-lg-6">
-                    <h4>
-                        Valor da Venda R$: <b>  <?php echo reais($valortotal) ?> </b>
-                    </h4>
-                </div>
-                <div class="form-group cadastro-cliente-crediario col-lg-6 text-center">
-                    <a href = "<?php echo base_url('cliente/cadastro_cliente/crediario') ?>">
-                        <h4>
-                             <!-- texto está no AFTER do CSS --> 
-                        </h4>
-                    </a>
-                </div>
-            </div>
-
+        <div class="panel-consulta-cliente col-lg-5">
+           
             <div class="form-group nomecliente col-lg-12">
                 <label for="nomecliente"> Informe o Cliente </label>
                 <input type="text" id="nomecliente" name="nomecliente" class="form-control" autofocos required placeholder="Digite Codigo do Cliente, CPF ou Nome"  autofocus="true" />
@@ -81,7 +70,7 @@
         if ($idcliente):
             ?>
       
-            <div class="panel2-consulta-cliente col-lg-6">
+            <div class="panel2-consulta-cliente col-lg-7">
                 <div class="form-group cliente_venda col-lg-10">
                     <label for="cliente_venda"> Cliente </label>
                     <input type="text" id="cliente_venda" name="cliente_venda" class="form-control" value = "<?php echo $nome; ?>" disabled />
@@ -111,6 +100,11 @@
                     <input type="text" id="cliente_ende" name="cliente_ende" class="form-control" value = "<?php echo $endereco; ?>"  disabled />
                     <br> 
                 </div>
+                <div class="form-group cliente_venda col-lg-12">
+                    <label for="cliente_ende"> Ponto Referencia </label>
+                    <input type="text" id="pontoreferencia" name="pontoreferencia" class="form-control" value = "<?php echo $pontoreferencia; ?>"  disabled />
+                    <br> 
+                </div>
 
                 <div class="form-group cliente_venda col-lg-6">
                     <label for="cliente_saldo"> Saldo Devedor </label>
@@ -133,37 +127,46 @@
         ?>
  
     
-
         <?php 
         echo form_close();
-
-
-        echo form_open('venda/finalizar_venda/4/'.$idcaixa);
         ?>
-       
-       <input type="hidden" id="idcliente_crediario" name="idcliente_crediario" value = "<?php echo $idcliente ?>"/>   
-      
+             
 
         <div class="form-group col-lg-12 btn-link"> 
-            <div class ="col-lg-6 col-sm-12 btn-finalizar-venda  btn-finalizar-venda-cliente text-center">
-                <a href="">
-                    <button class="btn btn-success" type="submit" > 
-                        Concluir Venda Crediário
+            
+            <div class ="col-lg-4 col-sm-12 btn-finalizar-venda  btn-add-cliente text-center">
+                <a href="<?php echo base_url('cliente/cadastro_cliente'); ?> ">
+                    <button class="btn btn-success" type="submit"  > 
+                        Cadastrar novo Cliente
                     </button> 
                 </a>
             </div>
 
-            <div class ="col-lg-6 text-center link-voltar">
-                <a href="<?php echo base_url('venda/venda_pagamento/').$idcaixa ?>">
-                     <?php echo img(base_url('assets/frontend/img/voltar2.png')); ?>
-                        Voltar para Escolher Pagamento
+
+            <div class ="col-lg-4 text-center link-voltar link-voltar-tela-inicio">
+                <a href="<?php echo base_url('venda') ?>">
+                       <i class="fa fa-home" aria-hidden="true"></i> Tela Inicial
                 </a>
             </div>
-        </div>
 
-        <?php 
-        echo form_close();
-        ?>
+            <?php
+
+            if ($idcliente):
+                ?>
+                <div class ="col-lg-4 col-sm-12 btn-finalizar-venda  btn-alterar-cliente text-center">
+                    <a href="<?php echo base_url('cliente/altera_cliente/').md5($idcliente); ?>">
+                        <button class="btn btn-success" type="submit" > 
+                            Alterar dados do Cliente
+                        </button> 
+                    </a>
+                </div>
+
+                <?php
+            endif;
+
+            ?>
+  
+        </div>
     </div>
  
 

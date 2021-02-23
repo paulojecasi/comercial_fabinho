@@ -54,7 +54,7 @@
 
         <div class="form-group col-lg-12 btn-link"> 
             <div class ="col-lg-6 col-sm-12 btn-finalizar-venda btn-finalizar-venda-money text-center">
-                <a href="<?php echo base_url('venda/finalizar_venda/').'1/'.$id_caixa ?>">
+                <a href="<?php echo base_url('venda/finalizar_venda/').'1/'.$idcaixa ?>">
                     <button class="btn btn-success" type="submit" > 
                         Concluir Pagamento
                     </button> 
@@ -62,7 +62,7 @@
             </div>
 
             <div class ="col-lg-6 text-center link-voltar">
-                <a href="<?php echo base_url('venda/venda_pagamento/').$id_caixa ?>">
+                <a href="<?php echo base_url('venda/venda_pagamento/').$idcaixa ?>">
                      <?php echo img(base_url('assets/frontend/img/voltar2.png')); ?>
                         Voltar para Escolher Pagamento
                 </a>

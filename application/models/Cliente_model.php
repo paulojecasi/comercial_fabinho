@@ -34,8 +34,25 @@ class Cliente_model extends CI_Model
 
 	public function consulta_cliente($idcliente)
 	{
-		$this->db->where('idcliente=', $idcliente); 
+		$this->db->where('md5(idcliente)=', $idcliente); 
 		return $this->db->get('cliente')->result(); 
+	}
+
+	public function consulta_saldo_crediario($idcliente)
+	{
+		$this->db->where('md5(idcliente)=', $idcliente);
+		return $this->db->get('venda_saldo_crediario')->result(); 
+	}
+
+	public function adiciona_cliente($nome,$apelido,$cpf,$endereco,$pontoreferencia)
+	{
+		$dados['nome'] 			= $nome;
+		$dados['apelido'] 	= $apelido;
+		$dados['cpf'] 			= $cpf;
+		$dados['endereco'] 	= $endereco;
+		$dados['pontoreferencia']=$pontoreferencia;
+
+		return $this->db->insert('cliente', $dados); 
 	}
 
 
