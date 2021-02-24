@@ -47,7 +47,7 @@ class Produto_model extends CI_Model
 		$this->db->where('md5(idproduto)=', $id); 
 		$return = $this->db->get('produto')->result(); 
 
-		// vou precisar de algumas consulta que não aceitara o MD5 entao... PJCS
+		// vou precisar de algumas consultas que não aceitaram o MD5 entao... PJCS
 		if ($return){
 			return $return;
 		}else {

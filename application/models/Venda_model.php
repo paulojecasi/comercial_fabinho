@@ -95,6 +95,38 @@ class Venda_model extends CI_Model
 		return $this->db->insert('venda',$dados); 
 	}
 
+
+	public function gravar_venda_item($idcaixa, $idvenda)
+	{
+		// vamos pegar os items da tab PRODUTO_CAIXA_TEMP e gravar na tab VENDA_ITEM
+		$this->db->where('idcaixa=',$idcaixa);
+		$this->db->where('situacao=',0); 
+		$resultado_temp = $this->db->get('produto_caixa_temp')->result(); 
+
+		if ($resultado_temp)
+		{
+			foreach ($resultado_temp as $produto_c_t) {
+				$dados['idvenda']					= $idvenda; 
+				$dados['idproduto'] 			= $produto_c_t->idproduto;
+				$dados['codproduto']			= $produto_c_t->codproduto;
+				$dados['valorunitario']	= $produto_c_t->vlpreco;
+				$dados['quantidadeitens']= $produto_c_t->quantidadeitens;
+				$dados['valortotal']			= $produto_c_t->valortotal;
+				$dados['valordesconto']	=	$produto_c_t->valordesconto;
+				$dados['valoracrescimo']	= $produto_c_t->valoracrescimo;	
+
+				 // vamos gravar o item 
+				 $this->db->insert('vendaitem',$dados);
+			}
+
+			// vamos selecionar os itens gravados para retornat
+			$this->db->where('idvenda=',$idvenda);
+			return $this->db->get('vendaitem')->result(); 
+
+		}
+
+	}
+
 	public function finalizar_produto_caixa_temp($idcaixa){
 
 		$dados['situacao'] =1;

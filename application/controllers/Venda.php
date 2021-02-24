@@ -16,6 +16,7 @@ class Venda extends CI_Controller {
 		$this->load->model('produto_model','modelprodutos'); 
 		$this->load->model('picklist_model','model_tipo_pagamento');
 		$this->load->model('venda_model','modelvendas');
+		$this->load->model('estoque_model','modelestoque'); 
 		
 		$this->produtos = $this->modelprodutos->listar_produtos(); 
 		$this->tipo_pagamento = $this->model_tipo_pagamento->lista_tipos_pagamentos(); 
@@ -51,13 +52,30 @@ class Venda extends CI_Controller {
 	public function listar_produto($idproduto){
 
 	
-		if ($idproduto == "----%20Nenhum%20item%20informado%20----"){
-			$this->index(); 
+		if ($idproduto == "----%20Nenhum%20item%20informado%20----")
+		{
+			redirect(base_url('venda'));
 		}
 
 		$this->load->library('table'); 
 
 		$produto_temp = $this->modelprodutos->listar_produto($idproduto); 
+			
+		// vamos verificar se o produto tem SALDO
+		$saldo_atual = $this->modelestoque->consulta_estoque_saldo($idproduto); 
+
+		if ($saldo_atual < 1)
+		{
+				// vamos pegar o nome do produto para mostrar na tela
+				foreach ($produto_temp as $prod_saldo) {
+					$prod_nome = $prod_saldo->desproduto;
+					$prod_codigo = $prod_saldo->codproduto;  
+				}
+
+				$mensagem = 'Produto < '.$prod_codigo.' - '.$prod_nome.' > nao tem SALDO. Verifique o Estoque!'; 
+				$this->session->set_userdata('mensagemErro',$mensagem);
+				redirect(base_url('venda'));
+		}
 
 		if ($this->session->userdata('solicitante') == "venda"){
 				// --- aqui, vamos adicionar temporariamente o item da vendas
@@ -168,61 +186,6 @@ class Venda extends CI_Controller {
 
 	}
 
-	function consultajquery()
-		{
-	 	$output = '';
-	 	$desproduto = ''; 
-
- 		if ($this->input->post('nomeproduto'))
- 		{
-	 		$desproduto = $this->input->post('nomeproduto'); 
-	 	}
-
-	 	$dados = $this->modelprodutos->consultajquery($desproduto);
-
- 		$output .= '
- 		<div class= "form-group picklist-prod">
-
- 			<div class picklist-tit> 
-	 			<label class= "codigo">
-	 					Codigo  
-	 			</label>
-	 			<label class= "descricao">
-	 					Codido de Barras 
-	 			</label>
-	 			<label class="barras">
-	 					 Descricao 
-	 			</label> 
-	 		</div> 
-      <select multiple class="form-control" id="idproduto_res" name="idproduto_res">
-	 		';
-	 		if ($dados->num_rows() > 0){
-	 			foreach ($dados->result() as $row) {
-	 				$codigo = str_pad($row->codproduto,30);
-	 				$id = $row->idproduto; 
-
-	 				$output .= '
-			 			<option value="'.$id.'" selected>'.$codigo. 
-			 								$row->desproduto.  
-			 								$row->codbarras. 
-			 			'</option>'; 
-	 			}
-
-	 		}
-	 		else {
-	 			$output .= '
-	 			<option>---- Nenhum item informado ---- </option>';
-	 		}
-
-	 		$output .= '
- 			</select>
- 		</div>'; 
-
- 		echo $output;
- 		exit; 
-
-	}
-
 
 	private function totalizador_venda_caixa($idcaixa){
 		$venda = $this->modelvendas->listar_produtos_temp($idcaixa);
@@ -277,6 +240,10 @@ class Venda extends CI_Controller {
 
 
 	public function finalizar_venda($tipo_pagamento,$idcaixa){
+
+		$nrnota =0 ; 
+
+		$idestoque_entrada =0; 
  
 		$idusuario 	= $this->session->userdata('userLogado')->id;
 		
@@ -294,7 +261,6 @@ class Venda extends CI_Controller {
 	
 		}
 	
-
 		$valor_total = $venda['valortotal']; 
 		$vl_tot_acre = $venda['vl_tot_acre'];
 		$vl_tot_desc = $venda['vl_tot_desc'];
@@ -311,26 +277,81 @@ class Venda extends CI_Controller {
     $valordesconto 	= $vl_tot_desc;
     $tipopagamento  = $tipo_pagamento; // tabela TIPO_PAGAMENTO
 
-    if ($this->modelvendas->gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento )){
+    // vamos iniciar a transação 
+    $this->db->trans_begin();
+
+	    if ($this->modelvendas->gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento ))
+	    {
+
+	    	$idvenda = $this->db->insert_id();
+				
+			} else {
+
+				$mensagem = "Houve um erro ao Gravar a Venda (Tabela VENDA)"; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+				$this->db->trans_rollback(); 
+				redirect(base_url('venda')); 
+
+			}
+
+			// vamos gravar os itens da venda (tabela VENDAITEM)
+
+			$itensvenda = $this->modelvendas->gravar_venda_item($idcaixa, $idvenda);
+
+			if (!$itensvenda) 
+			{
+				$mensagem = "Houve um erro ao Gravar a Venda (Tabela VENDA_ITEM)"; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+				$this->db->trans_rollback(); 
+				redirect(base_url('venda'));
+			}
+
+
+			// vamos dar baixa no estoque 
+
+			$tipomovimento =3; //saida do estoque por venda
+
+			foreach ($itensvenda as $item_venda) 
+			{
+
+				$idproduto = $item_venda->idproduto;
+				$quantidade = $item_venda->quantidadeitens;
+
+				$baixa_estoque = $this->modelestoque->movimento_estoque($nrnota,$idproduto,$idestoque_entrada,$tipomovimento, $quantidade, $idvenda); 
+
+				if (!$baixa_estoque =="ok")
+				{
+					$mensagem = "Houve um erro na baixa de Estoque (Tabela ESTOQUE_MOVIMENTO ou ESTOQUE_SALDO)"; 
+					$this->session->set_userdata('mensagemErro',$mensagem); 
+					$this->db->trans_rollback(); 
+					redirect(base_url('venda'));
+
+				}
+
+			}
+
+			$this->finalizar_produto_caixa_temp($idcaixa); 
+
+			if ($tipo_pagamento==4){
+				$this->atualiza_saldo_crediario($idcliente, $valorvenda); 
+			}
+
 			
-		} else {
-
-			$mensagem = "Houve um erro ao Gravar a Venda (Tabela VENDA)"; 
-			$this->session->set_userdata('mensagemErro',$mensagem); 
-			$this->index();  
-
+		if  ($this->db->trans_status()===FALSE ) 
+		{ 
+			  $this->db->trans_rollback(); 
+			  $mensagem = "Houve um ERRO de TRANSAÇÃO! (venda/finalizar_venda) "; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+				redirect(base_url('venda'));
+		} 
+		else 
+		{ 
+			$this->db->trans_commit(); 
+			$mensagem = "Venda Realizada com Sucesso !"; 
+			$this->session->set_userdata('mensagem',$mensagem); 
+			redirect(base_url('venda'));
+	
 		}
-
-		$this->finalizar_produto_caixa_temp($idcaixa); 
-
-		if ($tipo_pagamento==4){
-			$this->atualiza_saldo_crediario($idcliente, $valorvenda); 
-		}
-
-		$mensagem = "Venda Realizada com Sucesso !"; 
-		$this->session->set_userdata('mensagem',$mensagem); 
-		redirect(base_url('venda'));
-
 	} 
 
 	private function finalizar_produto_caixa_temp($idcaixa)
@@ -342,6 +363,61 @@ class Venda extends CI_Controller {
 	private function atualiza_saldo_crediario($idcliente, $valorvenda)
 	{
 		$this->modelvendas->atualiza_saldo_crediario($idcliente, $valorvenda);
+
+	}
+
+	function consultajquery()
+	{
+	 	$output = '';
+	 	$desproduto = ''; 
+
+ 		if ($this->input->post('nomeproduto'))
+ 		{
+	 		$desproduto = $this->input->post('nomeproduto'); 
+	 	}
+
+	 	$dados = $this->modelprodutos->consultajquery($desproduto);
+
+ 		$output .= '
+ 		<div class= "form-group picklist-prod">
+
+ 			<div class picklist-tit> 
+	 			<label class= "codigo">
+	 					Codigo  
+	 			</label>
+	 			<label class= "descricao">
+	 					Codido de Barras 
+	 			</label>
+	 			<label class="barras">
+	 					 Descricao 
+	 			</label> 
+	 		</div> 
+      <select multiple class="form-control" id="idproduto_res" name="idproduto_res">
+	 		';
+	 		if ($dados->num_rows() > 0){
+	 			foreach ($dados->result() as $row) {
+	 				$codigo = str_pad($row->codproduto,30);
+	 				$id = $row->idproduto; 
+
+	 				$output .= '
+			 			<option value="'.$id.'" selected>'.$codigo. 
+			 								$row->desproduto.  
+			 								$row->codbarras. 
+			 			'</option>'; 
+	 			}
+
+	 		}
+	 		else {
+	 			$output .= '
+	 			<option>---- Nenhum item informado ---- </option>';
+	 		}
+
+	 		$output .= '
+ 			</select>
+ 		</div>'; 
+
+ 		echo $output;
+ 		exit; 
 
 	}
 

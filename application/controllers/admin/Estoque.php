@@ -162,7 +162,6 @@ class Estoque extends CI_Controller {
 			$datafinal = $this->input->post('datafinal'); 
 		} 
 
-
 		if ($idcodproduto && $iddesproduto 
 				||
 				$idcodproduto && $idcodbarras 
@@ -203,6 +202,9 @@ class Estoque extends CI_Controller {
 			}else {
 				$idproduto = $idcodbarras;
 			}
+
+			//$idproduto = md5($idproduto);
+
 			// vamos verficar se o item ja foi gravado 
 			if ($this->modelestoque->verifica_item_existente($idproduto,$idestoque_entrada)){
 
@@ -223,7 +225,7 @@ class Estoque extends CI_Controller {
 				} elseif ($idsolicitante == "consulta-estoque"){
 						$this->estoque_consulta($idproduto,$datainicial,$datafinal); 
 				}	elseif ($idsolicitante == "venda"){
-						redirect(base_url('venda/listar_produto/'.$idproduto)); 
+						redirect(base_url('venda/listar_produto/'.md5($idproduto))); 
 				}
 			} 
 			
@@ -295,6 +297,11 @@ class Estoque extends CI_Controller {
 				$mensagem ="Erro ao Cancelar o Item, Verifique!";
 				$this->session->set_userdata('mensagemErro',$mensagem);
 		} 
+	}
+
+	public function saida_item_estoque($idproduto, $localchamada=null)
+	{
+
 	}
 
 

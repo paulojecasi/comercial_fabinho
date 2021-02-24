@@ -55,5 +55,18 @@ class Cliente_model extends CI_Model
 		return $this->db->insert('cliente', $dados); 
 	}
 
+	public function confirma_alteracao($idcliente, $nome,$apelido,$cpf,$endereco,$pontoreferencia)
+	{
+		$dados['nome'] 			= $nome;
+		$dados['apelido'] 	= $apelido;
+		$dados['cpf'] 			= $cpf;
+		$dados['endereco'] 	= $endereco;
+		$dados['pontoreferencia']=$pontoreferencia;
+
+		$this->db->where('md5(idcliente)=',$idcliente); 
+		return $this->db->update('cliente', $dados); 
+	}
+
+
 
 }

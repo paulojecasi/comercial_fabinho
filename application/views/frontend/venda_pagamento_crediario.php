@@ -146,11 +146,19 @@
 
         <div class="form-group col-lg-12 btn-link"> 
             <div class ="col-lg-6 col-sm-12 btn-finalizar-venda  btn-finalizar-venda-cliente text-center">
-                <a href="">
-                    <button class="btn btn-success" type="submit" > 
-                        Concluir Venda Crediário
-                    </button> 
-                </a>
+                <?php
+                if ($idcliente):
+                    ?>
+                    <a href="">
+                        <button class="btn btn-success" type="submit" > 
+                            Concluir Venda Crediário
+                        </button> 
+                    </a>
+                    <?php
+                endif;
+                ?>
+
+
             </div>
 
             <div class ="col-lg-6 text-center link-voltar">

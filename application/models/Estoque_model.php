@@ -94,16 +94,29 @@ class Estoque_model extends CI_Model {
 		} 
 	}
 
-	public function movimento_estoque($nrnota,$idproduto,$idestoque_entrada,$tipomovimento,$quantidade){
+	public function movimento_estoque($nrnota=null, $idproduto,$idestoque_entrada=null,$tipomovimento,$quantidade,$idvenda=null){
 
 		// vamos consultar o saldo atual do produto
 		$saldo_atual = $this->consulta_estoque_saldo(md5($idproduto)); 
 		
-		$dados['nrnota']						= $nrnota; 
-		$dados['idproduto'] 				= $idproduto; 
-		$dados['idestoque_entrada'] = $idestoque_entrada;
-		$dados['tipomovimento']			= $tipomovimento;
-		$dados['quantidade']				= $quantidade; 
+		if ($nrnota)
+		{
+			$dados['nrnota']						= $nrnota; 
+			$dados['idproduto'] 				= $idproduto; 
+			$dados['idestoque_entrada'] = $idestoque_entrada;
+			$dados['tipomovimento']			= $tipomovimento;
+			$dados['quantidade']				= $quantidade; 
+		} 
+		else 
+		{
+			$dados['nrnota']						= $nrnota; 
+			$dados['idproduto'] 				= $idproduto; 
+			$dados['idestoque_entrada'] = $idestoque_entrada;
+			$dados['tipomovimento']			= $tipomovimento;
+			$dados['quantidade']				= $quantidade;
+			$dados['idvenda']						= $idvenda; 
+
+		}
 
 		if ($tipomovimento ==1 ||$tipomovimento ==2)	{
 			// ENTTRADAS
@@ -113,9 +126,14 @@ class Estoque_model extends CI_Model {
 				$dados['saldo']							= $saldo_atual - $quantidade;
 		}
 
-		$this->db->insert('estoque_movimento',$dados); 
-		$this->atualiza_estoque_saldo($idproduto, $quantidade, $tipomovimento); 
-	
+		if ($this->db->insert('estoque_movimento',$dados))
+		{
+			if ($this->atualiza_estoque_saldo($idproduto, $quantidade, $tipomovimento))
+			{
+				return "OK"; 
+
+			}
+		}
 	}
 
 
@@ -139,7 +157,7 @@ class Estoque_model extends CI_Model {
 				"qtsaldo"	=> $saldo_atualizado
 			); 
 			$this->db->where('idproduto=',$idproduto); 
-			$this->db->update('estoque_saldo',$dados); 
+			return $this->db->update('estoque_saldo',$dados); 
 
 		}else{
 			// se nao existir, vamos criar - insert 

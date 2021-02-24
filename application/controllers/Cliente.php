@@ -68,16 +68,11 @@ class Cliente extends CI_Controller {
 
 			if ($this->modelcliente->adiciona_cliente($nome,$apelido,$cpf,$endereco,$pontoreferencia)){
 
-				$idcliente_cadastrado = $this->db->insert_id(); // pega ultimo id inserido 
+				$idcliente = $this->db->insert_id(); // pega ultimo id inserido 
 				$mensagem ="Cliente Adicionado com Sucesso !"; 
 				$this->session->set_userdata('mensagem',$mensagem); 
 
-				$this->session->set_userdata('idcliente',$idcliente_cadastrado);
-				$this->session->set_userdata('nome',$nome);
-				$this->session->set_userdata('apelido',$apelido);
-				$this->session->set_userdata('endereco',$endereco);
-				$this->session->set_userdata('pontoreferencia',$pontoreferencia);
-				$this->session->set_userdata('cpf',$cpf);
+				$this->carrega_sessions($idcliente, $nome, $apelido, $endereco, $pontoreferencia, $cpf); 
 
 				if ($localchamado == "crediario"){
 
@@ -101,12 +96,12 @@ class Cliente extends CI_Controller {
 
 	public function consulta_cliente($localchamado=null)
 	{
-		$idcliente = $this->input->post('idclientej');
-		$idcliente = md5($idcliente); 
-		$idcaixa = $this->input->post('idcaixa'); 
+		$idcliente_consultado = $this->input->post('idclientej');
+		$idcliente = md5($idcliente_consultado); 
+		$idcaixa = $this->input->post('idcaixa');  
 
-		if (!$idcliente){
-			$mensagem = "Cliente Invalido! Selecione ao menos um cliente para buscar"; 
+		if (!$idcliente_consultado){
+			$mensagem = "CLIENTE INVALIDO! Selecione um cliente para consultar."; 
 			$this->session->set_userdata('mensagemErro',$mensagem);
 
 			if ($localchamado == "cliente"){
@@ -116,20 +111,22 @@ class Cliente extends CI_Controller {
 			} 
 		}
 		
-
 		$cliente_consultado = $this->modelcliente->consulta_cliente($idcliente);
-		if ($cliente_consultado){
+
+		if ($cliente_consultado)
+		{
 			foreach ($cliente_consultado as $clicons) {
-				$this->session->set_userdata('idcliente',$clicons->idcliente);
-				$this->session->set_userdata('nome',$clicons->nome);
-				$this->session->set_userdata('apelido',$clicons->apelido);
-				$this->session->set_userdata('endereco',$clicons->endereco);
-				$this->session->set_userdata('pontoreferencia',$clicons->pontoreferencia);
-				$this->session->set_userdata('cpf',$clicons->cpf);
+				$idcliente_consultado 	= $clicons->idcliente;
+				$nome 			= $clicons->nome;
+				$apelido 		= $clicons->apelido;
+				$endereco 	= $clicons->endereco;
+				$pontoreferencia= $clicons->pontoreferencia;
+				$cpf 				= $clicons->cpf;
+				$this->carrega_sessions($idcliente_consultado, $nome, $apelido, $endereco, $pontoreferencia, $cpf);
 			}
 		}
 
-		$saldo_crediario = $this->consulta_saldo_crediario($idcliente); 
+		$this->consulta_saldo_crediario($idcliente); 
 
 		if ($localchamado == "cliente"){
 			redirect(base_url('cliente/manutencao_clientes/').$idcaixa);
@@ -166,6 +163,8 @@ class Cliente extends CI_Controller {
 		$this->form_validation->set_rules(
 		'pontoreferencia', 'Ponto de Referencia','min_length[8]'); 
 
+		$this->consulta_saldo_crediario($idcliente); 
+
 		if ($this->form_validation->run() == FALSE){
 
 				$this->altera_cliente($idcliente);    
@@ -184,14 +183,9 @@ class Cliente extends CI_Controller {
 				$mensagem ="Dados do Cliente Alterado com Sucesso !"; 
 				$this->session->set_userdata('mensagem',$mensagem); 
 
-				$this->session->set_userdata('idcliente',$idcliente);
-				$this->session->set_userdata('nome',$nome);
-				$this->session->set_userdata('apelido',$apelido);
-				$this->session->set_userdata('endereco',$endereco);
-				$this->session->set_userdata('pontoreferencia',$pontoreferencia);
-				$this->session->set_userdata('cpf',$cpf);
+				$this->carrega_sessions($idcliente, $nome, $apelido, $endereco, $pontoreferencia, $cpf);
 		
-				$this->manutencao_clientes(); 
+				redirect(base_url('cliente/manutencao_clientes/').$idcaixa);
 				
 			} else {
 
@@ -206,9 +200,23 @@ class Cliente extends CI_Controller {
 	private function consulta_saldo_crediario($idcliente)
 	{
 		$saldo_dev = $this->modelcliente->consulta_saldo_crediario($idcliente);
-		foreach ($saldo_dev as $saldo_cred) {
+		
+		foreach ($saldo_dev as $saldo_cred) 
+		{
 			$this->session->set_userdata('vl_saldo_devedor',$saldo_cred->vl_saldo_devedor); 
 		}
+
+	}
+
+	private function carrega_sessions($idcliente, $nome, $apelido, $endereco, $pontoreferencia, $cpf)
+	{
+
+		$this->session->set_userdata('idcliente',$idcliente);
+		$this->session->set_userdata('nome',$nome);
+		$this->session->set_userdata('apelido',$apelido);
+		$this->session->set_userdata('endereco',$endereco);
+		$this->session->set_userdata('pontoreferencia',$pontoreferencia);
+		$this->session->set_userdata('cpf',$cpf);
 
 	}
 
