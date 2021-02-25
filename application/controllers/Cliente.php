@@ -9,6 +9,7 @@ class Cliente extends CI_Controller {
 		parent::__construct(); 
 
 		$this->load->model('cliente_model','modelcliente'); 
+		$this->load->model('venda_model','modelvendas'); 
 
 	}
 
@@ -96,6 +97,15 @@ class Cliente extends CI_Controller {
 
 	public function consulta_cliente($localchamado=null)
 	{
+
+		$this->session->unset_userdata('idcliente');
+    $this->session->unset_userdata('nome');
+    $this->session->unset_userdata('apelido'); 
+    $this->session->unset_userdata('cpf'); 
+    $this->session->unset_userdata('endereco'); 
+    $this->session->unset_userdata('pontoreferencia');
+    $this->session->unset_userdata('vl_saldo_devedor');
+
 		$idcliente_consultado = $this->input->post('idclientej');
 		$idcliente = md5($idcliente_consultado); 
 		$idcaixa = $this->input->post('idcaixa');  
@@ -125,6 +135,7 @@ class Cliente extends CI_Controller {
 				$this->carrega_sessions($idcliente_consultado, $nome, $apelido, $endereco, $pontoreferencia, $cpf);
 			}
 		}
+
 
 		$this->consulta_saldo_crediario($idcliente); 
 
@@ -183,7 +194,7 @@ class Cliente extends CI_Controller {
 				$mensagem ="Dados do Cliente Alterado com Sucesso !"; 
 				$this->session->set_userdata('mensagem',$mensagem); 
 
-				$this->carrega_sessions($idcliente, $nome, $apelido, $endereco, $pontoreferencia, $cpf);
+				$this->carrega_sessions(null,$nome, $apelido, $endereco, $pontoreferencia, $cpf);
 		
 				redirect(base_url('cliente/manutencao_clientes/').$idcaixa);
 				
@@ -197,21 +208,62 @@ class Cliente extends CI_Controller {
 		}
 	}
 
+	public function consulta_crediario($idcliente, $localchamado)
+	{
+
+		$this->load->library('table'); 
+
+		$idcaixa =1; 
+		$dados['idcaixa'] 	= $idcaixa;
+		$dados['idcliente'] = $idcliente;
+		$dados['localchamado'] = $localchamado; 
+
+		$dados['vendas_cli']= $this->modelvendas->consulta_crediarios_cliente($idcliente,1); 
+		$dados['vendas_itens_cli']= $this->modelvendas->consulta_crediarios_cliente($idcliente,2);
+
+		$this->load->view('frontend/template/html-header',$dados);
+		$this->load->view('frontend/template/header');
+		//$this->load->view('backend/mensagem');
+		$this->load->view('frontend/cliente_consulta_crediario');
+		$this->load->view('frontend/template/footer');
+		$this->load->view('frontend/template/html-footer');
+
+	}
+
 	private function consulta_saldo_crediario($idcliente)
 	{
+
 		$saldo_dev = $this->modelcliente->consulta_saldo_crediario($idcliente);
 		
 		foreach ($saldo_dev as $saldo_cred) 
 		{
 			$this->session->set_userdata('vl_saldo_devedor',$saldo_cred->vl_saldo_devedor); 
+
 		}
 
 	}
 
-	private function carrega_sessions($idcliente, $nome, $apelido, $endereco, $pontoreferencia, $cpf)
+	public function pagamento_crediario($idvenda){
+
+		$idcaixa =1; 
+		$dados['idcaixa'] = $idcaixa; 
+
+		$this->load->view('frontend/template/html-header',$dados);
+		$this->load->view('frontend/template/header');
+		//$this->load->view('backend/mensagem');
+		$this->load->view('frontend/cliente_pagamento_crediario');
+		$this->load->view('frontend/template/footer');
+		$this->load->view('frontend/template/html-footer');
+
+	}
+
+	private function carrega_sessions($idcliente=null, $nome, $apelido, $endereco, $pontoreferencia, $cpf)
 	{
 
-		$this->session->set_userdata('idcliente',$idcliente);
+		if ($idcliente)
+		{
+			$this->session->set_userdata('idcliente',$idcliente);
+		}
 		$this->session->set_userdata('nome',$nome);
 		$this->session->set_userdata('apelido',$apelido);
 		$this->session->set_userdata('endereco',$endereco);

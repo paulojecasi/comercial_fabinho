@@ -1,12 +1,8 @@
 
       <div class = "container"> 
         <div class = "row header-titulo">
-          <div class="logo-marca text-center col-lg-1 col-md-1 col-sm-1">
-              <?php 
-                $this->load->view('frontend/template/sidebar');
-              ?>
-          </div>
-        	<div class="logo-marca text-center col-lg-3 col-sm-3">
+        
+        	<div class="logo-marca text-center col-lg-4 col-sm-4">
                 <h3> 
                     Comercial Fabinho
                 </h3>
@@ -48,8 +44,16 @@
             ?>
         
           </div>
-     
+          
+          <div class="logo-marca text-center col-lg-12">
+                <?php 
+                  $this->load->view('frontend/template/sidebar');
+                ?>
+          </div>
+
         </div> 
+       
+      
  
 
    

@@ -5,12 +5,20 @@
     </div>
 
     <?php
+
+        // encerrar a secoes 
+        $this->session->unset_userdata('idcliente');
+        $this->session->unset_userdata('nome');
+        $this->session->unset_userdata('apelido'); 
+        $this->session->unset_userdata('cpf'); 
+        $this->session->unset_userdata('endereco'); 
+        $this->session->unset_userdata('pontoreferencia');
+        $this->session->unset_userdata('vl_saldo_devedor');
         // aqui vamos vericar os erros de validação
         echo validation_errors(
         '<h4> <div class="alert alert-warning text-center">','</div> </h4>'); 
         
         // vamos abrir o formulário,
-        
         echo form_open('cliente/inserir/'.$localchamado.'','class="form-add-cliente" id="form-add-cliente"');
     ?> 
 

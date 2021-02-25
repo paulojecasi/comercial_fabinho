@@ -25,15 +25,7 @@
         $cpf        =  $this->session->userdata('cpf');
         $endereco   =  $this->session->userdata('endereco');
         $vl_saldo   = $this->session->userdata('vl_saldo_devedor');
-       // encerrar a secoes 
-        $this->session->unset_userdata('idcliente');
-        $this->session->unset_userdata('nome'); 
-        $this->session->unset_userdata('apelido'); 
-        $this->session->unset_userdata('cpf'); 
-        $this->session->unset_userdata('endereco'); 
-        $this->session->unset_userdata('vl_saldo_devedor');
 
-        
         ?>
         
         <div class="panel-consulta-cliente col-lg-6">
@@ -120,7 +112,7 @@
 
 
                 <div class="form-group cadastro-cliente-aberto col-lg-6 text-center">
-                    <a href = "">
+                    <a href = "<?php echo base_url('cliente/consulta_crediario/').md5($idcliente).'/pagamento'  ?>">
                         <h4>
                              <!-- texto está no AFTER do CSS --> 
                         </h4>

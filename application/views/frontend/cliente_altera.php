@@ -5,7 +5,7 @@
     </div>
 
     <?php
-
+        /*
         foreach ($cliente_consultado as $clienteC) {
             $codigo = $clienteC->idcliente;
             $nome   = $clienteC->nome;
@@ -14,6 +14,16 @@
             $endereco= $clienteC->endereco;
             $pontoreferencia= $clienteC->pontoreferencia;
         }
+        */
+
+        $codigo     =  $this->session->userdata('idcliente');
+        $nome       =  $this->session->userdata('nome');
+        $apelido    =  $this->session->userdata('apelido');
+        $cpf        =  $this->session->userdata('cpf');
+        $endereco   =  $this->session->userdata('endereco');
+        $pontoreferencia   =  $this->session->userdata('pontoreferencia');
+   
+
         // aqui vamos vericar os erros de validação
         echo validation_errors(
         '<h4> <div class="alert alert-warning text-center">','</div> </h4>'); 

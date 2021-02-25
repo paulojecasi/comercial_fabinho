@@ -7,6 +7,17 @@
                             <div class="col-lg-12 col-sm-12 area-vendas1">
 
                                 <?php
+
+                                // encerrar a secoes 
+                                $this->session->unset_userdata('idcliente');
+                                $this->session->unset_userdata('nome');
+                                $this->session->unset_userdata('apelido'); 
+                                $this->session->unset_userdata('cpf'); 
+                                $this->session->unset_userdata('endereco'); 
+                                $this->session->unset_userdata('pontoreferencia');
+                                $this->session->unset_userdata('vl_saldo_devedor');
+
+                                
                                 // aqui vamos vericar os erros de validação
                                 echo validation_errors('<div class="alert alert-warning">','</div>'); 
                                 

@@ -251,6 +251,7 @@ class Venda extends CI_Controller {
 
 		$idcliente	= $this->input->post('idcliente_crediario');
 
+	
 
 		if ($tipo_pagamento==4 && !$idcliente){
 
@@ -267,11 +268,20 @@ class Venda extends CI_Controller {
 		$numero_itens= $venda['numero_itens'];
 
     // vamos gravar a venda (tabela VENDA)
-
+    if ($tipo_pagamento==4)
+    {
+    	$tipovenda					=	2;  // 1 Padrao, 2 Fiado (tabela TIPO_VENDA)
+    	$vlsaldo_crediario 	= $valor_total; 
+    	$situacaovenda 	= 0;  //0 Aberto, 1 Quitada, 2 cancelada (tabela SITUACAO_VENDA)
+    }else
+    {
+    	$vlsaldo_crediario 	= 0;
+    	$tipovenda					=	1;   
+    	$situacaovenda 	= 1;  //0 Aberto, 1 Quitada, 2 cancelada (tabela SITUACAO_VENDA)
+    }
+		
     $idcaixa 				= $idcaixa; 
     $codigousuario 	= $idusuario;
-    $situacaovenda 	= 1;  // 1 fechada, 2 cancelada (tabela SITUACAO_VENDA)
-    $tipovenda			=	1;  // 1 Padrao, 2 Fiado (tabela TIPO_VENDA)
     $valorvenda			=	$valor_total;
     $valoracrescimo = $vl_tot_acre;
     $valordesconto 	= $vl_tot_desc;
@@ -280,7 +290,7 @@ class Venda extends CI_Controller {
     // vamos iniciar a transação 
     $this->db->trans_begin();
 
-	    if ($this->modelvendas->gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento ))
+	    if ($this->modelvendas->gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento,$vlsaldo_crediario))
 	    {
 
 	    	$idvenda = $this->db->insert_id();
@@ -314,8 +324,9 @@ class Venda extends CI_Controller {
 			foreach ($itensvenda as $item_venda) 
 			{
 
-				$idproduto = $item_venda->idproduto;
+				$idproduto 	= $item_venda->idproduto;
 				$quantidade = $item_venda->quantidadeitens;
+				$nrnota			= $item_venda->idvenda; 
 
 				$baixa_estoque = $this->modelestoque->movimento_estoque($nrnota,$idproduto,$idestoque_entrada,$tipomovimento, $quantidade, $idvenda); 
 
@@ -364,6 +375,11 @@ class Venda extends CI_Controller {
 	{
 		$this->modelvendas->atualiza_saldo_crediario($idcliente, $valorvenda);
 
+	}
+
+	public function consulta_venda($idvenda)
+	{
+		
 	}
 
 	function consultajquery()

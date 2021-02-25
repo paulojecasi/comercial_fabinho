@@ -70,12 +70,14 @@ a:hover, a:focus {color: #17a78b}
 /* side-bar*/ 
 
 div.menu-vendas{
-  margin-top: 5px; 
+  margin-top: -50px; 
   text-align: left;  
 
 }
 div a.nav-link{
-  font-size: 24px; 
+  font-size: 30px; 
+  margin-left: 0px; 
+
 }
 
 div a.nav-link:hover{
@@ -83,21 +85,29 @@ div a.nav-link:hover{
 }
 
 div#menulinks{
+  background-color: #000; 
+  margin-top: 0px; 
+  margin-bottom: 5px; 
 
 }
 
 div#menulinks a{
-  font-size: 15px; 
+  font-size: 18px; 
+  padding-right:15px; 
+  padding-left: 15px; 
   color: white;
 }
 
 div#menulinks a i{
-  font-size: 17px; 
+  font-size: 19px; 
   color: #FFFF00;
 }
 
 div#menulinks a:hover{
   color: #FFFF00;
+  border: 2px solid;
+  border-radius: 15px;
+  border-color: white; 
 }
 
 
@@ -421,7 +431,7 @@ div.header-titulo{
 div.logo-marca h3{
   margin-top: 9px;
   margin-bottom: 0px;
-  margin-left: 4px; 
+  margin-left: 44px; 
   font-size: 20px; 
   color: #FFFF00;
   border: 5px ridge;
@@ -476,7 +486,10 @@ div.usuario-caixa-foto img{
   border-color: white; 
   border-radius: 3px;
   margin-top: 1px; 
+}
 
+div.usuario-caixa-foto{
+  text-align: right;
 }
 
 div.picklist-prod div label{
@@ -580,6 +593,7 @@ div.tipo-de-pagamento-escolha-cliente{
   background-color: #363636;
 
 }
+
 
 div.link-voltar{
   margin-top: 20px; 
@@ -894,6 +908,71 @@ div.link-voltar-tela-inicio a i {
   font-size: 25px; 
 }
 
+/* CONSULTA VENDAS DO CLIENTE CREDIARIO */
+
+div.panel-vendas2-2{
+  background-color: #DCDCDC;
+  margin-top: 0px; 
+  margin-left: 0px;
+  margin-right:0px;
+  margin-bottom: -20px;  
+  border:2px solid; 
+  height: 330px;
+  overflow-y: scroll;
+}
+div.panel-vendas2-2 table{
+  background-color: #DCDCDC; 
+  font-weight: bold; 
+  color: #696969;
+}
+
+div.panel-vendas2-2 table row{
+  background-color: #ADD8E6; 
+  font-weight: bold; 
+  color: #696969;
+}
+
+div.panel-vendas2-2 table h5{
+  font-weight: bold; 
+  color: #000;
+  margin-top: -5px; 
+  margin-bottom: 0px; 
+
+}
+
+div.panel-vendas2-2 table b#aberto{
+  color: red; 
+  font-size: 17px; 
+}
+
+div.panel-vendas2-2 table b#quitado{
+  color: blue; 
+  font-size: 17px; 
+}
+
+div.btn-link-consulta-cred{
+  margin-top: 10px; 
+  margin-bottom: 10px;
+}
+
+button.btn-ver-itens{
+  margin-top: -2px; 
+  margin-left: -20px;
+  margin-right: -20px;  
+  height: 30px;
+  font-size: 12px; 
+  background-color: #696969; 
+  color: white; 
+}
+
+button.btn-pagar-cred{
+  margin-top: -2px; 
+  margin-left: -20px;
+  margin-right: -20px;  
+  height: 30px;
+  font-size: 13px; 
+
+}
 
 
 

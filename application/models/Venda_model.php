@@ -79,7 +79,7 @@ class Venda_model extends CI_Model
 	}
 
 
-	public function gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento)
+	public function gravar_venda($idcaixa, $codigousuario, $situacaovenda, $tipovenda, $valorvenda, $valoracrescimo, $valordesconto, $idcliente, $tipopagamento, $vlsaldo_crediario)
 	{
 
 		$dados["idcaixa"]	= $idcaixa;
@@ -91,6 +91,7 @@ class Venda_model extends CI_Model
 		$dados["valordesconto"]			= $valordesconto;
 		$dados["idcliente"]		= $idcliente;
 		$dados["tipopagamento"]		= $tipopagamento;
+		$dados["vlsaldo_crediario"]= $vlsaldo_crediario; 
 
 		return $this->db->insert('venda',$dados); 
 	}
@@ -127,7 +128,8 @@ class Venda_model extends CI_Model
 
 	}
 
-	public function finalizar_produto_caixa_temp($idcaixa){
+	public function finalizar_produto_caixa_temp($idcaixa)
+	{
 
 		$dados['situacao'] =1;
 
@@ -137,7 +139,8 @@ class Venda_model extends CI_Model
 
 	}
 
-	public function atualiza_saldo_crediario($idcliente, $valorvenda){
+	public function atualiza_saldo_crediario($idcliente, $valorvenda)
+	{
 
 		$this->db->where('idcliente=', $idcliente);
 		$resultado = $this->db->get('venda_saldo_crediario')->result();
@@ -166,6 +169,29 @@ class Venda_model extends CI_Model
 			$this->db->insert('venda_saldo_crediario', $dados); 
 		}
 
+	}
+	public function consulta_crediarios_cliente($idcliente, $consulta)
+	{
+
+		if ($consulta ==1)
+		{
+			$this->db->where('md5(idcliente)=',$idcliente);
+			$this->db->order_by('idvenda','DESC');
+			return $this->db->get('venda')->result();
+		}
+		else
+		{
+			$this->db->where('md5(idcliente)=',$idcliente);
+			$this->db->from('venda');
+			$this->db->join('vendaitem','vendaitem.idvenda = venda.idvenda');
+			$this->db->join('produto','produto.idproduto = vendaitem.idproduto'); 
+			$this->db->order_by('venda.idvenda','DESC');
+			return $this->db->get()->result(); 
+		 
+		}
+	 
+	 	
+	 
 	}
 
 

@@ -3,12 +3,15 @@
     <?php
     // aqui vamos vericar os erros de validação
     echo validation_errors('<div class="alert alert-warning">','</div>'); 
-    
-    // vamos abrir o formulário,
-                // apontando para:admin/controlador/metodo
-    //echo form_open('venda/venda_pagamento');
-
-    // tela VALOR DA VENDA
+    // encerrar a secoes 
+    $this->session->unset_userdata('idcliente');
+    $this->session->unset_userdata('nome');
+    $this->session->unset_userdata('apelido'); 
+    $this->session->unset_userdata('cpf'); 
+    $this->session->unset_userdata('endereco'); 
+    $this->session->unset_userdata('pontoreferencia');
+    $this->session->unset_userdata('vl_saldo_devedor');
+                                
     $this->load->view('frontend/template/valor-venda');
     ?>
    

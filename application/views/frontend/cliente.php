@@ -27,16 +27,7 @@
         $pontoreferencia   =  $this->session->userdata('pontoreferencia');
         $vl_saldo   = $this->session->userdata('vl_saldo_devedor');
 
-       // encerrar a secoes 
-        $this->session->unset_userdata('idcliente');
-        $this->session->unset_userdata('nome'); 
-        $this->session->unset_userdata('apelido'); 
-        $this->session->unset_userdata('cpf'); 
-        $this->session->unset_userdata('endereco'); 
-        $this->session->unset_userdata('pontoreferencia');
-        $this->session->unset_userdata('vl_saldo_devedor');
-
-        
+        // SESSOES SERÃO FECHADAS NO TEMPLATE "venda.php" e "cliente_cadastro.php"
         ?>
         
         <div class="panel-consulta-cliente col-lg-5">
@@ -114,7 +105,7 @@
 
 
                 <div class="form-group cadastro-cliente-aberto col-lg-6 text-center">
-                    <a href = "">
+                    <a href = "<?php echo base_url('cliente/consulta_crediario/').md5($idcliente).'/cliente'  ?> ">
                         <h4>
                              <!-- texto está no AFTER do CSS --> 
                         </h4>
@@ -171,7 +162,4 @@
  
 
 </div>
-
-
-           
 
