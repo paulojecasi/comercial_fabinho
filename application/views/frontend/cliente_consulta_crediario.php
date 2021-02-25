@@ -56,7 +56,7 @@
                             foreach ($vendas_cli as $vendas_cred):
                                 $idvenda         = $vendas_cred->idvenda;
                                 $data       = datebr($vendas_cred->datavenda); 
-                                $valor      = $vendas_cred->valorvenda;
+                                $valor      = reais($vendas_cred->valorvenda);
                                 $vlsaldo    = $vendas_cred->vlsaldo_crediario;
                                 $situacaovenda = $vendas_cred->situacaovenda; 
                                 if ($vlsaldo > 0):

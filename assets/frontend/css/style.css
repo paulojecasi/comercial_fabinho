@@ -974,6 +974,73 @@ button.btn-pagar-cred{
 
 }
 
+/* TELA DE PAGAMENTO CREDIARIO */
+
+.tela-pagamento-crediario{
+  margin-top: 0px; 
+  background-color: #4F4F4F;
+}
+
+.tela-pagamento-crediario div h2{
+  color: yellow; 
+}
+
+.tela-pagamento-crediario div h1{
+  color: #fff; 
+  font-size: 40px; 
+}
+
+h1.valor-recebido-venda-cred input{
+  color: #fff; 
+  font-size: 35px; 
+  background-color: #1C1C1C;
+  width: 50%;
+  height: 50px; 
+  text-align: left;
+
+}
+
+h1.valor-saldo-atual-cred input{
+  color: red; 
+  font-size: 40px; 
+  background-color: #1C1C1C;
+  width: 100%;
+  height: 50px; 
+  pointer-events :none;
+}
+
+h1.valor-recebido-troco-cred input{
+  color: #FFD700; 
+  font-size: 40px; 
+  background-color: #1C1C1C;
+  width: 100%;
+  height: 50px; 
+  pointer-events :none;
+}
+
+h1.valor-recebido-troco-cred input:disabled, h1.valor-saldo-atual-cred input:disabled{
+  background: #1C1C1C;
+  font-weight: bold; 
+}
+
+div.dados-venda{
+  margin-top: -10px; 
+  margin-bottom: -5px;
+  color: #fff;
+  border-bottom: 1px solid; 
+  border-color: #fff;
+}
+
+div.dados-venda b{
+  color: #00BFFF;
+  font-size: 25px; 
+
+}
+
+
+div.dados-venda b#valor-venda-cred-pag{
+  color: yellow;
+}
 
 
 

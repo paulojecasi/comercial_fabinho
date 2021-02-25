@@ -139,7 +139,7 @@ class Venda_model extends CI_Model
 
 	}
 
-	public function atualiza_saldo_crediario($idcliente, $valorvenda)
+	public function atualiza_saldo_crediario($idcliente, $valor , $tipo=null)
 	{
 
 		$this->db->where('idcliente=', $idcliente);
@@ -151,20 +151,29 @@ class Venda_model extends CI_Model
 				$vl_total_pagamento = $result->vl_total_pagamento;
 			}
 
-			$vl_total_compras += $valorvenda;
+			if ($tipo == "pagamento")
+			{
+				$vl_total_pagamento += $valor;
+			}
+			else
+			{
+				$vl_total_compras += $valor;
+			}
+			
 			$vl_saldo_devedor = $vl_total_compras - $vl_total_pagamento; 
 
 			$this->db->where('idcliente=', $idcliente);
 			$dados['vl_total_compras'] = $vl_total_compras;
+			$dados['vl_total_pagamento'] = $vl_total_compras;
 			$dados['vl_saldo_devedor'] = $vl_saldo_devedor;
 
 			$this->db->update('venda_saldo_crediario', $dados); 
 
 		}else{
 			$dados['idcliente']= $idcliente;
-			$dados['vl_total_compras'] = $valorvenda;
+			$dados['vl_total_compras'] = $valor;
 			$dados['vl_total_pagamento'] =0;
-			$dados['vl_saldo_devedor'] = $valorvenda;
+			$dados['vl_saldo_devedor'] = $valor;
 
 			$this->db->insert('venda_saldo_crediario', $dados); 
 		}
@@ -190,8 +199,64 @@ class Venda_model extends CI_Model
 		 
 		}
 	 
-	 	
-	 
+	}
+
+	public function consulta_venda($idvenda)
+	{
+		$this->db->where('md5(idvenda)=', $idvenda);
+		return $this->db->get('venda')->result();
+
+	}
+
+	private function atualiza_venda_crediario($idvenda, $situacaovenda, $vlsaldo_crediario)
+	{
+		$dados['situacaovenda'] 		= $situacaovenda;
+		$dados['vlsaldo_crediario']=	$vlsaldo_crediario; 
+
+		$this->db->where('md5(idvenda)=', $idvenda); 
+		$this->db->update('venda',$dados);
+	}
+
+	public function baixa_pagamento_crediario($idvenda,$vl_recebido_caixa)
+	{
+
+		// vamos iniciar a transação 
+    $this->db->trans_begin();
+
+			$resultado = $this->consulta_venda($idvenda); 
+
+			foreach ($resultado as $venda) {
+				$valorvenda = $venda->valorvenda;
+				$vlsaldo_crediario_atual = $venda->vlsaldo_crediario;
+				$idcliente = $venda->idcliente; 
+				$situacaovenda = $venda->situacaovenda; 
+			}
+
+			// vamos amortizar o saldo 
+			$vlsaldo_crediario =  $vlsaldo_crediario_atual-$vl_recebido_caixa;
+
+			if ($vlsaldo_crediario <=0)
+			{
+				$situacaovenda =1;  // se zerar o saldo, vamos quitar a venda 
+			}
+
+			$this->atualiza_venda_crediario($idvenda,$situacaovenda,$vlsaldo_crediario);
+			$this->atualiza_saldo_crediario($idcliente,$vl_recebido_caixa,"pagamento");
+
+		if  ($this->db->trans_status()===FALSE ) 
+		{ 
+		  $this->db->trans_rollback(); 
+		  $mensagem = "Houve um ERRO de TRANSAÇÃO! (venda_model/baixa_pagamento_crediario)"; 
+			$this->session->set_userdata('mensagemErro',$mensagem); 
+		} 
+		else 
+		{ 
+			$this->db->trans_commit(); 
+			$mensagem = "Pagamento Realizado com Sucesso !"; 
+			$this->session->set_userdata('mensagem',$mensagem); 
+	
+		}
+
 	}
 
 

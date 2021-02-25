@@ -6,9 +6,8 @@
     
     // vamos abrir o formulário,
                 // apontando para:admin/controlador/metodo
-    //echo form_open('venda/venda_pagamento');
+    echo form_open('venda/finalizar_venda/1/'.$idcaixa.'','class="form-pag-money" id="form-pag-money"');
 
-    
     ?>
 
     <div class = "text-center tipo-de-pagamento-escolha">
@@ -54,7 +53,7 @@
 
         <div class="form-group col-lg-12 btn-link"> 
             <div class ="col-lg-6 col-sm-12 btn-finalizar-venda btn-finalizar-venda-money text-center">
-                <a href="<?php echo base_url('venda/finalizar_venda/').'1/'.$idcaixa ?>">
+                <a href="">
                     <button class="btn btn-success" type="submit" > 
                         Concluir Pagamento
                     </button> 
@@ -70,7 +69,9 @@
         </div>
     
     </div>
-    
+    <?php 
+        echo form_close();
+    ?>
     
 </div>
 

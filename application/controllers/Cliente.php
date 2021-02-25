@@ -7,6 +7,10 @@ class Cliente extends CI_Controller {
 	{
 
 		parent::__construct(); 
+		if (!$this->session->userdata('logado')){
+			$this->session->set_userdata('tipo_acesso',"venda");
+			redirect(base_url('admin/login')); 
+		}
 
 		$this->load->model('cliente_model','modelcliente'); 
 		$this->load->model('venda_model','modelvendas'); 
@@ -98,6 +102,7 @@ class Cliente extends CI_Controller {
 	public function consulta_cliente($localchamado=null)
 	{
 
+		//encerrar seçoes
 		$this->session->unset_userdata('idcliente');
     $this->session->unset_userdata('nome');
     $this->session->unset_userdata('apelido'); 
@@ -247,6 +252,7 @@ class Cliente extends CI_Controller {
 
 		$idcaixa =1; 
 		$dados['idcaixa'] = $idcaixa; 
+		$dados['venda_cliente'] = $this->modelvendas->consulta_venda($idvenda);
 
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
@@ -255,6 +261,16 @@ class Cliente extends CI_Controller {
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');
 
+	}
+
+	public function pagamento_crediario_confirma($idvenda)
+	{
+		$vl_amortizacao = $this->input->post('vl_real_amortizacao'); 
+
+		$this->modelvendas->baixa_pagamento_crediario($idvenda,$vl_amortizacao);
+
+		$this->pagamento_crediario($idvenda); 
+		//$this->consulta_crediario($idcliente,"cliente");
 	}
 
 	private function carrega_sessions($idcliente=null, $nome, $apelido, $endereco, $pontoreferencia, $cpf)

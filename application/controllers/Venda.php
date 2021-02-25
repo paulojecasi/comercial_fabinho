@@ -377,11 +377,6 @@ class Venda extends CI_Controller {
 
 	}
 
-	public function consulta_venda($idvenda)
-	{
-		
-	}
-
 	function consultajquery()
 	{
 	 	$output = '';
