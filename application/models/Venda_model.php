@@ -87,6 +87,55 @@ class Venda_model extends CI_Model
 		return $this->db->insert('venda',$dados); 
 	}
 
+	public function cancelar_venda($idvenda)
+	{
+
+		$dados['situacaovenda'] = 2; // cancelada - Tabela SITUACAO_VENDA
+		$this->db->where('md5(idvenda)=', $idvenda);
+		$this->db->update('venda',$dados); 
+
+		// vamos cancelar o Item da Venda. 
+		$resultado = $this->cancelar_item_venda($idvenda); 
+		return $resultado; 
+
+	}
+
+	private function cancelar_item_venda($idvenda_md5)
+	{
+		if ($itens_venda_cancel = $this->getConsulta_itens_da_venda($idvenda_md5))
+		{
+			foreach ($itens_venda_cancel as $item_venda_cancel) {
+				$situacaovenda_item = $item_venda_cancel->situacaovenda_item;
+				$idvendaitem 				= $item_venda_cancel->idvendaitem;
+				$idproduto 					= $item_venda_cancel->idproduto; 
+				$quantidade 				= $item_venda_cancel->quantidadeitens; 
+				$idvenda 						= $item_venda_cancel->idvenda; 
+
+				if ($situacaovenda_item != 2) // ver se o item não está cancelado
+				{	
+					// vamos cancelar o item
+					$dados['situacaovenda_item'] =2;
+					$this->db->where('idvendaitem=', $idvendaitem);
+					$this->db->update('vendaitem', $dados);
+
+					// vamos devolver o item para o estoque
+					$tipomovimento = 2; // Entrada no estoque por cancelamento de venda 
+					$this->load->model('estoque_model','modelestoque');
+					return $this->modelestoque->movimento_estoque($idvenda,$idproduto,0,$tipomovimento,$quantidade,$idvenda); 
+
+				} 
+			}
+
+		} 
+
+
+	}
+
+	private function getConsulta_itens_da_venda($idvenda)
+	{
+		$this->db->where('md5(idvenda)=', $idvenda);
+		return $this->db->get('vendaitem')->result(); 
+	}
 
 	public function gravar_venda_item($idcaixa, $idvenda)
 	{

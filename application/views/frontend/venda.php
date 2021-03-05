@@ -40,7 +40,7 @@
                                 <div class="form-group"> 
                                     <div class="col-lg-7 quantidade-ites text">
                                         <label> Quantidade  </label>
-                                        <input id="quantidade" name="quantidade" type="number" class="form-control" placeholder ="0" value="1" onkeydown="javascript:EnterTab('nomeproduto',event)">
+                                        <input id="quantidade" name="quantidade" type="number" class="form-control" placeholder ="0" value="1" step="0.01" onkeydown="javascript:EnterTab('nomeproduto',event)">
                                     </div>
                                 </div>
                                

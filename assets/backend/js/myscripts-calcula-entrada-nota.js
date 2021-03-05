@@ -21,7 +21,8 @@ jQuery(document).ready(function(){
 
     var vl_total = (parseFloat(vl_unitario) * parseFloat(quantidade));
    
-    var vl_total = vl_total.toLocaleString("pt-BR");
+    //var vl_total = vl_total.toLocaleString("pt-BR");
+    var vl_total = parseFloat(vl_total).toFixed(2); 
     
     jQuery('#vltotal').val(vl_total);
 

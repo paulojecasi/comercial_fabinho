@@ -178,7 +178,7 @@
 
                                 <div class="form-group col-lg-4 col-sm-12 vercons">  
                                     <label> Quantidade </label>
-                                    <input type="number" class="form-control" id="quantidade" name="quantidade"   placeholder="0" value="<?php echo set_value('quantidade') ?>" onkeydown="javascript:EnterTab('vlunitario',event)" required>
+                                    <input type="number" step="0.01" class="form-control" id="quantidade" name="quantidade"   placeholder="0" value="<?php echo set_value('quantidade') ?>" onkeydown="javascript:EnterTab('vlunitario',event)" required>
                                 </div>
 
                                 <div class="form-group col-lg-8 col-sm-12 vercons">  

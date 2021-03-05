@@ -436,7 +436,7 @@ class Venda extends CI_Controller {
  		<h4 class = "col-lg-3 text-center h4-itens-da-venda"> 
  			Valor R$ : <b> '.$valor_venda.' </b>
  		</h4>
- 		<table class="table table-hover tabela-itens-venda-consulta">
+ 		<table class="table tabela-itens-venda-consulta">
 			<thead>
 		    <tr>
 		      <th scope="col">Código Produto</th> 
@@ -461,7 +461,7 @@ class Venda extends CI_Controller {
 
 	 				$output .= '
 	 					<tr>
-				 			<th scope="row">'.$codigo.		'</th>  
+				 			<td> 						'.$codigo.		'</td>  
 				 			<td>					  '.$descricao.	'</td>
 				 			<td>					  '.$vlunitario.'</td>
 				 			<td>					  '.$qtitens.		'</td>
@@ -522,7 +522,7 @@ class Venda extends CI_Controller {
 	 		<h4 class = "col-lg-3 text-center h4-pagamento-da-venda"> 
 	 			Valor R$ : <b> '.$valor_venda.' </b>
 	 		</h4>
-	 		<table class="table table-hover tabela-itens-venda-consulta">
+	 		<table class="table tabela-itens-venda-consulta">
 				<thead>
 			    <tr>
 			    	<th scope="col">Código Recebimento</th>
@@ -549,7 +549,7 @@ class Venda extends CI_Controller {
 
 		 				$output .= '
 		 					<tr>
-					 			<th scope="row">'.$idreceb.		'</th>  
+					 			<td>						'.$idreceb.		'</td>  
 					 			<td>					  '.$caixa.	'</td>
 					 			<td>					  '.$data.'</td>
 					 			<td>					  '.$destipopag.'</td>

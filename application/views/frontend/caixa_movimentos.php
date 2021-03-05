@@ -9,6 +9,14 @@
     // tela VALOR DA VENDA
     //$this->load->view('frontend/template/valor-venda');
     echo form_open('caixa/consulta_dados_caixa');
+        if (!$datainicio){
+            $datainicio =date('Y-m-d');
+        }
+
+        if (!$datafinal){
+            $datafinal =date('Y-m-d');
+        }
+
     ?>
 
     <div class = "col-lg-12 col-sm-12 tela-movimento-caixa">
@@ -20,14 +28,12 @@
 
             </div>
             <div class="form-group col-lg-3 campo-data-movcx">
-                <label >Data Inicial</label>
-                <input type="date" id="datainicial_mov" name="datainicial_mov" maxlength="10" class="form-control" value="<?php echo date('Y-m-d'); ?>"  onkeydown="javascript:EnterTab('datafinal_mov',event)" autofocus="true" />
+                <input type="date" id="datainicial_mov" name="datainicial_mov" maxlength="10" class="form-control" value="<?php echo $datainicio; ?>"  onkeydown="javascript:EnterTab('datafinal_mov',event)" autofocus="true" />
 
             </div>
       
             <div class="form-group col-lg-3 campo-data-movcx">
-                <label >Data Final</label>
-                <input type="date" id="datafinal_mov" name="datafinal_mov" class="form-control" value="<?php echo date('Y-m-d'); ?>"  onkeydown="javascript:EnterTab('nomeproduto',event)" autofocus="true" />
+                <input type="date" id="datafinal_mov" name="datafinal_mov" class="form-control" value="<?php echo $datafinal; ?>"  onkeydown="javascript:EnterTab('nomeproduto',event)" autofocus="true" />
             </div>
 
             <div class ="col-lg-3 btn-finalizar-venda  btn-dados-mov-caixa text-center">
@@ -52,80 +58,115 @@
                     <h4> Referente a <?php echo datebr($datainicio).'  a  '.datebr($datafinal) ?> </h4> 
                 </div> 
                 <div class="col-lg-12 sec-recebi">
-                  <div class="col-lg-7 titulo-pag">
-                      <h3> A Vista  </h3>
-                  </div>
-                  <div class="col-lg-4 valor-pag">
-                      <h3> <?php echo $avista  ?> </h3>
-                  </div>
-                  <div class="col-lg-1 form-check btn-ver-mov-caixa">
-                    <input class="form-check-input" type="checkbox" value="1" id="btn-lista-mov-cx1">
-                  </div> 
-                                   
-              </div>
+                    <div class="col-lg-7 titulo-pag">
+                       <h3> A Vista  </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo $avista  ?> </h3>
+                    </div>
+                    <?php 
+                    if ($avista!=0):
+                    ?>
+                       <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                         <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="1" id="btn-lista-mov-cx1">
+                       </div> 
+                        <?php 
+                    endif;
+                    ?>            
+                </div>
+
+                <div class="col-lg-12 sec-recebi">
+                    <div class="col-lg-7 titulo-pag">
+                        <h3> Recebimentos Crediário </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo $crediarioreceb  ?> </h3>
+                    </div>
+                    <?php 
+                    if ($crediarioreceb!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="5" id="btn-lista-mov-cx5">
+                        </div> 
+                        <?php 
+                    endif;
+                    ?>
+
+                </div>
+
+                <div class="col-lg-12 sec-recebi">
+                    <div class="col-lg-7 titulo-pag">
+                        <h3> Vendas Externas </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> 0,00  </h3>
+                    </div>
+                    <?php 
+                    if (1>2):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="8" id="btn-lista-mov-cx8">
+                        </div> 
+                        <?php 
+                    endif;
+                    ?>
+                </div>
 
 
-              <div class="col-lg-12 sec-recebi">
-                  <div class="col-lg-7 titulo-pag">
-                      <h3> Recebimentos Crediário </h3>
-                  </div>
-                  <div class="col-lg-4 valor-pag">
-                      <h3> <?php echo $crediarioreceb  ?> </h3>
-                  </div>
-                  <div class="col-lg-1 form-check btn-ver-mov-caixa">
-                    <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="5" id="btn-lista-mov-cx5">
-                  </div> 
-              </div>
+                <div class="col-lg-12 sec-recebi">
+                    <div class="col-lg-7 titulo-pag">
+                        <h3> Cartão Débito </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo $cartaodebito ?>  </h3>
+                    </div>
+                    <?php 
+                    if ($cartaodebito!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="2" id="btn-lista-mov-cx2">
+                        </div> 
+                        <?php 
+                    endif;
+                    ?>
+                </div>
 
-              <div class="col-lg-12 sec-recebi">
-                  <div class="col-lg-7 titulo-pag">
-                      <h3> Vendas Externas </h3>
-                  </div>
-                  <div class="col-lg-4 valor-pag">
-                      <h3> 0,00  </h3>
-                  </div>
-                  <div class="col-lg-1 form-check btn-ver-mov-caixa">
-                    <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="8" id="btn-lista-mov-cx8">
-                  </div> 
-              </div>
-
-
-              <div class="col-lg-12 sec-recebi">
-                  <div class="col-lg-7 titulo-pag">
-                      <h3> Cartão Débito </h3>
-                  </div>
-                  <div class="col-lg-4 valor-pag">
-                      <h3> <?php echo $cartaodebito ?>  </h3>
-                  </div>
-                  <div class="col-lg-1 form-check btn-ver-mov-caixa">
-                    <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="2" id="btn-lista-mov-cx2">
-                  </div> 
-              </div>
-
-              <div class="col-lg-12 sec-recebi">
-                  <div class="col-lg-7 titulo-pag">
-                      <h3> Cartão Crédito </h3>
-                  </div>
-                  <div class="col-lg-4 valor-pag">
-                      <h3> <?php echo $cartaocredito ?> </h3>
-                  </div>
-                  <div class="col-lg-1 form-check btn-ver-mov-caixa">
-                    <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="3" id="btn-lista-mov-cx3">
-                  </div> 
-              </div>
+                <div class="col-lg-12 sec-recebi">
+                    <div class="col-lg-7 titulo-pag">
+                         <h3> Cartão Crédito </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo $cartaocredito ?> </h3>
+                    </div>
+                    <?php 
+                    if ($cartaocredito!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="3" id="btn-lista-mov-cx3">
+                        </div>
+                        <?php 
+                    endif;
+                    ?> 
+                </div>
 
 
-              <div class="col-lg-12 sec-recebi">
-                  <div class="col-lg-7 titulo-pag">
+                <div class="col-lg-12 sec-recebi">
+                    <div class="col-lg-7 titulo-pag">
                       <h3> Crediário </h3>
-                  </div>
-                  <div class="col-lg-4 valor-pag">
-                      <h3> <?php echo $crediario ?> </h3>
-                  </div>
-                  <div class="col-lg-1 form-check btn-ver-mov-caixa">
-                    <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="4" id="btn-lista-mov-cx4">
-                  </div> 
-              </div>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo $crediario ?> </h3>
+                    </div>
+                    <?php 
+                    if ($crediario!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="4" id="btn-lista-mov-cx4">
+                        </div> 
+                        <?php 
+                    endif;
+                    ?>
+                </div>
 
             </section>
 
@@ -140,25 +181,25 @@
         </div>
 
 
-        <div class="col-lg-7">
-            <div class="panel panel-default consulta-mov-caixa-scrol">
-                <section>
-                    <table class="table table-hover consulta-mov-caixa" id="resultado_mov_caixa_scroll"
+        <div class="col-lg-7 table-mov-caixa">
+            <div>
+                <section id="table-scroll">
+                    <table class="table table-striped" id="resultado_caixa_mov"
                     >
                         <thead>
                             <tr>
-                                <th scope="col">Codigo  </th>
+                                <th scope="col">Id  </th>
                                 <th scope="col">Data    </th> 
                                 <th scope="col">Usuário </th> 
-                                <th scope="col">Tipo Movimento</th>
-                                <th scope="col">Tipo Pagamento </th>
-                                <th scope="col">Vl Juros</th>
-                                <th scope="col">Vl Desconto</th>
-                                <th scope="col">Vl Movimento</th>
+                                <th scope="col">Tipo </th>
+                                <th scope="col">Pagamento </th>
+                                <th scope="col">Juros</th>
+                                <th scope="col">Desctos</th>
+                                <th scope="col">Movimento</th>
                             </tr>
                         </thead>
-
                         <tbody>
+
                         </tbody>
                     </table>
                 </section>  

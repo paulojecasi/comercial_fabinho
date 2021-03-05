@@ -130,6 +130,7 @@ class Estoque_model extends CI_Model {
 		{
 			if ($this->atualiza_estoque_saldo($idproduto, $quantidade, $tipomovimento))
 			{
+		
 				return "OK"; 
 
 			}
