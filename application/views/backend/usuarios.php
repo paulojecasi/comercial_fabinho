@@ -45,9 +45,9 @@
 
                             <div class = "form-group">
                                 <label> Historico </label>
-                                <textarea id="txt-historico" name="txt-historico" type="text"class = "form-control"
+                                <textarea id="txt-historico" name="txt-historico" type="text" class = "form-control text-left"
                                 placeholder ="Digite Historico">
-                                    "<?php echo set_value('txt-historico') ?>"
+                                    <?php echo set_value('txt-historico') ?>
                                 </textarea>
                             </div>
 

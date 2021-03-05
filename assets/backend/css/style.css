@@ -1,5 +1,31 @@
 /* minhas aplicações - PJCS */ 
 
+div#page-wrapper{
+	background-color: #DCDCDC; 
+}
+
+div.panel-default input, input.consulta-prod-admin, textarea{ 
+	background-color:#F0F8FF; 
+	font-size: 15px; 
+	text-transform: uppercase;
+	color: #000;
+	border: 1px solid;
+	//font-weight: bold; 
+}
+div.panel-default input:focus, input.consulta-prod-admin:focus{
+	background-color: #E0FFFF; 	
+}
+
+
+div.panel-default select{
+  background-color: #F0F8FF; 
+  text-transform: uppercase;
+	border: 1px solid;
+	font-size: 15px;
+	font-weight: bold; 
+}
+}
+
 .page-header{
 	margin-top: 10px; 
 }
@@ -15,21 +41,14 @@
 .margin-top-30 label{
 		margin-top:  30px;
 }
-
-
-/*
-.layout-campos div input, select{
-		background-color: #F8F8FF; 
-		font-weight: bold;
-		font-size: 18px; 
+div.panel-cadastro-produto{
+	margin-top: -20px; 
 }
 
-.cadnota div input, select{
-		background-color: #F8F8FF; 
-		font-weight: bold;
-		font-size: 18px; 
+div.btn-cadastro-produto button{
+	margin-top: 0px; 
 }
-*/
+
 
 .layout-campos div select:hover,
 									select:focus,
@@ -80,14 +99,18 @@
 		border-style: solid;
 	 	border-width: 1px;
 	 	border-radius: 10px;
+	 	margin-top: 10px; 
+}
+
+#titulo-prod-jquery{
+  margin-top: 0px; 
+  color: blue;
 }
 
 .filtro-list-produtos{
-		border-style: solid;
-	 	border-width: 1px;
-	 	border-radius: 10px; 
 	 	border-color: #C0C0C0;
 	 	text-align:  center; 
+	 	margin-top: -10px; 
 }
 
 .filtro-list-produtos div {
@@ -103,7 +126,6 @@
 		font-weight: bold; 
 		padding: 5px; 
 }
-
 
 .filtro-list-produtos h4 {
 		font-size: 15px; 
@@ -256,8 +278,9 @@ div.panel-dados-cons-estoque div h4{
 }
 
 div.panel-dados-cons-estoque div.campo-data input{
-	align-items: center;
 	font-size: 17px; 
+	padding: 0px;
+	text-align: center;
 }
 
 div.panel-mov-est {
@@ -362,7 +385,98 @@ a.nav-tela{
 	height: 100%;
 }
 
+/*---  CADASTRO DE PRODUTOS ---*/
+.btn-default{
+	background-color: #A9A9A9; 
+	color: white;
 
-    
+}
+
+div.title-cadastro-prod{
+	margin-top: -30px; 
+}
+/*--- ENTRADA DE NOTAS/ESTOQUE --*/
+
+div.panel-title-estoque h4{
+	margin-top: 5px; 
+}
+
+.scroll{
+	height: 500px;
+  overflow-y: scroll;
+}
+
+div.check-sem-nota #flexCheckDefault{
+	 
+}
+
+div.btn-busca-item button{
+	margin-top: 0px; 
+}
+div.btn-busca-item button:hover{
+	background-color: blue; 
+}
+div.btn-busca-item button:focus{
+	background-color: green; 
+}
+
+div.panel-consulta-prod{
+	background-color: #FAEBD7;
+	min-height: 270px;
+}
+div.panel-prod-consultado{
+	 padding-top: 0px;
+	 background-color: #FFFAF0;
+	 min-height: 270px;
+}
+
+div.btn-add-item-estoque{
+	padding-top: 13px; 
+}
+
+div.btn-add-item-estoque a button:hover{
+	background-color: blue; 
+}
+
+div.btn-add-item-estoque a button:focus{
+	background-color: green; 
+}
+
+div.resultado_prod_item{
+	margin-top: -6px;  
+}
+
+/* TELA CONSULTA DE ESTOQUE */
+
+div.resultado-consulta-estoque{
+	margin-top: -25px; 
+}
+
+button#btn_consulta_est:hover{
+	background-color: blue; 
+}
+button#btn_consulta_est:focus{
+	background-color: green; 
+}   
+
+.panel-estoque-scroll{
+	height: 500px;
+  overflow-y: scroll;
+}
+
+table.table-estoque{
+	margin-top: -50px; 
+}
       
-    
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background:#40E0D0;
+}

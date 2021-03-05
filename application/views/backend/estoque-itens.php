@@ -1,5 +1,5 @@
 <div id="page-wrapper">
-    <div class="row">
+    <div class="row panel-title-estoque">
         <div class="col-lg-12 text-center">
             <h4 class="page-header"> <?php echo "Entrada de Produtos no Estoque - Itens" ?></h4>
         </div>
@@ -112,87 +112,23 @@
                             
                             // vamos abrir o formulário,
                                         // apontando para:admin/controlador/metodo
-                            echo form_open('admin/estoque/buscar_produto/itens-nota');
+                            //echo form_open('admin/estoque/buscar_produto/itens-nota');
   
-                            $this->load->view('backend/mensagem');
-                
+                            //$this->load->view('backend/mensagem');
+
+                            $this->load->view('frontend/template/mensagem-alert');
                             ?>
-                            <div class="panel panel-default title-itens-c">
-                                <div class="panel-heading text-center">
-                                   <h4 class= ""> <?php echo " Consulta de Produtos " ?> 
-                                    </h4>
-                                </div>
-
+                            <div class="panel panel-default title-itens-c col-lg-6 panel-consulta-prod">
                                 <div class="panel-body">
-
-                                     <div class="form-group col-lg-3">
-                                        <label for="idcodbarras"> Informe CODBARRA</label>
-                                        <select class="form-control" id="idcodbarras" name="idcodbarras">
-                                            <option value=""> Passe o Leitor </option>
-                                            <?php 
-                                            foreach ($produtos as $produto):
-                                                $id = md5($produto->idproduto); 
-                                                $nome = $produto->desproduto; 
-                                                $codb = $produto->codbarras; 
-                                            
-                                             ?> 
-                                                <option  value ="<?php echo $id ?> ">
-                                                    <?php echo $codb." - ".$nome?>
-                                                </option>
-                                            <?php
-                                            endforeach;
-                                            ?> 
-                                        </select>
-                                       
+                                    <div class="form-group nomeproduto-admin">
+                                        <label for="nomeproduto"> Informe Produto </label>
+                                        <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
+                                        <br> 
                                     </div>
-
-                                    <div class="form-group col-lg-4">
-                                        <label for="idcodproduto"> ou COD PRODUTO</label>
-                                        <select class="form-control" id="idcodproduto" name="idcodproduto">
-                                            <option value=""> Digite Código do Produto </option>
-
-                                            <?php 
-                                            foreach ($produtos as $produto):
-                                                $id = md5($produto->idproduto); 
-                                                $nome = $produto->desproduto; 
-                                                $cod  = $produto->codproduto; 
-                                            
-                                             ?> 
-                                                <option  value ="<?php echo $id ?> ">
-                                                    <?php echo $cod." - ".$nome?>
-                                                </option>
-                                            <?php
-                                            endforeach;
-                                            ?> 
-                                        </select>
-                                       
-                                    </div>
-
-                                    <div class="form-group col-lg-5">
-                                        <label for="iddesproduto"> ou NOME DO PRODUTO </label>
-                                        <select class="form-control" id="iddesproduto" name="iddesproduto">
-
-                                            <option value=""> Digite Nome do Produto </option>
-                                        
-                                            <?php 
-                                            foreach ($produtos as $produto):
-                                                $id = md5($produto->idproduto); 
-                                                $nome = $produto->desproduto; 
-                                                $cod  = $produto->codproduto; 
-
-                                                if (set_value('iddesproduto')==$id):
-                                                     echo $cod." - ".$nome;
-                                                endif;
-                                             ?> 
-                                                <option  value ="<?php echo $id ?> ">
-                                                    <?php echo $nome." - ".$cod ?>
-                                                </option>
-                                            <?php
-                                            endforeach;
-                                            ?> 
-                                        </select>
                                     
+                                    <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)">
                                     </div>
+
 
                                     <?php
                                     foreach ($estoque_entrada as $estoque):
@@ -204,13 +140,12 @@
                                        
                                         <?php 
                                     endforeach; 
+                                    
                                     ?>
 
-
-
-                                    <div class ="col-lg-12 col-sm-12 text-center ">
-                                        <a href="">
-                                            <button class="btn btn-info consulta"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
+                                    <div class ="col-lg-12 col-sm-12 text-center btn-busca-item" onkeydown="javascript:EnterTab('vlunitario',event)">
+                                        <a>
+                                            <button class="btn btn-info consulta" id="btn_buscar_item" value="<?php echo $this->input->post('idproduto_res'); ?>"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
                                                 Buscar
                                             </button> 
                                         </a>
@@ -221,56 +156,34 @@
 
                             <?php 
                             // fechar o formulario 
-                            echo form_close();
+                            //echo form_close();
                             ?> 
 
-                            <?php
-                   
+                            <div class="panel panel-default title-itens-c col-lg-6 panel-prod-consultado">
+                                <?php
 
-                            echo form_open('admin/estoque/inserir_estoque_item');
-  
-                            $this->load->view('backend/mensagem');
-                
-                            if ($produtoitem):
-                                foreach ($produtoitem as $produto_con):
-                                    $codbar = $produto_con->codbarras;
-                                    $codpro = $produto_con->codproduto;
-                                    $nomepro= $produto_con->desproduto;
-                                    $idproduto = $produto_con->idproduto;   
-                               
-                                    ?>
-                                    <div class="form-group col-lg-3 cons-item"> 
-                                        <label> Codigo de Barras </label>
-                                        <input id="idcodbarras" name="idcodbarras" type="text" class="form-control" value="<?php echo $codbar?>">
-                                    </div>
-
-                                    <div class="form-group col-lg-3 cons-item"> 
-                                        <label> Codigo do Produto </label>
-                                        <input id="codproduto" name="codproduto" type="text" class="form-control" value="<?php echo $codpro?>">
-                                    </div>
-
-
-                                    <div class="form-group col-lg-6 cons-item"> 
-                                        <label> Nome  </label>
-                                        <input id="desproduto" name="desproduto" type="text" class="form-control" value="<?php echo $nomepro?>">
-                                    </div>
-                                    <?php
-                                endforeach;
+                                echo form_open('admin/estoque/inserir_estoque_item','id="form-add-item-estoque"');
+      
+                                $this->load->view('backend/mensagem');
+                                
                                 ?> 
 
-                                <div class="form-group col-lg-5 col-sm-12 vercons">  
+                                <div class="form-group resultado_prod_item" id="resultado_prod_item" onkeydown="javascript:EnterTab('vlunitario',event)">
+                                    </div>
+
+                                <div class="form-group col-lg-8 col-sm-12 vercons">  
                                     <label> Valor Unitario </label>
-                                    <input type="number" class="form-control" id="vlunitario" name="vlunitario" step="0.01" placeholder="0.00" value="<?php echo set_value('vlunitario') ?>">
+                                    <input type="number" class="form-control" id="vlunitario" name="vlunitario" step="0.01" placeholder="0.00" value="<?php echo set_value('vlunitario') ?>" onkeydown="javascript:EnterTab('quantidade',event)" required>
                                 </div>
 
-                                <div class="form-group col-lg-2 col-sm-12 vercons">  
+                                <div class="form-group col-lg-4 col-sm-12 vercons">  
                                     <label> Quantidade </label>
-                                    <input type="number" class="form-control" id="quantidade" name="quantidade"   placeholder="0" value="<?php echo set_value('quantidade') ?>">
+                                    <input type="number" class="form-control" id="quantidade" name="quantidade"   placeholder="0" value="<?php echo set_value('quantidade') ?>" onkeydown="javascript:EnterTab('vlunitario',event)" required>
                                 </div>
 
-                                <div class="form-group col-lg-5 col-sm-12 vercons">  
+                                <div class="form-group col-lg-8 col-sm-12 vercons">  
                                     <label> Valor Total </label>
-                                    <input type="number" class="form-control" id="vltotal" name="vltotal" step="0.01" placeholder="0.00" value="<?php echo set_value('vltotal') ?>">
+                                    <input type="number" class="form-control" id="vltotal" name="vltotal" step="0.01" placeholder="0.00" value="<?php echo set_value('vltotal') ?>" >
                                 </div>
 
                                 <!-- INPUT OCULTO PARA ENVIAR O ID--> 
@@ -288,22 +201,20 @@
                                 endforeach; 
                                 ?>
 
-                                <input type="hidden" id="idproduto" name="idproduto" value= "<?php echo $idproduto ?>" 
-                                >
-
-                                <div class ="col-lg-12 col-sm-12 ">
-                                    <a href="">
-                                        <button class="btn btn-primary" > 
+                                <div class ="col-lg-4 col-sm-12 btn-add-item-estoque">
+                                  
+                                        <button class="btn btn-primary" id ="btn-item-estoque" type="submit" > 
                                             Adicionar Produto 
                                         </button> 
-                                    </a>
+                                     
                                 </div>
                                 <?php
-                            endif;
+                                
 
                                 // fechar o formulario 
-                            echo form_close();
-                            ?>
+                                echo form_close();
+                                ?>
+                            </div>
                             
                         </div>
                         
@@ -320,9 +231,11 @@
                 <div class="text-center">
                    <h4 class= "title-itens-nota"> <?php echo "  Itens da Nota" ?> </h4>
                 </div>
+            
+                 
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 scroll">
                   
                             <!-- gerar tabela de categorias pela framework PJCS --> 
                             <?php
@@ -414,6 +327,7 @@
     </div>
 
 </div>
+
 
 
 

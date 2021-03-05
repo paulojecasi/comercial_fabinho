@@ -16,7 +16,8 @@ class Venda extends CI_Controller {
 		$this->load->model('produto_model','modelprodutos'); 
 		$this->load->model('picklist_model','model_tipo_pagamento');
 		$this->load->model('venda_model','modelvendas');
-		$this->load->model('estoque_model','modelestoque'); 
+		$this->load->model('estoque_model','modelestoque');
+		$this->load->model('caixa_model','modelcaixa_movimento'); 
 		
 		$this->produtos = $this->modelprodutos->listar_produtos(); 
 		$this->tipo_pagamento = $this->model_tipo_pagamento->lista_tipos_pagamentos(); 
@@ -172,7 +173,7 @@ class Venda extends CI_Controller {
 		{
 			$mensagem ="Alterações aplicadas no Item com Sucesso  !"; 
 
-			$this->session->set_userdata('mensagem',$mensagem); 
+			$this->session->set_userdata('mensagemAlert',$mensagem); 
 			
 		} else {
 
@@ -224,12 +225,21 @@ class Venda extends CI_Controller {
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
 		//$this->load->view('backend/mensagem');
-		if ($tipo_pagamento == 1){
+		if ($tipo_pagamento == 1)
+		{
 			$this->load->view('frontend/venda_pagamento_money');
-		}elseif ($tipo_pagamento == 4){
+		}
+		elseif ($tipo_pagamento == 2){
+			$this->load->view('frontend/venda_pagamento_debito');
+		}
+		elseif ($tipo_pagamento == 3){
+			$this->load->view('frontend/venda_pagamento_credito');
+		}
+		elseif ($tipo_pagamento == 4){
 			$this->load->view('frontend/venda_pagamento_crediario');
-		} else {
-
+		} 
+		else 
+		{
 			$this->load->view('frontend/venda_pagamento');
 		}
 		
@@ -251,7 +261,8 @@ class Venda extends CI_Controller {
 
 		$idcliente	= $this->input->post('idcliente_crediario');
 
-	
+		$valor_recebido = $this->input->post('vl_recebido_caixa');
+		$valor_troco		= $this->input->post('vl_troco');
 
 		if ($tipo_pagamento==4 && !$idcliente){
 
@@ -297,7 +308,7 @@ class Venda extends CI_Controller {
 				
 			} else {
 
-				$mensagem = "Houve um erro ao Gravar a Venda (Tabela VENDA)"; 
+				$mensagem = "Houve um erro ao Gravar a Venda (gravar_venda)"; 
 				$this->session->set_userdata('mensagemErro',$mensagem); 
 				$this->db->trans_rollback(); 
 				redirect(base_url('venda')); 
@@ -310,7 +321,7 @@ class Venda extends CI_Controller {
 
 			if (!$itensvenda) 
 			{
-				$mensagem = "Houve um erro ao Gravar a Venda (Tabela VENDA_ITEM)"; 
+				$mensagem = "Houve um erro ao Gravar a Venda (gravar_venda_item)"; 
 				$this->session->set_userdata('mensagemErro',$mensagem); 
 				$this->db->trans_rollback(); 
 				redirect(base_url('venda'));
@@ -332,7 +343,7 @@ class Venda extends CI_Controller {
 
 				if (!$baixa_estoque =="ok")
 				{
-					$mensagem = "Houve um erro na baixa de Estoque (Tabela ESTOQUE_MOVIMENTO ou ESTOQUE_SALDO)"; 
+					$mensagem = "Houve um erro na baixa de Estoque (movimento_estoque)"; 
 					$this->session->set_userdata('mensagemErro',$mensagem); 
 					$this->db->trans_rollback(); 
 					redirect(base_url('venda'));
@@ -342,9 +353,22 @@ class Venda extends CI_Controller {
 			}
 
 			$this->finalizar_produto_caixa_temp($idcaixa); 
+ 
+			// vamos gravar o movimento no caixa
+			$tipomovimento_caixa = $tipopagamento ; 
+	 
+			if (!$this->modelcaixa_movimento->grava_caixa_mov($idcaixa,$idvenda,$idcliente,$idusuario,$tipomovimento_caixa,$valorvenda,$valoracrescimo,$valordesconto,5,$valor_recebido,$valor_troco))
+			{
+				$this->db->trans_rollback(); 
+			  $mensagem = "Houve um ERRO ao gravar caixa_movimento (grava_caixa_mov) "; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+				redirect(base_url('venda'));
+			} 
+			//--------------------------------------
 
 			if ($tipo_pagamento==4){
-				$this->atualiza_saldo_crediario($idcliente, $valorvenda); 
+				$idcliente_md = md5($idcliente); 
+				$this->atualiza_saldo_crediario($idcliente, $idcliente_md, $valorvenda); 
 			}
 
 			
@@ -359,7 +383,7 @@ class Venda extends CI_Controller {
 		{ 
 			$this->db->trans_commit(); 
 			$mensagem = "Venda Realizada com Sucesso !"; 
-			$this->session->set_userdata('mensagem',$mensagem); 
+			$this->session->set_userdata('mensagemAlert',$mensagem); 
 			redirect(base_url('venda'));
 	
 		}
@@ -371,67 +395,186 @@ class Venda extends CI_Controller {
 
 	}
 
-	private function atualiza_saldo_crediario($idcliente, $valorvenda)
+	private function atualiza_saldo_crediario($idcliente, $idcliente_md, $valorvenda)
 	{
-		$this->modelvendas->atualiza_saldo_crediario($idcliente, $valorvenda);
+
+		$this->modelvendas->atualiza_saldo_crediario($idcliente, $idcliente_md, $valorvenda);
 
 	}
 
-	function consultajquery()
+
+	function consultajquery_itens_venda()
 	{
 	 	$output = '';
-	 	$desproduto = ''; 
+	 	$vendaitem = ''; 
 
- 		if ($this->input->post('nomeproduto'))
+ 		if ($this->input->post('idvenda_it'))
  		{
-	 		$desproduto = $this->input->post('nomeproduto'); 
+	 		$vendaitem = $this->input->post('idvenda_it'); 
 	 	}
 
-	 	$dados = $this->modelprodutos->consultajquery($desproduto);
+	 	$dados_venda = $this->modelvendas->consulta_venda($vendaitem);
+	 	$dados_venda_item = $this->modelvendas->consultajquery_itens_venda($vendaitem);
+
+	 	$codigo_venda = 0;
+	 	$valor_venda =0;
+	 	if ($dados_venda){
+	 		foreach ($dados_venda as $dvenda) {
+	 			$codigo_venda = $dvenda->idvenda;
+	 			$valor_venda	= reais($dvenda->valorvenda); 
+	 		}
+
+	 	}
 
  		$output .= '
- 		<div class= "form-group picklist-prod">
+ 		<h4 class = "col-lg-7 text-center h4-itens-da-venda"> 
+ 			ITENS DA VENDA 
+ 		</h4> 
+ 		<h4 class = "col-lg-2 text-center h4-itens-da-venda"> 
+ 			Venda : <b> '.$codigo_venda.' </b>
+ 		</h4>
+ 		<h4 class = "col-lg-3 text-center h4-itens-da-venda"> 
+ 			Valor R$ : <b> '.$valor_venda.' </b>
+ 		</h4>
+ 		<table class="table table-hover tabela-itens-venda-consulta">
+			<thead>
+		    <tr>
+		      <th scope="col">Código Produto</th> 
+		      <th scope="col">Descrição</th> 
+		      <th scope="col">Valor Unitário</th>
+		      <th scope="col">Quantidade</th>
+		      <th scope="col">Valor Total</th>
+		    </tr>
+		  </thead>
 
- 			<div class picklist-tit> 
-	 			<label class= "codigo">
-	 					Codigo  
-	 			</label>
-	 			<label class= "descricao">
-	 					Codido de Barras 
-	 			</label>
-	 			<label class="barras">
-	 					 Descricao 
-	 			</label> 
-	 		</div> 
-      <select multiple class="form-control" id="idproduto_res" name="idproduto_res">
-	 		';
-	 		if ($dados->num_rows() > 0){
-	 			foreach ($dados->result() as $row) {
-	 				$codigo = str_pad($row->codproduto,30);
-	 				$id = $row->idproduto; 
+
+      <tbody>';
+
+	 		if ($dados_venda_item){
+	 			foreach ($dados_venda_item as $row) {
+	 				$id 				= $row->idvendaitem; 
+	 				$codigo 		= $row->codproduto;
+	 				$descricao 	= $row->desproduto; 
+	 				$vlunitario = $row->valorunitario;
+	 				$qtitens		= $row->quantidadeitens;
+	 				$vltotal		= $row->valortotal;
 
 	 				$output .= '
-			 			<option value="'.$id.'" selected>'.$codigo. 
-			 								$row->desproduto.  
-			 								$row->codbarras. 
-			 			'</option>'; 
+	 					<tr>
+				 			<th scope="row">'.$codigo.		'</th>  
+				 			<td>					  '.$descricao.	'</td>
+				 			<td>					  '.$vlunitario.'</td>
+				 			<td>					  '.$qtitens.		'</td>
+				 			<td>					  '.$vltotal.		'</td>'	 					 
+				 			; 
 	 			}
 
 	 		}
 	 		else {
-	 			$output .= '
-	 			<option>---- Nenhum item informado ---- </option>';
+		 			$output .= '
+		 			<td>---- Nenhum item informado ---- </td>';
 	 		}
 
 	 		$output .= '
- 			</select>
- 		</div>'; 
+	 			</tr>
+ 			</tbody>
+ 		</table>'; 
 
  		echo $output;
  		exit; 
 
 	}
 
+
+	function consultajquery_pagamento()
+	{
+	 	$output = '';
+	 	$idvenda = ''; 
+
+ 		if ($this->input->post('idpagamento'))
+ 		{
+	 		$idvenda = $this->input->post('idpagamento'); 
+	 	}
+	
+
+	 	$dados_venda = $this->modelvendas->consulta_venda($idvenda);
+	 	$dados_pagmto = $this->modelvendas->consultajquery_pagamento($idvenda);
+
+
+	 	$codigo_venda = 0;
+	 	$valor_venda =0;
+	 	if ($dados_venda){
+	 		foreach ($dados_venda as $dvenda) {
+	 			$codigo_venda = $dvenda->idvenda;
+	 			$valor_venda	= reais($dvenda->valorvenda); 
+	 		}
+
+	 	}
+
+		if ($dados_pagmto && $idvenda): 
+	 		$output .= '
+	 		<h4 class = "col-lg-7 text-center h4-pagamento-da-venda"> 
+	 			PAGAMENTO(S) REALIZADO(S) NA VENDA-CREDIÁRIO  
+	 		</h4> 
+	 		<h4 class = "col-lg-2 text-center h4-pagamento-da-venda"> 
+	 			Venda : <b> '.$codigo_venda.' </b>
+	 		</h4>
+	 		<h4 class = "col-lg-3 text-center h4-pagamento-da-venda"> 
+	 			Valor R$ : <b> '.$valor_venda.' </b>
+	 		</h4>
+	 		<table class="table table-hover tabela-itens-venda-consulta">
+				<thead>
+			    <tr>
+			    	<th scope="col">Código Recebimento</th>
+			      <th scope="col">Código Caixa</th> 
+			      <th scope="col">Data Pagamento</th> 
+			      <th scope="col">Tipo Pagamento</th>
+			      <th scope="col">Juros R$</th>
+			      <th scope="col">Descontos R$</th>
+			      <th scope="col">Valor Total</th>
+			    </tr>
+			  </thead>
+
+	      <tbody>';
+
+		 		if ($dados_pagmto && $idvenda){
+		 			foreach ($dados_pagmto as $pagto) {
+		 				$idreceb			= $pagto->idcaixa_mov;
+		 				$caixa 				= $pagto->idcaixa; 
+		 				$data 				= datebr($pagto->data_movimento);
+		 				$destipopag 	= $pagto->destipopagamento; 
+		 				$vljuros		 	= reais($pagto->vl_juros);
+		 				$vldesconto		= reais($pagto->vl_desconto);
+		 				$vltotal			= reais($pagto->vl_movimento);
+
+		 				$output .= '
+		 					<tr>
+					 			<th scope="row">'.$idreceb.		'</th>  
+					 			<td>					  '.$caixa.	'</td>
+					 			<td>					  '.$data.'</td>
+					 			<td>					  '.$destipopag.'</td>
+					 			<td>					  '.$vljuros.		'</td>	 
+					 			<td>					  '.$vldesconto.		'</td>
+					 			<td>					  '.$vltotal.		'</td>'					 
+					 			; 
+		 			}
+
+		 		}
+		 		else {
+			 			$output .= '
+			 			<td>---- Nenhum item informado ---- </td>';
+		 		}
+
+		 		$output .= '
+		 			</tr>
+	 			</tbody>
+	 		</table>'; 
+	 	endif;
+
+ 		echo $output;
+ 		exit; 
+
+	}
 	
 
 

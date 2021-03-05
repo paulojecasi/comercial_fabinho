@@ -20,24 +20,17 @@ class Produto_model extends CI_Model
 		//echo "qt = ".$produtos_por_pagina;
 		//exit;  
 
-		if ($pular && $produtos_por_pagina){
+		if ($pular && $produtos_por_pagina)
+		{
 			$this->db->limit($produtos_por_pagina, $pular);
-		} else {
-			$this->db->limit($this->session->userdata('itensPorPagina')); 
+		} 
+		else 
+		{
+			$this->db->limit(5); 
 		}
 
-		// vamos ver o tipo de listagem escolhido
-		// se nao vier preenchido, vamos carregar como TODOS OS PRODUTOS 
-		// geralmente acontece ao acessar o ADMIN, pois a SESSION ainda não
-		// foi preenchida - PJCS 
-		if (!$this->session->userdata('tipolista')){
-			$this->session->set_userdata('tipolista','todos');
-		} 
-		$this->listagem_produto_escolha(); 
-		
-		$this->valida_produtos(); 
-		$this->db->order_by('desproduto','ASC'); 
-		return $this->db->get('produto')->result(); 
+			$this->db->order_by('desproduto ASC'); 
+			return $this->db->get('produto')->result(); 
 
 	}
 
@@ -245,13 +238,13 @@ class Produto_model extends CI_Model
 
 	}
 
-	function consultajquery($desproduto)
+	function consultajquery_produto($desproduto)
 	{
 
 		if (strlen($desproduto)>0) 
 		{
 			$this->db->like('desproduto', $desproduto); 
-			$this->db->or_like('codbarras', $desproduto);
+			$this->db->or_where('codbarras', $desproduto);
 			$this->db->or_where('codproduto=', $desproduto);
 			$this->db->order_by('desproduto','DESC');
 			return $this->db->get('produto'); 
@@ -259,6 +252,66 @@ class Produto_model extends CI_Model
 			$this->db->where('desproduto=', 'NULL'); 
 			return $this->db->get('produto'); 
 		}
+
+	}
+
+	function getConsultajquery_produto_admin($idproduto)
+	{
+
+		if (strlen($idproduto)>0) 
+		{
+			$this->db->where('idproduto=',$idproduto);
+			return $this->db->get('produto')->result(); 
+		} else {
+			$this->db->where('desproduto=', 'NULL'); 
+			return $this->db->get('produto')->result(); 
+		}
+
+	}
+
+	function getConsultajquery_produtos_admin($desproduto, $tiporel)
+	{
+
+		if ($tiporel == "destsim")
+		{
+			$this->db->where("produtodestaque=",1); 
+		}
+		elseif ($tiporel == "destnao") 
+		{
+			$this->db->where("produtodestaque=",2);
+		}
+
+		elseif ($tiporel == "sitesim")
+		{
+			$this->db->where("produtosite=",1); 
+		}
+		elseif ($tiporel == "sitenao") 
+		{
+			$this->db->where("produtosite=",2);
+		}
+
+		elseif ($tiporel == "ativos")
+		{
+			$this->db->where("produtoativo=",1); 
+		}
+		elseif ($tiporel == "inativos") 
+		{
+			$this->db->where("produtoativo=",2);
+		}
+
+		if ($desproduto) 
+		{
+			$this->db->like('desproduto', $desproduto); 
+			$this->db->or_like('codbarras', $desproduto);
+			$this->db->or_where('codproduto=', $desproduto);
+			$this->db->order_by('desproduto','DESC');
+			return $this->db->get('produto')->result(); 
+		} else { 
+			$this->db->where('idproduto > 0'); 
+			$this->db->order_by('desproduto ASC');
+			return $this->db->get('produto')->result(); 
+		}
+
 
 	}
 

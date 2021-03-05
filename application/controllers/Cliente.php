@@ -14,6 +14,7 @@ class Cliente extends CI_Controller {
 
 		$this->load->model('cliente_model','modelcliente'); 
 		$this->load->model('venda_model','modelvendas'); 
+		$this->load->model('caixa_model','modelcaixa_movimento');
 
 	}
 
@@ -24,7 +25,7 @@ class Cliente extends CI_Controller {
 
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
-		//$this->load->view('backend/mensagem');
+		//$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('frontend/cliente');
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');
@@ -37,7 +38,7 @@ class Cliente extends CI_Controller {
 		$dados['idcaixa'] = $idcaixa;
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
-		//$this->load->view('backend/mensagem');
+		//$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('frontend/cliente_cadastro');
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');
@@ -75,7 +76,7 @@ class Cliente extends CI_Controller {
 
 				$idcliente = $this->db->insert_id(); // pega ultimo id inserido 
 				$mensagem ="Cliente Adicionado com Sucesso !"; 
-				$this->session->set_userdata('mensagem',$mensagem); 
+				$this->session->set_userdata('mensagemAlert',$mensagem); 
 
 				$this->carrega_sessions($idcliente, $nome, $apelido, $endereco, $pontoreferencia, $cpf); 
 
@@ -100,7 +101,7 @@ class Cliente extends CI_Controller {
 	}
 
 	public function consulta_cliente($localchamado=null)
-	{
+	{ 
 
 		//encerrar seçoes
 		$this->session->unset_userdata('idcliente');
@@ -159,7 +160,7 @@ class Cliente extends CI_Controller {
 
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
-		//$this->load->view('backend/mensagem');
+		//$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('frontend/cliente_altera');
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');
@@ -197,7 +198,7 @@ class Cliente extends CI_Controller {
 
 
 				$mensagem ="Dados do Cliente Alterado com Sucesso !"; 
-				$this->session->set_userdata('mensagem',$mensagem); 
+				$this->session->set_userdata('mensagemAlert',$mensagem); 
 
 				$this->carrega_sessions(null,$nome, $apelido, $endereco, $pontoreferencia, $cpf);
 		
@@ -223,14 +224,14 @@ class Cliente extends CI_Controller {
 		$dados['idcliente'] = $idcliente;
 		$dados['localchamado'] = $localchamado; 
 
-		$dados['vendas_cli']= $this->modelvendas->consulta_crediarios_cliente($idcliente,1); 
-		$dados['vendas_itens_cli']= $this->modelvendas->consulta_crediarios_cliente($idcliente,2);
+		$dados['vendas_cli']= 
+			$this->modelvendas->consulta_crediarios_cliente($idcliente);
 
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
-		//$this->load->view('backend/mensagem');
+		//$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('frontend/cliente_consulta_crediario');
-		$this->load->view('frontend/template/footer');
+		//$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');
 
 	}
@@ -238,43 +239,96 @@ class Cliente extends CI_Controller {
 	private function consulta_saldo_crediario($idcliente)
 	{
 
-		$saldo_dev = $this->modelcliente->consulta_saldo_crediario($idcliente);
+		$saldo_dev = $this->modelvendas->consulta_saldo_crediario($idcliente);
 		
 		foreach ($saldo_dev as $saldo_cred) 
 		{
 			$this->session->set_userdata('vl_saldo_devedor',$saldo_cred->vl_saldo_devedor); 
-
 		}
 
 	}
 
-	public function pagamento_crediario($idvenda){
+	public function pagamento_crediario($idvenda)
+	{
 
 		$idcaixa =1; 
 		$dados['idcaixa'] = $idcaixa; 
 		$dados['venda_cliente'] = $this->modelvendas->consulta_venda($idvenda);
+		$dados['tipo_pagamento'] = $this->modelvendas->tipo_pagamento(); 
 
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
-		//$this->load->view('backend/mensagem');
+		//$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('frontend/cliente_pagamento_crediario');
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');
 
 	}
 
-	public function pagamento_crediario_confirma($idvenda)
+	public function pagamento_crediario_confirma($idvenda_md, $idcliente_md)
 	{
-		$vl_amortizacao = $this->input->post('vl_real_amortizacao'); 
 
-		$this->modelvendas->baixa_pagamento_crediario($idvenda,$vl_amortizacao);
+		$idcaixa =1;
+		$idusuario 	= $this->session->userdata('userLogado')->id;
+		$vl_amortizacao = $this->input->post('vl_real_amortizacao');
+		$tipo_pagamento = $this->input->post('idpagamento');
 
-		$this->pagamento_crediario($idvenda); 
-		//$this->consulta_crediario($idcliente,"cliente");
+		$vl_recebido   	= $this->input->post('vl_recebido_caixa_cred'); 
+		$vl_troco 			=	$this->input->post('vl_troco_cred'); 
+		$vl_movimento 	= $vl_recebido - $vl_troco; 
+		$vl_juros				= $this->input->post('vl_juros_caixa_cred');
+		$vl_desconto		= $this->input->post('vl_desconto_caixa_cred');
+		// vamos iniciar a transação 
+    $this->db->trans_begin();
+
+			$resultado = $this->modelvendas->consulta_venda($idvenda_md); 
+			foreach ($resultado as $venda) {
+				$valorvenda = $venda->valorvenda;
+				$vlsaldo_crediario_atual = $venda->vlsaldo_crediario;
+				$idcliente = $venda->idcliente; 
+				$situacaovenda = $venda->situacaovenda; 
+				$idvenda = $venda->idvenda;
+			}
+
+			// vamos amortizar o saldo 
+			$vlsaldo_crediario =  $vlsaldo_crediario_atual-$vl_amortizacao;
+
+			if ($vlsaldo_crediario <=0)
+			{
+				$situacaovenda =1;  // se zerar o saldo, vamos quitar a venda 
+			}
+
+			$this->modelvendas->atualiza_venda_crediario($idvenda_md,$situacaovenda,$vlsaldo_crediario);
+
+			$this->modelvendas->atualiza_saldo_crediario($idcliente,$idcliente_md,$vl_amortizacao,"pagamento");
+
+			$tipomovimento_caixa = 5; // recebimento crediario  
+			$this->modelcaixa_movimento->grava_caixa_mov($idcaixa,$idvenda,$idcliente,$idusuario,$tipomovimento_caixa,$vl_movimento,$vl_juros,$vl_desconto,$tipo_pagamento,$vl_recebido,$vl_troco); 
+
+			// consulta e atualiza saldo devedor do cliente 
+			$this->consulta_saldo_crediario($idcliente_md);
+
+		if  ($this->db->trans_status()===FALSE ) 
+		{ 
+		  $this->db->trans_rollback(); 
+		  $mensagem = "Houve um ERRO de TRANSAÇÃO! (venda_model/baixa_pagamento_crediario)"; 
+			$this->session->set_userdata('mensagemErro',$mensagem); 
+		} 
+		else 
+		{ 
+			$this->db->trans_commit(); 
+			$mensagem = "Pagamento Realizado com Sucesso !"; 
+			$this->session->set_userdata('mensagemAlert',$mensagem); 
+	
+		}
+			 
+		redirect(base_url('cliente/consulta_crediario/').$idcliente_md.'/cliente');
 	}
+
 
 	private function carrega_sessions($idcliente=null, $nome, $apelido, $endereco, $pontoreferencia, $cpf)
 	{
+
 
 		if ($idcliente)
 		{
@@ -291,6 +345,7 @@ class Cliente extends CI_Controller {
 
 	function consultajquery_cliente()
 		{
+
 	 	$output = '';
 	 	$nomecliente = ''; 
 
@@ -305,7 +360,7 @@ class Cliente extends CI_Controller {
 	 	$dados_cli = $this->modelcliente->consultajquery_cliente($nomecliente);
 
  		$output .= '
- 		<div class= "form-group picklist-prod">
+ 		<div class= "form-group picklist-cliente">
 
  			<div class picklist-tit> 
 	 			<label class= "idcliente">
@@ -326,9 +381,16 @@ class Cliente extends CI_Controller {
 	 				$id = $row->idcliente; 
 
 	 				$output .= '
-			 			<option value="'.$id.'" selected>'.$codigo. 
+			 			<option value="'.$id.'" selected>'
+			 								.$codigo.
 			 								$row->nome.  
 			 								$row->apelido. 
+			 				/*'<tr>
+				 				<td>						'.$codigo.		'</td>  
+				 				<td>					  '.$row->nome.	'</td>
+				 				<td>					  '.$row->apelido.'</td>	
+				 			</tr>' */
+
 			 			'</option>'; 
 	 			}
 
@@ -346,5 +408,6 @@ class Cliente extends CI_Controller {
  		exit; 
 
 	}
+
 
 }

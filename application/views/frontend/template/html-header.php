@@ -34,6 +34,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script src="<?php echo base_url('/assets/backend/js/sweetalert.min.js') ?>"></script>
 
-
   </head>
   <body>

@@ -1,6 +1,6 @@
 <div class = "row">
 
-    <div class = "text-center tipo-de-pagamento-escolha tipo-de-pagamento-escolha-cliente">
+    <div class = "text-center titulo-tela-consulta-crediario">
         <h2> Cadastrar Cliente </h2>
     </div>
 
@@ -25,7 +25,7 @@
     <div class = "col-lg-12 col-sm-12 tela-manutencao-cli">
 
 
-        <div class="panel2-consulta-cliente col-lg-12">
+        <div class="panel2-cadastro-cliente col-lg-12">
             <div class="form-group cliente_venda col-lg-10">
                 <label for="cliente_venda"> Cliente </label>
                 <input type="text" id="nome" name="nome" class="form-control" value = "<?php echo set_value('nome'); ?>" required onkeydown="javascript:EnterTab('apelido',event)" autofocus="true"   />
@@ -64,7 +64,7 @@
         </div>
          
       
-        <div class="form-group col-lg-12 btn-link"> 
+        <div class="form-group col-lg-12 btn-link-casdatrar-cliente"> 
             
             <?php 
             if ($localchamado == "crediario"):

@@ -13,10 +13,14 @@
                 <div class="panel-heading">
                    <?php echo "Cadastro de Estoque/Notas" ?>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-cadastro-nota-estoque">
                     <div class="row">
                         <div class="col-lg-12 cadnota">
                         <?php 
+
+                            foreach ($numero_nota_auto as $nota_aut) {
+                               $numero_nota_aut = $nota_aut->codigo_nota_automatica ;
+                            }
 
                             // aqui vamos vericar os erros de validação
                             echo validation_errors('<div class="alert alert-warning">','</div>'); 
@@ -26,18 +30,22 @@
                             echo form_open('admin/estoque/inserir');
         
                             ?>
+                            <input id="nrnota_aut" name="nrnota_aut" type="hidden"class = "form-control"   value="<?php  echo $numero_nota_aut ?>">
+
                             <div class="form-group col-lg-5 col-sm-11 vercons"> 
                                 <label> Numero da Nota </label>
                                 <input id="nrnota" name="nrnota" type="text"class = "form-control" placeholder ="Digite o Numero da Nota" value="<?php echo set_value('nrnota') ?>">
 
                             </div>
 
-                            <div class="form-group col-lg-1 col-sm-1 ">
+     
+                            <div class="form-group col-lg-1 col-sm-1 check-sem-nota">
                                 <label> Sem Nota </label>
                                 <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                  <input class="form-check-input" type="checkbox" value="" id="check-sem-nota">
                                 </div> 
                             </div>
+
 
                             <div class="form-group col-lg-6 col-sm-12 vercons"> 
                                 <label> Serie  </label>

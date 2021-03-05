@@ -18,8 +18,30 @@ $(".btn_buscar").focus(function(){
 		} 
 		setTimeout(function() {
     	teclarEnter();
-		}, 500) // 0,3 segundos 
+		}, 500) // 0,5 segundos 
 });	
+
+$("#btn_buscar_item").focus(function(){
+        
+        var teclarEnter = function() {  
+                $('#btn_buscar_item').click();
+        } 
+        setTimeout(function() {
+        teclarEnter();
+        }, 500) // 0,5 segundos 
+});
+
+$("#btn_consulta_est").focus(function(){
+        
+        var teclarEnter = function() {  
+                $('#btn_consulta_est').click();
+        } 
+        setTimeout(function() {
+        teclarEnter();
+        }, 500) // 0,5 segundos 
+});
+
+
 
 // nao permite que o botao SUBMIT "CADASTRAR" seja acionado ao teclar <ENTER> 
 $("#form-add-cliente").bind("keypress", function (e) {
@@ -28,7 +50,7 @@ $("#form-add-cliente").bind("keypress", function (e) {
         //add more buttons here
         return false;
     }
-});
+}); 
 
 // nao permite que o botao SUBMIT "APLICAR ALTERAÇÕES" seja acionado ao teclar <ENTER> 
 $("#form-alt-cliente").bind("keypress", function (e) {
@@ -38,3 +60,47 @@ $("#form-alt-cliente").bind("keypress", function (e) {
         return false;
     }
 });
+
+$("#form-alt-produto-temp").bind("keypress", function (e) {
+    if (e.keyCode == 13) {
+        $("#btn-alt-produto_temp").attr('value');
+        //add more buttons here
+        return false;
+    }
+});
+
+$("#form-pag-money").bind("keypress", function (e) {
+    if (e.keyCode == 13) {
+        $("#btn-concluir-pgto").attr('value');
+        //add more buttons here
+        return false;
+    }
+});
+
+$("#form-pagamento-cred").bind("keypress", function (e) {
+    if (e.keyCode == 13) {
+        $("#btn-pagamento-cred").attr('value');
+        //add more buttons here
+        return false;
+    }
+});
+
+// na entrada de podutos no estoque
+$("#form-add-item-estoque").bind("keypress", function (e) {
+    $('#vltotal').prop('readonly', true);
+    if (e.keyCode == 13) {
+        $("#btn-add-item-estoque").attr('value');
+        //add more buttons here
+        return false;
+    }
+});
+
+$("#form-cadastro-produto").bind("keypress", function (e) {
+    if (e.keyCode == 13) {
+        $("#btn-add-produto").attr('value');
+        //add more buttons here
+        return false;
+    }
+});
+
+

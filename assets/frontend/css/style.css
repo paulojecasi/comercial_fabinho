@@ -4,6 +4,12 @@ img {
     height: auto;
 }
 
+.btn-default{
+  background-color: #A9A9A9; 
+  color: white;
+
+}
+
 .container{
   width: 100%;
   height: 100%;
@@ -230,7 +236,7 @@ button.btn-consulta img{
 }
 
 div.area-vendas1{
-  border-bottom: 1px solid;
+  border-bottom: 2px solid;
 }
 
 div.area-vendas1 input, div.picklist-prod select{
@@ -270,48 +276,56 @@ h3.descricao-prod-caixa{
 }
 
 div.desc-precos-compras h3 {
- color: blue;  
- font-weight: bold; 
- font-size: 30px; 
- margin-bottom: -8px;
- margin-top: 0px; 
- border-bottom: 1px solid;
- text-align: center;
+  background-color: #191970; 
+   color: white;  
+   font-weight: bold; 
+   font-size: 30px; 
+   margin-bottom: -8px;
+   margin-top: 0px; 
+   border: 2px solid;
+   border-radius: 10px; 
+   text-align: center;
 }
 
 div.tela-numero-itens h1{
-  color: blue;
+  background-color:#4F4F4F;
+  color: white;
   font-weight: bold; 
   font-size: 40px;
   text-align: center; 
-  margin-top: -10px;
+  margin-top: -5px;
   margin-bottom: 0px; 
-  border-bottom: 1px solid; 
-  border-color: #D2691E;
+  border: 2px solid; 
+  border-radius: 10px; 
+  border-color: #fff;
   
 }
 
 div.tela-preco-desconto h1{
-  color: blue;
+  background-color:#4F4F4F;
+  color: white;
   font-weight: bold; 
   font-size: 40px;
   text-align: center; 
-  margin-top: -10px;
+  margin-top: -5px;
   margin-bottom: 0px; 
-  border-bottom: 1px solid; 
-  border-color: #D2691E;
+  border: 2px solid; 
+  border-radius: 10px; 
+  border-color: #fff;;
   
 }
 
 div.tela-preco-acrescimo h1{
-  color: blue;
+  background-color:#4F4F4F;
+  color: white;
   font-weight: bold; 
   font-size: 40px;
   text-align: center; 
-  margin-top: -10px;
+  margin-top: -5px;
   margin-bottom: 0px; 
-  border-bottom: 1px solid; 
-  border-color: #D2691E; 
+  border: 2px solid; 
+  border-radius: 10px; 
+  border-color: #fff; 
  
 }
 
@@ -320,9 +334,10 @@ div.tela-preco-total h1{
   font-weight: bold; 
   font-size: 60px;
   text-align: center; 
-  margin-top: -10px;
+  margin-top: 0px;
   margin-bottom: 0px; 
-  border-bottom: 1px solid; 
+  border: 3px solid; 
+  border-radius: 10px; 
   border-color: #A9A9A9; 
 }
 
@@ -336,12 +351,13 @@ div.tela-preco-troco h1{
   border-color: #A9A9A9; 
 }
 
-
-
-
 div.footer-card-icon i{
   margin-top: 3px; 
   font-size: 16px; 
+}
+
+div#btn-venda button{
+  margin-top:25px;
 }
 
   /* DO RODAPE*/
@@ -407,7 +423,7 @@ div.cactosdev_acesso p img.email, div.cactosdev_acesso p img.whats{
 
 
 div.btn-finalizar-venda{
-  margin-top: 20px; 
+  margin-top: 12px; 
   margin-bottom: 0px; 
 }
 
@@ -503,12 +519,20 @@ div.picklist-prod div label{
 
 .titulo-tela-tipopag div h2{
   color: yellow; 
+  margin-left: 15px;
 }
 
-.titulo-tela-tipopag div h1{
-  color: red; 
-  font-size: 60px; 
+h5.valor-total-venda{
+  color: yellow; 
+  font-size: 52px; 
+  width: 100%;
+  height: 60px; 
+  text-align: left;
+  font-weight: bold;
+  color: red;
+    
 }
+
 
 .titulo-tela-tipopag2{
   margin-top: 0px; 
@@ -522,6 +546,10 @@ div.picklist-prod div label{
 .titulo-tela-tipopag2 div h1{
   color: red; 
   font-size: 60px; 
+}
+
+div.panel-valores-money{
+  margin-bottom: 70px; 
 }
 
 
@@ -546,8 +574,9 @@ div.tipo-de-pagamento{
   background-color: #1C1C1C;
   border-top: 3px solid; 
   border-color: white; 
-  padding-bottom: 20px; 
+  padding-bottom: 45px; 
 }
+
 
 div.tipo-de-pagamento h2{
   color: white;
@@ -588,19 +617,23 @@ div.tipo-de-pagamento-escolha-crediario{
 
 }
 
-div.tipo-de-pagamento-escolha-cliente{
-
+div.titulo-tela-consulta-crediario{
   background-color: #363636;
-
+  margin-top: -20px; 
+  margin-bottom: -7px;
 }
 
+div.titulo-tela-consulta-crediario h2{
+  font-size: 20px; 
+  color: white; 
+  padding: 5px;
+}
 
 div.link-voltar{
-  margin-top: 20px; 
+  margin-top: 10px; 
   margin-bottom: 0px; 
   font-size: 19px;  
 }
-
 
 h1.valor-recebido-venda input{
   color: #fff; 
@@ -627,12 +660,12 @@ h1.valor-recebido-troco input:disabled {
 }
 
 div.btn-finalizar-venda-money{
-  margin-top: 50px; 
+  margin-top: 0px; 
   margin-bottom: 0px; 
 }
 
 div.btn-link {
-  margin-top:20px; 
+  margin-top:10px; 
   margin-bottom: 40px;
 }
 
@@ -661,11 +694,19 @@ h4.btn-excluir {
 
 div.mensagem-sistema{
   height: 10px;
-  margin-top: 2px; 
+  margin-top: 10px;
+  padding: 0px;  
 }
 
-div.mensagem-sistema h4{
+div.mensagem-sistema div{
   margin-top: 0px; 
+  font-size: 15px; 
+  padding: 7px; 
+
+}
+
+div.mensagem-sistema div b#av1{
+ color: blue; 
 }
 
 /* ---- ALTERAÇAO DO ITEM DA VENDA ----*/
@@ -754,19 +795,16 @@ div.panel-top-cliente{
 
 div.valor-venda-crediario h4{
   margin-bottom: -10px; 
-  color: red; 
+  color: yellow; 
 
 }
 
 div.valor-venda-crediario h4 b{
   margin-bottom: -10px; 
-  color: yellow; 
+  color: red; 
   font-size: 20px;
 }
 
-div.cadastro-cliente-crediario h4:after{
-  content: "Cliente não tem CADASTRO?"; 
-}
 
 div.cadastro-cliente-crediario h4{
   margin-bottom: -10px; 
@@ -810,8 +848,188 @@ div.btn-finalizar-venda-cliente{
   margin-bottom: -20px; 
 }
 
+div.btn-link-cadastro{
+  margin-top: 50px; 
+  margin-bottom: 45px; 
+}
 
-/* TELA CONSULTA DE CLIENTE SELECIONADO NO CREDIARIO- */
+/* TELA DEMONSTRACAO DE CREDIARIO DO CLIENTE */
+
+.panel-demostracao-cliente{
+  margin-top: 5px; 
+  margin-left: 0px; 
+  margin-right: 0px;
+
+ /* border: 3px solid;  */
+}
+.panel-demostracao-cliente div label{
+  margin-top: 0px;
+  margin-bottom: 0px; 
+  color: #fff;
+}
+
+.panel-demostracao-cliente div input:disabled{
+  color: #4F4F4F;
+  background-color:#C0C0C0; 
+  font-size: 16px; 
+  height:21px; 
+}
+
+.panel-demostracao-cliente div input#cliente_saldoc{
+  font-size: 20px;  
+  color: red;
+  background-color: black; 
+  height:24px; 
+  text-align: center; 
+}
+
+div.panel-vendas2-2{
+  background-color: #DCDCDC;
+  margin-top: 0px; 
+  margin-left: 0px;
+  margin-right:0px;
+  margin-bottom: 0px;  
+  border:2px solid; 
+  height: 230px;
+  overflow-y: scroll;
+}
+div.panel-vendas2-2 table{
+  background-color: #DCDCDC; 
+  font-weight: bold; 
+  color: #696969;
+}
+
+div.panel-vendas2-2 table h5{
+  font-weight: bold; 
+  color: #000;
+  margin-top: -15px; 
+  margin-bottom: 0px; 
+
+}
+
+div.panel-vendas2-2 table b#aberto, #quitado{
+  color: red; 
+  font-size: 15px; 
+  margin-top: -10px; 
+  margin-bottom: -10px; 
+}
+
+div.panel-vendas2-2 table b#quitado{
+  color: blue;  
+}
+
+button.btn-ver-itens, .btn-pagar-cred{
+  margin-top: -5px; 
+  margin-left: 0px;
+  margin-right: -20px; 
+  margin-bottom: -5px;  
+  height: 28px;
+    width: 130px; 
+  font-size: 12px; 
+  background-color: #008080; 
+  color: white;
+  border: 2px solid; 
+  border-color: #fff;
+}
+
+button.btn-ver-pagamentos{
+  margin-top: -5px; 
+  margin-left: 0px;
+  margin-right: -20px; 
+  margin-bottom: -5px;  
+  height: 28px;
+  width: 130px; 
+  font-size: 12px; 
+  border: 2px solid; 
+  border-color: #fff;
+}
+
+button.btn-ver-itens:hover, 
+button.btn-pagar-cred:hover, 
+button.btn-ver-pagamentos:hover{
+  background-color: #A9A9A9;
+  border: 2px solid; 
+  border-color: #000;
+}
+
+button.btn-ver-itens:focus, 
+button.btn-pagar-cred:focus,
+button.btn-ver-pagamentos:focus{
+  background-color: #fff;
+  color: #000;
+  border: 4px solid; 
+  border-color: #000;
+}
+
+button.btn-pagar-cred{
+  background-color: green; 
+}
+
+div.panel-vendas2-3{
+  background-color: #DCDCDC;
+  margin-top: 0px; 
+  margin-left: 0px;
+  margin-right:0px;
+  margin-bottom: 0px;  
+  border:2px solid; 
+  height: 200px;
+  overflow-y: scroll;
+}
+
+div.panel-vendas2-3 h4.h4-itens-da-venda{
+  background-color: #000;
+  color: #fff;
+  margin-top: -10px; 
+  padding: 3px; 
+}
+
+div.panel-vendas2-3 h4.h4-itens-da-venda b{
+  color: yellow; 
+}
+
+div.panel-vendas2-3 h4.h4-pagamento-da-venda{
+  background-color: #00008B;
+  color: #fff;
+  margin-top: -10px; 
+  padding: 3px; 
+}
+
+div.panel-vendas2-3 h4.h4-pagamento-da-venda b{
+  color: yellow; 
+}
+
+section.link-voltar-tela-demonstracao{
+  margin-top: 10px;
+}
+
+section.link-voltar-tela-demonstracao a{
+  color: #fff;
+  font-size: 16px; 
+}
+
+section.link-voltar-tela-demonstracao a:hover{
+  color: yellow;
+}
+
+section.link-voltar-tela-demonstracao a i {
+  color: yellow;
+  font-size: 25px; 
+}
+
+/*
+table.tabela-venda-consulta{
+  margin-top: -18px;
+}
+*/
+
+table.tabela-itens-venda-consulta{
+  margin-top: 0px;
+}
+
+
+
+
+/* TELA CADASTRO E MANUTENCAO DE CLIENTE */
 .panel2-consulta-cliente{
   margin-top: 5px; 
   margin-left: 0px; 
@@ -819,9 +1037,8 @@ div.btn-finalizar-venda-cliente{
 
  /* border: 3px solid;  */
 }
-
 .panel2-consulta-cliente div label{
-  margin-top: 5px;
+  margin-top: 2px;
   margin-bottom: 0px; 
   color: #fff;
 }
@@ -844,14 +1061,11 @@ div.cliente_venda input#cliente_saldo{
   font-size: 23px;  
   color: red;
   background-color: black; 
+  text-align: center; 
 }
 
 div.cliente_venda input:focus{
   background-color: #E0FFFF; 
-}
-
-div.cadastro-cliente-aberto h4:after{
-  content: ">> Consultar vendas em aberto"; 
 }
 
 div.cadastro-cliente-aberto h4{
@@ -868,7 +1082,38 @@ div.cadastro-cliente-aberto h4:hover{
   font-weight: bold; 
 }
 
+div.picklist-cliente select{
+  font-size: 18px; 
+}
+
+div.picklist-cliente select option b{
+  font-size: 58px; 
+}
+
+
 /* CADASTRO DE CLIENTES TELA INICIAL */
+
+.panel2-cadastro-cliente{
+  margin-top: 5px; 
+  margin-left: 0px; 
+  margin-right: 0px;
+
+ /* border: 3px solid;  */
+}
+.panel2-cadastro-cliente div label{
+  margin-top: 10px;
+  margin-bottom: 0px; 
+  color: #fff;
+}
+
+.panel2-cadastro-cliente div input:disabled{
+  color: #4F4F4F;
+  background-color:#C0C0C0; 
+}
+
+.panel2-cadastro-cliente div.resultado_cli{
+  margin-top: -25px; 
+}
 
 div.tela-manutencao-cli{
   background-color: #708090;
@@ -908,71 +1153,20 @@ div.link-voltar-tela-inicio a i {
   font-size: 25px; 
 }
 
+div.btn-link-casdatrar-cliente{
+  margin-top: 50px; 
+  margin-bottom: 50px; 
+}
+
+
 /* CONSULTA VENDAS DO CLIENTE CREDIARIO */
 
-div.panel-vendas2-2{
-  background-color: #DCDCDC;
-  margin-top: 0px; 
-  margin-left: 0px;
-  margin-right:0px;
-  margin-bottom: -20px;  
-  border:2px solid; 
-  height: 330px;
-  overflow-y: scroll;
-}
-div.panel-vendas2-2 table{
-  background-color: #DCDCDC; 
-  font-weight: bold; 
-  color: #696969;
-}
-
-div.panel-vendas2-2 table row{
-  background-color: #ADD8E6; 
-  font-weight: bold; 
-  color: #696969;
-}
-
-div.panel-vendas2-2 table h5{
-  font-weight: bold; 
-  color: #000;
-  margin-top: -5px; 
-  margin-bottom: 0px; 
-
-}
-
-div.panel-vendas2-2 table b#aberto{
-  color: red; 
-  font-size: 17px; 
-}
-
-div.panel-vendas2-2 table b#quitado{
-  color: blue; 
-  font-size: 17px; 
-}
 
 div.btn-link-consulta-cred{
-  margin-top: 10px; 
+  margin-top: 0px; 
   margin-bottom: 10px;
 }
 
-button.btn-ver-itens{
-  margin-top: -2px; 
-  margin-left: -20px;
-  margin-right: -20px;  
-  height: 30px;
-  font-size: 12px; 
-  background-color: #696969; 
-  color: white; 
-}
-
-button.btn-pagar-cred{
-  margin-top: -2px; 
-  margin-left: -20px;
-  margin-right: -20px;  
-  height: 30px;
-  font-size: 13px; 
-
-}
 
 /* TELA DE PAGAMENTO CREDIARIO */
 
@@ -981,8 +1175,14 @@ button.btn-pagar-cred{
   background-color: #4F4F4F;
 }
 
+
 .tela-pagamento-crediario div h2{
   color: yellow; 
+}
+
+.tela-pagamento-crediario div.campo-pag h3{
+  color: yellow; 
+  font-size: 20px; 
 }
 
 .tela-pagamento-crediario div h1{
@@ -990,14 +1190,54 @@ button.btn-pagar-cred{
   font-size: 40px; 
 }
 
+div.panel-recebidos-cred{
+  margin-top: 0px; 
+}
+
+div.panel-recebidos-cred2{
+  background-color: #1C1C1C; 
+  margin-top: 15px; 
+  border: 2px solid;
+  border-radius: 10px; 
+  padding-bottom:15px; 
+}
+
 h1.valor-recebido-venda-cred input{
   color: #fff; 
   font-size: 35px; 
   background-color: #1C1C1C;
-  width: 50%;
+  width: 100%;
   height: 50px; 
   text-align: left;
+    
+}
 
+h1.valor-juros-venda-cred input{
+  color: #fff; 
+  font-size: 28px; 
+  background-color: #1C1C1C;
+  width: 100%;
+  height: 40px; 
+  text-align: left;
+  margin-top: -10px;
+}
+
+h1.valor-desconto-venda-cred input{
+  color: #fff; 
+  font-size: 28px; 
+  background-color: #1C1C1C;
+  width: 100%;
+  height: 40px; 
+  text-align: left;
+  margin-top: -10px;
+}
+
+div.tipo-pagamento-cred select{
+  background-color: #1C1C1C; 
+  margin-top: 10px; 
+  height: 40px;
+  color: white; 
+  font-size: 20px; 
 }
 
 h1.valor-saldo-atual-cred input{
@@ -1007,6 +1247,7 @@ h1.valor-saldo-atual-cred input{
   width: 100%;
   height: 50px; 
   pointer-events :none;
+  margin-top: -10px;
 }
 
 h1.valor-recebido-troco-cred input{
@@ -1016,6 +1257,12 @@ h1.valor-recebido-troco-cred input{
   width: 100%;
   height: 50px; 
   pointer-events :none;
+  margin-top: -10px;
+}
+
+h1.valor-recebido-troco-cred label{
+  color: #FFD700; 
+  font-size: 15px; 
 }
 
 h1.valor-recebido-troco-cred input:disabled, h1.valor-saldo-atual-cred input:disabled{
@@ -1037,16 +1284,231 @@ div.dados-venda b{
 
 }
 
-
 div.dados-venda b#valor-venda-cred-pag{
   color: yellow;
 }
 
+section.btn-retorno-pag-cred{
+  margin-top: -10px; 
+}
+
+div.total-pagto-cre{
+  margin-left: -10px; 
+  margin-bottom: 0px; 
+}
+
+h1.valor-total-venda-cred input{
+  color: yellow; 
+  font-size: 50px; 
+  width: 100%;
+  height: 60px; 
+  text-align: left;
+  font-weight: bold;
+    
+}
+
+h1.valor-total-venda-cred input:disabled{
+  background-color: #1C1C1C; 
+}
+
+/* TELA PAGAMENTO CARTAO DEBITO */
+
+section.btn-retorno-pag-deb{
+  margin-top: 0px;
+  margin-bottom: 0px; 
+}
+
+div.tipo-de-pagamento-debito{
+  background-color: yellow; 
+  opacity: .6
+}
+
+div.tipo-de-pagamento-debito h2{
+  background-color: #FFFF00;
+  color: #4F4F4F;
+}
+
+div.card-debit{
+  border: 3px solid;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  border-radius: 10px; 
+}
+
+div.card-debit h3{
+  font-size: 18px; 
+  margin-top: 10px;
+  margin-bottom: 0px;
+  color: white;
+}
+
+div.card-debit h6 {
+  margin-top: -18px; 
+}
+
+div.card-debit h6 b{
+  color: yellow;
+  font-size: 21px;
+}
+
+div.card-debit img{
+  margin-top: -50px;
+  margin-bottom: -20px;
+}
+
+div.card-debit img:hover{
+  opacity: .6
+}
+
+/* TELA PAGAMENTO CARTAO CRÉDITO  */
+
+div.tipo-de-pagamento-credito{
+  background-color: #87CEFA; 
+  opacity: .7
+}
+
+div.tipo-de-pagamento-credito h2{
+  color: #4F4F4F;
+}
 
 
+/* TELA MOVIMENTO DO CAIXA */
+div.titulo-tela-consulta-movimento-cx{
+  background-color: #191970;
+  margin-top: -20px; 
+  margin-bottom: -7px;
+}
+
+div.titulo-tela-consulta-movimento-cx h2{
+  font-size: 20px; 
+  color: white; 
+  padding: 5px;
+}
+
+div.titulo-tela-consulta-movimento-cx h2 b{
+  font-size: 22px; 
+  color: yellow; 
+  font-weight: bold;
+  border-bottom: 2px solid;
+}
 
 
+div.tela-movimento-caixa{
+  background-color: #708090;
+  border-bottom: 3px solid; 
+  border-color: #fff; 
+}
 
- 
+div.tela-movimento-caixa input{
+  text-transform: uppercase; 
+}
+
+div#ident-caixa-mov{
+  margin-top: 0px;
+  color: #fff;
+}
 
 
+section#dt-movimento-caixa{
+  margin-top: 10px; 
+}
+
+section div.campo-titulo-mov-cx h4{
+  font-size: 24px; 
+  margin-top: 25px;
+  color: #fff;
+  text-align: center;
+}
+
+section div.campo-data-movcx label{
+  color: #fff;
+}
+section div.campo-data-movcx input{
+  font-size: 21px; 
+  padding: 0px;
+  text-align: center;
+}
+
+section div.campo-data-movcx input:hover{
+  background-color: #C0C0C0;
+  color: blue;
+}
+
+section div.campo-data-movcx input:focus{
+  background-color: #F0F8FF;
+  color: blue;
+}
+
+div.tela-movimento-caixa-2{
+  background-color: #708090;
+}
+
+div.tela-movimento-caixa-2 input{
+  text-transform: uppercase; 
+}
+
+div.btn-dados-mov-caixa button{
+  background-color: green;  
+}
+
+div.btn-dados-mov-caixa button:hover, div.btn-alterar-cliente button:hover{
+  background-color: #32CD32;
+  border-color: green; 
+} 
+
+.receb-caixa-mov{
+  margin-top: 10px; 
+  border: 2px solid; 
+  border-radius: 10px; 
+  border-color: #DCDCDC; 
+  color: yellow;
+  padding: 0px; 
+  padding-top: 10px;
+  background-color: #4F4F4F;
+}
+
+.receb-caixa-mov div.sec-recebi{
+  padding-top: 0px; 
+  margin-top: 0px; 
+  margin-bottom: 0px; 
+  border-top: 1px solid; 
+  border-color: #696969; 
+}
+
+.receb-caixa-mov h4{
+  padding-top: 0px; 
+  margin-top: 0px; 
+  margin-bottom: 10px; 
+  color: white;
+
+}
+
+.receb-caixa-mov div.titulo-pag h3{
+  font-size: 18px; 
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+
+.receb-caixa-mov div.valor-pag h3{
+  color:#00FFFF; 
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+
+div.consulta-mov-caixa-scrol{
+  margin-top:10px; 
+}
+
+div.btn-link-mov-cx{
+  margin-top: 20px; 
+}
+
+div.btn-ver-mov-caixa input{
+  margin-top: 9px; 
+  min-width: 5px;
+  min-height: 5px;
+  transform: scale(2);
+  border-radius: 20px; 
+  
+
+}

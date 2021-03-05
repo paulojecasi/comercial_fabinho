@@ -10,7 +10,7 @@
        
       <a style="width: 100%;" href="https://codepen.io/"  class="nav-link ">  Produtos </a>
       
-     	<a style="width: 100%;" href="https://codepen.io/"  class="nav-link ">  Movimentos </a>
+     	<a style="width: 100%;" href="<?php echo base_url('caixa/movimentos_caixa') ?>"  class="nav-link ">  Movimentos </a>
      
       <a style="width: 100%;" href="<?php echo base_url('venda') ?>"  class="nav-link "> <i class="fa fa-home" aria-hidden="true"></i> Inicio </a>
       

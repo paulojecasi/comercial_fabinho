@@ -17,7 +17,7 @@
         
         // vamos abrir o formulário,
         
-        echo form_open('cliente/consulta_cliente');
+        echo form_open('cliente/consulta_cliente','id="form-crediario-venda-cli" autocomplete="off"');
 
         $idcliente  =  $this->session->userdata('idcliente');
         $nome       =  $this->session->userdata('nome');
@@ -38,7 +38,7 @@
                 <div class="form-group cadastro-cliente-crediario col-lg-6 text-center">
                     <a href = "<?php echo base_url('cliente/cadastro_cliente/crediario') ?>">
                         <h4>
-                             <!-- texto está no AFTER do CSS --> 
+                            Cliente não tem CADASTRO? 
                         </h4>
                     </a>
                 </div>
@@ -46,11 +46,11 @@
 
             <div class="form-group nomecliente col-lg-12">
                 <label for="nomecliente"> Informe o Cliente </label>
-                <input type="text" id="nomecliente" name="nomecliente" class="form-control" autofocos required placeholder="Digite Codigo do Cliente, CPF ou Nome"  autofocus="true" />
+                <input type="text" id="nomecliente" name="nomecliente" class="form-control" autofocos required placeholder="Digite Codigo do Cliente, CPF ou Nome"  autofocus="true" onkeydown="javascript:EnterTab('idclientej',event)" />
                 <br> 
             </div>
 
-            <div class="form-group resultado_cli col-lg-12 " id="resultado_cli">
+            <div class="form-group resultado_cli col-lg-12 " id="resultado_cli" onkeydown="javascript:EnterTab('btn_buscar',event)">
             </div>
 
 
@@ -59,7 +59,7 @@
 
             <div class="form-group"> 
                 <div class ="col-lg-12 btn-consulta-cliente">
-                    <a href="">
+                    <a>
                         <button class="btn btn-info btn-consulta btn_buscar_cliente" id="btn_buscar" name="btn_buscar"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
                             Buscar
                         </button> 
@@ -114,7 +114,9 @@
                 <div class="form-group cadastro-cliente-aberto col-lg-6 text-center">
                     <a href = "<?php echo base_url('cliente/consulta_crediario/').md5($idcliente).'/pagamento'  ?>">
                         <h4>
-                             <!-- texto está no AFTER do CSS --> 
+                             
+                            >> Consultar vendas em aberto
+
                         </h4>
                     </a>
                 </div>
@@ -123,8 +125,6 @@
             <?php
         endif 
         ?>
- 
-    
 
         <?php 
         echo form_close();
@@ -137,7 +137,7 @@
       
 
         <div class="form-group col-lg-12 btn-link"> 
-            <div class ="col-lg-6 col-sm-12 btn-finalizar-venda  btn-finalizar-venda-cliente text-center">
+            <div class ="col-lg-6 col-sm-12 btn-finalizar-venda text-center">
                 <?php
                 if ($idcliente):
                     ?>

@@ -13,7 +13,6 @@ class Venda_model extends CI_Model
 
 	}
 
-	
 	public function adicionar_temp($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)
 	{
 
@@ -58,14 +57,6 @@ class Venda_model extends CI_Model
 
 	}
 
-	/*
-	public function venda_pagamento($id_caixa)
-	{
-		$this->db->where('md5(idcaixa)=',$id_caixa); 
-		$this->db->where('situacao=',0); 
-		return $this->db->get('produto_caixa_temp')->result();
-	}
-	*/
 
 	public function alterar_produto_temp_tem($quantidadeitens,$valordesconto,$valoracrescimo,$valortotal,$id)
 	{
@@ -139,11 +130,15 @@ class Venda_model extends CI_Model
 
 	}
 
-	public function atualiza_saldo_crediario($idcliente, $valor , $tipo=null)
+	public function consulta_saldo_crediario($idcliente_md)
 	{
+		$this->db->where('md5(idcliente)=', $idcliente_md);
+		return $this->db->get('venda_saldo_crediario')->result();
+	}
 
-		$this->db->where('idcliente=', $idcliente);
-		$resultado = $this->db->get('venda_saldo_crediario')->result();
+	public function atualiza_saldo_crediario($idcliente, $idcliente_md, $valor , $tipo=null)
+	{
+		$resultado = $this->consulta_saldo_crediario($idcliente_md); 
 		if ($resultado){
 
 			foreach ($resultado as $result) {
@@ -164,7 +159,7 @@ class Venda_model extends CI_Model
 
 			$this->db->where('idcliente=', $idcliente);
 			$dados['vl_total_compras'] = $vl_total_compras;
-			$dados['vl_total_pagamento'] = $vl_total_compras;
+			$dados['vl_total_pagamento'] = $vl_total_pagamento;
 			$dados['vl_saldo_devedor'] = $vl_saldo_devedor;
 
 			$this->db->update('venda_saldo_crediario', $dados); 
@@ -179,25 +174,14 @@ class Venda_model extends CI_Model
 		}
 
 	}
-	public function consulta_crediarios_cliente($idcliente, $consulta)
+	public function consulta_crediarios_cliente($idcliente)
 	{
 
-		if ($consulta ==1)
-		{
 			$this->db->where('md5(idcliente)=',$idcliente);
-			$this->db->order_by('idvenda','DESC');
+			
+			$this->db->order_by('vlsaldo_crediario','DESC');
+			//$this->db->order_by('datavenda','DESC');
 			return $this->db->get('venda')->result();
-		}
-		else
-		{
-			$this->db->where('md5(idcliente)=',$idcliente);
-			$this->db->from('venda');
-			$this->db->join('vendaitem','vendaitem.idvenda = venda.idvenda');
-			$this->db->join('produto','produto.idproduto = vendaitem.idproduto'); 
-			$this->db->order_by('venda.idvenda','DESC');
-			return $this->db->get()->result(); 
-		 
-		}
 	 
 	}
 
@@ -208,8 +192,9 @@ class Venda_model extends CI_Model
 
 	}
 
-	private function atualiza_venda_crediario($idvenda, $situacaovenda, $vlsaldo_crediario)
+	public function atualiza_venda_crediario($idvenda, $situacaovenda, $vlsaldo_crediario)
 	{
+
 		$dados['situacaovenda'] 		= $situacaovenda;
 		$dados['vlsaldo_crediario']=	$vlsaldo_crediario; 
 
@@ -217,44 +202,50 @@ class Venda_model extends CI_Model
 		$this->db->update('venda',$dados);
 	}
 
-	public function baixa_pagamento_crediario($idvenda,$vl_recebido_caixa)
+
+	public function tipo_pagamento()
 	{
+		
+		$this->db->where('tipopagamento != 4');
+		return $this->db->get('tipo_pagamento')->result(); 
 
-		// vamos iniciar a transação 
-    $this->db->trans_begin();
+	}
 
-			$resultado = $this->consulta_venda($idvenda); 
+	function consultajquery_itens_venda($idvenda_it)
+	{
+		if (strlen($idvenda_it)>0) 
+		{
 
-			foreach ($resultado as $venda) {
-				$valorvenda = $venda->valorvenda;
-				$vlsaldo_crediario_atual = $venda->vlsaldo_crediario;
-				$idcliente = $venda->idcliente; 
-				$situacaovenda = $venda->situacaovenda; 
-			}
-
-			// vamos amortizar o saldo 
-			$vlsaldo_crediario =  $vlsaldo_crediario_atual-$vl_recebido_caixa;
-
-			if ($vlsaldo_crediario <=0)
-			{
-				$situacaovenda =1;  // se zerar o saldo, vamos quitar a venda 
-			}
-
-			$this->atualiza_venda_crediario($idvenda,$situacaovenda,$vlsaldo_crediario);
-			$this->atualiza_saldo_crediario($idcliente,$vl_recebido_caixa,"pagamento");
-
-		if  ($this->db->trans_status()===FALSE ) 
-		{ 
-		  $this->db->trans_rollback(); 
-		  $mensagem = "Houve um ERRO de TRANSAÇÃO! (venda_model/baixa_pagamento_crediario)"; 
-			$this->session->set_userdata('mensagemErro',$mensagem); 
+			$this->db->where('md5(idvenda)=',$idvenda_it);
+			$this->db->from('vendaitem');
+			$this->db->join('produto','produto.idproduto = vendaitem.idproduto'); 
+			$this->db->order_by('vendaitem.idvendaitem','ASC');
+			return $this->db->get()->result();  
 		} 
 		else 
-		{ 
-			$this->db->trans_commit(); 
-			$mensagem = "Pagamento Realizado com Sucesso !"; 
-			$this->session->set_userdata('mensagem',$mensagem); 
-	
+		{
+			$this->db->where('idvenda_it=', 'NULL'); 
+			return $this->db->get('vendaitem'); 
+		}
+
+	}
+
+	function consultajquery_pagamento($idvenda)
+	{
+		if (strlen($idvenda)>0) 
+		{
+
+			$this->db->where('md5(idvenda)=',$idvenda);
+			$this->db->where('tipo_movimento_caixa=',5); 
+			$this->db->from('caixa_movimento');
+			$this->db->join('tipo_pagamento','tipo_pagamento.id = caixa_movimento.tipo_pagamento_crediario'); 
+			$this->db->order_by('caixa_movimento.data_movimento','ASC');
+			return $this->db->get()->result();   
+		} 
+		else 
+		{
+			$this->db->where('idvenda=', 'NULL'); 
+			return $this->db->get('caixa_movimento'); 
 		}
 
 	}

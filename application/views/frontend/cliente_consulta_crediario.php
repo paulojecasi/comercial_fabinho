@@ -1,18 +1,20 @@
 <div class = "row">
 
-    <div class = "text-center tipo-de-pagamento-escolha tipo-de-pagamento-escolha-cliente">
-        <h2> Demonstração de Crediário do Cliente </h2>
+    <div class = "text-center titulo-tela-consulta-crediario">
+        <h2>
+             Demonstração de Crediário do Cliente 
+         </h2>
     </div>
 
     <?php
     $nome       = $this->session->userdata('nome');
     $vl_saldo   = $this->session->userdata('vl_saldo_devedor');
-    $codigo     = $this->session->userdata('idcliente');
+    $codigo     = $this->session->userdata('idcliente'); 
     ?>
 
     <div class = "col-lg-12 col-sm-12 tela-manutencao-cli">
 
-        <div class="panel2-consulta-cliente col-lg-12">
+        <div class="panel-demostracao-cliente col-lg-12">
             <div class="form-group cliente_venda col-lg-8">
                 <label for="nome"> Cliente </label>
                 <input type="text" id="nome" name="nome" class="form-control" value = "<?php echo $nome ?>" disabled />
@@ -28,7 +30,7 @@
             
             <div class="form-group cliente_venda col-lg-2">
                 <label for="cliente_saldo"> Saldo Devedor </label>
-                <input type="text" id="cliente_saldo" name="cliente_saldo" class="form-control" placeholder="0,00" value = "<?php echo reais($vl_saldo); ?>" disabled/>
+                <input type="text" id="cliente_saldoc" name="cliente_saldoc" class="form-control" placeholder="0,00" value = "<?php echo reais($vl_saldo); ?>" disabled/>
                 <br> 
             </div>
 
@@ -38,10 +40,11 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                  
+
                             <!-- gerar tabela de categorias pela framework PJCS --> 
                         <?php
                         if ($vendas_cli):
+                        
                             $this->table->set_heading(
                                 '<h5>'."Codigo da Venda".'</h5>',
                                 '<h5>'."Data Compra".'</h5>',
@@ -56,15 +59,16 @@
                             foreach ($vendas_cli as $vendas_cred):
                                 $idvenda         = $vendas_cred->idvenda;
                                 $data       = datebr($vendas_cred->datavenda); 
-                                $valor      = reais($vendas_cred->valorvenda);
-                                $vlsaldo    = $vendas_cred->vlsaldo_crediario;
+                                $valor_o      = $vendas_cred->valorvenda;
+                                $valor        = reais($valor_o);
+                                $vlsaldo_o    = $vendas_cred->vlsaldo_crediario;
                                 $situacaovenda = $vendas_cred->situacaovenda; 
-                                if ($vlsaldo > 0):
+                                if ($vlsaldo_o > 0):
                                     $vlsaldo =
-                                       '<b id="aberto">'.reais($vlsaldo).'</b>';
+                                       '<b id="aberto">'.reais($vlsaldo_o).'</b>';
                                 else:
                                     $vlsaldo =
-                                       '<b id="quitado">'.reais($vlsaldo).'</b>';
+                                       '<b id="quitado">'.reais($vlsaldo_o).'</b>';
                                   
                                 endif;  
 
@@ -80,19 +84,29 @@
                                     $situacao = "Cancelada";
                                 endif; 
 
-                                $btn_veritens = anchor(base_url(''),
-                                    '<button class="btn-ver-itens btn btn-default"><i class="fas fa-th-list"> </i> Ver Itens </button>');
+                                /*
+                                $btn_veritens =  
+                                    '<button class="btn-ver-itens btn idvenda_it" type="submit"  value="'.md5($idvenda).'"> <i class="fas fa-th-list"> </i>Ver Itens </button>';
+                                    */
+
+                                $btn_veritens = '<button class="btn-ver-itens btn btn-success idvenda_it" value="'.md5($idvenda).'"><i class="fas fa-th-list"> </i> Ver Itens </button>';
+
+                                if ($vlsaldo_o < $valor_o):
+                                    $btn_verpagamentos = '<button class="btn-ver-pagamentos btn btn-success idpagamento" value="'.md5($idvenda).'"><i class="fas fa-th-list"> </i> Ver Pagamentos </button>';
+                                else:
+                                    $btn_verpagamentos = "-";
+                                endif; 
 
                                 if ($situacaovenda==0):
                                     if ($localchamado == "cliente"):
                                         $btn_pagar = anchor(base_url('cliente/pagamento_crediario/').md5($idvenda),
                                             '<button class="btn-pagar-cred btn btn-success"><i class="fas fa-usd"> </i> PAGAR </button>');
                                     else:
-                                        $btn_pagar = null;
+                                        $btn_pagar = "-";
                                     endif; 
                                 else:
                 
-                                        $btn_pagar = null; 
+                                        $btn_pagar = "-"; 
 
                                 endif; 
                                 //$desproduto = $vendas_cred->desproduto; 
@@ -101,7 +115,7 @@
                                 //$valortotal = $vendas_cred->valortotal;   
 
                                 
-                                $this->table->add_row($idvenda,$data,$valor,$vlsaldo, $situacao,$btn_veritens, $btn_pagar);
+                                $this->table->add_row($idvenda,$data,$valor,$vlsaldo, $situacao,$btn_veritens,$btn_verpagamentos, $btn_pagar);
                                 //$desproduto,$quantidadeitens,$valorunit,$valorunit,$valortotal); 
 
 
@@ -112,9 +126,98 @@
                             ));
 
                             echo $this->table->generate(); 
-                      
+
+                            /*
+                            ?> 
+                            <table class="table table-striped table-hover tabela-venda-consulta">
+                                <thead class="thead-dark">
+                                    <tr>
+                                          <th scope="col"> Codigo da Venda</th>
+                                          <th scope="col"> Data Compra</th>
+                                          <th scope="col"> Valor R$ </th>
+                                          <th scope="col"> Saldo Devedor </th>
+                                          <th scope="col"> Situação </th>
+
+                                    </tr>
+                                </thead>
+
+                            <?php 
+
+                            foreach ($vendas_cli as $vendas_cred):
+                                $idvenda         = $vendas_cred->idvenda;
+                                $data       = datebr($vendas_cred->datavenda); 
+                                $valor      = reais($vendas_cred->valorvenda);
+                                $vlsaldo    = $vendas_cred->vlsaldo_crediario;
+                                $situacaovenda = $vendas_cred->situacaovenda; 
+
+                                if ($situacaovenda==0):
+                                    $situacao = "Aberta"; 
+                                    $situacao = 
+                                    '<b id="aberto">'.$situacao.'</b>';
+                                elseif ($situacaovenda==1):
+                                    $situacao = "Quitada";
+                                    $situacao = 
+                                    '<b id="quitado">'.$situacao.'</b>';
+                                else:
+                                    $situacao = "Cancelada";
+                                endif;
+
+                                ?>
+                                
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row"> <?php echo $idvenda ?> </th>
+                                            <td> <?php echo $data ?> </td>
+                                            <td> <?php echo $valor ?> </td>
+                                            <td> <?php echo $vlsaldo ?> </td>
+                                            <td> <?php echo $situacaovenda ?> </td>
+                                            <td> 
+                                                <button class="btn-ver-itens btn btn-default idvenda_it" type="button" value="<?php echo md5($idvenda) ?>" href = ""> <i class="fas fa-th-list"> </i> Ver Itens 
+                                                </button>
+                                            </td>
+                                            <?php 
+                                            if ($situacaovenda==0):
+                                                if ($localchamado == "cliente"):
+                                                    ?>
+                                                    <td> 
+                                                        <a href="<?php echo base_url('cliente/pagamento_crediario/').md5($idvenda) ?>">
+                                                            <button type="button" class="btn-pagar-cred btn btn-success"><i class="fas fa-usd"> </i> 
+                                                            PAGAR 
+                                                            </button> 
+                                                        </a>
+                                                    </td>
+                                                    <?php
+                                                else:
+                                                    ?>
+                                                    <td> 
+                                                        <h5> </h5> 
+                                                    </td>
+                                                    <?php
+                                                     
+                                                endif; 
+                                            else:
+                                                ?>
+                                                <td> 
+                                                    <h5> </h5> 
+                                                </td>
+                                                <?php
+                                                 
+                                            endif; 
+                                            ?> 
+
+                                        </tr>
+                                    </tbody>
+                                
+                                <?php
+
+                            endforeach; 
+                             */
+                            ?>
+                            </table>
+                            <?php 
                         else:
                             ?> 
+
                             <div class="form-group col-lg-12 text-center">
                                 <h1> Cliente nao possui crediário </h1>
                             </div>
@@ -123,13 +226,24 @@
                         ?>
                                         
                     </div>
-                    
+                           
                 </div>
+                
                 <!-- /.row (nested) -->
             </div>
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
+
+        <div class="panel panel-default panel-vendas2-3">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="resultado_itens"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="form-group col-lg-12 btn-link btn-link-consulta-cred"> 
             
@@ -144,14 +258,31 @@
                 }
             ?>
 
-            <div class ="col-lg-6 text-center link-voltar link-voltar-tela-inicio">
-                <a href="<?php echo $link_retorno ?>">
-                       <i class="fa fa-reply" aria-hidden="true"></i> Voltar
-                </a>
-            </div>
+            <section class = "link-voltar-tela-demonstracao">
+                <div class ="col-lg-6 text-center">
+                    <a href="<?php echo $link_retorno ?>">
+                           <i class="fa fa-reply" aria-hidden="true"></i> Voltar
+                    </a>
+                </div>
+
+                 <div class ="col-lg-3 text-center">
+                    <?php 
+                    if ($localchamado == "cliente"):
+                    ?>
+                        <a href="<?php echo base_url('venda') ?>">
+                               <i class="fa fa-home" aria-hidden="true"></i> Ir para Venda
+                        </a>
+                        <?php 
+                    endif;
+                    ?>
+                </div>
+            </section>
         </div>
     </div>
 </div>
+<?php
+    $this->load->view('frontend/template/mensagem-alert');
+?> 
 
 
            

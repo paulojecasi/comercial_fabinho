@@ -7,15 +7,14 @@
             </div>
             <div class="col-lg-9 col-sm-12">
                 <div class="form-group">
-                    <h1 class="valor-total-venda">
+                    <h5 class="valor-total-venda">
                         <?php echo reais($valortotal) ?> 
-                    </h1>
+                    </h5>
                     
                     <input id="vl_total" name="vl_total" type="hidden" class="form-control" placeholder ="0.00" value="<?php echo $valortotal_sem_conversao ?>">
                   
                 </div>
             </div> 
         </div>
-    
     </div>
  

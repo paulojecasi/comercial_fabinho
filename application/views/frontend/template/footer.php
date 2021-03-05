@@ -2,7 +2,7 @@
     </div> 
 </container> 
 
-<div class="footer-bottom-area">
+<div class="col-lg-12 footer-bottom-area">
         <div class="row">
             <div class="col-lg-3 text-center cactosdev">
                 <p class="des-por"> Desenvolvido por </p>
@@ -12,11 +12,18 @@
             </div>
 
             <div class="col-lg-9 text-center mensagem-sistema">
-            	<h4>
-                    <?php
-                        $this->load->view('frontend/template/mensagem-alert');
-                    ?> 
-                </h4>
+                <?php
+                    // vai alertar !!
+                    $mensagem = $this->load->view('frontend/template/mensagem-alert');
+
+                    // vai ficar no rodapé 
+
+                ?> 
+                <div class=" col-lg-11 alert alert-warning" role="alert">
+                    <b id="av1"> Ultimo aviso do Sistema : </b>
+                    <b id="av2"> <?php echo $this->session->userdata('ultimoAviso')  ?> </b>
+                </div>
+
             </div>
         </div>
 </div> <!-- End footer bottom area --> 

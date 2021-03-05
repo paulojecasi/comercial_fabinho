@@ -20,7 +20,7 @@
     ?>
 
     <div class = "col-lg-12 col-sm-12 titulo-tela-tipopag2">
-        <div class="row">
+        <div class="row panel-valores-money">
             <div class="col-lg-3 col-sm-12">
                 <div class="form-group">
                     <h2> Valor Recebido R$ : </h2>
@@ -44,7 +44,7 @@
                 <div class="form-group">
                     <h1 class="valor-recebido-troco">
                         <!-- <?php echo $valortotal ?> --> 
-                        <input id="vl_troco" name="vl_troco" type="text" class="form-control"  placeholder="0,00" disabled>
+                        <input id="vl_troco" name="vl_troco" type="text" class="form-control"  placeholder="0,00" step="0.01">
                     </h1>
                   
                 </div>
@@ -54,7 +54,7 @@
         <div class="form-group col-lg-12 btn-link"> 
             <div class ="col-lg-6 col-sm-12 btn-finalizar-venda btn-finalizar-venda-money text-center">
                 <a href="">
-                    <button class="btn btn-success" type="submit" > 
+                    <button class="btn btn-success" type="submit" id="btn-concluir-pgto" > 
                         Concluir Pagamento
                     </button> 
                 </a>
@@ -69,6 +69,7 @@
         </div>
     
     </div>
+
     <?php 
         echo form_close();
     ?>

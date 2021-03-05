@@ -1,4 +1,4 @@
-              
+
         <div class = "row panel-geral-vendas">
             <div class = "col-lg-6 col-sm-6 panel-geral-vendas1">
                 <div class="panel-vendas1">
@@ -23,13 +23,13 @@
                                 
                                 // vamos abrir o formulário,
                                             // apontando para:admin/controlador/metodo
-                                echo form_open('admin/estoque/buscar_produto/venda');
+                                echo form_open('admin/estoque/buscar_produto/venda','id="form-caixa-vendas" autocomplete="off"');
 
                                 ?>
                          
                                 <div class="form-group nomeproduto ">
                                     <label for="nomeproduto"> Informe Produto </label>
-                                    <input type="text" id="nomeproduto" name="nomeproduto" class="form-control" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
+                                    <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
                                     <br> 
                                 </div>
                                 
@@ -117,7 +117,7 @@
                                 <?php
                                 if ($produtos_temp):
                                 ?>
-                                    <div class ="col-lg-4 col-sm-12 btn-finalizar-venda ">
+                                    <div class ="col-lg-4 col-sm-12 btn-finalizar-venda" id="btn-venda">
                                         <a href=" ">
                                             <button class="btn btn-success" type="submit" > 
                                                 Finalizar Venda

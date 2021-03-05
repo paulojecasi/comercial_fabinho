@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Estoque extends CI_Controller {
 
 	public function __construct()
-	{
+	{ 
 
 		parent::__construct(); 
 
@@ -32,12 +32,13 @@ class Estoque extends CI_Controller {
 			'estoque_entrada' 	
 										=> $this->modelestoque->listar_estoque($idestoque_entrada=null),   
 			'titulo' 		 	=> 'Painel de Controle',
-			'subtitulo'  	=> 'Estoque '
+			'subtitulo'  	=> 'Estoque ', 
+			'numero_nota_auto' => $this->modelestoque->getNumero_nota_auto() 
 		);
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
-		$this->load->view('backend/mensagem');
+		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/estoque');
 		$this->load->view('backend/template/html-footer'); 
 
@@ -93,7 +94,6 @@ class Estoque extends CI_Controller {
 
 		// vamos carregar a biblioteca de TABELAS
 		$this->load->library('table'); 
-
 		if ($idproduto){
 			$dados['produtoitem'] = $this->modelprodutos->listar_produto($idproduto); 
 		}else{
@@ -118,14 +118,13 @@ class Estoque extends CI_Controller {
 	{
 		// vamos carregar a biblioteca de TABELAS
 		$this->load->library('table'); 
-
 		if ($idproduto){
 			$dados['produto_est_mov'] = 
 					$this->modelprodutos->listar_produto($idproduto);
 			$dados['estoque_mov'] 		=	
-					$this->modelestoque->consulta_movimento_estoque($idproduto,$datainicial,$datafinal); 
+					$this->modelestoque->consulta_movimento_estoque(md5($idproduto),$datainicial,$datafinal); 
 			$dados['estoque_saldo_atual'] = 
-					$this->modelestoque->consulta_estoque_saldo($idproduto); 
+					$this->modelestoque->consulta_estoque_saldo(md5($idproduto)); 
 		} else {
 			$dados['produto_est_mov'] =null; 
 			$dados['estoque_mov']=null; 
@@ -136,7 +135,7 @@ class Estoque extends CI_Controller {
 	
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
-		$this->load->view('backend/mensagem');
+		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/estoque-consulta');
 		$this->load->view('backend/template/html-footer'); 
 
@@ -145,9 +144,7 @@ class Estoque extends CI_Controller {
 	public function buscar_produto($idsolicitante)
 	{
 		$idestoque_entrada  = $this->input->post('idestoque_entrada');
-		$idcodbarras  = $this->input->post('idcodbarras');
-		$idcodproduto = $this->input->post('idcodproduto');
-		$iddesproduto = $this->input->post('iddesproduto');
+		$idproduto  = $this->input->post('idproduto_res');
 		$quantidade   = $this->input->post('quantidade');
 
 		if ($idsolicitante == "venda"){
@@ -162,27 +159,9 @@ class Estoque extends CI_Controller {
 			$datafinal = $this->input->post('datafinal'); 
 		} 
 
-		if ($idcodproduto && $iddesproduto 
-				||
-				$idcodproduto && $idcodbarras 
-				||
-				$iddesproduto && $idcodbarras){
-
-				$mensagem ="ATENÇÃO! Selecione Somente Uma Opção: Cod Barras, Código Produto ou Nome Produto.";
-
-				$this->session->set_userdata('mensagemErro',$mensagem);
-
-				if ($idsolicitante == "itens-nota"){
-					$this->itens($idestoque_entrada);
-				} elseif ($idsolicitante == "consulta-estoque"){
-					$this->estoque_consulta(); 
-				}	elseif ($idsolicitante == "venda"){
-					redirect(base_url('venda')); 
-				}
-
-		}elseif (!$idcodproduto && !$iddesproduto && !$idcodbarras){
+		if (!$idproduto){
 	
-				$mensagem ="ATENÇÃO! Selecione ao menos Uma Opção: Cod Barras, Código Produto ou Nome Produto.";
+				$mensagem ="ATENÇÃO! Selecione um Produto para Consulta";
 
 				$this->session->set_userdata('mensagemErro',$mensagem);
 				if ($idsolicitante == "itens-nota"){
@@ -194,16 +173,6 @@ class Estoque extends CI_Controller {
 				}
 
 		}else{
-
-			if ($idcodproduto){
-				$idproduto = $idcodproduto;
-			}elseif ($iddesproduto) {
-				$idproduto = $iddesproduto;
-			}else {
-				$idproduto = $idcodbarras;
-			}
-
-			//$idproduto = md5($idproduto);
 
 			// vamos verficar se o item ja foi gravado 
 			if ($this->modelestoque->verifica_item_existente($idproduto,$idestoque_entrada)){
@@ -241,9 +210,10 @@ class Estoque extends CI_Controller {
 		$this->form_validation->set_rules('vltotal','Valor Total','required');  
 
 		if ($this->form_validation->run() == FALSE){
-
-				$idestoque_entrada = $this->input->post('idestoque_entrada'); 
-				$this->itens($idestoque_entrada);  // se nao validar, retorna para a pagina
+			$mensagem = "Preencha os campos obrigatórios: VALOR UNITARIO e QUANTIDADE"; 
+			$this->session->set_userdata('mensagemErro',$mensagem); 
+			$idestoque_entrada = $this->input->post('idestoque_entrada'); 
+			$this->itens(md5($idestoque_entrada));  // se nao validar, retorna para a pagina
 
 		} else {
 
@@ -256,15 +226,16 @@ class Estoque extends CI_Controller {
 			
 			if ($this->modelestoque->inserir_estoque_item($idproduto,$idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal)){
 
-				$produto = $this->listar_produto($idproduto);
-
-				foreach ($produto as $produto_add) {
-					$desproduto = $produto_add->desproduto; 
+				$produto_lis = $this->listar_produto(md5($idproduto));
+	
+				foreach ($produto_lis as $produto_addss) 
+				{
+					$desproduto = $produto_addss->desproduto; 
 				}
 
 				$mensagem ="O Item- (".$desproduto.")- foi Adicionada Com Sucesso na Nota/Estoque!"; 
 
-				$this->session->set_userdata('mensagem',$mensagem); 
+				$this->session->set_userdata('mensagemAlert',$mensagem); 
 				
 			} else {
 
@@ -281,7 +252,7 @@ class Estoque extends CI_Controller {
 
 	public function listar_produto($idproduto){
 
-		$this->modelprodutos->listar_produto($idproduto);
+		return $this->modelprodutos->listar_produto($idproduto);
 		
 	}
 

@@ -182,7 +182,8 @@ class Estoque_model extends CI_Model {
 										'tipo_movimento.id = estoque_movimento.tipomovimento'); 
 		$this->db->where('DATE(datamovimento) >=', date('Y-m-d',strtotime($datainicial)));
 		$this->db->where('DATE(datamovimento) <=', date('Y-m-d',strtotime($datafinal)));
-		$this->db->where('md5(idproduto)=', $idproduto);		
+		$this->db->where('md5(idproduto)=', $idproduto);	
+		$this->db->order_by('estoque_movimento.datamovimento'); 	
 		return $this->db->get()->result();
 	}
 
@@ -210,5 +211,13 @@ class Estoque_model extends CI_Model {
 			return $this->db->update('estoque_entrada_item',$dados); 
 
 		} 
+	}
+
+	public function getNumero_nota_auto(){
+
+		$this->db->from("controle_entrada_sem_nota"); 
+		return $this->db->get()->result(); 
+
+
 	}
 }

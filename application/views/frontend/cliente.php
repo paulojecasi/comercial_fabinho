@@ -1,6 +1,6 @@
 <div class = "row">
 
-    <div class = "text-center tipo-de-pagamento-escolha tipo-de-pagamento-escolha-cliente">
+    <div class = "text-center titulo-tela-consulta-crediario">
         <h2> Cadastro e Manutenção de Clientes </h2>
     </div>
 
@@ -17,7 +17,7 @@
         
         // vamos abrir o formulário,
         
-        echo form_open('cliente/consulta_cliente/cliente');
+        echo form_open('cliente/consulta_cliente/cliente','id="form-cliente-crediario" autocomplete="off"');
 
         $idcliente  =  $this->session->userdata('idcliente');
         $nome       =  $this->session->userdata('nome');
@@ -34,11 +34,11 @@
            
             <div class="form-group nomecliente col-lg-12">
                 <label for="nomecliente"> Informe o Cliente </label>
-                <input type="text" id="nomecliente" name="nomecliente" class="form-control" autofocos required placeholder="Digite Codigo do Cliente, CPF ou Nome"  autofocus="true" />
+                <input type="text" id="nomecliente" name="nomecliente" class="form-control" autofocos required placeholder="Digite Codigo do Cliente, CPF ou Nome"  autofocus="true" onkeydown="javascript:EnterTab('idclientej',event)" />
                 <br> 
             </div>
 
-            <div class="form-group resultado_cli col-lg-12 " id="resultado_cli">
+            <div class="form-group resultado_cli col-lg-12 " id="resultado_cli" onkeydown="javascript:EnterTab('btn_buscar',event)">
             </div>
 
 
@@ -107,7 +107,7 @@
                 <div class="form-group cadastro-cliente-aberto col-lg-6 text-center">
                     <a href = "<?php echo base_url('cliente/consulta_crediario/').md5($idcliente).'/cliente'  ?> ">
                         <h4>
-                             <!-- texto está no AFTER do CSS --> 
+                             >> Consultar vendas em aberto
                         </h4>
                     </a>
                 </div>
@@ -123,7 +123,7 @@
         ?>
              
 
-        <div class="form-group col-lg-12 btn-link"> 
+        <div class="form-group col-lg-12 btn-link-cadastro"> 
             
             <div class ="col-lg-4 col-sm-12 btn-finalizar-venda  btn-add-cliente text-center">
                 <a href="<?php echo base_url('cliente/cadastro_cliente'); ?> ">
@@ -136,7 +136,7 @@
 
             <div class ="col-lg-4 text-center link-voltar link-voltar-tela-inicio">
                 <a href="<?php echo base_url('venda') ?>">
-                       <i class="fa fa-home" aria-hidden="true"></i> Tela Inicial
+                       <i class="fa fa-home" aria-hidden="true"></i> Ir para Venda
                 </a>
             </div>
 

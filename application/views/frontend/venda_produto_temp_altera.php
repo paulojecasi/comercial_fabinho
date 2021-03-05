@@ -10,7 +10,7 @@
     <div class="row"> 
         <div class="col-lg-12">   
             <div class="panel-body">
-                <div class="row">
+                <div class="row"> 
                     <div class="col-lg-12 panel-dados-item">
 
                     <!-- nao vamos utilizar a abertura do form, vamos usar o HELPER do
@@ -22,7 +22,7 @@
                         
                         // vamos abrir o formulário,
                                     // apontando para:admin/controlador/metodo
-                        echo form_open('venda/salvar_alteracoes_produto_temp');
+                        echo form_open('venda/salvar_alteracoes_produto_temp','class="form-alt-produto-temp" id="form-alt-produto-temp"');
 
                         foreach ($produto_temp_altera as $pro_ten_alt) :
                             $id         = $pro_ten_alt->id; 
@@ -55,24 +55,24 @@
                            
                             <div class="form-group col-lg-4"> 
                                 <label> Quantidade de itens </label>
-                                <input type="number" class="form-control" id="quantidadeitens_alt" name="quantidadeitens_alt" placeholder="0" value="<?php echo $qtd ?>" autofocus="true" >
+                                <input type="number" class="form-control" id="quantidadeitens_alt" name="quantidadeitens_alt" placeholder="0" value="<?php echo $qtd ?>" autofocus="true" onkeydown="javascript:EnterTab('valordesconto_alt',event)"  >
                             </div>
 
 
                             
                             <div class="form-group col-lg-4">  
                                 <label> Valor Desconto R$ </label>
-                                <input type="number" class="form-control" id="valordesconto_alt" name="valordesconto_alt" step="0.01" placeholder="0,00" value="<?php echo $vldesc ?>">
+                                <input type="number" class="form-control" id="valordesconto_alt" name="valordesconto_alt" step="0.01" placeholder="0,00" value="<?php echo $vldesc ?>"  onkeydown="javascript:EnterTab('valoracrescimo_alt',event)"  >
                             </div>
 
                             <div class="form-group col-lg-4">  
                                 <label> Valor Acrescimo R$  </label>
-                                <input type="number" class="form-control" id="valoracrescimo_alt" name="valoracrescimo_alt" step="0.01" placeholder="0,00" value="<?php echo $vlacres ?>">
+                                <input type="number" class="form-control" id="valoracrescimo_alt" name="valoracrescimo_alt" step="0.01" placeholder="0,00" value="<?php echo $vlacres ?>" onkeydown="javascript:EnterTab('quantidadeitens_alt',event)">
                             </div>
 
                             <div class="form-group col-lg-12 text-center">  
                                 <label> Valor Total R$ </label>
-                                <input type="number" class="form-control" id="valortotal_alt" name="valortotal_alt" step="0.01" placeholder="0,00" value="<?php echo $vltot ?>">
+                                <input type="text" class="form-control" id="valortotal_alt" name="valortotal_alt" step="0.01" placeholder="0,00" value="<?php echo $vltot ?>">
                             </div>
 
                             <input type="hidden" id="id_produto_temp" name="id_produto_temp" value="<?php echo $id ?>" />
@@ -84,7 +84,7 @@
                         <div class="form-group col-lg-12 btn-link panel-btn-aplicar-voltar"> 
                             <div class ="col-lg-6 col-sm-12 btn-finalizar-venda text-center">
                                 <a href=" ">
-                                    <button class="btn btn-success" type="submit" > 
+                                    <button class="btn btn-success" type="submit" id="btn-alt-produto_temp" > 
                                         Aplicar alterações 
                                     </button> 
                                 </a>

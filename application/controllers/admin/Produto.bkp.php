@@ -7,7 +7,7 @@ class Produto extends CI_Controller {
 	{
 
 		parent::__construct(); 
- 
+
 		//vamos verificar se o usuario esta logado para acessar a pagina
 		if (!$this->session->userdata('logado')){
 				redirect(base_url('admin/login')); 
@@ -123,7 +123,7 @@ class Produto extends CI_Controller {
 		'txt-desproduto',          // name do input (template)
 		'Descrição do Produto',		 // nome da label (template)
 		'required|min_length[3]'); 
-
+		$this->form_validation->set_rules('codbarras','Codigo de Barras','required');
 		$this->form_validation->set_rules('corproduto','Cor do Produto','required');
 
 		$this->form_validation->set_rules('idcategoria','Categoria do Produto','required');
@@ -131,8 +131,26 @@ class Produto extends CI_Controller {
 
 		$this->form_validation->set_rules('vlpreco','Preço Varejo','required');
 
+		$this->form_validation->set_rules('vlpromocao','Valor Promoção Varejo');
+
+		$this->form_validation->set_rules('vlprecoatacado','Preço Atacado','required');
+
+		$this->form_validation->set_rules('vlpromocaoatacado','Valor Promoção Atacado');
+
+		$this->form_validation->set_rules('vllargura','Largura');
+
+		$this->form_validation->set_rules('vlaltura','Altura');
+
+		$this->form_validation->set_rules('vlcomprimento','Comprimento');
+
+		$this->form_validation->set_rules('vlpeso','Peso');
+
 		$this->form_validation->set_rules('produtoativo','Produto Ativo?','required');
 
+		$this->form_validation->set_rules('produtodestaque','Produto Destaque?',
+			'required');
+		$this->form_validation->set_rules('produtosite','Produto no Site?','required');
+		$this->form_validation->set_rules('qtatacado','Qt Itens Atacado');
 
 
 		if ($this->form_validation->run() == FALSE){
@@ -163,7 +181,7 @@ class Produto extends CI_Controller {
 			if ($this->modelproduto->adicionar($idcategoria,$idmarca,$desproduto,$codbarras,$codproduto,$corproduto, $vlpreco, $vlpromocao, $vlprecoatacado, $vlpromocaoatacado, $vllargura,$vlaltura,$vlcomprimento,$vlpeso,$produtoativo,$produtodestaque,$produtosite,$qtatacado)){
 
 				$mensagem ="Produto Adicionado Com Sucesso !"; 
-				$this->session->set_userdata('mensagemAlert',$mensagem); 
+				$this->session->set_userdata('mensagem',$mensagem); 
 				
 			} else {
 
@@ -203,7 +221,7 @@ class Produto extends CI_Controller {
 
 		if ($this->modelproduto->excluir($id)) {
 			$mensagem ="Produto Excluido Com Sucesso!"; 
-			$this->session->set_userdata('mensagemAlert',$mensagem); 
+			$this->session->set_userdata('mensagem',$mensagem); 
 		} else {
 			$mensagem ="Erro ao Excluir Produto!"; 
 			$this->session->set_userdata('mensagemErro',$mensagem);
@@ -277,7 +295,7 @@ class Produto extends CI_Controller {
 			if ($this->modelproduto->alterar($idproduto,$idcategoria,$idmarca,$desproduto,$codbarras,$codproduto,$corproduto, $vlpreco,$vlprecoatacado,$vllargura,$vlaltura,$vlcomprimento,$vlpeso,$vlpromocao,$vlpromocaoatacado,$produtoativo,$produtodestaque,$produtosite, $qtatacado)){
 
 				$mensagem ="Produto Alterado Com Sucesso !"; 
-				$this->session->set_userdata('mensagemAlert',$mensagem); 
+				$this->session->set_userdata('mensagem',$mensagem); 
 				
 			} else {
 
@@ -330,7 +348,7 @@ class Produto extends CI_Controller {
 						if ($this->modelproduto->alterar_img($idproduto, $dir_imagem)){
 
 								$mensagem = "Upload da Imagem Realizado Com Sucesso!";
-								$this->session->set_userdata('mensagemAlert',$mensagem);
+								$this->session->set_userdata('mensagem',$mensagem);
 						} else{
 								$mensagem = "Erro ao Realizar o Upload da Imagem!";
 								$this->session->set_userdata('mensagemErro',$mensagem);
@@ -364,6 +382,7 @@ class Produto extends CI_Controller {
 
 	 	$dados = $this->modelproduto->consultajquery_produto($desproduto);
 
+	 	$this->index(); 
  		$output .= '
  		<div class= "form-group picklist-prod">
 
@@ -378,7 +397,7 @@ class Produto extends CI_Controller {
 	 					 Descricao 
 	 			</label> 
 	 		</div> 
-      <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="3">
+      <select multiple class="form-control" id="idproduto_res" name="idproduto_res">
 	 		';
 	 		if ($dados->num_rows() > 0){
 	 			foreach ($dados->result() as $row) {
@@ -407,7 +426,7 @@ class Produto extends CI_Controller {
 
 	}
 
-	function consultajquery_produtos_admin()
+	function consultajquery_produto_admin()
 	{
 	 	$output = '';
 	 	$desproduto = '';
@@ -415,7 +434,7 @@ class Produto extends CI_Controller {
 	 	$desproduto = $this->input->post('nomeproduto'); 
 	 	$tiporel = $this->input->post('tiporel');
 
-	 	$produtos_ = $this->modelproduto->getConsultajquery_produtos_admin($desproduto,$tiporel);
+	 	$produtos_ = $this->modelproduto->getConsultajquery_produto_admin($desproduto,$tiporel);
 
 	 	$this->tipolistagem($tiporel);
 
@@ -434,75 +453,96 @@ class Produto extends CI_Controller {
  			$titulo = "TODOS OS PRODUTOS";
  		}
 
-    if ($produtos_):
-	    foreach ($produtos_ as $produto_admin)
-	    {   
-	        $id = $produto_admin->idproduto;
-	        $codigo = $produto_admin->codproduto; 
-	        $nome = $produto_admin->desproduto; 
-	        $barra= $produto_admin->codbarras;
-	      
-	        if ($produto_admin->img !=''){
-	            $foto   = img($produto_admin->img);
-	        }else{
-	            $foto   = img($semFoto);
-	        }
-	 
-	        $desproduto= $produto_admin->desproduto; 
-	       
-	        if ($produto_admin->produtoativo==1){
-	            $ativo = "SIM";
-	        }else{
-	            $ativo = "NAO";
-	        }
+ 		$output .= '
+ 		<h3 class="text-center" id="titulo-prod-jquery">'.$titulo.'</h3> 
+    <table class="table table-hover consulta-produto-admin mtabela">
+				<thead>
+			    <tr>
+			    	<th scope="col">Código</th>
+			      <th scope="col">Nome do Produto</th> 
+			      <th scope="col">Produto Está Ativo</th>
+			      <th scope="col"> Alterar </th>
+			      <th scope="col"> Excluir </th>
+			    </tr>
+			  </thead>
 
-	        
-	        $botaoalterar = anchor(base_url('admin/produto/alterar/'.md5($id)),
-	            '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> Alterar </h4>');
+	      <tbody>';
 
-	        $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Excluir </h4> </button>';
+	      if ($produtos_):
+			    foreach ($produtos_ as $produto_admin)
+			    {   
+			        $id = $produto_admin->idproduto;
+			        $codigo = $produto_admin->codproduto; 
+			        $nome = $produto_admin->desproduto; 
+			      
+			        if ($produto_admin->img !=''){
+			            $foto   = img($produto_admin->img);
+			        }else{
+			            $foto   = img($semFoto);
+			        }
+			 
+			        $desproduto= $produto_admin->desproduto; 
+			       
+			        if ($produto_admin->produtoativo==1){
+			            $ativo = "SIM";
+			        }else{
+			            $ativo = "NAO";
+			        }
 
-	        echo $modal= ' <div class="modal fade excluir-modal-'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
-	            <div class="modal-dialog modal-sm">
-	                <div class="modal-content">
+			        
+			        $botaoalterar = anchor(base_url('admin/produto/alterar/'.md5($id)),
+			            '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> Alterar </h4>');
 
-	                    <div class="modal-header">
-	                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-	                        </button>
-	                        <h4 class="modal-title" id="myModalLabel2"> <i class="fa fa-remove fa-fw"></i> Exclusão de Produto </h4>
-	                    </div>
-	                    <div class="modal-body">
-	                        <h4>Deseja Excluir o Produto '.$nome.'?</h4>
-	                        <p>Após Excluido, o Produto <b>'.$nome.'</b> não ficara mais disponível no Sistema.</p>
-	                        <p>Todos os itens relacionados ao Produto <b>'.$nome.'</b> serão afetados e não aparecerão no site até que sejam editados.</p>
-	                    </div>
-	                    <div class="modal-footer">
-	                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	                        <a type="button" class="btn btn-danger" href="'.base_url('admin/produto/excluir/'.md5($id)).'">Excluir</a>
-	                    </div>
+			        $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Excluir </h4> </button>';
 
-	                </div>
-	            </div>
-	        </div>';
+			        echo $modal= ' <div class="modal fade excluir-modal-'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
+			            <div class="modal-dialog modal-sm">
+			                <div class="modal-content">
 
-	        $output .= '
- 					<tr>
-			 			<td>						'.$codigo.		'</td>  
-			 			<td>					  '.$nome.	'</td>
-			 			<td>						'.$barra.		'</td> 
-			 			<td>					  '.$ativo.'</td>
-			 			<td>					  '.$botaoalterar.		'</td>
-			 			<td>					  '.$botaoexcluir.		'</td>'					 
-			 			; 
+			                    <div class="modal-header">
+			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+			                        </button>
+			                        <h4 class="modal-title" id="myModalLabel2"> <i class="fa fa-remove fa-fw"></i> Exclusão de Produto </h4>
+			                    </div>
+			                    <div class="modal-body">
+			                        <h4>Deseja Excluir o Produto '.$nome.'?</h4>
+			                        <p>Após Excluido, o Produto <b>'.$nome.'</b> não ficara mais disponível no Sistema.</p>
+			                        <p>Todos os itens relacionados ao Produto <b>'.$nome.'</b> serão afetados e não aparecerão no site até que sejam editados.</p>
+			                    </div>
+			                    <div class="modal-footer">
+			                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			                        <a type="button" class="btn btn-danger" href="'.base_url('admin/produto/excluir/'.md5($id)).'">Excluir</a>
+			                    </div>
 
+			                </div>
+			            </div>
+			        </div>';
+			        $output .= '
+		 					<tr>
+					 			<td>						'.$codigo.		'</td>  
+					 			<td>					  '.$nome.	'</td>
+					 		 
+					 			<td>					  '.$ativo.'</td>
+					 	  
+					 			<td>					  '.$botaoalterar.		'</td>
+					 			<td>					  '.$botaoexcluir.		'</td>'					 
+					 			; 
+
+			       
 			    }
 			  else:
 			  	$output .= '
-			  				</tr>' ;
+			  				</tr>
+			  			</tbody>
+			  		</table> 
+			 		<h2 class ="text-center"> ---- Nenhum item encontrado ----  </h2>';
+
 			  endif; 
 
     	$output .= '
-		 			</tr>';
+		 			</tr>
+	 			</tbody>
+	 		</table>';
 
  		echo $output;
  	 
@@ -511,56 +551,5 @@ class Produto extends CI_Controller {
  		exit; 
 
 	}
-
-	function consultajquery_produto_admin()
-	{
-
-	 	$output = '';
- 	 
-	 	$idproduto_consultado_array = $this->input->post('idproduto_cons');
-	 	$idproduto_consultado_admin =	$idproduto_consultado_array[0];   
-	  
-	 
-	 	$dados = $this->modelproduto->getConsultajquery_produto_admin($idproduto_consultado_admin);
-
-		$codbar = "";
-    $codpro = "";
-    $nomepro= "";
-    $idproduto = 0; 
-	 		
-		foreach ($dados as $produto_con) 
-		{
-			$codbar = $produto_con->codbarras;
-	    $codpro = $produto_con->codproduto;
-	    $nomepro= $produto_con->desproduto;
-	    $idproduto = $produto_con->idproduto; 
-		}
-
-
-		$output .= '
-		<div class="form-group col-lg-8 cons-item"> 
-        <label> Codigo de Barras </label>
-        <input id="idcodbarras" name="idcodbarras" type="text" class="form-control" value="'.$codbar.'">
-    </div>
-
-    <div class="form-group col-lg-4 cons-item"> 
-        <label> Cod Produto </label>
-        <input id="codproduto" name="codproduto" type="text" class="form-control" value="'.$codpro.'" >
-    </div>
-
-    <div class="form-group col-lg-12 cons-item"> 
-        <label> Descrição  </label>
-        <input id="desproduto" name="desproduto" type="text" class="form-control" value="'.$nomepro.'" required>
-    </div>
-
-    <input type="hidden" id="idproduto" name="idproduto" value= "'.$idproduto.'"> 
-     
-    ';
-	 
- 		echo $output;
- 		exit; 
-
-	}
-
 
 }

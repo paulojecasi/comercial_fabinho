@@ -12,23 +12,35 @@ jQuery(document).ready(function(){
    
     var quantidadeitens = (jQuery('#quantidadeitens_alt').val() == '' ? 0 : jQuery('#quantidadeitens_alt').val());
     
-    if (quantidadeitens < 1){
+    if (quantidadeitens < 0){
         //alert("Quantidade de Itens NÃO pode ser MENOR que 01 (UM)!"); 
-        swal("ATENÇÃO! ","Quantidade de Itens NÃO pode ser MENOR que 01 (UM)!");
-        var quantidadeitens=1 ;
+        //swal("ATENÇÃO! ","Quantidade de Itens NÃO pode ser MENOR que 01 (UM)!");
+        var quantidadeitens =1
         jQuery('#quantidadeitens_alt').val(quantidadeitens);
     }
 
     var valordesconto= (jQuery('#valordesconto_alt').val() == '' ? 0 : jQuery('#valordesconto_alt').val());
     if (valordesconto < 0){
-        swal("ATENÇÃO! ","Valor de Desconto não pode ser MENOR que ZERO !"); 
+        swal({
+          title: "ATENÇÃO !",
+          text: "Valor de Desconto não pode ser MENOR que ZERO !",
+          icon: "warning",
+          buttons: true,
+          dangerMode: false,
+        })
         var valordesconto=0;  
         jQuery('#valordesconto_alt').val(valordesconto);
     }
 
     var valoracrescimo = (jQuery('#valoracrescimo_alt').val() == '' ? 0 : jQuery('#valoracrescimo_alt').val());
     if (valoracrescimo < 0){
-        swal("ATENÇÃO! ","Valor do Acrescimo não pode ser MENOR que ZERO !"); 
+        swal({
+          title: "ATENÇÃO !",
+          text: "Valor do Acrescimo não pode ser MENOR que ZERO !",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
         var valoracrescimo=0;  
         jQuery('#valoracrescimo_alt').val(valoracrescimo);
     }
@@ -39,7 +51,8 @@ jQuery(document).ready(function(){
     valortotal = (parseFloat(valortotal) - parseFloat(valordesconto) + parseFloat(valoracrescimo));
 
 
-    valortotal = valortotal.toLocaleString("pt-BR");
+    //valortotal = valortotal.toLocaleString("pt-BR");
+    var valortotal= parseFloat(valortotal).toFixed(2);
     jQuery('#valortotal_alt').val(valortotal);  
 
   });
