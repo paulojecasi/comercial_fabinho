@@ -65,6 +65,8 @@ class Estoque_model extends CI_Model {
 
 	public function inserir_estoque_item($idproduto, $idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal){
 
+		$this->adiciona_valor_nota_produto($idproduto, $vlunitario); 
+
 		$dados = array (
 			"idestoque_entrada" => $idestoque_entrada,
 			"nrnota" 						=> $nrnota,
@@ -73,6 +75,8 @@ class Estoque_model extends CI_Model {
 			"vlunitario"				=> $vlunitario,
 			"vltotal"						=> $vltotal
 		); 
+
+		$this->atualiza_saldo_produto($idproduto, $quantidade); 
 
 		$this->movimento_estoque($nrnota,$idproduto,$idestoque_entrada,1,$quantidade);
 
@@ -138,6 +142,20 @@ class Estoque_model extends CI_Model {
 	}
 
 
+	private function atualiza_saldo_produto($idproduto, $qtsaldo)
+	{
+		$this->db->where('idproduto=', $idproduto);
+		$dados['qtsaldo'] = $qtsaldo;
+		$this->db->update('produto',$dados); 
+	}
+
+	private function adiciona_valor_nota_produto($idproduto, $vlunitario)
+	{
+		$this->db->where('idproduto=', $idproduto);
+		$dados['vlnota'] = $vlunitario;
+		$this->db->update('produto',$dados); 
+	}
+
 	public function atualiza_estoque_saldo($idproduto, $quantidade, $tipomovimento){
 
 		$saldo_atualizado = $this->consulta_estoque_saldo(md5($idproduto)); 
@@ -157,6 +175,9 @@ class Estoque_model extends CI_Model {
 			$dados = array (
 				"qtsaldo"	=> $saldo_atualizado
 			); 
+
+			$this->atualiza_saldo_produto($idproduto, $saldo_atualizado); 
+
 			$this->db->where('idproduto=',$idproduto); 
 			return $this->db->update('estoque_saldo',$dados); 
 
@@ -221,4 +242,24 @@ class Estoque_model extends CI_Model {
 
 
 	}
+
+
+	public function setNumero_nota_auto($nr_nota)
+	{
+
+		$dados['codigo_nota_automatica']= $nr_nota;
+		$this->db->where('id=1');
+		return $this->db->update("controle_entrada_sem_nota",$dados);
+
+	}
+
+
+	public function getQuantidade_item_temp($idcaixa, $idproduto)
+	{
+		$this->db->where('idcaixa=',$idcaixa); 
+		$this->db->where('idproduto=',$idproduto); 
+		$this->db->where('situacao=',0); 
+		return $this->db->get('produto_caixa_temp')->result(); 
+	}
+
 }

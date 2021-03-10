@@ -5,7 +5,7 @@ class Venda extends CI_Controller {
 
 	public function __construct()
 	{
-
+ 
 		parent::__construct(); 
 
 		if (!$this->session->userdata('logado')){
@@ -26,6 +26,7 @@ class Venda extends CI_Controller {
 
 	public function index()
 	{
+		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
 		$idcaixa=1; 
 		//$produtos_temp = $this->modelvendas->listar_produtos_temp($idcaixa);
@@ -50,9 +51,24 @@ class Venda extends CI_Controller {
 
 	}
 
+	public function consulta_venda($idvenda, $tipo_acesso=null)
+	{
+		$this->load->library('table');
+		$idcaixa =1; 
+		$dados['idcaixa']=$idcaixa; 
+		$dados['tipo_acesso']= $tipo_acesso; 
+		$dados['consulta_venda'] = $this->modelvendas->consulta_venda($idvenda);
+		$dados['consulta_venda_itens'] = $this->modelvendas->consultajquery_itens_venda($idvenda);
+		$this->load->view('frontend/template/html-header',$dados);
+		$this->load->view('frontend/template/header');
+		$this->load->view('frontend/template/mensagem-alert');
+		$this->load->view('frontend/venda_consulta');
+		$this->load->view('frontend/template/footer'); 
+		$this->load->view('frontend/template/html-footer');
+	}
+
 	public function listar_produto($idproduto){
 
-	
 		if ($idproduto == "----%20Nenhum%20item%20informado%20----")
 		{
 			redirect(base_url('venda'));
@@ -237,6 +253,9 @@ class Venda extends CI_Controller {
 		}
 		elseif ($tipo_pagamento == 4){
 			$this->load->view('frontend/venda_pagamento_crediario');
+		} 
+		elseif ($tipo_pagamento == 8){
+			$this->load->view('frontend/venda_pagamento_externa');
 		} 
 		else 
 		{

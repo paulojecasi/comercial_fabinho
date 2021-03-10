@@ -306,10 +306,11 @@ class Usuarios extends CI_Controller {
 						$dadosSessao['userLogado'] = $userLogado[0];
 						$dadosSessao['logado'] = TRUE; 
 						$this->session->set_userdata($dadosSessao); 
+						$this->session->unset_userdata('ultimoAviso'); 
 						// para acesso a venda
 						if ($this->session->userdata('tipo_acesso')=="venda"){ 
 							
-								if ($tp_acesso ==1 || $tp_acesso == 3)
+								if ($tp_acesso ==2 || $tp_acesso == 3)
 								{
 									// encerrar a secao
 	          			$this->session->unset_userdata('tipo_acesso'); 
@@ -322,7 +323,7 @@ class Usuarios extends CI_Controller {
 
 						}else{
 
-								if ($tp_acesso ==2 || $tp_acesso == 3) 
+								if ($tp_acesso ==1 || $tp_acesso == 3) 
 								{
 									redirect(base_url('admin'));
 								}else{
@@ -357,6 +358,7 @@ class Usuarios extends CI_Controller {
 		$this->session->unset_userdata('qtdItensInfo');
 		$this->session->unset_userdata('tipolista');
 		$this->session->unset_userdata('tipo_acesso');
+		$this->session->unset_userdata('ultimoAviso'); 
 
 		redirect(base_url('home')); 
 

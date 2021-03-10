@@ -8,6 +8,8 @@ jQuery(document).ready(function(){
 
     /* VALOR DESCONTO-ACRESCIMO DO PRODUTO */
     
+    $('#vlpreco_alt').mask('0000.00', {reverse: true});
+    
     var vl_preco_uni = (jQuery('#vlpreco_alt').val() == '' ? 0 : jQuery('#vlpreco_alt').val());
    
     var quantidadeitens = (jQuery('#quantidadeitens_alt').val() == '' ? 0 : jQuery('#quantidadeitens_alt').val());
@@ -46,7 +48,7 @@ jQuery(document).ready(function(){
     }
 
 
-    valortotal = (parseFloat(vl_preco_uni) * parseFloat(quantidadeitens));
+    valortotal = (parseFloat(vl_preco_uni).toFixed(2) * parseFloat(quantidadeitens).toFixed(2));
 
     valortotal = (parseFloat(valortotal) - parseFloat(valordesconto) + parseFloat(valoracrescimo));
 

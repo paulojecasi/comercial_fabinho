@@ -21,7 +21,7 @@
             <h2> Escolha a Forma de Pagamento </h2>
         </div>
         <section>
-            <div class = "col-lg-3 col-sm-6">
+            <div class = "col-lg-3 col-sm-4">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 ">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class = "col-lg-3 col-sm-6">
+            <div class = "col-lg-2 col-sm-4">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 ">
@@ -52,7 +52,7 @@
                 </div>
                  
             </div>
-            <div class = "col-lg-3 col-sm-6 ">
+            <div class = "col-lg-2 col-sm-4 ">
                 <div class="panel-body">
               
                     <div class="row">
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <div class = "col-lg-3 col-sm-6">
+            <div class = "col-lg-2 col-sm-4">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
@@ -80,6 +80,23 @@
                                     <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/fiado.png') ?>" >
                                 </a> 
                                 <h4> Crediário </h4>
+                            </div>
+
+                        </div> 
+
+                    </div>
+                </div>
+            </div>
+
+            <div class = "col-lg-3 col-sm-4">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="form-group nomeproduto text-center crediario">
+                                <a href="<?php echo base_url('venda/venda_pagamento/').$idcaixa.'/8' ?>">
+                                    <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/car.png') ?>" >
+                                </a> 
+                                <h4> Venda Externa </h4>
                             </div>
 
                         </div> 

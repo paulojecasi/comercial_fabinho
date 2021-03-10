@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Estoque extends CI_Controller {
 
-	public function __construct()
+	public function __construct() 
 	{ 
 
 		parent::__construct(); 
@@ -55,39 +55,63 @@ class Estoque extends CI_Controller {
 		$this->form_validation->set_rules('valornota','Valor da Nota','required');
 
 		if ($this->form_validation->run() == FALSE){
-
-				$this->index();   // se nao validar, retorna para a pagina
-
-		} else {
+				$this->index(); 
+		}
+		else
+		{
+			// vamos iniciar a transação 
+	  	$this->db->trans_begin();
 
 			$nrnota  		= $this->input->post('nrnota');
 			$serie   		= $this->input->post('serie');
 			$emitente 	= $this->input->post('emitente');
 			$valornota  = $this->input->post('valornota');
 
+			if ($emitente == "SISTEMA")
+			{
+				$resultado_snota = $this->modelestoque->setNumero_nota_auto($nrnota); 
+
+				if (!$resultado_snota)
+				{
+					$mensagem = "Houve um erro ao Atualizar Numero da Nota Automática(setNumero_nota_auto"; 
+					$this->session->set_userdata('mensagemErro',$mensagem); 
+					$this->db->trans_rollback(); 
+					redirect(base_url('admin/estoque'));
+				}
+			}
+
 			$retorno = $this->modelestoque->adicionar($nrnota,$serie,$emitente,$valornota); 
+			$idestoque_entrada = $this->db->insert_id();
 
-			if ($retorno){
-				$mensagem ="Nota -(".$nrnota.")- foi Adicionada com Sucesso! Agora Adicione os ITENS";
-				// usando seção da framework (session)
-				$this->session->set_userdata('mensagem',$mensagem); 
-
-				// vamos pegar o id do nota adicionada e redirecionar diretamente
-				// para a template de cadastro dos itens
-				$idestoque_entrada = $this->db->insert_id();
-				redirect(base_url('admin/estoque/itens/'.md5($idestoque_entrada)));
-				
-			} else {
-
+			if (!$retorno){
 				$mensagem = "Houve um erro ao adicionar Nota !"; 
 
 				$this->session->set_userdata('mensagemErro',$mensagem); 
 
+				$this->db->trans_rollback(); 
+
 				redirect(base_url('admin/estoque'));
 			}
 
-		}
 
+			if  ($this->db->trans_status()===FALSE ) 
+			{ 
+				  $this->db->trans_rollback(); 
+				  $mensagem = "Houve um ERRO de TRANSAÇÃO! (venda/finalizar_venda) "; 
+					$this->session->set_userdata('mensagemErro',$mensagem); 
+					redirect(base_url('venda'));
+			} 
+			else 
+			{ 
+				$this->db->trans_commit(); 
+
+				$mensagem ="Nota -(".$nrnota.")- foi Adicionada com Sucesso! Agora Adicione os ITENS";
+				$this->session->set_userdata('mensagemAlert',$mensagem); 
+
+				redirect(base_url('admin/estoque/itens/'.md5($idestoque_entrada)));
+		
+			}
+		}
 	}
 
 	public function itens($idestoque_entrada, $idproduto=null){
@@ -143,14 +167,42 @@ class Estoque extends CI_Controller {
 
 	public function buscar_produto($idsolicitante)
 	{
+		$idcaixa =1; 
 		$idestoque_entrada  = $this->input->post('idestoque_entrada');
 		$idproduto  = $this->input->post('idproduto_res');
 		$quantidade   = $this->input->post('quantidade');
+		$idproduto_md = md5($idproduto); 
 
 		if ($idsolicitante == "venda"){
 			$this->session->set_userdata('quantidade',$quantidade);
 			$this->session->set_userdata('solicitante',$idsolicitante);
  			$idcodproduto = $this->input->post('idproduto_res');
+
+
+ 			// vamos verificar a quantidade da venda e o saldo de estoque 
+ 			$quantidade_itens_selecionados=$this->modelestoque->getQuantidade_item_temp($idcaixa,$idproduto);
+
+ 			if ($quantidade_itens_selecionados)
+ 			{
+	 			foreach ($quantidade_itens_selecionados as $qtd_select) 
+	 			{
+	 				 $quantidade += $qtd_select->quantidadeitens; 
+	 			}
+ 			}
+
+ 			$resultado_saldo = $this->modelestoque->consulta_estoque_saldo($idproduto_md); 
+ 			if ($resultado_saldo)
+ 			{
+				if ($resultado_saldo < $quantidade)
+				{
+					$mensagem ="ATENÇÃO! Produto sem Saldo Suficiente. Saldo: ".$resultado_saldo;
+
+					$this->session->set_userdata('mensagemErro',$mensagem);
+
+					redirect(base_url('venda')); 
+
+				} 			
+ 			}
  		
 		}
 

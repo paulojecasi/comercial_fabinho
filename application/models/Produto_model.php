@@ -240,11 +240,10 @@ class Produto_model extends CI_Model
 
 	function consultajquery_produto($desproduto)
 	{
-
 		if (strlen($desproduto)>0) 
 		{
 			$this->db->like('desproduto', $desproduto); 
-			$this->db->or_where('codbarras', $desproduto);
+			$this->db->or_like('codbarras', $desproduto);
 			$this->db->or_where('codproduto=', $desproduto);
 			$this->db->order_by('desproduto','DESC');
 			return $this->db->get('produto'); 

@@ -15,6 +15,7 @@
     <script src="<?php echo base_url('/assets/backend/js/myscripts-sidenav.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-desconto-acrescimo-prod.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-calculo-recebimento-crediario.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/myscripts-calculo-retirada.js') ?>"></script>
 
     <!-- tabelas
     <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"> </script>
@@ -143,10 +144,9 @@
 
 
         carregarDadosCaixaMov();
-        function carregarDadosCaixaMov(idcaixa_mov, datainicial_mov, datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery)
+        function carregarDadosCaixaMov(idcaixa_mov, datainicial_mov, datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery,mov_retirada, mov_troco_ini)
         {
 
-            //alert(mov_avista); 
             $.ajax({
                 url:"<?php echo base_url(); ?>caixa/consultajquery_dados_caixa",
                 method:"POST",
@@ -159,7 +159,9 @@
                         mov_crediario:mov_crediario,
                         mov_crediariorec:mov_crediariorec,
                         mov_externa:mov_externa,
-                        porJQuery:porJQuery},
+                        porJQuery:porJQuery,
+                        mov_retirada:mov_retirada,
+                        mov_troco_ini:mov_troco_ini},
                 success:function(data){
                     $('#resultado_caixa_mov tbody').html(data); 
                 }
@@ -208,8 +210,18 @@
                 }else{
                     var mov_externa=0; 
                 }
+                if ($('#btn-lista-mov-cx9').is(':checked')) {
+                    var mov_retirada = jQuery('#btn-lista-mov-cx9').val(); 
+                }else{
+                    var mov_retirada=0; 
+                }
+                if ($('#btn-lista-mov-cx10').is(':checked')) {
+                    var mov_troco_ini = jQuery('#btn-lista-mov-cx10').val(); 
+                }else{
+                    var mov_troco_ini=0; 
+                }
 
-                carregarDadosCaixaMov(idcaixa_mov,datainicial_mov,datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery);
+                carregarDadosCaixaMov(idcaixa_mov,datainicial_mov,datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery, mov_retirada, mov_troco_ini);
             }else 
             {
                 carregarDadosCaixaMov(); 

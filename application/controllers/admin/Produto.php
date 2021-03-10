@@ -434,6 +434,7 @@ class Produto extends CI_Controller {
  			$titulo = "TODOS OS PRODUTOS";
  		}
 
+
     if ($produtos_):
 	    foreach ($produtos_ as $produto_admin)
 	    {   
@@ -441,6 +442,9 @@ class Produto extends CI_Controller {
 	        $codigo = $produto_admin->codproduto; 
 	        $nome = $produto_admin->desproduto; 
 	        $barra= $produto_admin->codbarras;
+	        $vlpreco = $produto_admin->vlpreco;
+	        $qtsaldo = $produto_admin->qtsaldo; 
+	        $vlnota = $produto_admin->vlnota; 
 	      
 	        if ($produto_admin->img !=''){
 	            $foto   = img($produto_admin->img);
@@ -458,9 +462,9 @@ class Produto extends CI_Controller {
 
 	        
 	        $botaoalterar = anchor(base_url('admin/produto/alterar/'.md5($id)),
-	            '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> Alterar </h4>');
+	            '<h4 class="btn-alterar"><i class="fas fa-edit"> </i>  </h4>');
 
-	        $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Excluir </h4> </button>';
+	        $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  </h4> </button>';
 
 	        echo $modal= ' <div class="modal fade excluir-modal-'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
 	            <div class="modal-dialog modal-sm">
@@ -489,7 +493,10 @@ class Produto extends CI_Controller {
  					<tr>
 			 			<td>						'.$codigo.		'</td>  
 			 			<td>					  '.$nome.	'</td>
+			 			<td>						'.reais($vlnota).		'</td>
+			 			<td>						'.reais($vlpreco).		'</td>
 			 			<td>						'.$barra.		'</td> 
+			 			<td>						'.$qtsaldo.		'</td>
 			 			<td>					  '.$ativo.'</td>
 			 			<td>					  '.$botaoalterar.		'</td>
 			 			<td>					  '.$botaoexcluir.		'</td>'					 

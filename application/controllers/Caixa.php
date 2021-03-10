@@ -23,65 +23,51 @@ class Caixa extends CI_Controller {
 		$this->tipo_pagamento = $this->model_tipo_pagamento->lista_tipos_pagamentos(); 
 		//$this->caixa_movimento = $this->modelcaixa_movimento->movimentos_caixa(); 
 
+
 	}
 
 	public function movimentos_caixa()
 	{
 
-		if (!is_null($this->session->userdata('avista'))
-			|| 
-			 !is_null($this->session->userdata('cartaodebito'))
-			|| 
-			 !is_null($this->session->userdata('cartaocredito'))
-			|| 
-			 !is_null($this->session->userdata('crediario'))
-			|| 
-			 !is_null($this->session->userdata('crediarioreceb'))
-		)
-		{
-			$dados['avista'] 				=$this->session->userdata('avista');
-			$dados['cartaodebito'] 	=$this->session->userdata('cartaodebito');
-			$dados['cartaocredito'] =$this->session->userdata('cartaocredito');
-			$dados['crediario']			=$this->session->userdata('crediario');
-			$dados['crediarioreceb']=$this->session->userdata('crediarioreceb');
-			$dados['datainicio'] 		=$this->session->userdata('datainicio');
-			$dados['datafinal']			=$this->session->userdata('datafinal');
+		$dados['avista']				= null;
+		$dados['cartaodebito'] 	= null;
+		$dados['cartaocredito'] = null;
+		$dados['crediario'] 		= null;
+		$dados['crediarioreceb']= null;
+		$dados['datainicio'] 		= null;
+		$dados['datafinal']			= null; 
+		$dados['vendaexterna']	= null; 
+		$dados['valor_disp_cx']	= null; 
+		$dados['trocoini']			= null; 
+		$dados['retirada_dinheiro']	= null; 
 
-			// encerrar sessoes 
-			$this->session->unset_userdata('idcaixa');
-			$this->session->unset_userdata('avista');
-			$this->session->unset_userdata('cartaodebito');
-			$this->session->unset_userdata('cartaocredito');
-			$this->session->unset_userdata('crediario');
-			$this->session->unset_userdata('crediarioreceb');
-			$this->session->unset_userdata('datainicio');
-			$this->session->unset_userdata('datafinal');
-		}
-		else
-		{
-			$dados['avista']				= null;
-			$dados['cartaodebito'] 	= null;
-			$dados['cartaocredito'] = null;
-			$dados['crediario'] 		= null;
-			$dados['crediarioreceb']= null;
-			$dados['datainicio'] 		= null;
-			$dados['datafinal']			= null; 
-		}
+		$dados['avista'] 				=$this->session->userdata('avista');
+		$dados['cartaodebito'] 	=$this->session->userdata('cartaodebito');
+		$dados['cartaocredito'] =$this->session->userdata('cartaocredito');
+		$dados['crediario']			=$this->session->userdata('crediario');
+		$dados['crediarioreceb']=$this->session->userdata('crediarioreceb');
+		$dados['datainicio'] 		=$this->session->userdata('datainicio');
+		$dados['datafinal']			=$this->session->userdata('datafinal');
+		$dados['vendaexterna']	=$this->session->userdata('vendaexterna');
+		$dados['valor_disp_cx'] =$this->session->userdata('valor_disp_cx');
+		$dados['trocoini']			=$this->session->userdata('trocoini');
+		$dados['retirada_dinheiro']			=$this->session->userdata('retirada_dinheiro');
 
 		$idcaixa=1; 
 		$dados['idcaixa']= $idcaixa; 
 
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
-		//$this->load->view('backend/mensagem');
+		//$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('frontend/caixa_movimentos');
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer'); 
 
 	}
 
-	public function cancelamento_mov_caixa()
+	public function movimento_cancel_mov_caixa()
 	{
+		$this->modelcaixa_movimento->encerra_sessoes_caixa();  
 		$idcaixa=1; 
 		$datainicio = date('Y-m-d');
 		$datafinal = date('Y-m-d'); 
@@ -99,54 +85,173 @@ class Caixa extends CI_Controller {
 
 	}
 
-	public function confirma_cancelamento_mov($idcaixa_mov, $idvenda, $tipo_movimento)
+	public function confirma_cancelamento_mov($idcaixa_mov, $idvenda=null, $tipo_movimento, $valor=null, $idcliente=null, $idretirada=null)
 	{
+		$idcliente_md = md5($idcliente); 
 		// vamos iniciar a transação 
     $this->db->trans_begin();
-    $resultado_cancel = $this->modelvendas->cancelar_venda($idvenda);
+
+    // CANCELAR MOVIMENTO DO CAIXA ---------------
+		if (!$this->modelcaixa_movimento->cancela_movimento_caixa($idcaixa_mov, $tipo_movimento))
+		{
+			$mensagem = "Houve um erro ao Cancelar a Venda/Movimento (modelcaixa_movimento/cancela_movimento_caixa)"; 
+			$this->session->set_userdata('mensagemErro',$mensagem);
+			$this->db->trans_rollback(); 
+			redirect(base_url('caixa/movimento_cancel_mov_caixa')); 
+		}
+
+		// CANCELAR RETIRADA, CASO SEJA ----------------
+		if ($idretirada && $tipo_movimento ==9)
+		{
+			if (!$this->modelcaixa_movimento->cancela_caixa_retirada($idretirada))
+			{
+				$mensagem = "Houve um erro ao cancelar RETIRADA (modelcaixa_movimento/cancela_caixa_retirada)"; 
+				$this->session->set_userdata('mensagemErro',$mensagem);
+				$this->db->trans_rollback(); 
+				redirect(base_url('caixa/movimento_cancel_mov_caixa')); 
+
+			}
+		}
+
+    // CANCELAMENTO DE VENDAS, CASO TENHA --------------
+    if ($idvenda && $tipo_movimento !=9)
+    {
+
+    	$resultado_cancel = $this->modelvendas->cancelar_venda($idvenda);
 	
 			if (!$resultado_cancel=="ok")
 			{ 
 				$mensagem = "Houve um erro ao Cancelar a Venda/Movimento (modelvendas/cancelar_venda)"; 
 				$this->session->set_userdata('mensagemErro',$mensagem); 
 				$this->db->trans_rollback(); 
-				redirect(base_url('caixa/cancelamento_mov_caixa')); 
+				redirect(base_url('caixa/movimento_cancel_mov_caixa')); 
 
 			}
+		}
 
-			if (!$this->modelcaixa_movimento->cancela_movimento_caixa($idcaixa_mov, $tipo_movimento))
+		// ATUALIZAR SALDO DO CLIENTE, CASO TENHA  ---------------
+		if ($idcliente && $tipo_movimento !=9)
+		{
+			if (!$this->modelvendas->atualiza_saldo_crediario($idcliente, $idcliente_md, $valor ,"cancelamento_venda"))
 			{
-				$mensagem = "Houve um erro ao Cancelar a Venda/Movimento (modelcaixa_movimento/cancela_movimento_caixa)"; 
+
+				$mensagem = "Houve um erro ao Atualizar o Saldo do Cliente (modelvendas/atualiza_saldo_crediario)"; 
 				$this->session->set_userdata('mensagemErro',$mensagem);
 				$this->db->trans_rollback(); 
-				redirect(base_url('caixa/cancelamento_mov_caixa')); 
+				redirect(base_url('caixa/movimento_cancel_mov_caixa')); 
+
 			}
+		}
 
 		if  ($this->db->trans_status()===FALSE ) 
 		{ 
 			  $this->db->trans_rollback(); 
 			  $mensagem = "Houve um ERRO de TRANSAÇÃO! (caixa/confirma_cancelamento_mov) "; 
 				$this->session->set_userdata('mensagemErro',$mensagem); 
-				redirect(base_url('caixa/cancelamento_mov_caixa'));
+				redirect(base_url('caixa/movimento_cancel_mov_caixa'));
 		} 
 		else 
 		{ 
 			$this->db->trans_commit(); 
 			$mensagem = "Cancelamento Realizada com Sucesso !"; 
 			$this->session->set_userdata('mensagemAlert',$mensagem); 
-			redirect(base_url('caixa/cancelamento_mov_caixa'));
+			redirect(base_url('caixa/movimento_cancel_mov_caixa'));
 	
 		}
 
 	}
 
-	function consulta_dados_caixa()
+	public function retirada_caixa($datainicio, $datafinal)
 	{
- 	 
-	 	$idcaixa = $this->input->post('idcaixa_mov');
+		$idcaixa=1; 
+
+		$dados['idcaixa']= $idcaixa; 
+		$dados['datainicio']= $datainicio;
+		$dados['datafinal']= $datafinal;
+		$dados['tipo_retirada']=$this->model_tipo_pagamento->getLista_tipo_retirada();
+		//$dados['valor_disp_cx'] = $valor_disp_cx;  
+
+		$this->load->view('frontend/template/html-header',$dados);
+		$this->load->view('frontend/template/header');
+		$this->load->view('frontend/template/mensagem-alert');
+		$this->load->view('frontend/caixa_retirada');
+		$this->load->view('frontend/template/footer');
+		$this->load->view('frontend/template/html-footer');
+
+	}
+
+	public function confirma_retirada($idcaixa)
+	{
+		$valor_retirada = $this->input->post('vl_retirada_caixa');
+		$codigousuario 	= $this->session->userdata('userLogado')->id;
+		$tipo_retirada 	= $this->input->post('id_retirada_mov');
+
+		// vamos iniciar a transação 
+    $this->db->trans_begin(); 
+
+    // VAMOS GRAVAR A RETIRADA 
+    $res_retirada = $this->modelcaixa_movimento->grava_caixa_retirada($idcaixa,$valor_retirada,$tipo_retirada,$codigousuario);
+    if ($res_retirada)
+    {
+    	$idretirada = $this->db->insert_id();
+    }
+    else
+		{
+			$idretirada = $this->db->insert_id();
+
+			$mensagem = "Erro ao Gravar Retirada! (modelcaixa_movimento/grava_caixa_retirada)"; 
+		
+			$this->db->trans_rollback(); 
+			$this->session->set_userdata('mensagemErro',$mensagem); 
+			redirect(base_url('caixa/consulta_dados_caixa/ret'));
+		}
+
+		// VAMOS GRAVAR O MOVIMENTO DA RETIRADA 
+		if (!$this->modelcaixa_movimento->grava_caixa_mov($idcaixa, 0, 0, $codigousuario, 9, $valor_retirada, 0, 0, 5, 0, 0, $idretirada))
+		{
+			$mensagem = "Erro no Processo, Retirada não Realizada!(modelcaixa_movimento/grava_caixa_mov)"; 
+				echo $mensagem;
+			exit; 
+			$this->db->trans_rollback(); 
+			$this->session->set_userdata('mensagemErro',$mensagem); 
+			redirect(base_url('caixa/consulta_dados_caixa/ret'));
+		}
+
+		if ($this->db->trans_status()===FALSE) 
+		{ 
+			  $mensagem = "Houve um ERRO de TRANSAÇÃO! (caixa/confirma_retirada) "; 
+			  $this->db->trans_rollback(); 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+				redirect(base_url('caixa/consulta_dados_caixa/ret'));
+		} 
+		else 
+		{ 
+			$this->db->trans_commit(); 
+			$mensagem = "Retirada de valores Realizada com Sucesso !"; 
+			$this->session->set_userdata('mensagemAlert',$mensagem); 
+			redirect(base_url('caixa/consulta_dados_caixa/ret'));
+	
+		}
+
+	}
+
+	function consulta_dados_caixa($local_chamado=null)
+	{
+
+		$idcaixa =1; 
 	 	$datainicio = $this->input->post('datainicial_mov');
 	 	$datafinal  = $this->input->post('datafinal_mov');  
 	 	$idcaixa_md5 = md5($idcaixa); 
+
+	 	if ($local_chamado == "ret")
+	 	{
+		 	$datainicio = $this->session->userdata('datainicio');
+		 	$datafinal  = $this->session->userdata('datafinal');
+		 	$idcaixa_md5 = md5($idcaixa); 
+			
+		}
+
+		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
 	 	$dados = $this->modelcaixa_movimento->getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal);
 
@@ -166,6 +271,10 @@ class Caixa extends CI_Controller {
 	 	$cartaocredito =0;
 	 	$crediario =0;
 	 	$crediarioreceb =0; 
+	 	$trocoini=0; 
+	 	$valor_disp_cx =0; 
+	 	$retirada_dinheiro=0; 
+	 	$vendaexterna=0; 
 
 		foreach ($dados as $movimento_caixa_result) 
 		{
@@ -174,32 +283,51 @@ class Caixa extends CI_Controller {
 			$vl_juros 		= $movimento_caixa_result->vl_juros;
 			$vl_desconto 	= $movimento_caixa_result->vl_desconto;
 			$vl_real 			= $vl_movimento + $vl_juros - $vl_desconto; 
-
+			$situacao			= $movimento_caixa_result->	situacao;
 			$idcaixa_mov 	= $movimento_caixa_result->idcaixa_mov;
 			$idcliente		= $movimento_caixa_result->idcliente;
 			$data_movimento=$movimento_caixa_result->data_movimento;
 			$desmovimento = $movimento_caixa_result->tipo_movimento_caixa;
 			$despagamento	= $movimento_caixa_result->tipo_pagamento_crediario; 
 
-			if ($tipo_movimento ==1)
+			if ($situacao ==0 )  // se nao for cancelado 
 			{
-				$avista += $vl_real; 
-			}
-			elseif ($tipo_movimento ==2)
-			{
-				$cartaodebito += $vl_real;
-			}
-			elseif ($tipo_movimento ==3)
-			{
-				$cartaocredito += $vl_real;
-			}
-			elseif ($tipo_movimento ==4)
-			{
-				$crediario += $vl_real;
-			}
-			elseif ($tipo_movimento ==5)
-			{
-				$crediarioreceb += $vl_real; 
+
+				if ($tipo_movimento ==10)
+				{
+					$trocoini += $vl_movimento; 
+				}
+
+				if ($tipo_movimento ==1)
+				{
+					$avista += $vl_real; 
+				}
+				elseif ($tipo_movimento ==2)
+				{
+					$cartaodebito += $vl_real;
+				}
+				elseif ($tipo_movimento ==3)
+				{
+					$cartaocredito += $vl_real;
+				}
+				elseif ($tipo_movimento ==4)
+				{
+					$crediario += $vl_real;
+				}
+				elseif ($tipo_movimento ==5)
+				{
+					$crediarioreceb += $vl_real; 
+				}
+				elseif ($tipo_movimento ==8)
+				{
+					$vendaexterna += $vl_real; 
+				}
+				elseif ($tipo_movimento ==9)
+				{
+					$retirada_dinheiro += $vl_movimento; 
+				}
+
+				$valor_disp_cx = $trocoini+$avista+$crediarioreceb+$vendaexterna-$retirada_dinheiro; 
 			}
 	
 		}
@@ -213,18 +341,19 @@ class Caixa extends CI_Controller {
 			!$crediario
 			&& 
 			!$crediarioreceb
+			&& 
+			!$vendaexterna
+			&& 
+			!$trocoini
 		)
 		{
 			$mensagem = "Nao ha movimento no periodo informado!"; 
+			$this->session->set_userdata('datainicio',$datainicio);
+			$this->session->set_userdata('datafinal',$datafinal);
 			$this->session->set_userdata('mensagemErro',$mensagem); 
 		}
 		else
 		{
-			$avista 			= reais($avista); 
-			$cartaodebito	= reais($cartaodebito);
-			$cartaocredito= reais($cartaocredito);
-			$crediario 		= reais($crediario);
-			$crediarioreceb = reais($crediarioreceb);
 
 			$this->session->set_userdata('idcaixa',$idcaixa);
 			$this->session->set_userdata('avista',$avista);
@@ -232,15 +361,17 @@ class Caixa extends CI_Controller {
 			$this->session->set_userdata('cartaocredito',$cartaocredito);
 			$this->session->set_userdata('crediario',$crediario);
 			$this->session->set_userdata('crediarioreceb',$crediarioreceb);
+			$this->session->set_userdata('vendaexterna',$vendaexterna);
 			$this->session->set_userdata('datainicio',$datainicio);
 			$this->session->set_userdata('datafinal',$datafinal);
+			$this->session->set_userdata('valor_disp_cx',$valor_disp_cx);
+			$this->session->set_userdata('trocoini',$trocoini);
+			$this->session->set_userdata('retirada_dinheiro',$retirada_dinheiro);
 		}
 		 
 		redirect(base_url('caixa/movimentos_caixa')); 
 
 	}
-
-
 
 
 	function consultajquery_dados_caixa()
@@ -259,8 +390,10 @@ class Caixa extends CI_Controller {
 	 	$mov_externa  = $this->input->post('mov_externa');
 	 	$porJQuery = $this->input->post('porJQuery'); 
 	 	$idcaixa_md5 = md5($idcaixa);
+	 	$mov_troco_ini  = $this->input->post('mov_troco_ini');
+	 	$mov_retirada  = $this->input->post('mov_retirada');
 
-	 	$dados = $this->modelcaixa_movimento->getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista, $mov_debito, $mov_credito, $mov_crediario, $mov_crediariorec, $mov_externa, $porJQuery);
+	 	$dados = $this->modelcaixa_movimento->getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista, $mov_debito, $mov_credito, $mov_crediario, $mov_crediariorec, $mov_externa, $porJQuery, $mov_troco_ini, $mov_retirada);
 
  
 	 	$vl_movimento=0;
@@ -281,9 +414,7 @@ class Caixa extends CI_Controller {
 	 	$crediarioreceb =0; 
 	 	$vl_real =0; 
 	 	$total_real=0; 
-
-
-	
+	 	$total_can=0;
 
 		foreach ($dados as $movimento_caixa_result) 
 		{
@@ -292,56 +423,80 @@ class Caixa extends CI_Controller {
 			$vl_juros 		= $movimento_caixa_result->vl_juros;
 			$vl_desconto 	= $movimento_caixa_result->vl_desconto;
 			$vl_real 			= $vl_movimento + $vl_juros - $vl_desconto; 
-
+			$situacao			= $movimento_caixa_result->situacao;
 			$idcaixa_mov 	= $movimento_caixa_result->idcaixa_mov;
 			$idcliente		= $movimento_caixa_result->idcliente;
 			$data_movimento= datebr($movimento_caixa_result->data_movimento);
 			$desmovimento = $movimento_caixa_result->desmovimento;
 			$despagamento	= $movimento_caixa_result->destipopagamento; 
 			$codigousuario = $movimento_caixa_result->codigousuario; 
+			$idvenda = $movimento_caixa_result->idvenda; 
 
-			$total_real += $vl_real; 
+			if ($situacao == 0)
+			{
+				$total_real += $vl_real; 
+			}
+
+			if ($situacao == 1)
+			{
+				$total_can += $vl_real; 
+			}
+
+			if ($tipo_movimento ==5 
+				|| 
+				$tipo_movimento==9
+				|| 
+				$tipo_movimento==10
+			)
+			{
+
+          $botaovenda ="";
+      } 
+      else
+      {
+          $botaovenda = '<a href="'.base_url('venda/consulta_venda/').md5($idvenda).'/movcaixa'.'" > <h4 class="btn-alterar"><i class="fas fa-shopping-cart"> </i> </h4> </a>';
+      }
 
 			$vl_juros = reais($vl_juros); 
 			$vl_desconto = reais($vl_desconto);
 			$vl_real = reais($vl_real); 
 
 
-			/*
-			if ($tipo_movimento ==1)
+			if ($situacao == 1)
 			{
-				$avista += $vl_real; 
-			}
-			elseif ($tipo_movimento ==2)
-			{
-				$cartaodebito += $vl_real;
-			}
-			elseif ($tipo_movimento ==3)
-			{
-				$cartaocredito += $vl_real;
-			}
-			elseif ($tipo_movimento ==4)
-			{
-				$crediario += $vl_real;
-			}
-			elseif ($tipo_movimento ==5)
-			{
-				$crediarioreceb += $vl_real; 
-			}
-			*/
 
-			$output .= '
-				<tr>
-		 			<td>	'.$idcaixa_mov.			'</td>  
-		 			<td>	'.$data_movimento.	'</td>
-		 			<td>	'.$codigousuario.		'</td>
-		 			<td>	'.$desmovimento.		'</td>
-		 			<td>	'.$despagamento.		'</td>
-		 			<td>	'.$vl_juros.				'</td>
-		 			<td>	'.$vl_desconto.			'</td>
-		 			<td>	'.$vl_real.					'</td>
-		 		</tr>	'			 
-			; 
+				$output .= '
+					<tr class="venda-mov-cancelado">
+			 			<td>	'.$idcaixa_mov.			'</td>  
+			 			<td>	'.$data_movimento.	'</td>
+			 			<td>	'.$codigousuario.		'</td>
+			 			<td>	'.$desmovimento.		'-CANC</td>
+			 			<td>	'.$despagamento.		'</td>
+			 			<td>	'.$vl_juros.				'</td>
+			 			<td>	'.$vl_desconto.			'</td>
+			 			<td>	'.$vl_real.					'</td>
+			 			<td>	'.$botaovenda.			'</td>
+			 		</tr>	'			 
+				; 
+			}
+			else
+			{
+
+				$output .= '
+					<tr>
+			 			<td>	'.$idcaixa_mov.			'</td>  
+			 			<td>	'.$data_movimento.	'</td>
+			 			<td>	'.$codigousuario.		'</td>
+			 			<td>	'.$desmovimento.		'</td>
+			 			<td>	'.$despagamento.		'</td>
+			 			<td>	'.$vl_juros.				'</td>
+			 			<td>	'.$vl_desconto.			'</td>
+			 			<td>	'.$vl_real.					'</td>
+			 			<td>	'.$botaovenda.			'</td>
+			 		</tr>	'			 
+				; 
+
+			}
 		}
 
 		if ($total_real > 0)
@@ -350,13 +505,25 @@ class Caixa extends CI_Controller {
 
 			$output .= '
 				<tr>
-	        <th scope="col"> TOTAL R$ </th>
+	        <th scope="col"> TOT </th>
 	        <td> '.$total_real.'</td> 
 	      </tr> 
 				r>'; 
 		}
 
-	
+
+		if ($total_can > 0)
+		{
+			$total_can = reais($total_can); 
+
+			$output .= '
+				<tr class="venda-mov-cancelado">
+	        <th scope="col"> CAN </th>
+	        <td> '.$total_can.'</td> 
+	      </tr> 
+				r>'; 
+		}
+
  		echo $output;
  		exit; 
 

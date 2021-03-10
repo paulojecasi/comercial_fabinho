@@ -5,7 +5,8 @@ jQuery(document).ready(function(){
     return false;
     }
 
-	//$('#vl_recebido_caixa').mask('0000.00', {reverse: true});
+   // totalizador do ALTERAÇÃO DE ITENS DA VENDA 
+	//$('#vlpreco_alt').mask('0000.00', {reverse: true});
   //$('#vl_troco').mask('0000,00', {reverse: true});
 
   });

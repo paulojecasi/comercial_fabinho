@@ -15,10 +15,10 @@ class Cliente extends CI_Controller {
 		$this->load->model('cliente_model','modelcliente'); 
 		$this->load->model('venda_model','modelvendas'); 
 		$this->load->model('caixa_model','modelcaixa_movimento');
-
 	}
 
 	public function manutencao_clientes(){
+		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
 		$idcaixa =1; 
 		$dados['idcaixa'] = $idcaixa; 

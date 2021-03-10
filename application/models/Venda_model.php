@@ -121,14 +121,14 @@ class Venda_model extends CI_Model
 					// vamos devolver o item para o estoque
 					$tipomovimento = 2; // Entrada no estoque por cancelamento de venda 
 					$this->load->model('estoque_model','modelestoque');
-					return $this->modelestoque->movimento_estoque($idvenda,$idproduto,0,$tipomovimento,$quantidade,$idvenda); 
+					$resultado_mov = $this->modelestoque->movimento_estoque($idvenda,$idproduto,0,$tipomovimento,$quantidade,$idvenda); 
 
 				} 
 			}
 
+			return $resultado_mov; 
+
 		} 
-
-
 	}
 
 	private function getConsulta_itens_da_venda($idvenda)
@@ -187,6 +187,7 @@ class Venda_model extends CI_Model
 
 	public function atualiza_saldo_crediario($idcliente, $idcliente_md, $valor , $tipo=null)
 	{
+
 		$resultado = $this->consulta_saldo_crediario($idcliente_md); 
 		if ($resultado){
 
@@ -199,6 +200,8 @@ class Venda_model extends CI_Model
 			{
 				$vl_total_pagamento += $valor;
 			}
+			elseif ($tipo == "cancelamento_venda")
+				$vl_total_compras -= $valor; 
 			else
 			{
 				$vl_total_compras += $valor;
@@ -211,9 +214,19 @@ class Venda_model extends CI_Model
 			$dados['vl_total_pagamento'] = $vl_total_pagamento;
 			$dados['vl_saldo_devedor'] = $vl_saldo_devedor;
 
-			$this->db->update('venda_saldo_crediario', $dados); 
+			$resultado_saldo = $this->db->update('venda_saldo_crediario', $dados);
 
-		}else{
+			if ($resultado_saldo) 
+			{
+				// carregar saldo numa session 
+				$this->session->set_userdata('vl_saldo_devedor',$vl_saldo_devedor); 
+			}
+			return $resultado_saldo;  
+
+		}
+		else
+		{
+
 			$dados['idcliente']= $idcliente;
 			$dados['vl_total_compras'] = $valor;
 			$dados['vl_total_pagamento'] =0;

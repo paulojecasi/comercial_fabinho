@@ -6,7 +6,7 @@
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 area-vendas1">
 
-                                <?php
+                                <?php 
 
                                 // encerrar a secoes 
                                 $this->session->unset_userdata('idcliente');

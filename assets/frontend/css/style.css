@@ -74,7 +74,6 @@ a:hover, a:focus {color: #17a78b}
 /* MINHAS ESTILIZAÇÕES */ 
 
 table {
-  width: 100%;
   border-collapse: collapse;
   text-align: center;
 }
@@ -183,19 +182,21 @@ div.panel-vendas2-1{
 }
 div.panel-vendas2-1 table{
   background-color: #ADD8E6; 
-  font-weight: bold; 
   color: #696969;
+  margin-top: -12px; 
+  font-size: 13px; 
 }
 
 div.panel-vendas2-1 table h5{
   font-weight: bold; 
   color: #000;
-
+  margin-top: 0px; 
+  margin-bottom: 0px; 
 }
 
 div.panel-vendas2-1 table b{
   color: blue; 
-  font-size: 17px; 
+  font-size: 15px; 
 }
 
 div.flexline, div.flexline div{
@@ -365,7 +366,7 @@ div.tela-preco-troco h1{
 
 div.footer-card-icon i{
   margin-top: 3px; 
-  font-size: 16px; 
+  font-size: 15px; 
 }
 
 div#btn-venda button{
@@ -378,27 +379,27 @@ div.cactosdev{
 }
 div.cactosdev p.des-por{
   margin-top: 2px; 
-  font-size: 10px; 
+  font-size: 8px; 
   margin-bottom: 0px; 
 }
 
 div.cactosdev h3 {
   margin-top: 0px; 
   margin-bottom: -5px; 
-  font-size: 17px; 
+  font-size: 13px; 
 }
 div.cactosdev h3 img{
   margin-top: 0px; 
   margin-bottom: 0px; 
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 div.cactosdev p img.email, div.cactosdev p img.whats{
     margin-top: 0px; 
     margin-bottom: 0px; 
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
 }
 
 /* DA TELA DE ACESSO */
@@ -918,7 +919,7 @@ div.panel-vendas2-2 table h5{
 
 }
 
-div.panel-vendas2-2 table b#aberto, #quitado{
+div.panel-vendas2-2 table b#aberto, #quitado, #cancelado{
   color: red; 
   font-size: 15px; 
   margin-top: -10px; 
@@ -927,6 +928,10 @@ div.panel-vendas2-2 table b#aberto, #quitado{
 
 div.panel-vendas2-2 table b#quitado{
   color: blue;  
+}
+
+div.panel-vendas2-2 table b#cancelado{
+  color: #808080;  
 }
 
 button.btn-ver-itens, .btn-pagar-cred{
@@ -1452,6 +1457,8 @@ section div.campo-data-movcx input:focus{
 
 div.tela-movimento-caixa-2{
   background-color: #708090;
+  height: 420px;
+
 }
 
 div.tela-movimento-caixa-2 input{
@@ -1473,13 +1480,13 @@ div.btn-dados-mov-caixa button:hover, div.btn-alterar-cliente button:hover{
 } 
 
 .receb-caixa-mov{
-  margin-top: 10px; 
+  margin-top: 2px; 
   border: 2px solid; 
   border-radius: 10px; 
   border-color: #DCDCDC; 
   color: yellow;
   padding: 0px; 
-  padding-top: 10px;
+  padding-top: 5px;
   background-color: #4F4F4F;
 }
 
@@ -1491,6 +1498,7 @@ div.btn-dados-mov-caixa button:hover, div.btn-alterar-cliente button:hover{
   border-color: #696969; 
 }
 
+
 .receb-caixa-mov h4{
   padding-top: 0px; 
   margin-top: 0px; 
@@ -1501,19 +1509,37 @@ div.btn-dados-mov-caixa button:hover, div.btn-alterar-cliente button:hover{
 
 .receb-caixa-mov div.titulo-pag h3{
   font-size: 18px; 
-  margin-top: 10px;
-  margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 0px;
 }
 
 .receb-caixa-mov div.valor-pag h3{
-  color:#00FFFF; 
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+div.sec-entrada{
+  color: #00FF7F;
+}
+
+div.sec-a-receber{
+  color: #F4A460;
+}
+
+div.sec-saida{
+  color: red;
+}
+
+div.sec-disponivel div h3{
   margin-top: 5px;
-  margin-bottom: 5px;
+  color: #fff;
+  font-weight: bold; 
+  font-size: 30px; 
 }
 
 
 div.btn-link-mov-cx{
-  margin-top: 20px; 
+  margin-top: 10px; 
 }
 
 div.btn-ver-mov-caixa input{
@@ -1531,6 +1557,37 @@ div.table-mov-caixa{
   overflow-y: scroll;
 }
 
+.venda-mov-cancelado td{
+  color: red; 
+}
+
+
+div.btn-dados-mov-retirada{
+  margin-top: 0px; 
+  margin-bottom: 2px; 
+
+}
+
+div.btn-dados-mov-retirada button{
+  color: #fff;
+  background-color: red;  
+  padding: 0px; 
+  width: 100%;
+  height: 100%;
+  border: 3px solid;
+  font-size: 18px; 
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  border-radius: 15px; 
+  border-color: #fff; 
+}
+
+div.btn-dados-mov-retirada button:hover{
+  color: red;
+  background-color: #fff;
+  border-color: red; 
+} 
+
+
 
 /* TELA CANCELAMENTO DE MOVIMENTO DO CAIXA */
 div.btn-link-mov-cx-cancel{
@@ -1544,4 +1601,243 @@ table b#normal{
 table b#cancel{
   background-color: red; 
   color: #fff;
+}
+
+/* TELA COSULTA DE VENDA */
+
+div.titulo-tela-consulta-movimento-cx-venda{
+  background-color: #4682B4;
+  margin-top: -20px; 
+  margin-bottom: -7px;
+}
+
+div.titulo-tela-consulta-movimento-cx-venda h2{
+  font-size: 20px; 
+  color: white; 
+  padding: 5px;
+}
+
+div.titulo-tela-consulta-movimento-cx-venda h2 b{
+  font-size: 22px; 
+  color: yellow; 
+  font-weight: bold;
+  border-bottom: 2px solid;
+}
+
+div.table-mov-caixa-venda{
+  background-color: #F5F5DC; 
+  height: 350px;
+  overflow-y: scroll;
+}
+
+div.tela-movimento-caixa-venda{
+  background-color: #2F4F4F;
+  border-bottom: 3px solid; 
+  border-color: #fff; 
+}
+
+div.tela-movimento-caixa-venda input{
+  text-transform: uppercase; 
+}
+
+div#ident-caixa-mov-venda{
+  margin-top: 0px;
+  color: #fff;
+}
+
+section.panel-consulta-venda{
+  margin-top: 0px; 
+}
+
+div.venda-cx-consulta{
+  margin-top: -8px; 
+  margin-bottom: 5px;
+}
+
+div.venda-cx-consulta h3{
+  color: #fff;
+}
+
+div.venda-cx-consulta h3 b{
+  color: yellow;
+}
+
+h3.itens-venda-cx-mov{
+  margin-top: 5px; 
+}
+
+b#cancell{
+  color: red;
+}
+
+/* TELA RECEBIMENTO DE VENDAS EXTERNAS  */ 
+
+
+div.tipo-de-pagamento-externa{
+  background-color: #BC8F8F; 
+  opacity: .9; 
+}
+
+div.tipo-de-pagamento-externa h2{
+  color: #fff;
+}
+
+
+div.venda-externa{
+  border: 3px solid;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  border-radius: 10px; 
+}
+
+div.venda-externa h3{
+  font-size: 18px; 
+  margin-top: 10px;
+  margin-bottom: 0px;
+  color: white;
+}
+
+div.venda-externa h6 {
+  margin-top: 0px; 
+}
+
+div.venda-externa h6 b{
+  color: yellow;
+  font-size: 21px;
+}
+
+div.venda-externa img{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+div.venda-externa img:hover{
+  opacity: .6
+}
+
+
+/* TELA RETIRADA DE MOVIMENTOS DO CAIXA */
+div.titulo-tela-retirada-movimento-cx{
+  background-color: red;
+  margin-top: -20px; 
+  margin-bottom: -7px;
+  opacity: .5;
+}
+
+div.titulo-tela-retirada-movimento-cx h2{
+  font-size: 20px; 
+  color: white; 
+  padding: 5px;
+}
+
+div.titulo-tela-retirada-movimento-cx h2 b{
+  font-size: 22px; 
+  color: yellow; 
+  font-weight: bold;
+  border-bottom: 2px solid;
+}
+
+
+div.tela-retirada-caixa{
+  background-color: #708090;
+  border-bottom: 3px solid; 
+  border-color: #fff; 
+}
+
+div.panel-valores-retirada{
+  background-color: #B0C4DE;
+  border: 1px solid; 
+  border-color: #fff; 
+}
+
+
+div.panel-valores-retirada h3{
+  color: blue; 
+}
+
+h1.valor-retirada-disponivel{
+  color: #008080; 
+  font-weight: bold; 
+}
+
+div.tela-retirada-caixa input{
+  text-transform: uppercase; 
+}
+
+div#ident-caixa-mov{
+  margin-top: 0px;
+  color: #fff;
+}
+
+section#dt-movimento-caixa-retirada{
+  margin-top: 10px; 
+
+}
+
+section div.campo-titulo-mov-cx-retirada h4{
+  font-size: 24px; 
+  margin-top: 0px;
+  color: #fff;
+  text-align: center;
+}
+
+section div.campo-data-movcx-retirada label{
+  color: #fff;
+}
+section div.campo-data-movcx-retirada input{
+  font-size: 21px; 
+  padding: 0px;
+  text-align: center;
+}
+
+section div.campo-data-movcx-retirada input:hover{
+  background-color: #C0C0C0;
+  color: blue;
+}
+
+section div.campo-data-movcx-retirada input:focus{
+  background-color: #F0F8FF;
+  color: blue;
+}
+
+
+h1.valor-retirada-caixa input{
+  color: #fff; 
+  font-size: 40px; 
+  background-color: blue;
+  width: 50%;
+  height: 50px; 
+  text-align: left;
+
+}
+
+select#id_retirada_mov{
+  width: 50%; 
+  color:red;
+  background-color: blue; 
+  margin-top: 10px; 
+  height: 50px;
+  color: white; 
+  font-size: 20px; 
+}
+
+
+h1.valor-saldo-caixa input{
+  color: #FFD700; 
+  font-size: 40px; 
+  background-color: blue;
+  width: 76%;
+  height: 50px; 
+  pointer-events :none;
+}
+
+div.btn-finalizar-retirada{
+  margin-top: 10px; 
+  margin-bottom: 20px;
+  align-items:  center; 
+}
+
+div.btn-finalizar-retirada button{  
+  text-align: center; 
+  /*width: 400px;  */
 }

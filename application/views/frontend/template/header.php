@@ -2,12 +2,12 @@
       <div class = "container"> 
         <div class = "row header-titulo">
         
-        	<div class="logo-marca text-center col-lg-4 col-sm-4">
+        	<div class="logo-marca text-center col-lg-2 col-sm-2">
                 <h3> 
-                    Comercial Fabinho
+                    M F
                 </h3>
           </div>
-          <div class="logo-titulo text-center col-lg-5 col-sm-5">
+          <div class="logo-titulo text-center col-lg-7 col-sm-7">
               <h1 class = "desc-titulo"> 
                   Sistema de Vendas
               </h1>

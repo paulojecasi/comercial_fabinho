@@ -1,3 +1,6 @@
+<?php 
+	$usuario_permissao 	= $this->session->userdata('userLogado')->tipo_acesso;
+?>
 
 <div class="menu-vendas">
 
@@ -8,9 +11,15 @@
       
       <a style="width: 100%;" href="<?php echo base_url('cliente/manutencao_clientes') ?>"  class="nav-link ">  Clientes </a>
       
-     	<a style="width: 100%;" href="<?php echo base_url('caixa/movimentos_caixa') ?>"  class="nav-link ">  Movimento Caixa </a>
-
-     	<a style="width: 100%;" href="<?php echo base_url('caixa/cancelamento_mov_caixa') ?>">  Cancelamento </a>
+     	<a style="width: 100%;" href="<?php echo base_url('caixa/movimentos_caixa') ?>"  class="nav-link ">  Valores </a>
+      
+     	<?php
+     	if ($usuario_permissao ==3):
+     	?>
+     		<a style="width: 100%;" href="<?php echo base_url('caixa/movimento_cancel_mov_caixa') ?>">  Movimento do dia-Cancelamento </a>
+     	<?php
+     	endif; 
+     	?>
 
      	<a style="width: 100%;" href="<?php echo base_url('venda') ?>"  class="nav-link "> <i class="fa fa-home" aria-hidden="true"></i> Ir para Venda </a>
 

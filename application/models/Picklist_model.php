@@ -39,4 +39,11 @@ class Picklist_model extends CI_Model {
 		$this->db->order_by('tipo_acesso','ASC');
 		return $this->db->get('tipoacesso')->result(); 
 	}
+
+	public function getLista_tipo_retirada()
+	{
+		$this->db->from('tipo_retirada');
+		$this->db->order_by('desretirada');
+		return $this->db->get()->result(); 
+	}
 }

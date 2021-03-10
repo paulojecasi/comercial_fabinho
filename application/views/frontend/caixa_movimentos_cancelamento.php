@@ -1,7 +1,7 @@
 <div class = "row">
 
     <div class = "text-center titulo-tela-consulta-movimento-cx">
-        <h2> Cancelamento de Movimento do Caixa : <b> <?php echo $idcaixa ?> </b>  </h2>
+        <h2>Movimentos do Dia do Caixa : <b> <?php echo $idcaixa ?> </b>  </h2>
     </div>
   
 
@@ -20,12 +20,12 @@
 
             </div>
             <div class="form-group col-lg-3 campo-data-movcx">
-                <input type="date" id="datainicial_mov" name="datainicial_mov" maxlength="10" class="form-control" value="<?php echo date('Y-m-d')  ?>"  onkeydown="javascript:EnterTab('datafinal_mov',event)" autofocus="true" />
+                <input type="date" id="datainicial_mov" name="datainicial_mov" maxlength="10" class="form-control" value="<?php echo date('Y-m-d')  ?>"  onkeydown="javascript:EnterTab('datafinal_mov',event)" autofocus="true" disabled />
 
             </div>
       
             <div class="form-group col-lg-3 campo-data-movcx">
-                <input type="date" id="datafinal_mov" name="datafinal_mov" class="form-control" value="<?php echo date('Y-m-d')  ?>"  onkeydown="javascript:EnterTab('nomeproduto',event)" autofocus="true" />
+                <input type="date" id="datafinal_mov" name="datafinal_mov" class="form-control" value="<?php echo date('Y-m-d')  ?>"  onkeydown="javascript:EnterTab('nomeproduto',event)" autofocus="true" disabled/>
             </div>
 
 
@@ -61,6 +61,8 @@
                     $vl_real =0; 
                     $total_real=0; 
                     $situacao = ""; 
+                    $idretirada=0;
+                    $vl_saldo_venda=0; 
 
                     foreach ($movimento_caixa_do_dia as $movimento_caixa_result) 
                     {
@@ -77,11 +79,13 @@
                         $despagamento   = $movimento_caixa_result->destipopagamento; 
                         $codigousuario = $movimento_caixa_result->codigousuario; 
                         $situacao       = $movimento_caixa_result->situacao; 
+                        $idretirada = $movimento_caixa_result->idretirada; 
+                        $vl_saldo_venda = $movimento_caixa_result->vlsaldo_crediario; 
 
 
 
                         $total_real += $vl_real; 
-
+                        $valor_real = $vl_real; 
                         $vl_juros = reais($vl_juros); 
                         $vl_desconto = reais($vl_desconto);
                         $vl_real = reais($vl_real); 
@@ -93,7 +97,6 @@
                             $situacao = '<b id="normal">'.$situacao.'</b>';
 
                             $botaocancelar= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$idcaixa_mov.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i> </h4> </button>';
-
                         }
                         else
                         {
@@ -102,9 +105,28 @@
                             $situacao = '<b id="cancel">'.$situacao.'</b>';
                         }
 
+                        if ($tipo_movimento ==4)
+                        {
+                            if ($valor_real != $vl_saldo_venda)
+                            {
+                                // vamos ver se a venda-crediário ja teve alguma parcela paga, se sim
+                                // a mesma não poderá ser cancelada, primeiramente tera que cancelas as
+                                // parcelas
+                                $botaocancelar = "Tem Parcela PG"; 
+                            }
+                        }
 
-                        $botaoitens = anchor(base_url('venda/produto_temp_altera/'.md5($idvenda)),
-                            '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> </h4>');
+                        if ($tipo_movimento ==5
+                            || $tipo_movimento==9
+                            || $tipo_movimento==10){
+
+                            $botaovenda ="";
+                        } 
+                        else
+                        {
+                            $botaovenda = anchor(base_url('venda/consulta_venda/'.md5($idvenda)),
+                            '<h4 class="btn-alterar"><i class="fas fa-shopping-cart"> </i> </h4>');
+                        }
 
 
                         echo $modal= ' <div class="modal fade excluir-modal-'.$idcaixa_mov.'" tabindex="-1" role="dialog" aria-hidden="true">
@@ -122,7 +144,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        <a type="button" class="btn btn-danger" href="'.base_url('caixa/confirma_cancelamento_mov/'.md5($idcaixa_mov).'/'.md5($idvenda).'/'.$tipo_movimento).'">Excluir</a>
+                                        <a type="button" class="btn btn-danger" href="'.base_url('caixa/confirma_cancelamento_mov/'.md5($idcaixa_mov).'/'.md5($idvenda).'/'.$tipo_movimento).'/'.$valor_real.'/'.$idcliente.'/'.md5($idretirada). '">Excluir</a>
                                     </div>
 
                                 </div>
@@ -130,7 +152,7 @@
                         </div>';
 
 
-                        $this->table->add_row($idcaixa_mov,$idvenda, $data_movimento,$codigousuario,$desmovimento,$despagamento,$vl_juros,$vl_desconto, $vl_real,$situacao, $botaoitens, $botaocancelar);
+                        $this->table->add_row($idcaixa_mov,$idvenda,$data_movimento,$codigousuario,$desmovimento,$despagamento,$vl_juros,$vl_desconto, $vl_real,$situacao, $botaovenda, $botaocancelar);
                     }
                     $this->table->set_template(array(
                                     'table_open' => '<table class="table table-striped">'

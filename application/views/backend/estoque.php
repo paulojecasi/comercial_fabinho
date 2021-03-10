@@ -32,22 +32,22 @@
                             ?>
                             <input id="nrnota_aut" name="nrnota_aut" type="hidden"class = "form-control"   value="<?php  echo $numero_nota_aut ?>">
 
-                            <div class="form-group col-lg-5 col-sm-11 vercons"> 
+                            <div class="form-group col-lg-5 vercons"> 
                                 <label> Numero da Nota </label>
                                 <input id="nrnota" name="nrnota" type="text"class = "form-control" placeholder ="Digite o Numero da Nota" value="<?php echo set_value('nrnota') ?>">
 
                             </div>
 
      
-                            <div class="form-group col-lg-1 col-sm-1 check-sem-nota">
+                            <div class="form-group col-lg-2 col-sm-2 check-sem-nota text-center">
                                 <label> Sem Nota </label>
                                 <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" value="" id="check-sem-nota">
+                                  <input class="form-check-input" type="checkbox" id="check-sem-nota">
                                 </div> 
                             </div>
 
 
-                            <div class="form-group col-lg-6 col-sm-12 vercons"> 
+                            <div class="form-group col-lg-5 col-sm-10 vercons"> 
                                 <label> Serie  </label>
                                 <input id="serie" name="serie" type="text"class = "form-control" placeholder ="Digite o serie da Nota" value="<?php echo set_value('serie') ?>">
                             </div>

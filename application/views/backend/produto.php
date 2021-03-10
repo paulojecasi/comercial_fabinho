@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h3 class="page-header"> <?php echo "Administração de Produtos" ?></h3>
+            <h3 class="page-header-adm"> <?php echo "Administração de Produtos" ?></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -44,16 +44,19 @@
             </div>
 
             <p> </p>
-            <div class="panel panel-default">
+            <div class="panel panel-default panel-produtos-admin-scroll">
                 <section>
-                    <table class="table table-hover consulta-produto-admin"id="resultado_consulta_produtos"
+                    <table class="table table-hover consulta-produto-admin" id="resultado_consulta_produtos"
                     >
                         <thead>
                             <tr>
                                 <th scope="col">Código</th>
-                                <th scope="col">Nome do Produto</th> 
-                                <th scope="col">Código de Barras</th> 
-                                <th scope="col">Produto Está Ativo</th>
+                                <th scope="col">Descrição</th> 
+                                <th scope="col">Vl Nota</th> 
+                                <th scope="col">Vl Venda</th> 
+                                <th scope="col">Cód Barras</th> 
+                                <th scope="col">Saldo </th> 
+                                <th scope="col"> Ativo</th>
                                 <th scope="col"> Alterar </th>
                                 <th scope="col"> Excluir </th>
                             </tr>

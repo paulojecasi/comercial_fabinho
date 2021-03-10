@@ -82,6 +82,9 @@
                                     '<b id="quitado">'.$situacao.'</b>';
                                 else:
                                     $situacao = "Cancelada";
+                                    $vlsaldo =0; 
+                                    $vlsaldo =
+                                       '<b id="cancelado">'.reais($vlsaldo).'</b>';
                                 endif; 
 
                                 /*

@@ -37,7 +37,7 @@
                                 <label> Codigo de Barras 
                                     <i class="fa fa-barcode" aria-hidden="true"></i>
                                 </label>
-                                <input id="codbarras" name="codbarras" type="text"class = "form-control" placeholder ="Informe o Codigo de Barras" value="<?php echo set_value('codbarras') ?>" onkeydown="javascript:EnterTab('produtoativo',event)" required>
+                                <input id="codbarras" name="codbarras" type="text"class = "form-control" placeholder ="Informe o Codigo de Barras" value="<?php echo set_value('codbarras') ?>" onkeydown="javascript:EnterTab('produtoativo',event)">
                             </div>
 
                             <div class="form-group col-lg-3">
@@ -104,9 +104,7 @@
                               </select>
                             </div>
 
-                            <div class="form-group col-lg-37894494000553
-
-                            " >
+                            <div class="form-group col-lg-3" >
                               <label for="idcategoria"> Categoria do Produto </label>
                               <select class="form-control" id="idcategoria" name="idcategoria" onkeydown="javascript:EnterTab('vlpreco',event)">
                             

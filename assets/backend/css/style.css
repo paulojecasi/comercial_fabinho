@@ -45,6 +45,15 @@ div.panel-cadastro-produto{
 	margin-top: -20px; 
 }
 
+.panel-produtos-admin-scroll{
+	height: 400px;
+  overflow-y: scroll;
+}
+
+div h3.page-header-adm{
+	margin-top: 5px; 
+}
+
 div.btn-cadastro-produto button{
 	margin-top: 0px; 
 }
@@ -406,8 +415,16 @@ div.panel-title-estoque h4{
   overflow-y: scroll;
 }
 
-div.check-sem-nota #flexCheckDefault{
-	 
+input#check-sem-nota
+{
+	margin-top: 9px; 
+  min-width: 4px;
+  min-height: 4px;
+  transform: scale(2);
+}
+
+div.check-sem-nota div{
+	text-align: center; 
 }
 
 div.btn-busca-item button{
@@ -472,7 +489,6 @@ table.table-estoque{
 table {
   width: 100%;
   border-collapse: collapse;
-  text-align: center;
 }
 
 th {

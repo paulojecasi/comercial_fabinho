@@ -1,7 +1,7 @@
 <div class = "row">
 
     <div class = "text-center titulo-tela-consulta-movimento-cx">
-        <h2> Movimento geral do Caixa : <b> <?php echo $idcaixa ?> </b>  </h2>
+        <h2>Valores do Movimento geral do Caixa : <b> <?php echo $idcaixa ?> </b>  </h2>
     </div>
   
 
@@ -16,6 +16,8 @@
         if (!$datafinal){
             $datafinal =date('Y-m-d');
         }
+        //abrir sessao, com valor disponivel no caixa
+        $this->session->set_userdata('valor_disp_cx',$valor_disp_cx); 
 
     ?>
 
@@ -57,12 +59,31 @@
                 <div class ="text-center"> 
                     <h4> Referente a <?php echo datebr($datainicio).'  a  '.datebr($datafinal) ?> </h4> 
                 </div> 
-                <div class="col-lg-12 sec-recebi">
+
+                <div class="col-lg-12 sec-recebi sec-entrada">
+                    <div class="col-lg-7 titulo-pag">
+                       <h3> Troco Inicial  </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo reais($trocoini) ?> </h3>
+                    </div>
+                    <?php 
+                    if ($trocoini!=0):
+                    ?>
+                       <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                         <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="10" id="btn-lista-mov-cx10">
+                       </div> 
+                        <?php 
+                    endif;
+                    ?>            
+                </div>
+
+                <div class="col-lg-12 sec-recebi sec-entrada">
                     <div class="col-lg-7 titulo-pag">
                        <h3> A Vista  </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
-                        <h3> <?php echo $avista  ?> </h3>
+                        <h3> <?php echo reais($avista)  ?> </h3>
                     </div>
                     <?php 
                     if ($avista!=0):
@@ -75,12 +96,12 @@
                     ?>            
                 </div>
 
-                <div class="col-lg-12 sec-recebi">
+                <div class="col-lg-12 sec-recebi sec-entrada">
                     <div class="col-lg-7 titulo-pag">
                         <h3> Recebimentos Crediário </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
-                        <h3> <?php echo $crediarioreceb  ?> </h3>
+                        <h3> <?php echo reais($crediarioreceb)  ?> </h3>
                     </div>
                     <?php 
                     if ($crediarioreceb!=0):
@@ -94,15 +115,15 @@
 
                 </div>
 
-                <div class="col-lg-12 sec-recebi">
+                <div class="col-lg-12 sec-recebi sec-entrada">
                     <div class="col-lg-7 titulo-pag">
                         <h3> Vendas Externas </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
-                        <h3> 0,00  </h3>
+                        <h3> <?php echo reais($vendaexterna) ?> </h3>
                     </div>
                     <?php 
-                    if (1>2):
+                    if ($vendaexterna !=0):
                     ?>
                         <div class="col-lg-1 form-check btn-ver-mov-caixa">
                             <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="8" id="btn-lista-mov-cx8">
@@ -113,12 +134,12 @@
                 </div>
 
 
-                <div class="col-lg-12 sec-recebi">
+                <div class="col-lg-12 sec-recebi sec-neutro">
                     <div class="col-lg-7 titulo-pag">
                         <h3> Cartão Débito </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
-                        <h3> <?php echo $cartaodebito ?>  </h3>
+                        <h3> <?php echo reais($cartaodebito) ?>  </h3>
                     </div>
                     <?php 
                     if ($cartaodebito!=0):
@@ -131,12 +152,12 @@
                     ?>
                 </div>
 
-                <div class="col-lg-12 sec-recebi">
+                <div class="col-lg-12 sec-recebi sec-neutro">
                     <div class="col-lg-7 titulo-pag">
                          <h3> Cartão Crédito </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
-                        <h3> <?php echo $cartaocredito ?> </h3>
+                        <h3> <?php echo reais($cartaocredito) ?> </h3>
                     </div>
                     <?php 
                     if ($cartaocredito!=0):
@@ -150,12 +171,12 @@
                 </div>
 
 
-                <div class="col-lg-12 sec-recebi">
+                <div class="col-lg-12 sec-recebi sec-a-receber">
                     <div class="col-lg-7 titulo-pag">
                       <h3> Crediário </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
-                        <h3> <?php echo $crediario ?> </h3>
+                        <h3> <?php echo reais($crediario) ?> </h3>
                     </div>
                     <?php 
                     if ($crediario!=0):
@@ -166,6 +187,46 @@
                         <?php 
                     endif;
                     ?>
+                </div>
+
+                <div class="col-lg-12 sec-recebi sec-saida">
+                    <div class="col-lg-7 titulo-pag">
+                       <h3> Retiradas  </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo reais($retirada_dinheiro)  ?> </h3>
+                    </div>
+                    <?php 
+                    if ($retirada_dinheiro!=0):
+                    ?>
+                       <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                         <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="9" id="btn-lista-mov-cx9">
+                       </div> 
+                        <?php 
+                    endif;
+                    ?>            
+                </div>
+
+                <div class="col-lg-12 sec-recebi sec-disponivel">
+                    <div class="col-lg-7 titulo-disp">
+                       <h3> Disponivel </h3>
+                    </div>
+                    <div class="col-lg-5 valor-disp">
+                        <h3> <?php echo reais($valor_disp_cx)  ?> </h3>
+                    </div>
+                    <?php 
+                    if ($valor_disp_cx!=0):
+                    ?>
+                       <div class ="col-lg-12  btn-dados-mov-retirada text-center">
+                            <a href="<?php echo base_url('caixa/retirada_caixa/').$datainicio.'/'.$datafinal ?>"> 
+                                <button class="btn btn-success" type="button" id=""  > 
+                                    Fazer Retirada
+                                </button> 
+                            </a>
+                        </div>
+                        <?php 
+                    endif;
+                    ?>            
                 </div>
 
             </section>
@@ -196,6 +257,8 @@
                                 <th scope="col">Juros</th>
                                 <th scope="col">Desctos</th>
                                 <th scope="col">Movimento</th>
+                                <th scope="col">Venda</th>
+
                             </tr>
                         </thead>
                         <tbody>

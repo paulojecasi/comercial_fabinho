@@ -55,7 +55,7 @@
                            
                             <div class="form-group col-lg-4"> 
                                 <label> Quantidade de itens </label>
-                                <input type="number" class="form-control" id="quantidadeitens_alt" name="quantidadeitens_alt" placeholder="0" value="<?php echo $qtd ?>" autofocus="true" onkeydown="javascript:EnterTab('valordesconto_alt',event)"  >
+                                <input type="number" class="form-control" id="quantidadeitens_alt" name="quantidadeitens_alt" step="0.01" placeholder="0" value="<?php echo $qtd ?>" autofocus="true" onkeydown="javascript:EnterTab('valordesconto_alt',event)"  >
                             </div>
 
 
