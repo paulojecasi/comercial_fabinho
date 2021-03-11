@@ -1,12 +1,14 @@
 <div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h4 class="page-header"> <?php echo "Informe Periodo e o Produto Para Consulta do Movimento de Estoque" ?></h4>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
    
-
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default panel-dados-cons-estoque">
-                <div class="panel-heading text-center title-cons">
-                   <h4 class = "title-itens"> <?php echo "Informe Periodo e o Produto Para Consulta do Movimento de Estoque" ?> </h4>
-                </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
@@ -40,10 +42,10 @@
                                     <br> 
                                 </div>
                                 
-                                <div class="form-group col-lg-12 resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_consulta_est',event)"  autofocus="true" >
+                                <div class="form-group col-lg-10 resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_consulta_est',event)"  autofocus="true" >
                                 </div>
                            
-                                <div class ="col-lg-12 col-sm-12 text-center ">
+                                <div class ="col-lg-2 text-center btn-consulta-est">
                                     <a href="">
                                         <button class="btn btn-info consulta" id="btn_consulta_est"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
                                             Buscar

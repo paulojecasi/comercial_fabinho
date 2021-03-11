@@ -11,7 +11,7 @@
         $datavenda  = datebr($venda_cli->datavenda); 
         $idcliente = $venda_cli->idcliente; 
         //$this->session->set_userdata('vl_saldo_devedor',$vlsaldo_crediario_sem_conversao);
-    } 
+    }  
 
     $nome       = $this->session->userdata('nome');
     $codigo     = $this->session->userdata('idcliente');
@@ -61,7 +61,7 @@
                     <div class="col-lg-7 col-sm-12">
                         <div class="form-group">
                             <h1 class="valor-recebido-venda-cred">
-                                <input id="vl_recebido_caixa_cred" name="vl_recebido_caixa_cred" type="number" class="form-control" placeholder ="0" step="0.01" autofocus="true"  onkeydown="javascript:EnterTab('vl_juros_caixa_cred',event)">
+                                <input id="vl_recebido_caixa_cred" name="vl_recebido_caixa_cred" type="number" class="form-control" placeholder ="0" step="0.01" autofocus="true"  onkeydown="javascript:EnterTab('vl_juros_caixa_cred',event)" required>
                             </h1>
                         </div>
                     </div> 

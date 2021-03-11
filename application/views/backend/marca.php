@@ -62,7 +62,7 @@
                 <div class="panel-heading">
                    <H4><?php echo "Alterar ".$subtitulo." existente" ?> </H4>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-altera-marca">
                     <div class="row">
                         <div class="col-lg-12">
                   

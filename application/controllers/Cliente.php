@@ -279,6 +279,14 @@ class Cliente extends CI_Controller {
 		$vl_juros				= $this->input->post('vl_juros_caixa_cred');
 		$vl_desconto		= $this->input->post('vl_desconto_caixa_cred');
 		// vamos iniciar a transação 
+
+		if ($vl_recebido <=0)
+		{
+			$mensagem = "Informe o Valor Recebido!"; 
+			$this->session->set_userdata('mensagemErro',$mensagem); 
+			redirect(base_url('cliente/pagamento_crediario/').$idvenda_md);
+		}
+		
     $this->db->trans_begin();
 
 			$resultado = $this->modelvendas->consulta_venda($idvenda_md); 
@@ -361,19 +369,8 @@ class Cliente extends CI_Controller {
 
  		$output .= '
  		<div class= "form-group picklist-cliente">
-
- 			<div class picklist-tit> 
-	 			<label class= "idcliente">
-	 					Codigo  
-	 			</label>
-	 			<label class= "nome">
-	 					Nome 
-	 			</label>
-	 			<label class="apelido">
-	 					 Apelido 
-	 			</label> 
-	 		</div> 
       <select multiple class="form-control" id="idclientej" name="idclientej">
+      <option id="option-primeira-linha" disabled> CÓDIGO   &nbsp &nbsp   NOME </option>
 	 		';
 	 		if ($dados_cli->num_rows() > 0){
 	 			foreach ($dados_cli->result() as $row) {
@@ -382,15 +379,9 @@ class Cliente extends CI_Controller {
 
 	 				$output .= '
 			 			<option value="'.$id.'" selected>'
-			 								.$codigo.
+			 								.$codigo.' &nbsp &nbsp'. 
 			 								$row->nome.  
-			 								$row->apelido. 
-			 				/*'<tr>
-				 				<td>						'.$codigo.		'</td>  
-				 				<td>					  '.$row->nome.	'</td>
-				 				<td>					  '.$row->apelido.'</td>	
-				 			</tr>' */
-
+			 							
 			 			'</option>'; 
 	 			}
 

@@ -54,8 +54,7 @@ class Categoria extends CI_Controller {
 		'txt-categoria',        // id do input (template)
 		'Nome da Categoria',		// nome da label (template)
 		'required|min_length[3]|is_unique[categoria.titulo]'); 
-		$this->form_validation->set_rules(
-		'categoriadest','Destacar no Site?','required'); 
+
 
 		if ($this->form_validation->run() == FALSE){
 
@@ -64,7 +63,8 @@ class Categoria extends CI_Controller {
 		} else {
 
 			$addcategoria_titulo= $this->input->post('txt-categoria');
-			$destaquenosite   	= $this->input->post('categoriadest');
+			$destaquenosite   	= 1;
+
 
 			if ($this->modelcategorias->adicionar($addcategoria_titulo, $destaquenosite)){
 				$mensagem ="Categoria Adicionada Com Sucesso !"; 

@@ -19,7 +19,7 @@
     $this->load->view('frontend/template/valor-venda');
     ?>
 
-    <div class = "col-lg-12 col-sm-12 titulo-tela-tipopag2">
+    <div class = "col-lg-12 col-sm-12 titulo-tela-tipopag3">
         <div class="row panel-valores-money">
             <div class="col-lg-3 col-sm-12">
                 <div class="form-group">

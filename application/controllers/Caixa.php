@@ -85,14 +85,16 @@ class Caixa extends CI_Controller {
 
 	}
 
-	public function confirma_cancelamento_mov($idcaixa_mov, $idvenda=null, $tipo_movimento, $valor=null, $idcliente=null, $idretirada=null)
+	public function cancelamentar_movimento($idcaixa_mov, $idvenda=null, $tipo_movimento, $valor=null, $idcliente=null, $idretirada=null)
 	{
+
 		$idcliente_md = md5($idcliente); 
 		// vamos iniciar a transação 
     $this->db->trans_begin();
 
     // CANCELAR MOVIMENTO DO CAIXA ---------------
-		if (!$this->modelcaixa_movimento->cancela_movimento_caixa($idcaixa_mov, $tipo_movimento))
+    $return_mov_caixa = $this->modelcaixa_movimento->cancela_movimento_caixa($idcaixa_mov, $tipo_movimento);
+		if (!$return_mov_caixa)
 		{
 			$mensagem = "Houve um erro ao Cancelar a Venda/Movimento (modelcaixa_movimento/cancela_movimento_caixa)"; 
 			$this->session->set_userdata('mensagemErro',$mensagem);
@@ -114,7 +116,7 @@ class Caixa extends CI_Controller {
 		}
 
     // CANCELAMENTO DE VENDAS, CASO TENHA --------------
-    if ($idvenda && $tipo_movimento !=9)
+    if ($idvenda && $tipo_movimento !=9 && $tipo_movimento!=5)
     {
 
     	$resultado_cancel = $this->modelvendas->cancelar_venda($idvenda);
@@ -132,7 +134,16 @@ class Caixa extends CI_Controller {
 		// ATUALIZAR SALDO DO CLIENTE, CASO TENHA  ---------------
 		if ($idcliente && $tipo_movimento !=9)
 		{
-			if (!$this->modelvendas->atualiza_saldo_crediario($idcliente, $idcliente_md, $valor ,"cancelamento_venda"))
+			if ($tipo_movimento==5)
+			{
+				$destipo = "cancelamento_parcela";
+			}
+			else
+			{
+				$destipo = "cancelamento_venda";
+			}
+
+			if (!$this->modelvendas->atualiza_saldo_crediario($idcliente, $idcliente_md, $valor ,$destipo))
 			{
 
 				$mensagem = "Houve um erro ao Atualizar o Saldo do Cliente (modelvendas/atualiza_saldo_crediario)"; 
@@ -143,10 +154,41 @@ class Caixa extends CI_Controller {
 			}
 		}
 
+		// SE FOR CANCELAMENTO DE RECEBIMENTO DO CREDIARIO - VAMOS ATUALIZAR O SALDO DA VENDA
+		if ($tipo_movimento==5)
+		{
+			$resultado_cons = $this->modelvendas->consulta_venda($idvenda); 
+			if ($resultado_cons)
+			{
+				foreach ($resultado_cons as $venda_ret) {
+					$saldo_venda_crediario= $venda_ret->vlsaldo_crediario; 
+				}
+			}
+			else
+			{
+				$this->db->trans_rollback(); 
+			  $mensagem = "Houve um ERRO ao consultar o saldo da Venda(modelvendas/consulta_venda) "; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+				redirect(base_url('caixa/movimento_cancel_mov_caixa'));
+			}
+
+			$saldo_venda_crediario += $valor;
+
+			if (!$this->modelvendas->atualiza_venda_crediario($idvenda,null, $saldo_venda_crediario))
+			{
+				$this->db->trans_rollback(); 
+			  $mensagem = "Houve um ERRO ao atualizar o saldo da Venda(modelvendas/atualiza_venda_crediario) "; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+				redirect(base_url('caixa/movimento_cancel_mov_caixa'));
+
+			} 
+
+		}
+
 		if  ($this->db->trans_status()===FALSE ) 
 		{ 
 			  $this->db->trans_rollback(); 
-			  $mensagem = "Houve um ERRO de TRANSAÇÃO! (caixa/confirma_cancelamento_mov) "; 
+			  $mensagem = "Houve um ERRO de TRANSAÇÃO! (caixa/cancelamentar_movimento) "; 
 				$this->session->set_userdata('mensagemErro',$mensagem); 
 				redirect(base_url('caixa/movimento_cancel_mov_caixa'));
 		} 

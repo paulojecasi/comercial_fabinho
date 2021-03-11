@@ -133,6 +133,7 @@ class Produto extends CI_Controller {
 
 		$this->form_validation->set_rules('produtoativo','Produto Ativo?','required');
 
+		$this->form_validation->set_rules('vlprecoatacado','Preço Atacado','required');
 
 
 		if ($this->form_validation->run() == FALSE){
@@ -230,25 +231,10 @@ class Produto extends CI_Controller {
 		$this->form_validation->set_rules('vlpreco','Preço','required');
 		$this->form_validation->set_rules('vlprecoatacado','Preço Atacado','required');
 
-		$this->form_validation->set_rules('vllargura','Largura');
-
-		$this->form_validation->set_rules('vlaltura','Altura');
-
-		$this->form_validation->set_rules('vlcomprimento','Comprimento');
-
-		$this->form_validation->set_rules('vlpeso','Peso');
-
-		$this->form_validation->set_rules('vlpromocao','Valor Promoção');
-
-		$this->form_validation->set_rules('vlpromocaoatacado','Valor Promoção Atacado');
-
 		$this->form_validation->set_rules('produtoativo','Produto Ativo?','required');
 
-		$this->form_validation->set_rules('produtodestaque','Produto Destaque?',
-			'required');
 
-		$this->form_validation->set_rules('produtosite','Produto no Site?','required');
-		$this->form_validation->set_rules('qtatacado','Qt Itens Atacado');
+
 
 		if ($this->form_validation->run() == FALSE){
 				// se nao validar, retorna para a pagina
@@ -367,28 +353,19 @@ class Produto extends CI_Controller {
  		$output .= '
  		<div class= "form-group picklist-prod">
 
- 			<div class picklist-tit> 
-	 			<label class= "codigo">
-	 					Codigo  
-	 			</label>
-	 			<label class= "descricao">
-	 					Codido de Barras 
-	 			</label>
-	 			<label class="barras">
-	 					 Descricao 
-	 			</label> 
-	 		</div> 
       <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="3">
+      <option id="option-primeira-linha" disabled> CÓDIGO   &nbsp &nbsp   DESCRIÇÃO </option> 
 	 		';
+
 	 		if ($dados->num_rows() > 0){
 	 			foreach ($dados->result() as $row) {
 	 				$codigo = str_pad($row->codproduto,30);
 	 				$id = $row->idproduto; 
 
 	 				$output .= '
-			 			<option value="'.$id.'" selected>'.$codigo. 
-			 								$row->desproduto.  
-			 								$row->codbarras. 
+			 			<option value="'.$id.'" selected>'.$codigo.' &nbsp &nbsp'. 
+			 								$row->desproduto. 
+			 								 
 			 			'</option>'; 
 	 			}
 

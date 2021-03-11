@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h1>
+            <h2 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h2>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -35,25 +35,7 @@
                                 <input id="txt-categoria" name="txt-categoria" type="text"class = "form-control" placeholder ="Digite o nome da categoria">
                             </div>
 
-                            <div class="form-group">                          
-                                <div class="form-group">
-                                  <label for="categoriadest"> Destacar no Site? </label>
-                                  <select class="form-control" id="categoriadest" name="categoriadest">
-                                
-                                    <?php foreach ($opcoes as $opcao)
-                                    {
-                                    ?>
-                                        <option value ="<?php echo $opcao->idopcao ?> ">
-                                           <?php echo $opcao->desopcao ?>
-                                        </option>
-                
-                                    <?php 
-                                    }
-                                    ?>
-                                  
-                                  </select>
-                                </div>
-                            </div>
+                       
                             <br>
                             <a href="">
                                 <button class="btn btn-primary" > 
@@ -81,7 +63,7 @@
                 <div class="panel-heading">
                    <?php echo "Alterar ".$subtitulo." existente" ?>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-categoria-prod">
                     <div class="row">
                         <div class="col-lg-12">
                   

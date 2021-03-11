@@ -87,13 +87,13 @@ th {
 /* side-bar*/ 
 
 div.menu-vendas{
-  margin-top: -50px; 
+  margin-top: -42px; 
   text-align: left;  
 }
 div a.nav-link{
-  font-size: 30px; 
+  font-size: 22px; 
   margin-left: 0px; 
-  color: #00FFFF;
+  color: #fff;
 
 }
 
@@ -103,16 +103,23 @@ div a.nav-link:hover{
 
 div#menulinks{
   background-color: #000; 
-  margin-top: 0px; 
-  margin-bottom: 5px; 
-
+  margin-top: -37px; 
+  margin-left: 30px; 
+  margin-bottom: 5px;
+  padding: 4px; 
+  padding-top: 8px; 
+ 
 }
 
 div#menulinks a{
-  font-size: 18px; 
+  font-size: 16px; 
   padding-right:15px; 
   padding-left: 15px; 
   color: #00FFFF;
+  border: 2px solid;
+  border-radius: 5px; 
+  border-color: #fff; 
+  padding: 5px; 
 }
 
 div#menulinks a i{
@@ -121,10 +128,12 @@ div#menulinks a i{
 }
 
 div#menulinks a:hover{
-  color: #FFFF00;
-  border: 2px solid;
+  color: #FFF;
+  background-color: #4F4F4F; 
+  text-decoration: none; 
+  /*border: 2px solid;
   border-radius: 15px;
-  border-color: white; 
+  border-color: white; */
 }
 
 
@@ -545,10 +554,10 @@ h5.valor-total-venda{
     
 }
 
-
 .titulo-tela-tipopag2{
   margin-top: 0px; 
   background-color: #1C1C1C;
+  min-height: 450px; 
 }
 
 .titulo-tela-tipopag2 div h2{
@@ -560,6 +569,80 @@ h5.valor-total-venda{
   font-size: 60px; 
 }
 
+.titulo-tela-tipopag3{
+  margin-top: 0px; 
+  background-color: #1C1C1C;
+  min-height: 364px; 
+}
+
+.titulo-tela-tipopag3 div h2{
+  color: yellow; 
+}
+
+.titulo-tela-tipopag3 div h1{
+  color: red; 
+  font-size: 60px; 
+}
+
+.titulo-tela-tipopag4{
+  margin-top: 0px; 
+  background-color: #1C1C1C;
+  min-height: 364px; 
+}
+
+.titulo-tela-tipopag4 div h2{
+  color: yellow; 
+}
+
+.titulo-tela-tipopag4 div h1{
+  color: red; 
+  font-size: 60px; 
+}
+
+.titulo-tela-tipopag5{
+  margin-top: 0px; 
+  background-color: #1C1C1C;
+  min-height: 364px; 
+}
+
+.titulo-tela-tipopag5 div h2{
+  color: yellow; 
+}
+
+.titulo-tela-tipopag5 div h1{
+  color: red; 
+  font-size: 60px; 
+}
+
+.titulo-tela-tipopag6{
+  margin-top: 0px; 
+  background-color: #1C1C1C;
+  min-height: 364px; 
+}
+
+.titulo-tela-tipopag6 div h2{
+  color: yellow; 
+}
+
+.titulo-tela-tipopag6 div h1{
+  color: red; 
+  font-size: 60px; 
+}
+
+.titulo-tela-tipopag7{
+  margin-top: 0px; 
+  background-color: #1C1C1C;
+  min-height: 364px; 
+}
+
+.titulo-tela-tipopag7 div h2{
+  color: yellow; 
+}
+
+.titulo-tela-tipopag7 div h1{
+  color: red; 
+  font-size: 60px; 
+}
 div.panel-valores-money{
   margin-bottom: 70px; 
 }
@@ -586,7 +669,9 @@ div.tipo-de-pagamento{
   background-color: #1C1C1C;
   border-top: 3px solid; 
   border-color: white; 
-  padding-bottom: 45px; 
+  padding-bottom: 10px;
+  min-height: 420px; 
+
 }
 
 
@@ -678,7 +763,7 @@ div.btn-finalizar-venda-money{
 
 div.btn-link {
   margin-top:10px; 
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 h4.btn-itens {
@@ -862,7 +947,7 @@ div.btn-finalizar-venda-cliente{
 
 div.btn-link-cadastro{
   margin-top: 50px; 
-  margin-bottom: 45px; 
+  margin-bottom: 10px; 
 }
 
 /* TELA DEMONSTRACAO DE CREDIARIO DO CLIENTE */
@@ -1042,6 +1127,19 @@ table.tabela-itens-venda-consulta{
   margin-top: 0px;
 }
 
+td#recebimento-cancelado{
+  background-color: red;
+  color: #fff; 
+  font-weight: bold; 
+  width: 50px;
+}
+
+td#recebimento-normal{
+  color: blue; 
+  font-weight: bold; 
+}
+
+
 
 
 
@@ -1100,6 +1198,7 @@ div.cadastro-cliente-aberto h4:hover{
 
 div.picklist-cliente select{
   font-size: 18px; 
+  margin-top: -5px; 
 }
 
 div.picklist-cliente select option b{
@@ -1133,6 +1232,7 @@ div.picklist-cliente select option b{
 
 div.tela-manutencao-cli{
   background-color: #708090;
+  min-height: 470px; 
 }
 
 div.tela-manutencao-cli input{
@@ -1171,7 +1271,7 @@ div.link-voltar-tela-inicio a i {
 
 div.btn-link-casdatrar-cliente{
   margin-top: 50px; 
-  margin-bottom: 50px; 
+  margin-bottom: 10px; 
 }
 
 
@@ -1189,6 +1289,7 @@ div.btn-link-consulta-cred{
 .tela-pagamento-crediario{
   margin-top: 0px; 
   background-color: #4F4F4F;
+  min-height: 448px; 
 }
 
 
@@ -1840,4 +1941,20 @@ div.btn-finalizar-retirada{
 div.btn-finalizar-retirada button{  
   text-align: center; 
   /*width: 400px;  */
+}
+
+
+option {
+  font-family: monospace;
+  font-weight: bold; 
+}
+
+option#option-primeira-linha{
+  background-color: #2F4F4F; 
+  color: #fff;
+  pointer-events: none;
+  touch-action: none;
+  margin-top: -7px; 
+  margin-left: -9px; 
+  margin-right: -9px; 
 }

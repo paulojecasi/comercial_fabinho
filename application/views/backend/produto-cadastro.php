@@ -66,12 +66,7 @@
                                 foreach ($marcas as $marca) 
                                 { ?> 
                                     <option  value =" <?php echo $marca->idmarca ?> "
-                                        <?php 
-                                        if ($marca->desmarca=="PADRAO"): ?>
-                                                selected
-                                            <?php                                  
-                                        endif;
-                                        ?>
+                                      
                                     >
                                         <?php echo $marca->desmarca ?>
                                     </option>
@@ -89,12 +84,7 @@
                                 foreach ($cores as $cor) 
                                 { ?> 
                                     <option  value =" <?php echo $cor->idcor ?> "
-                                        <?php 
-                                        if ($cor->descor=="PADRAO"): ?>
-                                                selected
-                                            <?php                                  
-                                        endif;
-                                        ?>
+                                     
                                     >
                                         <?php echo $cor->descor ?>
                                     </option>
@@ -112,12 +102,7 @@
                                 foreach ($categorias as $categoria) 
                                 { ?> 
                                     <option value ="<?php echo $categoria->id ?> " 
-                                        <?php 
-                                        if ($categoria->titulo=="OUTROS"): ?>
-                                                selected
-                                            <?php                                  
-                                        endif;
-                                        ?>
+                                      
                                     >
                                         <?php echo $categoria->titulo ?>
                                     </option>
@@ -165,7 +150,7 @@
                             </div>
                             <div class="form-group col-lg-3">  
                                 <label> Peso </label>
-                                <input type="number" class="form-control" id="vlpeso" name="vlpeso" step="0.01" placeholder="0.00" value="<?php echo set_value('vlpeso') ?>" onkeydown="javascript:EnterTab('produtoativo',event)">
+                                <input type="number" class="form-control" id="vlpeso" name="vlpeso" step="0.01" placeholder="0.00" value="<?php echo set_value('vlpeso') ?>" onkeydown="javascript:EnterTab('txt-desproduto',event)">
                             </div>
                             
                                                    

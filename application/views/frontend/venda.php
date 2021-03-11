@@ -235,7 +235,8 @@
                                         '<h5>'."Desc".'</h5>',
                                         '<h5>'."Acres".'</h5>',
                                         '<h5>'."Qtd".'</h5>',
-                                        '<h5>'."Total".'</h5>'); 
+                                        '<h5>'."Total".'</h5>',
+                                        '<h5>'."Alt".'</h5>','<h5>'."Exc".'</h5>'); 
 
                                     foreach ($produtos_temp as $produto_t):
                                         $id = $produto_t->id; 

@@ -17,7 +17,7 @@
     $this->load->view('frontend/template/valor-venda');
     ?>
 
-    <div class = "col-lg-12 col-sm-12 titulo-tela-tipopag2">
+    <div class = "col-lg-12 col-sm-12 titulo-tela-tipopag4">
 
        
         <div class="col-lg-12 col-sm-12 card-debit text-center">

@@ -1,6 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-12 text-center">
+        
+        <div class="col-lg-12 text-center titulo-cad-prod">
             <h3 class="page-header-adm"> <?php echo "Administração de Produtos" ?></h3>
         </div>
         <!-- /.col-lg-12 -->
@@ -39,8 +40,10 @@
                     </div>
 
                 </div>
-                <label for="nomeproduto"> Pesquisar Produto </label>
-                <input type="text" id="nomeproduto" name="nomeproduto" class="form-control consulta-prod-admin" autofocos required placeholder="Digite o Nome ou Codigo do Produto"  autofocus="true" />
+                <section class= "col-lg-12">
+                    <label for="nomeproduto"> Pesquisar Produto </label>
+                    <input type="text" id="nomeproduto" name="nomeproduto" class="form-control consulta-prod-admin" autofocos required placeholder="Digite o Nome, ou Codigo do Produto, ou Código de Barras"  autofocus="true" />
+                </section>
             </div>
 
             <p> </p>

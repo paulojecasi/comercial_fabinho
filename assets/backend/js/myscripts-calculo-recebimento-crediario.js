@@ -54,11 +54,12 @@ jQuery(document).ready(function(){
     {
         var vl_troco_cred =0;
     }
-
+ 
     if(vl_saldo_atual <=0) 
     {
         var vl_saldo_atual=0;
     }
+
 
     var vl_troco_cred = parseFloat(vl_troco_cred).toFixed(2); 
     var vl_saldo_atual = parseFloat(vl_saldo_atual).toFixed(2); 
@@ -69,6 +70,18 @@ jQuery(document).ready(function(){
     jQuery('#vl_saldo_atual').val(vl_saldo_atual);
     jQuery('#vl_total_pag_cred').val(vl_total_pag_cred); 
 
+    if (vl_recebido_caixa_cred<0)
+    {
+        swal({
+          title: "ATENÇÃO !",
+          text: "Valor do Recebimento NÃO pode ser NEGATIVO ou ZERO!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        jQuery('#vl_recebido_caixa_cred').val("");
+        
+    }
  
   });
 });

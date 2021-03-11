@@ -1,18 +1,16 @@
 
 <div id="page-wrapper">
 	<div class="row">
-    <div class="col-lg-12 text-center">
+    <div class="col-lg-12 text-center titulo-alteracao-prod">
         <h3 class="page-header"> <?php echo $subtitulo." - Alteração" ?></h3>
     </div>
     <!-- /.col-lg-12 -->
 	</div>
 
 	<div class="row">
-	  <div class="col-lg-8">
-	    <div class="panel panel-default">
-	      <div class="panel-heading">
-	         <?php echo $subtitulo ?>
-	      </div>
+	  <div class="col-lg-9">
+	    <div class="panel panel-default panel-altera-pro">
+	     
 	      <div class="panel-body">
 	        <div class="row">
 	          <div class="col-lg-12 layout-campos">
@@ -26,31 +24,55 @@
 		          
 		          // vamos abrir o formulário,
 		                      // apontando para:admin/controlador/metodo
-		          echo form_open('admin/produto/salvar_alteracoes');
+		          echo form_open('admin/produto/salvar_alteracoes','id="form-altera-produto"');
 
 		          foreach ($produto as $produto_alt):
 		          ?> 
 
-		            <div class="form-group">
+		            <div class="form-group col-lg-9">
 		                <label> Descrição do Produto </label>
-		                <input id="txt-desproduto" name="txt-desproduto" type="text"class = "form-control" placeholder ="Digite o nome do produto" value = "<?php echo $produto_alt->desproduto ?>">
+		                <input id="txt-desproduto" name="txt-desproduto" type="text"class = "form-control" placeholder ="Digite o nome do produto" value = "<?php echo $produto_alt->desproduto ?>"  onkeydown="javascript:EnterTab('produtoativo',event)" autofocus="true" required>
 		            </div>
 
-		            <div class="form-group protected-field">
+		             <div class="form-group col-lg-3">
+	                <label for="produtoativo"> Produto Ativo? </label>
+	                <select class="form-control" id="produtoativo" name="produtoativo"  onkeydown="javascript:EnterTab('codbarras',event)">
+	              
+	                  <?php 
+	                  foreach ($opcoes as $opcao):
+	                  ?>
+	                    <option value ="<?php echo $opcao->idopcao ?> "
+	                      <?php 
+	                    	if ($opcao->idopcao==$produto_alt->produtoativo): ?>
+	                    			selected
+	                    			<?php                                          
+	                    	endif;
+	                      ?> 
+	                     >
+	                       <?php echo $opcao->desopcao ?>
+	                    </option>
+	                  <?php 
+	                  endforeach;
+	                  ?>
+	                
+	                </select>
+	              </div>
+
+		            <div class="form-group protected-field col-lg-5">
                   <label> Codigo do Produto </label>
-                  <input id="codproduto" name="codproduto" type="text"class = "form-control" placeholder ="Codigo Gerado Automaticamente Pelo Sistema" value="<?php echo $produto_alt->codproduto ?>">
+                  <input id="codproduto" name="codproduto" type="text"class = "form-control" placeholder ="Codigo Gerado Automaticamente Pelo Sistema" value="<?php echo $produto_alt->codproduto ?>"  onkeydown="javascript:EnterTab('codbarras',event)">
               	</div>
 
-              	<div class="form-group">
+              	<div class="form-group col-lg-7">
                     <label> Codigo de Barras 
                         <i class="fa fa-barcode" aria-hidden="true"></i>
                     </label>
-                    <input id="codbarras" name="codbarras" type="text"class = "form-control" placeholder ="Informe o Codigo de Barras" value="<?php echo $produto_alt->codbarras ?>">
+                    <input id="codbarras" name="codbarras" type="text"class = "form-control" placeholder ="Informe o Codigo de Barras" value="<?php echo $produto_alt->codbarras ?>"  onkeydown="javascript:EnterTab('idmarca',event)">
                 </div>
 
                 <div class="form-group col-lg-4">
 	                <label for="idmarca"> Marca do Produto </label>
-	                <select class="form-control" id="idmarca" name="idmarca">
+	                <select class="form-control" id="idmarca" name="idmarca"  onkeydown="javascript:EnterTab('corproduto',event)">
 	              
 	                  <?php 
 	                  foreach ($marcas as $marca): 
@@ -73,7 +95,7 @@
 
 	              <div class="form-group col-lg-4">
 	                <label for="corproduto"> Cor do Produto </label>
-	                <select class="form-control" id="corproduto" name="corproduto">
+	                <select class="form-control" id="corproduto" name="corproduto"  onkeydown="javascript:EnterTab('idcategoria',event)">
 	              
 	                  <?php 
 	                  foreach ($cores as $cor): 
@@ -96,7 +118,7 @@
 		        
 	              <div class="form-group col-lg-4">
 	                <label for="idcategoria"> Categoria do Produto </label>
-	                <select class="form-control" id="idcategoria" name="idcategoria">
+	                <select class="form-control" id="idcategoria" name="idcategoria"  onkeydown="javascript:EnterTab('vlpreco',event)">
 	                  <?php 
 	                  foreach ($categorias as $categoria):
 	                   ?> 
@@ -118,135 +140,58 @@
 	              </div>
 
 		            <div class="form-group col-lg-6">  
-		              <label> Preço Varejo</label>
-		              <input type="number" class="form-control" id="vlpreco" name="vlpreco" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlpreco ?>">
+		              <label> Preço </label>
+		              <input type="number" class="form-control" id="vlpreco" name="vlpreco" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlpreco ?>"  onkeydown="javascript:EnterTab('vlpromocao',event)">
 		            </div>
 
 		            <div class="form-group col-lg-5">
-                    <label> Preço Promoção Varejo </label>
-                    <input type="number" class="form-control" id="vlpromocao" name="vlpromocao" step="0.01" placeholder="0.00" value="<?php echo $produto_alt->vlpromocao ?>">
+                    <label> Preço Promoção </label>
+                    <input type="number" class="form-control" id="vlpromocao" name="vlpromocao" step="0.01" placeholder="0.00" value="<?php echo $produto_alt->vlpromocao ?>"  onkeydown="javascript:EnterTab('vlprecoatacado',event)">
                 </div>
 
                 <div class="form-group col-lg-5">  
                     <label> Preço Atacado </label>
-                    <input type="number" class="form-control" id="vlprecoatacado" name="vlprecoatacado" step="0.01" placeholder="0.00" value="<?php echo $produto_alt->vlprecoatacado ?>">
+                    <input type="number" class="form-control" id="vlprecoatacado" name="vlprecoatacado" step="0.01" placeholder="0.00" value="<?php echo $produto_alt->vlprecoatacado ?>"  onkeydown="javascript:EnterTab('vlpromocaoatacado',event)">
                 </div>
 
                 <div class="form-group col-lg-5">
                     <label> Preço Promoção Atacado </label>
-                    <input type="number" class="form-control" id="vlpromocaoatacado" name="vlpromocaoatacado" step="0.01" placeholder="0.00" value="<?php echo $produto_alt->vlpromocaoatacado ?>">
+                    <input type="number" class="form-control" id="vlpromocaoatacado" name="vlpromocaoatacado" step="0.01" placeholder="0.00" value="<?php echo $produto_alt->vlpromocaoatacado ?>"  onkeydown="javascript:EnterTab('qtatacado',event)">
                 </div>
 
                 <div class="form-group col-lg-2"> 
                     <label> Qt Itens</label>
-                    <input type="number" class="form-control" id="qtatacado" name="qtatacado" placeholder="0" value="<?php echo $produto_alt->qtatacado ?>">
+                    <input type="number" class="form-control" id="qtatacado" name="qtatacado" placeholder="0" value="<?php echo $produto_alt->qtatacado ?>"  onkeydown="javascript:EnterTab('vllargura',event)">
                 </div>
 
-		            <div class="form-group col-lg-6"> 
+		            <div class="form-group col-lg-3"> 
 		              <label> Largura </label>
-		              <input type="number" class="form-control" id="vllargura" name="vllargura" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vllargura ?>">
+		              <input type="number" class="form-control" id="vllargura" name="vllargura" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vllargura ?>"  onkeydown="javascript:EnterTab('vlaltura',event)">
 		            </div>
 
-		            <div class="form-group col-lg-6">
+		            <div class="form-group col-lg-3">
 		              <label> Altura </label>
-		              <input type="number" class="form-control" id="vlaltura" name="vlaltura" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlaltura ?>">
+		              <input type="number" class="form-control" id="vlaltura" name="vlaltura" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlaltura ?>"  onkeydown="javascript:EnterTab('vlcomprimento',event)">
 		            </div>
 
-		            <div class="form-group col-lg-6">
+		            <div class="form-group col-lg-3">
 		              <label> Comprimento </label>
-		              <input type="number" class="form-control" id="vlcomprimento" name="vlcomprimento" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlcomprimento ?>">
+		              <input type="number" class="form-control" id="vlcomprimento" name="vlcomprimento" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlcomprimento ?>"  onkeydown="javascript:EnterTab('vlpeso',event)">
 		            </div>
 
-		            <div class="form-group col-lg-6">  
+		            <div class="form-group col-lg-3">  
 		              <label> Peso </label>
-		              <input type="number" class="form-control" id="vlpeso" name="vlpeso" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlpeso ?>">
+		              <input type="number" class="form-control" id="vlpeso" name="vlpeso" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlpeso ?>"  onkeydown="javascript:EnterTab('vlpromocao',event)">
 		            </div>
 
-		            <div class="form-group col-lg-6">
-		              <label> Valor Promoção </label>
-		              <input type="number" class="form-control" id="vlpromocao" name="vlpromocao" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlpromocao ?>">
-		            </div>
-
-	              <div class="form-group col-lg-6">
-	                <label for="produtoativo"> Produto Ativo? </label>
-	                <select class="form-control" id="produtoativo" name="produtoativo">
-	              
-	                  <?php 
-	                  foreach ($opcoes as $opcao):
-	                  ?>
-	                    <option value ="<?php echo $opcao->idopcao ?> "
-	                      <?php 
-	                    	if ($opcao->idopcao==$produto_alt->produtoativo): ?>
-	                    			selected
-	                    			<?php                                          
-	                    	endif;
-	                      ?> 
-	                     >
-	                       <?php echo $opcao->desopcao ?>
-	                    </option>
-	                  <?php 
-	                  endforeach;
-	                  ?>
-	                
-	                </select>
-	              </div>
-	          
-		          	
-	              <div class="form-group col-lg-6">
-	                <label for="produtodestaque"> Produto Destaque? </label>
-	                <select class="form-control" id="produtodestaque" name="produtodestaque">
-	              
-	                  <?php 
-	                  foreach ($opcoes as $opcao):
-	                  ?>
-	                      <option value ="<?php echo $opcao->idopcao ?> "
-	                        <?php 
-	                      	if ($opcao->idopcao==$produto_alt->produtodestaque):?>
-	                      			selected
-	                      			<?php                                          
-	                      	endif
-		                      ?> 
-	                      >
-	                         <?php echo $opcao->desopcao ?>
-	                      </option>
-
-	                  <?php 
-	                  endforeach; 
-	                  ?>
-	                
-	                </select>
-	              </div>
-		        
-	              <div class="form-group col-lg-6">
-	                <label for="actproduct"> Produto no Site? </label>
-	                <select class="form-control" id="produtosite" name="produtosite">
-	                  <?php 
-	                  foreach ($opcoes as $opcao):
-	                  ?>
-                      <option value ="<?php echo $opcao->idopcao ?> "
-                      	<?php 
-                      	if ($opcao->idopcao==$produto_alt->produtosite): ?>
-                      			selected
-                      			<?php                                          
-                      	endif;
-	                      ?>
-                      >
-                         <?php echo $opcao->desopcao ?>
-                      </option>
-
-	                  <?php 
-	                  endforeach;
-	                  ?>
-	                </select>
-	              </div>
 		       
 	            	<!-- INPUT OCULTO PARA ENVIAR O ID--> 
 	              <input  type="hidden" id="idproduto" name="idproduto" value= "<?php echo $produto_alt->idproduto ?>" 
 	              >
 		            <br> 
-		            <div class="text-center">
+		            <div class="text-center col-lg-12">
 			            <a href="" >
-			                <button class="btn btn-primary" > 
+			                <button class="btn btn-primary" id="button-altera-produto" > 
 			                    Alterar Produto
 			                </button> 
 			            </a>
@@ -270,7 +215,7 @@
 
   	<!-- PARA FOTOS --> 
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
       <div class="panel panel-default">
         <div class="panel-heading">
            Foto do Produto
@@ -308,7 +253,7 @@
                 echo $divopen;
                 $button = array('name'=>'btn-adicionar', 
                                 'id'=>'btn-adicionar',
-                                'class'=>'btn btn-primary',
+                                'class'=>'btn btn-success',
                                 'value'=>'Adicionar Imagem'); 
                 echo form_submit($button);
                 echo $divclose; 

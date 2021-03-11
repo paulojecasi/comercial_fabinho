@@ -6,7 +6,7 @@
 
    <a class="nav-link" data-toggle="collapse"  aria-controls="menulinks" data-target="#menulinks"><i class="fa fa-bars" aria-hidden="true"></i> 
    </a>
-   
+    
    <div id="menulinks" class="nav nav-pills collapse">
       
       <a style="width: 100%;" href="<?php echo base_url('cliente/manutencao_clientes') ?>"  class="nav-link ">  Clientes </a>

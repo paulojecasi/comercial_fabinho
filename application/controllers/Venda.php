@@ -551,6 +551,7 @@ class Venda extends CI_Controller {
 			      <th scope="col">Juros R$</th>
 			      <th scope="col">Descontos R$</th>
 			      <th scope="col">Valor Total</th>
+			      <th scope="col">Situacao </th>
 			    </tr>
 			  </thead>
 
@@ -565,6 +566,8 @@ class Venda extends CI_Controller {
 		 				$vljuros		 	= reais($pagto->vl_juros);
 		 				$vldesconto		= reais($pagto->vl_desconto);
 		 				$vltotal			= reais($pagto->vl_movimento);
+		 				$situacao     = $pagto->situacao;
+
 
 		 				$output .= '
 		 					<tr>
@@ -574,8 +577,17 @@ class Venda extends CI_Controller {
 					 			<td>					  '.$destipopag.'</td>
 					 			<td>					  '.$vljuros.		'</td>	 
 					 			<td>					  '.$vldesconto.		'</td>
-					 			<td>					  '.$vltotal.		'</td>'					 
-					 			; 
+					 			<td>					  '.$vltotal.		'</td>';
+
+					 			if ($situacao ==2)
+					 				{
+					 					$output .= '<td id="recebimento-cancelado"> CANCELADA </td>';
+					 				}
+					 				else
+					 				{
+					 					$output .= '<td id="recebimento-normal"> Normal </td>';
+					 				}
+					 			
 		 			}
 
 		 		}

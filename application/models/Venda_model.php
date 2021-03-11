@@ -254,14 +254,17 @@ class Venda_model extends CI_Model
 
 	}
 
-	public function atualiza_venda_crediario($idvenda, $situacaovenda, $vlsaldo_crediario)
+	public function atualiza_venda_crediario($idvenda, $situacaovenda=null, $vlsaldo_crediario)
 	{
+		if ($situacaovenda)
+		{
+			$dados['situacaovenda'] 		= $situacaovenda;
+		}
 
-		$dados['situacaovenda'] 		= $situacaovenda;
 		$dados['vlsaldo_crediario']=	$vlsaldo_crediario; 
 
 		$this->db->where('md5(idvenda)=', $idvenda); 
-		$this->db->update('venda',$dados);
+		return $this->db->update('venda',$dados);
 	}
 
 

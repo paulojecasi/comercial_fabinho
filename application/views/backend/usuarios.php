@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h1>
+            <h2 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h2>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -10,9 +10,6 @@
     <div class="row">
         <div class="col-lg-5">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                   <?php echo "Adicionar novo ".$subtitulo ?>
-                </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
@@ -27,7 +24,7 @@
                             
                             // vamos abrir o formulário,
                                         // apontando para:admin/controlador/metodo
-                            echo form_open('admin/usuarios/inserir');
+                            echo form_open('admin/usuarios/inserir','autocomplete="off');
         
                             ?> 
                             
@@ -41,14 +38,6 @@
                                 <label> E-mail </label>
                                 <input id="txt-email" name="txt-email" type="email" class = "form-control" placeholder ="Digite o e-mail"
                                 value = "<?php echo set_value('txt-email') ?>">
-                            </div>
-
-                            <div class = "form-group">
-                                <label> Historico </label>
-                                <textarea id="txt-historico" name="txt-historico" type="text" class = "form-control text-left"
-                                placeholder ="Digite Historico">
-                                    <?php echo set_value('txt-historico') ?>
-                                </textarea>
                             </div>
 
                             <div class="form-group">
@@ -70,16 +59,16 @@
                               </select>
                             </div>
 
-                            <div class = "form-group">
+                            <div class = "form-group col-lg-12">
                                 <label> Login </label>
-                                <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login do Usuario"
+                                <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login"
                                 value = "<?php echo set_value('txt-user') ?>">
                             </div>
-                            <div class = "form-group">
+                            <div class = "form-group col-lg-6">
                                 <label> Senha </label>
                                 <input id="txt-senha" name="txt-senha" type="password"class = "form-control"  >
                             </div>
-                            <div class = "form-group">
+                            <div class = "form-group col-lg-6">
                                 <label> Confirmar Senha  </label>
                                 <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" >
                             </div>
@@ -119,7 +108,7 @@
                 <div class="panel-heading">
                    <?php echo "Manutenção de ".$subtitulo ?>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-cadastro-user">
                     <div class="row">
                         <div class="col-lg-12 fotos-usuarios">
                   
@@ -191,36 +180,4 @@
     </div>
     <!-- /.row -->
 </div>
-<!-- /#page-wrapper -->
-
-
-<!--
-<form role="form">
-    <div class="form-group">
-        <label>Titulo</label>
-        <input class="form-control" placeholder="Entre com o texto">
-    </div>
-    <div class="form-group">
-        <label>Foto Destaque</label>
-        <input type="file">
-    </div>
-    <div class="form-group">
-        <label>Conteúdo</label>
-        <textarea class="form-control" rows="3"></textarea>
-    </div>
-   
-    <div class="form-group">
-        <label>Selects</label>
-        <select class="form-control">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-default">Cadastrar</button>
-    <button type="reset" class="btn btn-default">Limpar</button>
-</form>
-
---> 
+<!-- /#page-wrapper --> 

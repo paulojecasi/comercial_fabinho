@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h1>
+            <h2 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h2>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -38,12 +38,6 @@
                                     value = "<?php echo $usuario_alt->email ?>">
                                 </div>
 
-                                <div class = "form-group">
-                                    <label> Historico </label>
-                                    <textarea id="txt-historico" name="txt-historico" type="text"class = "form-control" placeholder ="Digite Historico">
-                                        <?php echo $usuario_alt->historico ?>
-                                    </textarea>
-                                </div>
 
                                 <div class="form-group">
                                   <label for="idtipo_acesso"> Tipo de Acesso do Usuário </label>
@@ -67,16 +61,16 @@
                                     ?> 
                                   </select>
                                 </div>
-                                <div class = "form-group">
+                                <div class = "form-group col-lg-12">
                                     <label> Login </label>
                                     <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login do Usuario"
                                     value = "<?php echo $usuario_alt->user ?>">
                                 </div>
-                                <div class = "form-group">
+                                <div class = "form-group col-lg-6">
                                     <label> Senha </label>
                                     <input id="txt-senha" name="txt-senha" type="password"class = "form-control" >
                                 </div>
-                                <div class = "form-group">
+                                <div class = "form-group col-lg-6">
                                     <label> Confirmar Senha  </label>
                                     <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" >
                                 </div>
@@ -84,8 +78,9 @@
                                 <!-- INPUT OCULTO PARA ENVIAR O ID--> 
                                 <input  type="hidden" id="txt-id" name="txt-id" value= "<?php echo $usuario_alt->id ?>" 
                                 >
-                                <button type="submit" class="btn btn-primary" > Alterar </button> 
-                          
+                                <div class = "form-group col-lg-12 text-center">
+                                    <button type="submit" class="btn btn-primary" > Alterar </button> 
+                                </div>
                                 <?php 
                                 // fechar o formulario 
                                 // OBS --- o FOREACH termina mais abaixo 

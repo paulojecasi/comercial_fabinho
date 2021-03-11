@@ -144,7 +144,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        <a type="button" class="btn btn-danger" href="'.base_url('caixa/confirma_cancelamento_mov/'.md5($idcaixa_mov).'/'.md5($idvenda).'/'.$tipo_movimento).'/'.$valor_real.'/'.$idcliente.'/'.md5($idretirada). '">Excluir</a>
+                                        <a type="button" class="btn btn-danger" href="'.base_url('caixa/cancelamentar_movimento/'.md5($idcaixa_mov).'/'.md5($idvenda).'/'.$tipo_movimento).'/'.$valor_real.'/'.$idcliente.'/'.md5($idretirada). '">Excluir</a>
                                     </div>
 
                                 </div>

@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h4 class="page-header"> <?php echo "Entrada de Produtos no Estoque" ?></h4>
+            <h4 class="page-header"> <?php echo "Entrada de Produtos no Estoque - Cadastro de Notas" ?></h4>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -10,9 +10,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                   <?php echo "Cadastro de Estoque/Notas" ?>
-                </div>
+           
                 <div class="panel-body panel-cadastro-nota-estoque">
                     <div class="row">
                         <div class="col-lg-12 cadnota">
@@ -52,22 +50,22 @@
                                 <input id="serie" name="serie" type="text"class = "form-control" placeholder ="Digite o serie da Nota" value="<?php echo set_value('serie') ?>">
                             </div>
 
-                            <div class="form-group col-lg-6 col-sm-12 vercons"> 
+                            <div class="form-group col-lg-5 col-sm-12 vercons"> 
                                 <label> Emitente  </label>
                                 <input id="emitente" name="emitente" type="text"class = "form-control" placeholder ="Digite o Emitente da Nota" value="<?php echo set_value('emitente') ?>">
                             </div>
 
-                            <div class="form-group col-lg-6 col-sm-12 vercons">  
+                            <div class="form-group col-lg-5 col-sm-12 vercons">  
                                 <label> Valor da Nota R$ </label>
                                 <input type="number" class="form-control" id="valornota" name="valornota" step="0.01" placeholder="0.00" value="<?php echo set_value('valornota') ?>">
                             </div>
 
                             <br>
 
-                            <div class ="col-lg-12 col-sm-12 ">
+                            <div class ="col-lg-2 col-sm-12 text-center ">
                                 <a href="">
-                                    <button class="btn btn-primary" > 
-                                        Adicionar Estoque/Nota
+                                    <button class="btn btn-primary btn-adicionar-nota" > 
+                                        Adicionar Nota
                                     </button> 
                                 </a>
                             </div>
@@ -88,11 +86,11 @@
             <!-- /.panel -->
         </div>
         <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                   <?php echo "Manutenção de Entrada de ".$subtitulo." - Estoques Lançados" ?>
+            <div class="panel panel-default ">
+                <div class="panel-heading text-center notas-entradas">
+                    <h3> <?php echo "Notas Cadastradas" ?> </h3> 
                 </div>
-                <div class="panel-body">
+                <div class="panel-body notas-cadastradas-scroll">
                     <div class="row">
                         <div class="col-lg-12">
                   

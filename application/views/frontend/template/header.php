@@ -41,7 +41,7 @@
             </div>
           </section>
           
-          <div class="logo-marca text-center col-lg-12">
+          <div class="logo-marca text-center col-lg-8">
                 <?php 
                   $this->load->view('frontend/template/sidebar');
                 ?>
