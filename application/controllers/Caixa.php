@@ -68,14 +68,26 @@ class Caixa extends CI_Controller {
 	public function movimento_cancel_mov_caixa()
 	{
 		$this->modelcaixa_movimento->encerra_sessoes_caixa();  
+
 		$idcaixa=1; 
-		$datainicio = date('Y-m-d');
-		$datafinal = date('Y-m-d'); 
+		$idcaixa_md = md5($idcaixa); 
+
+		$datainicio = $this->input->post('datainicial_movc');
+		$datafinal  = $this->input->post('datafinal_movc'); 
+
+		if (!$datainicio)
+		{
+			$datainicio = date('Y-m-d');
+			$datafinal = date('Y-m-d');
+		} 
+
 		$this->load->library('table');
 
 		$dados['movimento_caixa_do_dia']=$this->modelcaixa_movimento->getConsulta_movimento_caixa(md5($idcaixa), $datainicio, $datafinal);
 
 		$dados['idcaixa']= $idcaixa; 
+		$dados['datainicio'] 	= $datainicio;
+		$dados['datafinal']		= $datafinal;
 
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
@@ -85,10 +97,41 @@ class Caixa extends CI_Controller {
 
 	}
 
-	public function cancelamentar_movimento($idcaixa_mov, $idvenda=null, $tipo_movimento, $valor=null, $idcliente=null, $idretirada=null)
+	public function movimentos_produtos()
+	{
+		$this->modelcaixa_movimento->encerra_sessoes_caixa();  
+
+		$idcaixa=1; 
+		$idcaixa_md = md5($idcaixa); 
+
+		$datainicio = $this->input->post('datainicial_movp');
+		$datafinal  = $this->input->post('datafinal_movp'); 
+
+		if (!$datainicio)
+		{
+			$datainicio = date('Y-m-d');
+			$datafinal = date('Y-m-d');
+		} 
+
+		$this->load->library('table');
+
+		$dados['movimento_produto_caixa']=$this->modelcaixa_movimento->getConsulta_movimento_caixa_produto($idcaixa_md, $datainicio, $datafinal);
+
+		$dados['idcaixa']= $idcaixa; 
+		$dados['datainicio'] 	= $datainicio;
+		$dados['datafinal']		= $datafinal;
+
+		$this->load->view('frontend/template/html-header',$dados);
+		$this->load->view('frontend/template/header');
+		$this->load->view('frontend/template/mensagem-alert');
+		$this->load->view('frontend/caixa_movimentos_produtos');
+		$this->load->view('frontend/template/html-footer');
+
+	}
+
+	public function cancelamentar_movimento($idcaixa_mov, $idvenda=null, $tipo_movimento, $valor=null, $idcliente_md=null, $idretirada=null)
 	{
 
-		$idcliente_md = md5($idcliente); 
 		// vamos iniciar a transação 
     $this->db->trans_begin();
 
@@ -118,21 +161,27 @@ class Caixa extends CI_Controller {
     // CANCELAMENTO DE VENDAS, CASO TENHA --------------
     if ($idvenda && $tipo_movimento !=9 && $tipo_movimento!=5)
     {
-
     	$resultado_cancel = $this->modelvendas->cancelar_venda($idvenda);
-	
 			if (!$resultado_cancel=="ok")
 			{ 
 				$mensagem = "Houve um erro ao Cancelar a Venda/Movimento (modelvendas/cancelar_venda)"; 
 				$this->session->set_userdata('mensagemErro',$mensagem); 
 				$this->db->trans_rollback(); 
 				redirect(base_url('caixa/movimento_cancel_mov_caixa')); 
-
 			}
+
+			// consulta venda para  saber se a mesma tem cliente, vamos pegar o ID sem MD5 do cliente
+			$consulta_venda = $this->modelvendas->consulta_venda($idvenda); 
+
+			foreach ($consulta_venda as $vercli) 
+			{
+				$idcliente_da_venda = $vercli->idcliente;  
+			}
+
 		}
 
 		// ATUALIZAR SALDO DO CLIENTE, CASO TENHA  ---------------
-		if ($idcliente && $tipo_movimento !=9)
+		if ($idcliente_da_venda)
 		{
 			if ($tipo_movimento==5)
 			{
@@ -143,7 +192,10 @@ class Caixa extends CI_Controller {
 				$destipo = "cancelamento_venda";
 			}
 
-			if (!$this->modelvendas->atualiza_saldo_crediario($idcliente, $idcliente_md, $valor ,$destipo))
+			//echo "tipo movimento = " .$tipo_movimento. "   idcliente =".$idcliente_da_venda." id cliente_md =".$idcliente_md;
+			//exit;
+
+			if (!$this->modelvendas->atualiza_saldo_crediario($idcliente_da_venda, $idcliente_md, $valor ,$destipo))
 			{
 
 				$mensagem = "Houve um erro ao Atualizar o Saldo do Cliente (modelvendas/atualiza_saldo_crediario)"; 
@@ -211,6 +263,7 @@ class Caixa extends CI_Controller {
 		$dados['datainicio']= $datainicio;
 		$dados['datafinal']= $datafinal;
 		$dados['tipo_retirada']=$this->model_tipo_pagamento->getLista_tipo_retirada();
+
 		//$dados['valor_disp_cx'] = $valor_disp_cx;  
 
 		$this->load->view('frontend/template/html-header',$dados);
@@ -227,12 +280,13 @@ class Caixa extends CI_Controller {
 		$valor_retirada = $this->input->post('vl_retirada_caixa');
 		$codigousuario 	= $this->session->userdata('userLogado')->id;
 		$tipo_retirada 	= $this->input->post('id_retirada_mov');
+		$desretirada = $this->input->post('descricao_ret'); 
 
 		// vamos iniciar a transação 
     $this->db->trans_begin(); 
 
     // VAMOS GRAVAR A RETIRADA 
-    $res_retirada = $this->modelcaixa_movimento->grava_caixa_retirada($idcaixa,$valor_retirada,$tipo_retirada,$codigousuario);
+    $res_retirada = $this->modelcaixa_movimento->grava_caixa_retirada($idcaixa,$valor_retirada,$tipo_retirada,$codigousuario, $desretirada);
     if ($res_retirada)
     {
     	$idretirada = $this->db->insert_id();

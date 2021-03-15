@@ -7,7 +7,7 @@
 
     <?php
 
-    echo form_open('caixa/confirma_retirada/'.$idcaixa);
+    echo form_open('caixa/confirma_retirada/'.$idcaixa,'id="form-retirada-valor"');
 
        $valor_disp = $this->session->userdata('valor_disp_cx'); 
        $valor_disp_cx = reais($valor_disp); 
@@ -54,13 +54,13 @@
                         </div>
                     </div> 
 
-                    <section id ="tipopag-cre">
-                        <div class="col-lg-3 col-sm-12 campo-pag">
+                    <section id ="ret-tipo" class = "col-lg-6">
+                        <div class="col-lg-6 col-sm-12 campo-pag">
                             <h3> Tipo de Retirada: </h3>
                         </div>
 
-                        <div class="form-group col-lg-9 tipo-retirada-mov">
-                            <select class="form-control" id="id_retirada_mov" name="id_retirada_mov"  onkeydown="javascript:EnterTab('vl_recebido_caixa_cred',event)">
+                        <div class="form-group col-lg-6 tipo-retirada-mov">
+                            <select class="form-control" id="id_retirada_mov" name="id_retirada_mov"  onkeydown="javascript:EnterTab('descricao_ret',event)" autofocus="true">
                                 <?php 
                                 foreach ($tipo_retirada as $tpret): 
                                     $idretirada         = $tpret->idretirada;
@@ -77,36 +77,55 @@
                         </div>
                     </section>
 
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="form-group">
-                            <h3> Valor da Retirada R$ : </h2>
+                    <section id ="ret-descricao" class = "col-lg-6">
+                        <div class="col-lg-4 col-sm-12 retdescricao">
+                            <div class="form-group">
+                                <h3> Descrição : </h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-9 col-sm-12">
-                        <div class="form-group">
-                            <h1 class="valor-retirada-caixa">
-                                <input id="vl_retirada_caixa" name="vl_retirada_caixa" type="number" class="form-control" placeholder ="0,00" step="0.01" autofocus="true" required>
-                            </h1>
-                          
-                        </div>
-                    </div> 
+                        <div class="col-lg-8 col-sm-12 retdescricao">
+                            <div class="form-group">
+                                <textarea rows="2" id="descricao_ret" name="descricao_ret"  class="form-control" placeholder ="Descreva o motivo da retirada" onkeydown="javascript:EnterTab('vl_retirada_caixa',event)" maxlength=250  required></textarea>
+                                
+                              
+                            </div>
+                        </div> 
+                    </section>
 
-                    <div class="col-lg-3 col-sm-12">
-                        <div class="form-group">
-                            <h3> Saldo Caixa R$ : </h2>
+                    <section id ="ret-valor" class= "col-lg-6">
+                        <div class="col-lg-6 col-sm-12 retvalor">
+                            <div class="form-group">
+                                <h3> Valor da Retirada R$ : </h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="form-group">
-                            <h1 class="valor-saldo-caixa">
-                                <!-- <?php echo $valortotal ?> --> 
-                                <input id="vl_saldo_caixa_ret" name="vl_saldo_caixa_ret" type="text" class="form-control"  placeholder="0,00" step="0.01">
-                            </h1>
-                          
-                        </div>
-                    </div>
+                        <div class="col-lg-6 col-sm-12 retvalor">
+                            <div class="form-group">
+                                <h1 class="valor-retirada-caixa">
+                                    <input id="vl_retirada_caixa" name="vl_retirada_caixa" type="number" class="form-control" placeholder ="0,00" step="0.01" required value="1,00" onkeydown="javascript:EnterTab('id_retirada_mov',event)">
+                                </h1>
+                              
+                            </div>
+                        </div> 
+                    </section>
 
-                    <div class ="col-lg-3 col-sm-12 btn-finalizar-venda btn-finalizar-retirada text-center">
+                    <section id ="ret-saldo" class =  "col-lg-6">
+                        <div class="col-lg-4 col-sm-12 retsaldo">
+                            <div class="form-group">
+                                <h3> Saldo Caixa R$ : </h3>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-sm-12 retsaldo">
+                            <div class="form-group">
+                                <h1 class="valor-saldo-caixa">
+                                    <!-- <?php echo $valortotal ?> --> 
+                                    <input id="vl_saldo_caixa_ret" name="vl_saldo_caixa_ret" type="text" class="form-control"  placeholder="0,00" step="0.01">
+                                </h1>
+                              
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class ="col-lg-12 col-sm-12 btn-finalizar-venda btn-finalizar-retirada text-center">
                         <a href="">
                             <button class="btn btn-success" type="submit" id="btn-concluir-retirada" > 
                                 Confirmar Retirada

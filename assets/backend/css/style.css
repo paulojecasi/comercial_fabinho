@@ -1,5 +1,46 @@
 /* minhas aplicações - PJCS */ 
 
+
+.boas-vindas{
+	text-align:  center; 
+}
+
+
+div.boas-vindas-sis{ 
+  width: 100%; 
+  height: 100%; 
+
+  text-align: center;
+
+	background-color: #F5F5DC; 
+	min-height: 630px; 
+	background-image: url('http://cursophp.com/comercial_fabinho/assets/frontend/img/cac.png');
+	background-repeat: repeat; 
+	/*opacity: .1;*/
+}
+div.boas-vindas h1{
+	margin-top: 120px; 
+	color: blue;
+	margin-bottom: 20px; 
+	font-size: 55px;
+	font-weight: bold; 
+	border-top:1px solid;
+  border-color: #fff; 
+
+	-webkit-text-stroke-width: 3px;
+	-webkit-text-stroke-color: #000;
+
+}
+
+div.navbar-default, .sidebar{
+	padding: 0px; 
+	background-color: #D3D3D3;
+	margin-top: 0px; 
+	font-weight: bold;
+	margin-left: -10px;
+	margin-right: 0px;
+}
+
 div#page-wrapper{
 	background-color: #DCDCDC; 
 }
@@ -52,14 +93,7 @@ h4.page-header{
 .margin-top-30 label{
 		margin-top:  30px;
 }
-div.panel-cadastro-produto{
-	margin-top: -20px; 
-}
 
-.panel-produtos-admin-scroll{
-	height: 400px;
-  overflow-y: scroll;
-}
 
 div h3.page-header-adm{
 	margin-top: 5px; 
@@ -89,10 +123,11 @@ div.btn-cadastro-produto button{
 
 
 .foto-perfil a img{
-  	width: 45px;  
-  	border-style: solid;
-	 	border-width: 3px;
-	 	border-radius: 10px;          
+	margin-top: 10px; 
+	width: 70px;  
+	border-style: solid;
+ 	border-width: 3px;
+ 	border-radius: 10px;          
 }
 
 .fotos-usuarios img{
@@ -151,10 +186,6 @@ div.btn-cadastro-produto button{
 .filtro-list-produtos h4 {
 		font-size: 15px; 
 
-}
-
-.boas-vindas{
-	text-align:  center; 
 }
 
 div.protected-field input#codproduto{
@@ -227,21 +258,10 @@ div.panel-dados-cad{
 h4.btn-itens {
 	margin-top: 2px;
 	color: #228B22;
-	font-size: 15px;  
+	font-size: 15px; 
+	font-weight: bold;  
 }
 
-h4.btn-alterar {
-	margin-top: 0px;
-	color: #4169E1;
-	font-size: 15px;  
-}
-
-h4.btn-excluir {
-	margin-top: -12px; 
-	margin-bottom: -15px;
-	color: #FF0000;
-	font-size: 15px;  
-}
 
 h4.title-itens {
 	margin-top: -5px; 
@@ -313,6 +333,7 @@ div.panel-dados-cons-estoque div.campo-data input{
 
 div.panel-mov-est {
 	background-color: #F0F8FF;
+	margin-top: -10px; 
 }
 
 div h4.title-itens-nota {
@@ -384,6 +405,8 @@ p.field-saldo{
 	margin-bottom: 0px; 
 }
 
+
+
 /* formatando cor das fontes das colunas da tabela da consulta de intens da nota */ 
 
 p.field-aberta{
@@ -408,42 +431,86 @@ p.field-cancelada{
 
 }
 
+b.field-aberta{
+	font-size: 15px;
+	color: #006400; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+b.field-fechada{
+	font-size: 15px;
+	color: blue; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+b.field-cancelada{
+	font-size: 15px;
+	color: red; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
 a.nav-tela{
 	width: 100%;
 	height: 100%;
 }
 /*--- TELA MARCA DO PRODUTO  ---*/
 div.panel-altera-marca{
-	height: 410px;
+	height: 500px;
   overflow-y: scroll;
 }
 
 /*--- TELA CATEGORIA DO PRODUTO  ---*/
 div.panel-categoria-prod{
-	height: 410px;
+	height: 500px;
   overflow-y: scroll;
 }
 
 /*--- TELA CADASTRO USUARIO  ---*/
 div.panel-cadastro-user{
-	height: 410px;
+	height: 500px;
   overflow-y: scroll;
 }
 
 /*---  CADASTRO DE PRODUTOS ---*/
+
+div.link-voltar-cadproduto a h4{
+	padding: 0px; 
+	margin-top: 15px; 
+	font-size: 16px; 
+	color:#D2691E;
+}
+
+div.panel-cadastro-produto{
+	margin-top: 0px; 
+}
+
 .btn-default{
 	background-color: #A9A9A9; 
 	color: white;
 
 }
 div.titulo-cad-prod h3{
-	margin-top: 5px; 
+	margin-top: 10px; 
 	color: blue;
 }
 
 div.title-cadastro-prod{
-	margin-top: 0px; 
+	margin-top: 10px; 
 	color: blue;
+}
+
+div.link-voltar-cadnota a h4{
+	font-size: 20px; 
+	color: #FF6347; 
+}
+
+
+.panel-produtos-admin-scroll{
+	height: 430px;
+  overflow-y: scroll;
 }
 
 /* TELA ALTERACAO DE PRODUTO */ 
@@ -464,7 +531,7 @@ div.panel-title-estoque h4{
 	margin-top: 5px; 
 }
 
-.scroll{
+.scroll-itens-nt{
 	height: 500px;
   overflow-y: scroll;
 }
@@ -533,6 +600,89 @@ div.notas-cadastradas-scroll{
   overflow-y: scroll;
 }
 
+div.panel-dados-nota-scroll{
+	height: 560px;
+  overflow-y: scroll;
+}
+
+div.panel-dados-itens-scroll{
+	height: 560px;
+  overflow-y: scroll;
+}
+
+div.panel-btn-estoque{
+	padding: 5px;  
+
+}
+
+h4.btn-fechar {
+	margin-top: -12px;
+	color: green;
+	font-size: 15px; 
+	font-weight: bold;  
+}
+
+
+h4.btn-return {
+	margin-top: -12px;
+	color: #4169E1;
+	font-size: 15px;  
+	font-weight: bold; 
+}
+
+h4.btn-cancelar {
+	margin-top: -12px; 
+	margin-bottom: -15px;
+	color: #FF0000;
+	font-size: 15px; 
+	font-weight: bold;  
+}
+
+h4.btn-alterar {
+	margin-top: 0px; 
+	margin-bottom: -15px;
+	color: blue;
+	font-size: 15px; 
+	font-weight: bold;  
+}
+
+h4.btn-excluir {
+	margin-top: -12px; 
+	margin-bottom: -15px;
+	color: #FF0000;
+	font-size: 15px; 
+	font-weight: bold;  
+}
+
+
+button.btn-fechar-nt {
+	background-color: green; 
+	margin-top: -20px;
+	color: #fff;
+	font-size: 15px; 
+	font-weight: bold;  
+}
+
+button.btn-cancelar-nt {
+	background-color: red; 
+	margin-top: -20px;
+	color: #fff;
+	font-size: 15px; 
+	font-weight: bold;  
+}
+
+div.itens-da-nota h3{
+	padding: 5px; 
+	background-color: #F5F5DC; 
+	margin-top: 0px; 
+	margin-bottom: -15px; 
+}
+
+div.panel-table-nt-itens{
+	background-color: #F5F5DC; 
+}
+
+
 /* TELA CONSULTA DE ESTOQUE */
 
 div.resultado-consulta-estoque{
@@ -555,7 +705,7 @@ button#btn_consulta_est:focus{
 }   
 
 .panel-estoque-scroll{
-	height: 500px;
+	height: 300px;
   overflow-y: scroll;
 }
 
@@ -573,4 +723,41 @@ th {
   position: sticky;
   top: 0;
   background:#40E0D0;
+}
+
+/* paulo */
+button:disabled{
+	background-color: #C0C0C0; 
+}
+
+
+div h4 b.field-aberta{
+	font-size: 15px;
+	color: #006400; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+div h4 b.field-fechada{
+	font-size: 15px;
+	color: blue; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+div h4 b.field-cancelada{
+	font-size: 15px;
+	color: red; 
+	font-weight: bold;
+	margin-bottom: 0px; 
+}
+
+div.mensagem-sistema{
+	background-color: #000; 	
+	padding: 5px; 
+	color: yellow; 
+}
+
+div.mensagem-sistema b#av1{
+	color: #fff; 
 }

@@ -31,7 +31,7 @@
                                     <label for="nomeproduto"> Informe Produto </label>
                                     <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
                                     <br> 
-                                </div>
+                                </div> 
                                 
                                 <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar',event)">
                                 </div>  

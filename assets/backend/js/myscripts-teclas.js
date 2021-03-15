@@ -42,7 +42,6 @@ $("#btn_consulta_est").focus(function(){
 });
 
 
-
 // nao permite que o botao SUBMIT "CADASTRAR" seja acionado ao teclar <ENTER> 
 $("#form-add-cliente").bind("keypress", function (e) {
     if (e.keyCode == 13) {
@@ -110,5 +109,15 @@ $("#form-altera-produto").bind("keypress", function (e) {
         return false;
     }
 });
+
+
+$("#form-retirada-valor").bind("keypress", function (e) {
+    if (e.keyCode == 13) {
+        $("#button-altera-produto").attr('value');
+        //add more buttons here
+        return false;
+    }
+});
+
 
 

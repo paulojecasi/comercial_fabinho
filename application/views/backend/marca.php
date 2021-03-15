@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h2>
+        <div class="col-lg-12 text-center">
+            <h3 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -79,8 +79,8 @@
 
 
                                 $botaoalterar = anchor(base_url('admin/marca/alterar/'.md5($marca->idmarca)),
-                                    '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> Alterar </h4>');
-                                $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Excluir </h4> </button>';
+                                    '<h4 class="btn-alterar"><i class="fas fa-edit"> </i>   </h4>');
+                                $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>    </h4> </button>';
 
                                 echo $modal= ' <div class="modal fade excluir-modal-'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-sm">

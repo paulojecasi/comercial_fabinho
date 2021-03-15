@@ -388,7 +388,7 @@ class Cliente extends CI_Controller {
 	 		}
 	 		else {
 	 			$output .= '
-	 			<option>---- Nenhum item informado ---- </option>';
+	 			<option>---- Nenhum Cliente informado ---- </option>';
 	 		}
 
 	 		$output .= '

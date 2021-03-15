@@ -8,14 +8,23 @@ class Estoque_model extends CI_Model {
 		parent::__construct(); 
 
 	}
-
+ 
 	public function listar_entradas(){
 
-		//consulta no banco ondenando pelo titulo (ASC= Crescente, DESC= Decrescente)
+/*
+		$this->db->from('estoque_entrada');
+
+		$this->db->join('estoque_entrada_item',
+										'estoque_entrada_item.idestoque_entrada = estoque_entrada.id','rigth');
+
 		$this->db->order_by('dataentrada','DESC'); 
 
-		// vamos informar a tabela e trazer o resultado 
-		return $this->db->get('estoque_entrada')->result(); 
+		return $this->db->get()->result();  */
+
+		$this->db->order_by('dataentrada','DESC'); 
+
+		return $this->db->get('estoque_entrada')->result();
+
 
 	}
 
@@ -37,7 +46,8 @@ class Estoque_model extends CI_Model {
 		
 		$this->valida_produtos(); 
 		$this->db->from('estoque_entrada_item');
-		$this->db->join('produto','produto.idproduto=estoque_entrada_item.idproduto');
+		$this->db->join('produto',
+										'produto.idproduto=estoque_entrada_item.idproduto');
 		$this->db->where('md5(idestoque_entrada)=', $idestoque_entrada);
 		return $this->db->get()->result(); 
 		
@@ -69,7 +79,7 @@ class Estoque_model extends CI_Model {
 
 		$dados = array (
 			"idestoque_entrada" => $idestoque_entrada,
-			"nrnota" 						=> $nrnota,
+			"nrnota_entrada" 		=> $nrnota,
 			"idproduto" 				=> $idproduto, 
 			"quantidade"				=> $quantidade,
 			"vlunitario"				=> $vlunitario,
@@ -211,6 +221,8 @@ class Estoque_model extends CI_Model {
 
 	public function cancelar_item($id, $idproduto, $idestoque_entrada){
 		
+		//echo "===============".$id; 
+		//exit; 
 		// atualizando movimento de saida do estoque e saldo 
 		$this->db->where('md5(idproduto)=',$idproduto);
 		$this->db->where('md5(idestoque_entrada)=',$idestoque_entrada);
@@ -260,6 +272,28 @@ class Estoque_model extends CI_Model {
 		$this->db->where('idproduto=',$idproduto); 
 		$this->db->where('situacao=',0); 
 		return $this->db->get('produto_caixa_temp')->result(); 
+	}
+
+
+	public function fechar_cancelar_nota($solicitacao, $idestoque_entrada)
+	{
+
+		$dados['situacao']=$solicitacao;
+
+		$this->db->where('md5(id)=', $idestoque_entrada);
+		$this->db->update('estoque_entrada',$dados);
+
+		return $this->fechar_cancelar_nota_item($solicitacao, $idestoque_entrada); 		
+	}
+
+	private function fechar_cancelar_nota_item($solicitacao, $idestoque_entrada)
+	{
+		$dados['tiposituacao']=$solicitacao;
+
+		$this->db->where('md5(idestoque_entrada)=', $idestoque_entrada);
+		$this->db->where('tiposituacao=0'); 
+		return $this->db->update('estoque_entrada_item',$dados);
+
 	}
 
 }

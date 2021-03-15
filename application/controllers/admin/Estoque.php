@@ -5,7 +5,7 @@ class Estoque extends CI_Controller {
 
 	public function __construct() 
 	{ 
-
+ 
 		parent::__construct(); 
 
 		//vamos verificar se o usuario esta logado para acessar a pagina
@@ -14,7 +14,7 @@ class Estoque extends CI_Controller {
 		}
 		
 		$this->load->model('estoque_model','modelestoque');
-		$this->load->model('produto_model','modelprodutos');
+		$this->load->model('produto_model','modelprodutos'); 
 		$this->load->model('picklist_model','modellist'); 
 		$this->estoques = $this->modelestoque->listar_entradas(); 
 		$this->situacao_nota = $this->modellist->situacao_nota(); 
@@ -33,6 +33,7 @@ class Estoque extends CI_Controller {
 										=> $this->modelestoque->listar_estoque($idestoque_entrada=null),   
 			'titulo' 		 	=> 'Painel de Controle',
 			'subtitulo'  	=> 'Estoque ', 
+			'situacao_nota'=> $this->situacao_nota,
 			'numero_nota_auto' => $this->modelestoque->getNumero_nota_auto() 
 		);
 
@@ -40,6 +41,7 @@ class Estoque extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/estoque');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}
@@ -130,10 +132,9 @@ class Estoque extends CI_Controller {
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
+		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/estoque-itens');
-		//if ($idproduto){
-		//		$this->load->view('backend/estoque-item-consultado');
-		//}
+		$this->load->view('backend/template/footer'); 
 		$this->load->view('backend/template/html-footer'); 
 
 	}
@@ -217,9 +218,11 @@ class Estoque extends CI_Controller {
 
 				$this->session->set_userdata('mensagemErro',$mensagem);
 				if ($idsolicitante == "itens-nota"){
-					$this->itens($idestoque_entrada);
+					//$this->itens($idestoque_entrada);
+					redirect(base_url('admin/estoque/itens/'.$idestoque_entrada));
 				} elseif ($idsolicitante == "consulta-estoque"){
-					$this->estoque_consulta(); 
+					//$this->estoque_consulta(); 
+					redirect(base_url('admin/estoque/estoque_consulta'));
 				} elseif ($idsolicitante == "venda"){
 					redirect(base_url('venda')); 
 				}
@@ -275,6 +278,14 @@ class Estoque extends CI_Controller {
 			$vlunitario = $this->input->post('vlunitario');
 			$quantidade = $this->input->post('quantidade');
 			$vltotal = $this->input->post('vltotal'); 
+
+			// vamos verficar se o item ja foi gravado 
+			if ($this->modelestoque->verifica_item_existente(md5($idproduto),md5($idestoque_entrada)))
+			{
+					$mensagem ="ATENÇÃO! Produto já está cadastrado na Nota, verifique!";
+					$this->session->set_userdata('mensagemErro',$mensagem);
+					redirect(base_url('admin/estoque/itens/'.md5($idestoque_entrada)));
+			}
 			
 			if ($this->modelestoque->inserir_estoque_item($idproduto,$idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal)){
 
@@ -312,9 +323,10 @@ class Estoque extends CI_Controller {
 
 		if ($this->modelestoque->cancelar_item($id, $idproduto, $idestoque_entrada)){
 				$mensagem ="Item Cancelado com Sucesso!";
-				$this->session->set_userdata('mensagem',$mensagem);
+				$this->session->set_userdata('mensagemAlert',$mensagem);
 
-				$this->itens($idestoque_entrada);
+				//$this->itens($idestoque_entrada);
+				redirect(base_url('admin/estoque/itens/'.$idestoque_entrada));
 
 		} else {
 				$mensagem ="Erro ao Cancelar o Item, Verifique!";
@@ -322,8 +334,35 @@ class Estoque extends CI_Controller {
 		} 
 	}
 
-	public function saida_item_estoque($idproduto, $localchamada=null)
+	public function fechar_cancelar_nota($solicitacao,$idestoque_entrada_md)
 	{
+    $this->db->trans_begin();
+		
+		$this->modelestoque->fechar_cancelar_nota($solicitacao, $idestoque_entrada_md);		
+		
+		if  ($this->db->trans_status()===FALSE ) 
+		{ 
+			  $this->db->trans_rollback(); 
+			  $mensagem = "Houve um ERRO de TRANSAÇÃO! (admin/estoque/fechar_cancelar_nota) "; 
+				$this->session->set_userdata('mensagemErro',$mensagem); 
+				redirect(base_url('admin/estoque/itens/'.$idestoque_entrada_md));
+		} 
+		else 
+		{ 
+
+			$this->db->trans_commit(); 
+			if ($solicitacao ==1)
+			{
+				$mensagem = "Nota Finalizada com Sucesso !"; 
+			}
+			else
+			{
+				$mensagem = "Nota Cancelada com Sucesso !"; 
+			}
+
+			$this->session->set_userdata('mensagemAlert',$mensagem); 
+			redirect(base_url('admin/estoque/itens/'.$idestoque_entrada_md));
+		}
 
 	}
 

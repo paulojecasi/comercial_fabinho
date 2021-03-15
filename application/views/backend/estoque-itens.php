@@ -7,9 +7,9 @@
     </div>
     <!-- /.row -->
 
-    <div class="row">
+    <div class="row panel-dados-itens-scroll">
         <div class="col-lg-12">
-            <div class="panel panel-default panel-dados">
+            <div class="panel panel-default panel-dados-itens">
                 <div class="panel-heading">
                    <h4 class = "title-itens"> <?php echo "-Dados da Nota" ?> </h4>
                 </div>
@@ -18,13 +18,88 @@
                         <div class="col-lg-12 dados-notagravada">
 
                             <?php
+                            $situacao=0;
+                            $disabledC ="";
+                            $disabledF =""; 
+                            $idestoque_entrada=0;
+                            $nrnota=0;
+                            $serie=0;
+                            $valornota=0;
+                            $dataentrada=0; 
                             foreach ($estoque_entrada as $estoque):
+                                $idestoque_entrada = $estoque->id; 
                                 $nrnota = $estoque->nrnota; 
                                 $serie = $estoque->serie; 
                                 $emitente = $estoque->emitente ; 
                                 $valornota= number_format($estoque->valornota,2,",","."); 
                                 $situacao = $estoque->situacao; 
                                 $dataentrada=date("d-m-Y", strtotime($estoque->dataentrada));
+
+                                foreach ($situacao_nota as $sitnota) {
+                                    if ($situacao == $sitnota->tiposituacao)
+                                    {
+                                        $nosituacao_nt = $sitnota->dessituacao; 
+                                        if ($situacao  == 0)
+                                        {
+                                            $nosituacao_nt =
+                                            '<b class="field-aberta">'
+                                                .$nosituacao_nt.'
+                                            </b>';
+                                        }
+                                        elseif ($situacao  == 1)
+                                        {
+                                            $nosituacao_nt=
+                                            '<b class="field-fechada">'
+                                                .$nosituacao_nt.'
+                                            </b>';
+                                        }
+                                        elseif ($situacao  == 2)
+                                        {
+                                            $nosituacao_nt=
+                                            '<b class="field-cancelada">'
+                                                .$nosituacao_nt.'
+                                            </b>';
+                                        }
+                                    }
+                                }
+            
+
+                                // fechada ou cancelada, os botoes estarão desativados
+                                if ($situacao ==1 || $situacao==2): 
+                                    $disabledC = "disabled";
+                                    $disabledF = "disabled";
+                                else:
+                                    $disabledF = " ";
+                                    $disabledC = " ";
+                                endif;
+
+                                // se a nota nao tiver itens poderá ser cancelada
+                                // mas nao poderá ser fechada
+                                if (!$estoque_entrada_itens):
+                                    $disabledC = " ";
+                                    $disabledF = "disabled"; 
+                                endif;
+
+                                // Se a nota tiver itens, so poderá ser cancelada depois
+                                // que todos os itens forem cancelados.
+                                // Se os itens estiverem cancelados, a nota não poderá
+                                // ser fechada. 
+
+                                if ($estoque_entrada_itens && $situacao ==0):
+                                    foreach ($estoque_entrada_itens as $itensnt):
+                                        if ($itensnt->tiposituacao==0):
+                                            // tem notas em aberto, não pode ser cancelada,
+                                            // somente fechada. 
+                                            $disabledC="disabled";
+                                            $disabledF=""; 
+                                            break;
+                                        else:
+                                            $disabledC="";
+                                            $disabledF="disabled"; 
+                                        endif; 
+                                        
+                                    endforeach;
+                                endif;
                             ?>
                                 <div class="form-group col-lg-6 verentrada"> 
                                     <h4> 
@@ -65,9 +140,9 @@
                                 <div class="form-group col-lg-6 verentrada"> 
                                     <h4> 
                                         Situacao : 
-                                        <b>
-                                            <?php echo $situacao ?> 
-                                        </b>
+                                        
+                                        <?php echo $nosituacao_nt  ?> 
+                                    
                                     </h4>
                                 </div>
 
@@ -96,154 +171,156 @@
             <!-- /.panel -->
         </div>
 
+        <div class ="col-lg-12 panel-btn-estoque">
 
-        <div class="col-lg-12">
-            <div class="panel panel-default panel-dados-cad">
-                <div class="panel-heading">
-                   <h4 class = "title-itens"> <?php echo "-Cadastro de Itens do Estoque/Notas" ?> </h4>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12 cadnota">
-                        <?php 
+            <div class ="col-lg-6 col-md-4 col-sm-4 text-center link-voltar-cadnota">    
+                <a href ="<?php echo base_url('admin/estoque') ?>">         
+                    <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro de Notas </h4>
+                </a>
+            </div>
 
-                            // aqui vamos vericar os erros de validação
-                            echo validation_errors('<div class="alert alert-warning">','</div>'); 
-                            
-                            // vamos abrir o formulário,
-                                        // apontando para:admin/controlador/metodo
-                            //echo form_open('admin/estoque/buscar_produto/itens-nota');
-  
-                            //$this->load->view('backend/mensagem');
-
-                            $this->load->view('frontend/template/mensagem-alert');
-                            ?>
-                            <div class="panel panel-default title-itens-c col-lg-6 panel-consulta-prod">
-                                <div class="panel-body">
-                                    <div class="form-group nomeproduto-admin">
-                                        <label for="nomeproduto"> Informe Produto </label>
-                                        <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
-                                        <br> 
-                                    </div>
-                                    
-                                    <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)">
-                                    </div>
-
-
-                                    <?php
-                                    foreach ($estoque_entrada as $estoque):
-                                        $idestoque_entrada = md5($estoque->id); 
-                                        ?>
-                                        <!-- INPUT OCULTO PARA ENVIAR O ID--> 
-                                        <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" 
-                                        >
-                                       
-                                        <?php 
-                                    endforeach; 
-                                    
-                                    ?>
-
-                                    <div class ="col-lg-12 col-sm-12 text-center btn-busca-item" onkeydown="javascript:EnterTab('vlunitario',event)">
-                                        <a>
-                                            <button class="btn btn-info consulta" id="btn_buscar_item" value="<?php echo $this->input->post('idproduto_res'); ?>"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
-                                                Buscar
-                                            </button> 
-                                        </a>
-                                    </div>
-                        
-                                </div>
-                            </div>
-
-                            <?php 
-                            // fechar o formulario 
-                            //echo form_close();
-                            ?> 
-
-                            <div class="panel panel-default title-itens-c col-lg-6 panel-prod-consultado">
-                                <?php
-
-                                echo form_open('admin/estoque/inserir_estoque_item','id="form-add-item-estoque"');
+            <div class ="col-lg-3 col-md-4 col-sm-4 text-center" >    
+                <a href ="<?php echo base_url('admin/estoque/fechar_cancelar_nota/1/').md5( $idestoque_entrada) ?>">         
+                    <button class="btn btn-fechar-nt" <?php echo $disabledF;?> > <i class="fa fa-check"> </i> Finalizar Nota </button>
+                </a>
+            </div>
+            <div class ="col-lg-3 col-md-4 col-sm-4 text-center">    
+                <a href ="<?php echo base_url('admin/estoque/fechar_cancelar_nota/2/').md5( $idestoque_entrada) ?>">         
+                    <button class="btn btn-cancelar-nt"  <?php echo $disabledC;?> > <i class="fa fa-ban"> </i> Cancelar Nota </button>
+                </a>
+            </div>
       
-                                $this->load->view('backend/mensagem');
+        </div>
+
+
+        <?php
+        if ($situacao ==0): 
+            ?>
+
+            <div class="col-lg-12">
+                <div class="panel panel-default panel-dados-cad">
+                    <div class="panel-heading">
+                       <h4 class = "title-itens"> <?php echo "-Cadastro de Itens do Estoque/Notas" ?> </h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 cadnota">
+                            <?php 
+
+                                // aqui vamos vericar os erros de validação
+                                echo validation_errors('<div class="alert alert-warning">','</div>'); 
                                 
+                                $this->load->view('frontend/template/mensagem-alert');
+                                ?>
+                                <div class="panel panel-default title-itens-c col-lg-6 panel-consulta-prod">
+                                    <div class="panel-body">
+                                        <div class="form-group nomeproduto-admin">
+                                            <label for="nomeproduto"> Informe Produto </label>
+                                            <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
+                                            <br> 
+                                        </div>
+                                        
+                                        <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)">
+                                        </div>
+
+                                        <!-- INPUT OCULTO PARA ENVIAR O ID--> 
+                                        <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" >
+                            
+                                        <div class ="col-lg-12 col-sm-12 text-center btn-busca-item" onkeydown="javascript:EnterTab('vlunitario',event)">
+                                            <a>
+                                                <button class="btn btn-info consulta" id="btn_buscar_item" value="<?php echo $this->input->post('idproduto_res'); ?>"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
+                                                    Buscar
+                                                </button> 
+                                            </a>
+                                        </div>
+                            
+                                    </div>
+                                </div>
+
+                                <?php 
+                                // fechar o formulario 
+                                //echo form_close();
                                 ?> 
 
-                                <div class="form-group resultado_prod_item" id="resultado_prod_item" onkeydown="javascript:EnterTab('vlunitario',event)">
+                                <div class="panel panel-default title-itens-c col-lg-6 panel-prod-consultado">
+                                    <?php
+
+                                    echo form_open('admin/estoque/inserir_estoque_item','id="form-add-item-estoque"');
+          
+                                    $this->load->view('backend/mensagem');
+                                    
+                                    ?> 
+
+                                    <div class="form-group resultado_prod_item" id="resultado_prod_item" onkeydown="javascript:EnterTab('vlunitario',event)">
+                                        </div>
+
+                                    <div class="form-group col-lg-8 col-sm-12 vercons">  
+                                        <label> Valor Unitario </label>
+                                        <input type="number" class="form-control" id="vlunitario" name="vlunitario" step="0.01" placeholder="0.00" value="<?php echo set_value('vlunitario') ?>" onkeydown="javascript:EnterTab('quantidade',event)" required>
                                     </div>
 
-                                <div class="form-group col-lg-8 col-sm-12 vercons">  
-                                    <label> Valor Unitario </label>
-                                    <input type="number" class="form-control" id="vlunitario" name="vlunitario" step="0.01" placeholder="0.00" value="<?php echo set_value('vlunitario') ?>" onkeydown="javascript:EnterTab('quantidade',event)" required>
-                                </div>
+                                    <div class="form-group col-lg-4 col-sm-12 vercons">  
+                                        <label> Quantidade </label>
+                                        <input type="number" step="0.01" class="form-control" id="quantidade" name="quantidade"   placeholder="0" value="<?php echo set_value('quantidade') ?>" onkeydown="javascript:EnterTab('vlunitario',event)" required>
+                                    </div>
 
-                                <div class="form-group col-lg-4 col-sm-12 vercons">  
-                                    <label> Quantidade </label>
-                                    <input type="number" step="0.01" class="form-control" id="quantidade" name="quantidade"   placeholder="0" value="<?php echo set_value('quantidade') ?>" onkeydown="javascript:EnterTab('vlunitario',event)" required>
-                                </div>
+                                    <div class="form-group col-lg-8 col-sm-12 vercons">  
+                                        <label> Valor Total </label>
+                                        <input type="number" class="form-control" id="vltotal" name="vltotal" step="0.01" placeholder="0.00" value="<?php echo set_value('vltotal') ?>" >
+                                    </div>
 
-                                <div class="form-group col-lg-8 col-sm-12 vercons">  
-                                    <label> Valor Total </label>
-                                    <input type="number" class="form-control" id="vltotal" name="vltotal" step="0.01" placeholder="0.00" value="<?php echo set_value('vltotal') ?>" >
-                                </div>
-
-                                <!-- INPUT OCULTO PARA ENVIAR O ID--> 
-                                <?php
-                                foreach ($estoque_entrada as $estoqu):
-                                    $idestoque_entrada = $estoqu->id; 
-                                    $nrnota = $estoqu->nrnota; 
-                                    ?>
-                                    <!-- INPUT OCULTO PARA ENVIAR O ID--> 
                                     <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" 
                                     >
                                     <input type="hidden" id="nrnota" name="nrnota" value= "<?php echo $nrnota ?>" 
                                     >
-                                    <?php 
-                                endforeach; 
-                                ?>
 
-                                <div class ="col-lg-4 col-sm-12 btn-add-item-estoque">
-                                  
-                                        <button class="btn btn-primary" id ="btn-item-estoque" type="submit" > 
-                                            Adicionar Produto 
-                                        </button> 
-                                     
+                                    <div class ="col-lg-4 col-sm-12 btn-add-item-estoque">
+                                      
+                                            <button class="btn btn-primary" id ="btn-item-estoque" type="submit" > 
+                                                Adicionar Produto 
+                                            </button> 
+                                         
+                                    </div>
+                                    <?php
+                                    
+
+                                    // fechar o formulario 
+                                    echo form_close();
+                                    ?>
                                 </div>
-                                <?php
                                 
-
-                                // fechar o formulario 
-                                echo form_close();
-                                ?>
                             </div>
                             
                         </div>
-                        
+                        <!-- /.row (nested) -->
                     </div>
-                    <!-- /.row (nested) -->
+                    <!-- /.panel-body -->
+                    
                 </div>
-                <!-- /.panel-body -->
-                
+                <!-- /.panel -->
             </div>
-            <!-- /.panel -->
-        </div>
+
+            <?php
+        endif;
+        ?>
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="text-center">
-                   <h4 class= "title-itens-nota"> <?php echo "  Itens da Nota" ?> </h4>
+                <div class="text-center itens-da-nota">
+                   <h3 class= "title-itens-nota"> <?php echo "Itens da Nota" ?> </h3>
                 </div>
             
                  
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-12 scroll">
+                        <div class="col-lg-12 scroll-itens-nt panel-table-nt-itens">
                   
                             <!-- gerar tabela de categorias pela framework PJCS --> 
                             <?php
-                            $this->table->set_heading("Codigo","Descrição","Situação","Quantidade", "Vl Unitario","Vl Total","Cancelar"); 
+                            $this->table->set_heading("Id","Codigo Produto","Descrição","Situação","Quantidade", "Vl Unitario","Vl Total","Cancelar"); 
 
                             foreach ($estoque_entrada_itens as $estoque_item)
                             { 
-                                $id         = $estoque_item->id;
+                                $idestoque_item         = $estoque_item->id;
                                 $idproduto    = $estoque_item->idproduto;
                                 $idestoque_entrada = $estoque_item->idestoque_entrada; 
                                 $desproduto = $estoque_item->desproduto;  
@@ -278,7 +355,12 @@
                                 $vluni  = $estoque_item->vlunitario; 
                                 $vltot  = $estoque_item->vltotal; 
                            
-                                $botaocancelar= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$idproduto.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Cancelar Item </h4> </button>';
+                                if ($tpsituacao==0):
+                                    $botaocancelar= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$idproduto.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Cancelar Item </h4> </button>';
+
+                                else:
+                                    $botaocancelar = "-"; 
+                                endif;
 
                                 echo $modal= ' <div class="modal fade excluir-modal-'.$idproduto.'" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-sm">
@@ -296,14 +378,14 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                                <a type="button" class="btn btn-danger" href="'.base_url('admin/estoque/cancelar_item/'.md5($id).'/'.md5($idproduto)).'/'.md5($idestoque_entrada).'"> Confirmar </a>
+                                                <a type="button" class="btn btn-danger" href="'.base_url('admin/estoque/cancelar_item/'.md5($idestoque_item).'/'.md5($idproduto)).'/'.md5($idestoque_entrada).'"> Confirmar </a>
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>';
 
-                                $this->table->add_row($codproduto,$desproduto,$dessituacao,$qtd,$vluni,$vltot,$botaocancelar); 
+                                $this->table->add_row($idestoque_item,$codproduto,$desproduto,$dessituacao,$qtd,$vluni,$vltot,$botaocancelar); 
                             }
 
                             $this->table->set_template(array(

@@ -6,9 +6,14 @@
   
 
     <?php
-    // tela VALOR DA VENDA
-    //$this->load->view('frontend/template/valor-venda');
-    echo form_open('caixa/consulta_dados_caixa');
+    if (!$datainicio){
+        $datainicio =date('Y-m-d');
+    }
+
+    if (!$datafinal){
+        $datafinal =date('Y-m-d');
+    }
+    echo form_open('caixa/movimento_cancel_mov_caixa');
     ?>
 
     <div class = "col-lg-12 col-sm-12 tela-movimento-caixa">
@@ -20,12 +25,20 @@
 
             </div>
             <div class="form-group col-lg-3 campo-data-movcx">
-                <input type="date" id="datainicial_mov" name="datainicial_mov" maxlength="10" class="form-control" value="<?php echo date('Y-m-d')  ?>"  onkeydown="javascript:EnterTab('datafinal_mov',event)" autofocus="true" disabled />
+                <input type="date" id="datainicial_movc" name="datainicial_movc" maxlength="10" class="form-control" value="<?php echo $datainicio  ?>"  onkeydown="javascript:EnterTab('datafinal_mov',event)" autofocus="true"  />
 
             </div>
       
             <div class="form-group col-lg-3 campo-data-movcx">
-                <input type="date" id="datafinal_mov" name="datafinal_mov" class="form-control" value="<?php echo date('Y-m-d')  ?>"  onkeydown="javascript:EnterTab('nomeproduto',event)" autofocus="true" disabled/>
+                <input type="date" id="datafinal_movc" name="datafinal_movc" class="form-control" value="<?php echo $datafinal  ?>"  onkeydown="javascript:EnterTab('nomeproduto',event)" autofocus="true" />
+            </div>
+
+            <div class ="col-lg-3 btn-finalizar-venda  btn-dados-mov-prod text-center">
+                <a> 
+                    <button class="btn btn-success" type="submit" id="btn-busca-mov-prod"  > 
+                        Gerar Dados
+                    </button> 
+                </a>
             </div>
 
 
@@ -144,7 +157,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        <a type="button" class="btn btn-danger" href="'.base_url('caixa/cancelamentar_movimento/'.md5($idcaixa_mov).'/'.md5($idvenda).'/'.$tipo_movimento).'/'.$valor_real.'/'.$idcliente.'/'.md5($idretirada). '">Excluir</a>
+                                        <a type="button" class="btn btn-danger" href="'.base_url('caixa/cancelamentar_movimento/'.md5($idcaixa_mov).'/'.md5($idvenda).'/'.$tipo_movimento).'/'.$valor_real.'/'.md5($idcliente).'/'.md5($idretirada). '">Excluir</a>
                                     </div>
 
                                 </div>
@@ -160,7 +173,14 @@
 
                     echo $this->table->generate(); 
 
+                    if (!$movimento_caixa_do_dia):
                     ?> 
+                        <div class="text-center mens-sem-movimento">
+                           <h1> Sem movimento no periódo informado! </h1>
+                       </div>
+                       <?php 
+                   endif;
+                   ?>
          
                 </section>  
                 <!-- /.panel-body -->

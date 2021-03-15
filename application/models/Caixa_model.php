@@ -33,7 +33,7 @@ class Caixa_model extends CI_Model
 		return $this->db->insert('caixa_movimento', $dados); 
 	}
 
-	public function grava_caixa_retirada($idcaixa,$valor_retirada, $tipo_retirada, $codigousuario)
+	public function grava_caixa_retirada($idcaixa,$valor_retirada, $tipo_retirada, $codigousuario,$desretirada)
 	{
 
 		$dados['idcaixa'] = $idcaixa; 
@@ -41,6 +41,7 @@ class Caixa_model extends CI_Model
 		$dados['tiporetirada'] = $tipo_retirada;
 		$dados['situacao'] =0;
 		$dados['idusuario'] = $codigousuario; 
+		$dados['desretirada']= $desretirada; 
 
 		return $this->db->insert('retiradas',$dados);
 	}
@@ -91,7 +92,6 @@ class Caixa_model extends CI_Model
 		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
 		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
 		 
-
 		$this->db->from('caixa_movimento');
 		$this->db->join('tipo_movimento_caixa',
 										'tipo_movimento_caixa.id=caixa_movimento.tipo_movimento_caixa');
@@ -102,6 +102,34 @@ class Caixa_model extends CI_Model
 
 		$this->db->order_by('data_movimento','ASC'); 
 	
+		return $this->db->get()->result(); 
+
+	}
+
+
+	public function getConsulta_movimento_caixa_produto($idcaixa_md, $datainicio, $datafinal)
+	{
+		$this->db->where('md5(caixa_movimento.idcaixa)=',$idcaixa_md);
+		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
+		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
+		$this->db->where('situacao=0'); 
+		
+		$tipo_mov_caixa_where = array(1,2,3,4,8);  // somente vendas 
+
+		$this->db->where_in('tipo_movimento_caixa',$tipo_mov_caixa_where);
+
+		$this->db->from('caixa_movimento');
+
+		$this->db->join('venda',
+										'venda.idvenda = caixa_movimento.idvenda'); 
+
+		$this->db->join('vendaitem',
+										'vendaitem.idvenda = venda.idvenda'); 
+
+		$this->db->join('produto',
+										'produto.idproduto = vendaitem.idproduto'); 
+
+		$this->db->order_by('produto.idproduto','ASC');
 		return $this->db->get()->result(); 
 
 	}

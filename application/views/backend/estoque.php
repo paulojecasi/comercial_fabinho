@@ -7,7 +7,7 @@
     </div>
     <!-- /.row -->
 
-    <div class="row">
+    <div class="row panel-dados-nota-scroll">
         <div class="col-lg-12">
             <div class="panel panel-default">
            
@@ -32,7 +32,7 @@
 
                             <div class="form-group col-lg-5 vercons"> 
                                 <label> Numero da Nota </label>
-                                <input id="nrnota" name="nrnota" type="text"class = "form-control" placeholder ="Digite o Numero da Nota" value="<?php echo set_value('nrnota') ?>">
+                                <input id="nrnota" name="nrnota" type="text"class = "form-control" placeholder ="Digite o Numero da Nota" value="<?php echo set_value('nrnota') ?>" required>
 
                             </div>
 
@@ -47,24 +47,24 @@
 
                             <div class="form-group col-lg-5 col-sm-10 vercons"> 
                                 <label> Serie  </label>
-                                <input id="serie" name="serie" type="text"class = "form-control" placeholder ="Digite o serie da Nota" value="<?php echo set_value('serie') ?>">
+                                <input id="serie" name="serie" type="text"class = "form-control" placeholder ="Digite o serie da Nota" value="<?php echo set_value('serie') ?>" required>
                             </div>
 
                             <div class="form-group col-lg-5 col-sm-12 vercons"> 
                                 <label> Emitente  </label>
-                                <input id="emitente" name="emitente" type="text"class = "form-control" placeholder ="Digite o Emitente da Nota" value="<?php echo set_value('emitente') ?>">
+                                <input id="emitente" name="emitente" type="text"class = "form-control" placeholder ="Digite o Emitente da Nota" value="<?php echo set_value('emitente') ?>" required>
                             </div>
 
                             <div class="form-group col-lg-5 col-sm-12 vercons">  
                                 <label> Valor da Nota R$ </label>
-                                <input type="number" class="form-control" id="valornota" name="valornota" step="0.01" placeholder="0.00" value="<?php echo set_value('valornota') ?>">
+                                <input type="number" class="form-control" id="valornota" name="valornota" step="0.01" placeholder="0.00" value="<?php echo set_value('valornota') ?>" required>
                             </div>
 
                             <br>
 
                             <div class ="col-lg-2 col-sm-12 text-center ">
                                 <a href="">
-                                    <button class="btn btn-primary btn-adicionar-nota" > 
+                                    <button class="btn btn-primary btn-adicionar-nota"  > 
                                         Adicionar Nota
                                     </button> 
                                 </a>
@@ -96,7 +96,7 @@
                   
                             <!-- gerar tabela de categorias pela framework PJCS --> 
                             <?php
-                            $this->table->set_heading("DT Entrada","Numero", "Serie","Emitente","Valor R$", "Itens ", "Alterar", "Excluir"); 
+                            $this->table->set_heading("DT Entrada","Numero", "Serie","Emitente","Valor R$","Situação", "Consultar Nota"); 
 
                             foreach ($estoques as $estoque)
                             { 
@@ -106,12 +106,43 @@
                                 $data = date("d-m-Y", strtotime($data1));
                                 $serie = $estoque->serie;
                                 $emitente= $estoque->emitente;
+                                $situacao = $estoque->situacao; 
                                 $valornota= number_format($estoque->valornota,2,",","."); 
 
-                                $botaoitens = anchor(base_url('admin/estoque/itens/'.md5($estoque->id)),'<h4 class="btn-itens"> <i class="fa fa-file-text"> </i> Itens da Nota </h4>');
-                                $botaoalterar = anchor(base_url('admin/estoque/alterar/'.md5($id)),
-                                    '<h4 class="btn-alterar"> <i class="fas fa-edit"> </i> Alterar </h4>');
-                                $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Cancelar Nota </h4> </button>';
+                                foreach ($situacao_nota as $sitnota) {
+                                    if ($situacao == $sitnota->tiposituacao)
+                                    {
+                                        $nosituacao_nt = $sitnota->dessituacao; 
+                                        if ($situacao  == 0)
+                                        {
+                                            $nosituacao_nt =
+                                            '<b class="field-aberta">'
+                                                .$nosituacao_nt.'
+                                            </b>';
+                                        }
+                                        elseif ($situacao  == 1)
+                                        {
+                                            $nosituacao_nt=
+                                            '<b class="field-fechada">'
+                                                .$nosituacao_nt.'
+                                            </b>';
+                                        }
+                                        elseif ($situacao  == 2)
+                                        {
+                                            $nosituacao_nt=
+                                            '<b class="field-cancelada">'
+                                                .$nosituacao_nt.'
+                                            </b>';
+                                        }
+                                    }
+                                }
+
+                                $botaoitens = anchor(base_url('admin/estoque/itens/'.md5($estoque->id)),'<h4 class="btn-itens"> <i class="fa fa-file-text"> </i> Consultar Nota </h4>');
+
+                                /*
+                                $botaofechar = anchor(base_url('admin/estoque/itens/'.md5($estoque->id)),'<h4 class="btn-fechar"> <i class="fa fa-check"> </i> Fechar Nota </h4>');
+                          
+                                $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-ban fa-fw"></i>  Cancelar Nota </h4> </button>';
 
                                 echo $modal= ' <div class="modal fade excluir-modal-'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-sm">
@@ -135,8 +166,9 @@
                                         </div>
                                     </div>
                                 </div>';
+                                */
 
-                                $this->table->add_row($data,$nrnota,$serie,$emitente, $valornota,$botaoitens,$botaoalterar,$botaoexcluir); 
+                                $this->table->add_row($data,$nrnota,$serie,$emitente, $valornota,$nosituacao_nt,$botaoitens); 
                             }
 
                             $this->table->set_template(array(

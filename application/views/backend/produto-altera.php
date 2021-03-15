@@ -1,8 +1,13 @@
 
 <div id="page-wrapper">
 	<div class="row">
-    <div class="col-lg-12 text-center titulo-alteracao-prod">
+    <div class="col-lg-9 text-center titulo-alteracao-prod">
         <h3 class="page-header"> <?php echo $subtitulo." - Alteração" ?></h3>
+    </div>
+    <div class ="col-lg-3 col-md-4 col-sm-4 text-center link-voltar-cadproduto">    
+        <a href ="<?php echo base_url('admin/produto') ?>">         
+            <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
+        </a>
     </div>
     <!-- /.col-lg-12 -->
 	</div>

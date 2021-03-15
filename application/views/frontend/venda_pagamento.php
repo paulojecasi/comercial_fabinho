@@ -21,7 +21,7 @@
             <h2> Escolha a Forma de Pagamento </h2>
         </div>
         <section>
-            <div class = "col-lg-3 col-sm-4">
+            <div class = "col-lg-2 col-sm-4">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 ">
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <div class = "col-lg-3 col-sm-4">
+            <div class = "col-lg-2 col-sm-4">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">

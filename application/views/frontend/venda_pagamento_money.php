@@ -29,7 +29,7 @@
             <div class="col-lg-9 col-sm-12">
                 <div class="form-group">
                     <h1 class="valor-recebido-venda">
-                        <input id="vl_recebido_caixa" name="vl_recebido_caixa" type="number" class="form-control" placeholder ="0,00" step="0.01" autofocus="true">
+                        <input id="vl_recebido_caixa" name="vl_recebido_caixa" type="number" class="form-control" placeholder ="0,00" step="0.01" autofocus="true" required>
                     </h1>
                   
                 </div>

@@ -1,14 +1,14 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h2>
+        <div class="col-lg-12 text-center">
+            <h3 class="page-header"> <?php echo "Categoria do Produto - Alteração" ?></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                    <?php echo $subtitulo ?>
@@ -39,7 +39,16 @@
                                 <!-- INPUT OCULTO PARA ENVIAR O ID--> 
                                 <input  type="hidden" id="txt-id" name="txt-id" value= "<?php echo $categoria_alt->id ?>" 
                                 >
-                                <button type="submit" class="btn btn-primary" > Atualizar </button> 
+
+                                <div class = "col-lg-6 col-md-6 col-sm-6"> 
+                                    <button type="submit" class="btn btn-primary" > Atualizar </button> 
+                                </div>
+
+                                <div class ="col-lg-6 col-md-6 col-sm-6 text-center link-voltar-cadproduto">    
+                                    <a href ="<?php echo base_url('admin/categoria') ?>">         
+                                        <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
+                                    </a>
+                                </div>
                             
                       
                             <?php 

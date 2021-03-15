@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h2>
+        <div class="col-lg-12 text-center">
+            <h3 class="page-header"> <?php echo "Alteração de Dados do Usuario do Sistema" ?></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -78,9 +78,16 @@
                                 <!-- INPUT OCULTO PARA ENVIAR O ID--> 
                                 <input  type="hidden" id="txt-id" name="txt-id" value= "<?php echo $usuario_alt->id ?>" 
                                 >
-                                <div class = "form-group col-lg-12 text-center">
-                                    <button type="submit" class="btn btn-primary" > Alterar </button> 
+                                <div class = "form-group col-lg-6 col-md-6 col-sm-6 text-center">
+                                    <button type="submit" class="btn btn-primary" > Alterar Usuário </button> 
                                 </div>
+
+                                <div class ="col-lg-6 col-md-6 col-sm-6 text-center link-voltar-cadproduto">    
+                                    <a href ="<?php echo base_url('admin/usuarios') ?>">         
+                                        <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
+                                    </a>
+                                </div>
+                    
                                 <?php 
                                 // fechar o formulario 
                                 // OBS --- o FOREACH termina mais abaixo 

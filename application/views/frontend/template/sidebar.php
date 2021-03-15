@@ -13,6 +13,7 @@
       
      	<a style="width: 100%;" href="<?php echo base_url('caixa/movimentos_caixa') ?>"  class="nav-link ">  Valores </a>
       
+      <a style="width: 100%;" href="<?php echo base_url('caixa/movimentos_produtos') ?>"  class="nav-link ">  Produtos </a>
      	<?php
      	if ($usuario_permissao ==3):
      	?>

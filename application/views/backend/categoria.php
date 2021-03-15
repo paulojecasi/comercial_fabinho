@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h2>
+        <div class="col-lg-12  text-center">
+            <h3 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -10,8 +10,8 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                   <?php echo "Adicionar nova ".$subtitulo ?>
+                <div class="panel-heading text-center">
+                   <h4> <?php echo "Adicionar nova ".$subtitulo ?> </h4>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -60,8 +60,8 @@
 
         <div class="col-lg-6">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                   <?php echo "Alterar ".$subtitulo." existente" ?>
+                <div class="panel-heading text-center">
+                   <h4> <?php echo "Alterar ".$subtitulo." existente" ?> </h4>
                 </div>
                 <div class="panel-body panel-categoria-prod">
                     <div class="row">
@@ -86,8 +86,8 @@
                                 }
 
                                 $botaoalterar = anchor(base_url('admin/categoria/alterar/'.md5($categoria->id)),
-                                    '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> Alterar </h4>');
-                                $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>  Excluir </h4> </button>';
+                                    '<h4 class="btn-alterar"><i class="fas fa-edit"> </i>   </h4>');
+                                $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>    </h4> </button>';
 
                                 echo $modal= ' <div class="modal fade excluir-modal-'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-sm">
