@@ -6,7 +6,7 @@ class Venda extends CI_Controller {
 	public function __construct()
 	{
  
-		parent::__construct(); 
+		parent::__construct();  
 
 		if (!$this->session->userdata('logado')){
 			$this->session->set_userdata('tipo_acesso',"venda");
@@ -23,13 +23,32 @@ class Venda extends CI_Controller {
 		$this->tipo_pagamento = $this->model_tipo_pagamento->lista_tipos_pagamentos(); 
 
 	}
-
+ 
 	public function index()
 	{
+
 		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
-		$idcaixa=1; 
-		//$produtos_temp = $this->modelvendas->listar_produtos_temp($idcaixa);
+		// vamos ver se o caixa foi aberto e se o usuario está autorizado a operar o caixa
+		$idcaixa_aberto = $this->session->userdata('userLogado')->idcaixa_autorizado;
+		if ($this->modelcaixa_movimento->getConsulta_caixa($idcaixa_aberto))
+		{
+			// abrir sessao para o caixa aberto
+			$this->session->set_userdata("idcaixa",$idcaixa_aberto); 
+
+			$idcaixa = $this->session->userdata('idcaixa');
+		}
+		else
+		{
+			$mensagem = "Caixa não está aberto ou o Usuário não tem permissao para operar!"; 
+			$this->session->set_userdata('mensagemErro',$mensagem);
+			$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
+			$this->session->set_userdata('tipo_acesso',"venda");
+			redirect(base_url('admin/login')); 
+		}
+
+		$idcaixa= $this->session->userdata('idcaixa'); 
+		
 		$dados = $this->totalizador_venda_caixa($idcaixa);
 
 		if ($dados['produtos_temp']){
@@ -54,7 +73,7 @@ class Venda extends CI_Controller {
 	public function consulta_venda($idvenda, $tipo_acesso=null)
 	{
 		$this->load->library('table');
-		$idcaixa =1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 		$dados['idcaixa']=$idcaixa; 
 		$dados['tipo_acesso']= $tipo_acesso; 
 		$dados['consulta_venda'] = $this->modelvendas->consulta_venda($idvenda);
@@ -100,8 +119,7 @@ class Venda extends CI_Controller {
 				$this->session->unset_userdata('solicitante'); 
 		}  
 	
-		$idcaixa=1; 
-		//$dados['produtos_temp'] = $this->modelvendas->listar_produtos_temp($idcaixa);
+		$idcaixa= $this->session->userdata('idcaixa'); 
 		$dados = $this->totalizador_venda_caixa($idcaixa);
 
 		$dados['tipo_pagamento'] = $this->tipo_pagamento;
@@ -118,12 +136,11 @@ class Venda extends CI_Controller {
 
 	}
 
-
 	public function inserir_temporario($produto_temp) 
 	{
 		foreach ($produto_temp as $produto_t) {
 
-			$idcaixa= 1;  
+			$idcaixa= $this->session->userdata('idcaixa');  
 			$idproduto= $produto_t->idproduto;
 			$codproduto= $produto_t->codproduto; 
 			$desproduto= $produto_t->desproduto;

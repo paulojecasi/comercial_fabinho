@@ -143,7 +143,7 @@
 
 	                </select>
 	              </div>
-
+ 
 		            <div class="form-group col-lg-6">  
 		              <label> Preço </label>
 		              <input type="number" class="form-control" id="vlpreco" name="vlpreco" step="0.01" placeholder="0.00" value = "<?php echo $produto_alt->vlpreco ?>"  onkeydown="javascript:EnterTab('vlpromocao',event)">

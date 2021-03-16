@@ -10,6 +10,7 @@ class Usuarios extends CI_Controller {
 
 		$this->load->model('usuarios_model','modelusuarios');
 		$this->load->model('picklist_model','model_tipo_usuario'); 
+		$this->load->model('caixa_model','modelcaixas'); 
 		$this->lista_usuarios = $this->modelusuarios->listar_usuarios();
 		$this->lista_tipo_acesso = $this->model_tipo_usuario->lista_tipo_acesso();  
 
@@ -31,10 +32,11 @@ class Usuarios extends CI_Controller {
 		$dados['subtitulo'] = 'Usuarios';
 		$dados['lista_usuarios']  = $this->lista_usuarios;  
 		$dados['lista_tipo_acesso'] = $this->lista_tipo_acesso;
+		$dados['lista_caixas'] = $this->modelcaixas->getListar_caixas(); 
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
-		$this->load->view('backend/mensagem');
+		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/usuarios');
 		$this->load->view('backend/template/html-footer'); 
 
@@ -78,12 +80,13 @@ class Usuarios extends CI_Controller {
 			$historico= $this->input->post('txt-historico');
 			$user= $this->input->post('txt-user');
 			$senha= $this->input->post('txt-senha');
+			$idcaixa_autorizado = $this->input->post('idcaixa_autorizado'); 
 
-			if ($this->modelusuarios->adicionar($nome,$email,$idtipo_acesso,$historico,$user,$senha)){
+			if ($this->modelusuarios->adicionar($nome,$email,$idtipo_acesso,$historico,$user,$senha, $idcaixa_autorizado)){
 				$mensagem ="Usuario Adicionada Com Sucesso !"; 
 
 				// usando seção da framework (session)
-				$this->session->set_userdata('mensagem',$mensagem); 
+				$this->session->set_userdata('mensagemAlert',$mensagem); 
 				
 			} else {
 
@@ -108,7 +111,7 @@ class Usuarios extends CI_Controller {
 		if ($this->modelusuarios->excluir($id)){
 
 			$mensagem ="Usuario Excluido Com Sucesso !"; 
-			$this->session->set_userdata('mensagem',$mensagem);  
+			$this->session->set_userdata('mensagemAlert',$mensagem);  
 
 		} else {
 
@@ -133,10 +136,11 @@ class Usuarios extends CI_Controller {
 		$dados['subtitulo'] = 'Usuarios - Alteração';
 		$dados['lista_usuario']  = $lista_usuario; 
 		$dados['lista_tipo_acesso'] = $this->lista_tipo_acesso; 
+		$dados['lista_caixas'] = $this->modelcaixas->getListar_caixas(); 
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
-		$this->load->view('backend/mensagem');
+		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/altera-usuarios');
 		$this->load->view('backend/template/html-footer');
 
@@ -183,16 +187,17 @@ class Usuarios extends CI_Controller {
 			$user= $this->input->post('txt-user');
 			$senha= $this->input->post('txt-senha');
 			$id = $this->input->post('txt-id'); 
+			$idcaixa_autorizado = $this->input->post('idcaixa_autorizado'); 
 
-			if ($this->modelusuarios->alterar($nome,$email,$historico,$idtipo_acesso,$user,$senha,$id)){
-				$mensagem ="Usuario Adicionada Com Sucesso !"; 
+			if ($this->modelusuarios->alterar($nome,$email,$historico,$idtipo_acesso,$user,$senha,$id,$idcaixa_autorizado)){
+				$mensagem ="Usuario Alterado Com Sucesso !"; 
 
 				// usando seção da framework (session)
-				$this->session->set_userdata('mensagem',$mensagem); 
+				$this->session->set_userdata('mensagemAlert',$mensagem); 
 				
 			} else {
 
-				$mensagem = "Houve um erro ao adicionar Usuário!"; 
+				$mensagem = "Houve um erro ao Alterar Usuário!"; 
 
 				$this->session->set_userdata('mensagemErro',$mensagem); 
 
@@ -239,7 +244,7 @@ class Usuarios extends CI_Controller {
 
 						if ($this->modelusuarios->alterar_img($id, $dir_imagem)){
 								$mensagem = "Upload da Imagem Realizado Com Sucesso!";
-								$this->session->set_userdata('mensagem',$mensagem);
+								$this->session->set_userdata('mensagemAlert',$mensagem);
 						} else{
 								$mensagem = "Erro ao Realizar o Upload da Imagem!";
 								$this->session->set_userdata('mensagemErro',$mensagem);
@@ -331,13 +336,9 @@ class Usuarios extends CI_Controller {
 									$this->session->set_userdata('mensagemErro',$mensagem); 
 									$this->logout();
 								}
-
-								
 						} 
-
 				} else {
 					 
-
 						$mensagem ="Usuario ou senha invalidos"; 
 						$this->session->set_userdata('mensagemErro',$mensagem); 
 						//redirect(base_url('admin/login')); 
@@ -359,6 +360,7 @@ class Usuarios extends CI_Controller {
 		$this->session->unset_userdata('tipolista');
 		$this->session->unset_userdata('tipo_acesso');
 		$this->session->unset_userdata('ultimoAviso'); 
+		$this->session->unset_userdata('idcaixa');
 
 		redirect(base_url('home')); 
 

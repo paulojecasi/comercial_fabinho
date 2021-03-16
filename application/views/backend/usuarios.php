@@ -24,7 +24,7 @@
                             
                             // vamos abrir o formulário,
                                         // apontando para:admin/controlador/metodo
-                            echo form_open('admin/usuarios/inserir','autocomplete="off');
+                            echo form_open('admin/usuarios/inserir','autocomplete="off"');
         
                             ?> 
                             
@@ -59,6 +59,25 @@
                               </select>
                             </div>
 
+                            <div class="form-group">
+                              <label for="idtipo_acesso"> Caixa do Usuário </label>
+                              <select class="form-control" id="idcaixa_autorizado" name="idcaixa_autorizado">
+                            
+                                <?php 
+                                foreach ($lista_caixas as $lista_caixa) 
+
+                                { ?> 
+                                    <option  value ="<?php echo $lista_caixa->idcaixa ?>"
+                                        
+                                    >
+                                        <?php echo "Caixa -" .$lista_caixa->idcaixa ?>
+                                    </option>
+                                <?php
+                                 }
+                                ?> 
+                              </select>
+                            </div>
+
                             <div class = "form-group col-lg-12">
                                 <label> Login </label>
                                 <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login"
@@ -66,11 +85,11 @@
                             </div>
                             <div class = "form-group col-lg-6">
                                 <label> Senha </label>
-                                <input id="txt-senha" name="txt-senha" type="password"class = "form-control"  >
+                                <input id="txt-senha" name="txt-senha" type="password"class = "form-control" onfocus="this.removeAttribute('readonly');"  >
                             </div>
                             <div class = "form-group col-lg-6">
                                 <label> Confirmar Senha  </label>
-                                <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" >
+                                <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" onfocus="this.removeAttribute('readonly');" >
                             </div>
                             
                             <!--
@@ -116,13 +135,22 @@
                             <?php
                             $semFoto = "assets/frontend/img/usuarios/sem_foto.jpg";
 
-                            $this->table->set_heading(  "Foto", "Nome",
-                                                        "Alterar",
+                            $this->table->set_heading(  "Foto", "Nome","Tipo Senha","Opera Caixa","Alterar",
                                                         "Excluir"); 
-
+                            $id=0;
+                            $foto = "";
+                            $nomeuser ="";
+                            $botaoalterar="";
+                            $botaoexcluir="";
+                            $notiposenha ="";
+                            $tipo_acesso = 0;
+                            $idcaixa_ope = 0;
                             foreach ($lista_usuarios as $usuario)
                             {   
-                                $id = $usuario->id; 
+                                $id = $usuario->id;
+                                $tipo_acesso = $usuario->tipo_acesso; 
+                                $idcaixa_ope = $usuario->idcaixa_autorizado; 
+
                                 if ($usuario->img !=''){
                                     $foto   = img($usuario->img);
                                 }else{
@@ -130,6 +158,16 @@
                                 }
 
                                 $nomeuser   = $usuario->nome;
+                                foreach ($lista_tipo_acesso as $tipo_ace){
+                                    if ($tipo_ace->id == $tipo_acesso){
+                                        $notiposenha = $tipo_ace->desacesso; 
+                                    }else{
+                                        $notiposenha = "NENHUM";
+                                    }
+                                }
+                                
+
+
                                 $botaoalterar = anchor(base_url('admin/usuarios/alterar/'.md5($usuario->id)),
                                     '<h4 class="btn-alterar"><i class="fas fa-edit"> </i>   </h4>');
                                 $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i>    </h4> </button>';
@@ -157,7 +195,7 @@
                                     </div>
                                 </div>';
 
-                                $this->table->add_row($foto,$nomeuser,$botaoalterar,$botaoexcluir); 
+                                $this->table->add_row($foto,$nomeuser,$notiposenha, $idcaixa_ope,$botaoalterar,$botaoexcluir); 
                             }
 
                             $this->table->set_template(array(

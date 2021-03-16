@@ -53,7 +53,7 @@ class Caixa extends CI_Controller {
 		$dados['trocoini']			=$this->session->userdata('trocoini');
 		$dados['retirada_dinheiro']			=$this->session->userdata('retirada_dinheiro');
 
-		$idcaixa=1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 		$dados['idcaixa']= $idcaixa; 
 
 		$this->load->view('frontend/template/html-header',$dados);
@@ -69,7 +69,7 @@ class Caixa extends CI_Controller {
 	{
 		$this->modelcaixa_movimento->encerra_sessoes_caixa();  
 
-		$idcaixa=1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 		$idcaixa_md = md5($idcaixa); 
 
 		$datainicio = $this->input->post('datainicial_movc');
@@ -101,7 +101,7 @@ class Caixa extends CI_Controller {
 	{
 		$this->modelcaixa_movimento->encerra_sessoes_caixa();  
 
-		$idcaixa=1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 		$idcaixa_md = md5($idcaixa); 
 
 		$datainicio = $this->input->post('datainicial_movp');
@@ -257,7 +257,7 @@ class Caixa extends CI_Controller {
 
 	public function retirada_caixa($datainicio, $datafinal)
 	{
-		$idcaixa=1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 
 		$dados['idcaixa']= $idcaixa; 
 		$dados['datainicio']= $datainicio;
@@ -306,8 +306,6 @@ class Caixa extends CI_Controller {
 		if (!$this->modelcaixa_movimento->grava_caixa_mov($idcaixa, 0, 0, $codigousuario, 9, $valor_retirada, 0, 0, 5, 0, 0, $idretirada))
 		{
 			$mensagem = "Erro no Processo, Retirada não Realizada!(modelcaixa_movimento/grava_caixa_mov)"; 
-				echo $mensagem;
-			exit; 
 			$this->db->trans_rollback(); 
 			$this->session->set_userdata('mensagemErro',$mensagem); 
 			redirect(base_url('caixa/consulta_dados_caixa/ret'));
@@ -334,7 +332,7 @@ class Caixa extends CI_Controller {
 	function consulta_dados_caixa($local_chamado=null)
 	{
 
-		$idcaixa =1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 	 	$datainicio = $this->input->post('datainicial_mov');
 	 	$datafinal  = $this->input->post('datafinal_mov');  
 	 	$idcaixa_md5 = md5($idcaixa); 
@@ -379,7 +377,7 @@ class Caixa extends CI_Controller {
 			$vl_juros 		= $movimento_caixa_result->vl_juros;
 			$vl_desconto 	= $movimento_caixa_result->vl_desconto;
 			$vl_real 			= $vl_movimento + $vl_juros - $vl_desconto; 
-			$situacao			= $movimento_caixa_result->	situacao;
+			$situacao			= $movimento_caixa_result->situacao;
 			$idcaixa_mov 	= $movimento_caixa_result->idcaixa_mov;
 			$idcliente		= $movimento_caixa_result->idcliente;
 			$data_movimento=$movimento_caixa_result->data_movimento;

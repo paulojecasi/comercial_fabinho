@@ -11,6 +11,12 @@ class Caixa_model extends CI_Model
 
 	}
 
+	public function getConsulta_caixa($idcaixa_usuario)
+	{
+		$this->db->where('idcaixa=',$idcaixa_usuario);
+		$this->db->where('situacaocaixa =1'); 
+		return $this->db->get('caixa')->result(); 
+	}
 
 	public function grava_caixa_mov($idcaixa, $idvenda, $idcliente, $codigousuario, 
 		$tipo_movimento_caixa, $vl_movimento, $vl_juros, $vl_desconto, $tipo_pagamento=null, $valor_recebido=null, $valor_troco=null, $idretirada=null)
@@ -29,6 +35,7 @@ class Caixa_model extends CI_Model
 		$dados['VALOR_TROCO'] = $valor_troco;
 		$dados['situacao'] =0;  
 		$dados['idretirada'] = $idretirada;  
+		$dados['fl_fechado'] =0; 
 
 		return $this->db->insert('caixa_movimento', $dados); 
 	}
@@ -155,7 +162,6 @@ class Caixa_model extends CI_Model
 	public function encerra_sessoes_caixa()
 	{
 
-		$this->session->unset_userdata('idcaixa');
 		$this->session->unset_userdata('avista');
 		$this->session->unset_userdata('cartaodebito');
 		$this->session->unset_userdata('cartaocredito');
@@ -170,7 +176,48 @@ class Caixa_model extends CI_Model
 
 	}
 
-	
+	public function getListar_caixas()
+	{
+		$this->db->from('caixa');
+		$this->db->order_by('idcaixa');
+		return $this->db->get()->result();
+	}
 
+	public function abertura_fechamento_caixa($idcaixa_md, $valor,$tipomovimento)
+	{
+ 
+ 		if ($tipomovimento == "abertura")
+ 		{	 			
+	 		$dados['dataabertura'] =date('Y-m-d H:i:s'); 
+			$dados['situacaocaixa'] = 1; // situacao 0=Fechada, 1=Aberto
+			$dados['valorinicial'] = $valor; 
+			$this->db->where('md5(idcaixa)=', $idcaixa_md);
+			return $this->db->update('caixa',$dados); 
+		}
+		else
+		{
+			$dados['datafechamento'] =date('Y-m-d H:i:s'); 
+			$dados['situacaocaixa'] = 0; // situacao 0=Fechada, 1=Aberto
+			$dados['valorfechamento'] = $valor; 
+			$this->db->where('md5(idcaixa)=', $idcaixa_md);
+			return $this->db->update('caixa',$dados); 
+		}
 
+	}
+
+	public function grava_fechamento($dados)
+	{
+		return $this->db->insert('caixa_fecha',$dados);
+
+	}
+
+	public function fecha_movimento_caixa($idcaixa_md, $datainicio, $datafinal)
+	{
+		$dados['fl_fechado']=1;   // 0= movimento aberto, 1= movimento fechado
+		$this->db->where('md5(idcaixa)=', $idcaixa_md); 
+		$this->db->where('fl_fechado=0'); 
+		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
+		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
+		return $this->db->update('caixa_movimento', $dados); 
+	}
 }

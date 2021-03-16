@@ -114,7 +114,13 @@ $("#form-altera-produto").bind("keypress", function (e) {
 $("#form-retirada-valor").bind("keypress", function (e) {
     if (e.keyCode == 13) {
         $("#button-altera-produto").attr('value');
-        //add more buttons here
+        return false;
+    }
+});
+
+$("#form-fechamento-caixa").bind("keypress", function (e) {
+    if (e.keyCode == 13) {
+        $("#btn-add-fecha-cx").attr('value');
         return false;
     }
 });

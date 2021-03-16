@@ -20,7 +20,7 @@ class Cliente extends CI_Controller {
 	public function manutencao_clientes(){
 		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
-		$idcaixa =1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 		$dados['idcaixa'] = $idcaixa; 
 
 		$this->load->view('frontend/template/html-header',$dados);
@@ -33,7 +33,7 @@ class Cliente extends CI_Controller {
 	}
 
 	public function cadastro_cliente($localchamado=null){
-		$idcaixa =1;
+		$idcaixa= $this->session->userdata('idcaixa');
 		$dados['localchamado'] = $localchamado; 
 		$dados['idcaixa'] = $idcaixa;
 		$this->load->view('frontend/template/html-header',$dados);
@@ -47,7 +47,7 @@ class Cliente extends CI_Controller {
 
 	public function inserir($localchamado=null)
 	{
-		$idcaixa =1;
+		$idcaixa= $this->session->userdata('idcaixa');
 		// validar form
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules(
@@ -154,7 +154,7 @@ class Cliente extends CI_Controller {
 	}
 
 	public function altera_cliente($idcliente){
-		$idcaixa =1;
+		$idcaixa= $this->session->userdata('idcaixa');
 		$dados['idcaixa'] = $idcaixa;
 		$dados['cliente_consultado'] = $this->modelcliente->consulta_cliente($idcliente);
 
@@ -168,7 +168,7 @@ class Cliente extends CI_Controller {
 
 	public function confirma_alteracao($idcliente)
 	{
-		$idcaixa =1;
+		$idcaixa= $this->session->userdata('idcaixa');
 		// validar form
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules(
@@ -219,7 +219,7 @@ class Cliente extends CI_Controller {
 
 		$this->load->library('table'); 
 
-		$idcaixa =1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 		$dados['idcaixa'] 	= $idcaixa;
 		$dados['idcliente'] = $idcliente;
 		$dados['localchamado'] = $localchamado; 
@@ -251,7 +251,7 @@ class Cliente extends CI_Controller {
 	public function pagamento_crediario($idvenda)
 	{
 
-		$idcaixa =1; 
+		$idcaixa= $this->session->userdata('idcaixa'); 
 		$dados['idcaixa'] = $idcaixa; 
 		$dados['venda_cliente'] = $this->modelvendas->consulta_venda($idvenda);
 		$dados['tipo_pagamento'] = $this->modelvendas->tipo_pagamento(); 
@@ -268,7 +268,7 @@ class Cliente extends CI_Controller {
 	public function pagamento_crediario_confirma($idvenda_md, $idcliente_md)
 	{
 
-		$idcaixa =1;
+		$idcaixa= $this->session->userdata('idcaixa');
 		$idusuario 	= $this->session->userdata('userLogado')->id;
 		$vl_amortizacao = $this->input->post('vl_real_amortizacao');
 		$tipo_pagamento = $this->input->post('idpagamento');

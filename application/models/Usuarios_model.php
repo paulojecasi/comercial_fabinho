@@ -37,7 +37,7 @@ class Usuarios_model extends CI_Model {
 
 	}
 
-	public function adicionar($nome,$email,$idtipo_acesso,$historico,$user,$senha){
+	public function adicionar($nome,$email,$idtipo_acesso,$historico,$user,$senha,$idcaixa_autorizado){
 
 		$dados["nome"]= $nome; 
 		$dados["email"]= $email;
@@ -45,6 +45,7 @@ class Usuarios_model extends CI_Model {
 		$dados["tipo_acesso"]= $idtipo_acesso;
 		$dados["user"]= $user;
 		$dados["senha"]= md5($senha);
+		$dados["idcaixa_autorizado"]= $idcaixa_autorizado;
 		return $this->db->insert('usuario',$dados); 
 
 	}
@@ -61,13 +62,14 @@ class Usuarios_model extends CI_Model {
 		return $this->db->get('usuario')->result(); 
 	}
 
-	public function alterar($nome,$email,$historico,$idtipo_acesso,$user,$senha,$id){
+	public function alterar($nome,$email,$historico,$idtipo_acesso,$user,$senha,$id,$idcaixa_autorizado){
 		$dados['nome']  = $nome;
 		$dados['email'] = $email;
 		$dados['historico'] = $historico;
 		$dados["tipo_acesso"]= $idtipo_acesso;
 		$dados['user'] = $user;
 		$dados['senha'] = md5($senha);
+		$dados["idcaixa_autorizado"]= $idcaixa_autorizado;
 
 		$this->db->where('id=', $id);
 		return $this->db->update('usuario',$dados);

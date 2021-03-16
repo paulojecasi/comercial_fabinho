@@ -305,6 +305,8 @@ switch (ENVIRONMENT)
 
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
 
+	// definir horario padrão do Sistema - PJCS 
+	ini_set('date.timezone','America/Sao_Paulo');
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

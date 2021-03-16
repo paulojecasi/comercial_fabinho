@@ -11,6 +11,7 @@ var interval = window.setInterval(function(){
 */
 
 // checkbox para gerar nota automatica 
+
 $(document).ready(function(){
 	var nr_nota_auto = (jQuery('#nrnota_aut').val() == '' ? 0 : jQuery('#nrnota_aut').val());
 	var nr_nota_auto = parseInt(nr_nota_auto); 

@@ -25,51 +25,58 @@
                     </div>
 
                     <div class="navbar-header col-lg-12">
-                        <p class="text-left">
+                        <p class="text-center">
                             <a href="<?php echo base_url('/admin/usuarios') ?>"> 
                                 <?php echo "Usuário -- ".$this->session->userdata('userLogado')->nome;?>
                             </a>
+                        </p>
+                        <p class="text-center" id="sair-do-sistema-admin">
+                            <a href=" <?php echo base_url('admin/usuarios/logout') ?>"><i class="fa fa-sign-out fa-fw"></i> Sair do Sistema</a>
                         </p>
                       
                     </div>
                 </div>
 
-                <div class="sidebar-nav navbar-collapse col-lg-12">
+                <div class="sidebar-nav navbar-collapse col-lg-12 navbar-scroll">
                     <ul class="nav" id="side-menu">
+                        <li>
+                             <p class = "menu-admin"> Caixa </p>    
+                        </li>
+                         <li>
+                            <a href="<?php echo base_url('admin/caixa') ?>" class = "opc-menu"><i class="fa fa-cube fa-fw"></i> Abrir / Fechar </a>
+                        </li>
                        
                         <li>
                              <p class = "menu-admin"> Produtos </p>    
                         </li>
                         <li>
-                            <a href="<?php echo base_url('admin/produto') ?>"><i class="fa fa-plus-circle fa-fw"></i>Cadastro de Produtos </a>
+                            <a class = "opc-menu" href="<?php echo base_url('admin/produto') ?>"><i class="fa fa-plus-circle fa-fw"></i>Cadastro de Produtos </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('admin/estoque') ?>"><i class="fa fa-linode fa-fw"></i> Entrada no Estoque </a>
+                            <a class = "opc-menu" href="<?php echo base_url('admin/estoque') ?>"><i class="fa fa-linode fa-fw"></i> Entrada no Estoque </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('admin/estoque/estoque_consulta') ?>"><i class="fa fa-eye fa-fw"></i> Consultar Estoque </a>
+                            <a class = "opc-menu" href="<?php echo base_url('admin/estoque/estoque_consulta') ?>"><i class="fa fa-eye fa-fw"></i> Consultar Estoque </a>
                         </li>
 
                         <li>
                              <p class = "menu-admin"> Tabelas </p>    
                         </li>
                          <li>
-                            <a href="<?php echo base_url('admin/categoria') ?>"><i class="fa fa-sitemap fa-fw"></i> Categoria do Produto</a>
+                            <a class = "opc-menu" href="<?php echo base_url('admin/categoria') ?>"><i class="fa fa-sitemap fa-fw"></i> Categoria do Produto</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('admin/marca') ?>"><i class="fa fa-tags fa-fw"></i> Marca do Produto</a>
+                            <a class = "opc-menu" href="<?php echo base_url('admin/marca') ?>"><i class="fa fa-tags fa-fw"></i> Marca do Produto</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('admin/usuarios') ?>"><i class="fa fa-user fa-fw"></i> Usuários</a>
+                            <a class = "opc-menu" href="<?php echo base_url('admin/usuarios') ?>"><i class="fa fa-user fa-fw"></i> Usuários</a>
                         </li>
 
                         <li>
                              <p class = "menu-admin"> </p>    
                         </li>
 
-                        <li>
-                            <a href=" <?php echo base_url('admin/usuarios/logout') ?>"><i class="fa fa-sign-out fa-fw"></i> Sair do Sistema</a>
-                        </li>
+                        
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

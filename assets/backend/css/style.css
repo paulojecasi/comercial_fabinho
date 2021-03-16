@@ -5,6 +5,15 @@
 	text-align:  center; 
 }
 
+p#sair-do-sistema-admin{
+	margin-top: -7px; 
+	margin-bottom: 0px;
+}
+
+
+p#sair-do-sistema-admin a{
+	color: #0000FF;
+}
 
 div.boas-vindas-sis{ 
   width: 100%; 
@@ -34,11 +43,27 @@ div.boas-vindas h1{
 
 div.navbar-default, .sidebar{
 	padding: 0px; 
-	background-color: #D3D3D3;
+	background-color: #E6E6FA;
 	margin-top: 0px; 
 	font-weight: bold;
 	margin-left: -10px;
 	margin-right: 0px;
+}
+
+div.navbar-scroll{
+	width: 250px; 
+	height: 470px;
+  overflow-y: scroll;
+}
+
+a.opc-menu{
+	margin-top: -5px; 
+	margin-bottom: -5px; 
+}
+
+div a.opc-menu:hover{
+	background-color: #fff; 
+	color: blue; 
 }
 
 div#page-wrapper{
@@ -761,3 +786,82 @@ div.mensagem-sistema{
 div.mensagem-sistema b#av1{
 	color: #fff; 
 }
+
+/* TELA ABERTURA  DO CAIXA */
+
+b#sit-caixa-fechado{
+	color: #A9A9A9;
+}
+
+b#sit-caixa-aberto{
+	color: green;
+}
+
+div.title-abertura-caixa h3{
+	margin-top: 10px; 
+	color: blue;
+}
+
+div.panel-abertura-caixa h3{
+	color: blue;
+	font-weight: bold;
+	font-size: 40px; 
+	border: 1px solid; 
+	border-radius: 10px; 
+	border-color: #000; 
+}
+
+div.panel-abertura-caixa input{
+	color: blue;
+	font-weight: bold;
+	font-size: 30px; 
+	height: 45px;
+	width: 40%;  
+	text-align: center; 
+}
+
+
+/* TELA FECHAMEMTO  DO CAIXA */
+
+div.title-fechamento-caixa h3{
+	margin-top: 10px; 
+	color: blue;
+}
+
+div.panel-fechamento-caixa h3{
+	color: blue;
+	font-weight: bold;
+	font-size: 40px; 
+	border: 1px solid; 
+	border-radius: 10px; 
+	border-color: #000; 
+}
+
+div.tela-fechamento-cx input{
+	background-color: #ADD8E6; 
+	color: blue;
+	font-weight: bold;
+	height: 28px;
+	width: 180px; 
+	font-size: 20px; 
+	text-align: center;
+}
+
+section.desc-mov-fecha{
+	border-bottom: 1px solid;
+	padding: 0px; 
+	margin-top: 0px; 
+	margin-bottom: 0px; 
+}
+
+div.confe-fecha{
+	margin-bottom: -6px;
+	margin-top: 5px;
+}
+
+div.disab input{
+	pointer-events:none;
+	background-color: #4F4F4F; 
+	color: #fff;
+}
+

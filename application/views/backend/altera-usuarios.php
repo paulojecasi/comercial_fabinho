@@ -61,6 +61,31 @@
                                     ?> 
                                   </select>
                                 </div>
+
+                                <div class="form-group">
+                                  <label for="idtipo_acesso"> Caixa do Usuário </label>
+                                  <select class="form-control" id="idcaixa_autorizado" name="idcaixa_autorizado">
+                                
+                                    <?php 
+                                    foreach ($lista_caixas as $lista_caixa) 
+                                    { ?> 
+                                        <option  value ="<?php echo $lista_caixa->idcaixa ?>"
+                                            <?php
+                                            if ($usuario_alt->idcaixa_autorizado = $lista_caixa->idcaixa ): 
+                                                ?>
+                                                selected
+                                                <?php
+                                            endif;
+                                            ?>
+                                        >
+                                            <?php echo "Caixa -" .$lista_caixa->idcaixa ?>
+                                        </option>
+                                    <?php
+                                     }
+                                    ?> 
+                                  </select>
+                                </div>
+
                                 <div class = "form-group col-lg-12">
                                     <label> Login </label>
                                     <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login do Usuario"
