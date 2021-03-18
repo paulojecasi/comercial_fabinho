@@ -507,8 +507,10 @@ class Produto extends CI_Controller {
 	 	$output = '';
  	 
 	 	$idproduto_consultado_array = $this->input->post('idproduto_cons');
-	 	$idproduto_consultado_admin =	$idproduto_consultado_array[0];   
-	  
+	 	$idproduto_consultado_admin =	$idproduto_consultado_array[0];  
+
+	 	//echo $idproduto_consultado_admin;
+
 	 
 	 	$dados = $this->modelproduto->getConsultajquery_produto_admin($idproduto_consultado_admin);
 

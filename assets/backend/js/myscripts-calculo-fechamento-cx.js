@@ -35,7 +35,7 @@ jQuery(document).ready(function(){
                       parseFloat(vl_credito_c) + parseFloat(vl_crediario_c) -
                       parseFloat(vl_retiradas_c) + parseFloat(vl_troco_ini));  
 
-    var vl_total_fec_c = (parseFloat(vl_total_c) - parseFloat(vl_total));
+    var vl_total_fec_c = (parseFloat(vl_total_c).toFixed(2) - parseFloat(vl_total).toFixed(2));
 
     var vl_avista_fs = parseFloat(vl_avista_fs).toFixed(2); 
     var vl_receb_cred_fs = parseFloat(vl_receb_cred_fs).toFixed(2); 
@@ -63,52 +63,56 @@ jQuery(document).ready(function(){
     var corNeg = "#FF8C00"; 
 
     if (vl_avista_fs < 0){
-      document.getElementById('vl-avista-fec-fs').style.color = corNeg;
+      $("#vl-avista-fec-fs").css("color",corNeg);
     }else{
-      document.getElementById('vl-avista-fec-fs').style.color = corPos; 
+      $("#vl-avista-fec-fs").css("color",corPos); 
     }
+    
     if (vl_receb_cred_fs < 0){
-      document.getElementById('vl-rec-cred-fec-fs').style.color = corNeg;
+      $('#vl-rec-cred-fec-fs').css("color",corNeg);
     }else{
-      document.getElementById('vl-rec-cred-fec-fs').style.color = corPos; 
+      $('#vl-rec-cred-fec-fs').css("color",corPos); 
     }
     if (vl_externa_fs < 0){
-      document.getElementById('vl-ext-fec-fs').style.color = corNeg;
+      $('#vl-ext-fec-fs').css("color",corNeg);
     }else{
-      document.getElementById('vl-ext-fec-fs').style.color = corPos; 
+      $('#vl-ext-fec-fs').css("color",corPos); 
     }
     if (vl_debito_fs < 0){
-      document.getElementById('vl-cdeb-fec-fs').style.color = corNeg;
+      $('#vl-cdeb-fec-fs').css("color",corNeg);
     }else{
-      document.getElementById('vl-cdeb-fec-fs').style.color = corPos; 
+      $('#vl-cdeb-fec-fs').css("color",corPos); 
     }
     if (vl_credito_fs < 0){
-      document.getElementById('vl-ccre-fec-fs').style.color = corNeg;
+      $('#vl-ccre-fec-fs').css("color",corNeg);
     }else{
-      document.getElementById('vl-ccre-fec-fs').style.color = corPos; 
+      $('#vl-ccre-fec-fs').css("color",corPos); 
     }
     if (vl_crediario_fs < 0){
-      document.getElementById('vl-crediar-fec-fs').style.color = corNeg;
+      $('#vl-crediar-fec-fs').css("color",corNeg);
     }else{
-      document.getElementById('vl-crediar-fec-fs').style.color = corPos; 
+      $('#vl-crediar-fec-fs').css("color",corPos); 
     }
     if (vl_retiradas_fs < 0){
-      document.getElementById('vl-ret-fec-fs').style.color = corNeg;
+      $('#vl-ret-fec-fs').css("color",corNeg);
     }else{
-      document.getElementById('vl-ret-fec-fs').style.color = corPos; 
+      $('#vl-ret-fec-fs').css("color",corPos); 
     }
     if (vl_total_c < 0){
-      document.getElementById('vl-total-fec-c').style.color = corNeg;
+      $('#vl-total-fec-c').css("color",corNeg);
     }else{
-      document.getElementById('vl-total-fec-c').style.color = corPos; 
+      $('#vl-total-fec-c').css("color",corPos); 
     }
     if (vl_total_fec_c < 0){
-      document.getElementById('vl-total-fec-fs').style.color = corNeg;
+      $('#vl-total-fec-fs').css("color",corNeg);
     }else{
-      document.getElementById('vl-total-fec-fs').style.color = corPos; 
+      $('#vl-total-fec-fs').css("color",corPos); 
     }
+
     
   });
 });
+
+
 
 

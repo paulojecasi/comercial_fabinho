@@ -29,25 +29,11 @@ class Venda extends CI_Controller {
 
 		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
-		// vamos ver se o caixa foi aberto e se o usuario está autorizado a operar o caixa
-		$idcaixa_aberto = $this->session->userdata('userLogado')->idcaixa_autorizado;
-		if ($this->modelcaixa_movimento->getConsulta_caixa($idcaixa_aberto))
-		{
-			// abrir sessao para o caixa aberto
-			$this->session->set_userdata("idcaixa",$idcaixa_aberto); 
-
-			$idcaixa = $this->session->userdata('idcaixa');
-		}
-		else
-		{
-			$mensagem = "Caixa não está aberto ou o Usuário não tem permissao para operar!"; 
-			$this->session->set_userdata('mensagemErro',$mensagem);
-			$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
-			$this->session->set_userdata('tipo_acesso',"venda");
-			redirect(base_url('admin/login')); 
-		}
+		$this->usuario_autorizado(); 
 
 		$idcaixa= $this->session->userdata('idcaixa'); 
+
+		$this->caixa_aberto_fechado($idcaixa); 
 		
 		$dados = $this->totalizador_venda_caixa($idcaixa);
 
@@ -55,19 +41,65 @@ class Venda extends CI_Controller {
 			$this->load->library('table'); 
 		} else {
 			$dados['produtos_temp'] = null; 
-	
 		}
 		$dados['tipo_pagamento'] = $this->tipo_pagamento; 
 		$dados['produtoitem'] = null; 
 		$dados['produtos']=$this->produtos;
 
+
+		$operacao_caixa = $this->session->userdata('operacao');
+
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
-		//$this->load->view('backend/mensagem');
-		$this->load->view('frontend/venda');
+		if ($operacao_caixa == "CAIXA_ABERTO")
+		{
+			$this->load->view('frontend/venda');	
+		}
+		else
+		{
+			$this->load->view('frontend/cliente');
+		}
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer'); 
 
+	}
+
+	public function usuario_autorizado()
+	{
+		// vamos se o usuario está autorizado a operar o caixa
+		$idcaixa_aberto = $this->session->userdata('userLogado')->idcaixa_autorizado;
+		if ($this->modelcaixa_movimento->getOperacaoCaixa($idcaixa_aberto,))
+		{
+			// abrir sessao para o caixa aberto
+			$this->session->set_userdata("idcaixa",$idcaixa_aberto); 
+			$idcaixa = $this->session->userdata('idcaixa');
+		}
+		else
+		{
+			$mensagem = "Usuário não tem permissao para operar este Caixa!"; 
+			$this->session->set_userdata('mensagemErro',$mensagem);
+			$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
+			$this->session->set_userdata('tipo_acesso',"venda");
+			redirect(base_url('admin/login')); 
+		}
+	}
+
+	public function caixa_aberto_fechado($idcaixa)
+	{
+		$operacao = $this->modelcaixa_movimento->getOperacaoCaixa($idcaixa); 
+		foreach ($operacao as $opcaixa) 
+		{
+			$tipo_ope = $opcaixa->situacaocaixa; 
+		}
+
+		if ($tipo_ope==0)
+		{
+			$this->session->unset_userdata('operacao');
+		}
+		else
+		{
+			$this->session->set_userdata('operacao','CAIXA_ABERTO');
+		}
 	}
 
 	public function consulta_venda($idvenda, $tipo_acesso=null)
@@ -438,7 +470,6 @@ class Venda extends CI_Controller {
 
 	}
 
-
 	function consultajquery_itens_venda()
 	{
 	 	$output = '';
@@ -532,10 +563,8 @@ class Venda extends CI_Controller {
 	 		$idvenda = $this->input->post('idpagamento'); 
 	 	}
 	
-
 	 	$dados_venda = $this->modelvendas->consulta_venda($idvenda);
 	 	$dados_pagmto = $this->modelvendas->consultajquery_pagamento($idvenda);
-
 
 	 	$codigo_venda = 0;
 	 	$valor_venda =0;

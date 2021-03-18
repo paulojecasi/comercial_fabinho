@@ -17,6 +17,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <?php
+                         
                         // aqui vamos vericar os erros de validação
                         echo validation_errors('<div class="alert alert-warning">','</div>'); 
                         
@@ -29,8 +30,8 @@
                                 <div class ="text-center"> 
                                     <h4> Referente a <?php echo datebr($datainicio).'  a  '.datebr($datafinal) ?> </h4> 
                                 </div> 
-                                <input value="<?php echo datebr($datainicio) ?>" id="dt-inicio-fecha" name ="dt-inicio-fecha" type="hidden">
-                                <input value="<?php echo datebr($datafinal) ?>" id="dt-final-fecha" name ="dt-final-fecha" type="hidden">
+                                <input value="<?php echo $datainicio ?>" id="dt-inicio-fecha" name ="dt-inicio-fecha" type="hidden">
+                                <input value="<?php echo $datafinal ?>" id="dt-final-fecha" name ="dt-final-fecha" type="hidden">
 
                                 <div class = "col-lg-12">
 
@@ -61,10 +62,12 @@
                                                 <div class="col-lg-3">
                                                     <h4> Troco Inicial  </h4>
                                                 </div>
+                                                
+
                                                 <div class="col-lg-3 disab">
-                                                    <input type="text" id="vl_troco_ini" name="vl_troco_ini" placeholder="0,00" step ="0,01" value="<?php echo reais($trocoini) ?> " >
+                                                    <input type="number" id="vl_troco_ini" name="vl_troco_ini" value ="<?php echo $trocoini?>">
                                                 </div>
-                                                         
+
                                             </div>
                                         </section>
 
@@ -75,14 +78,14 @@
                                                    <h4> A Vista  </h4>
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input type="number" id="vl-avista-fec" name="vl-avista-fec" value ="<?php echo reais($avista)?>">
+                                                    <input type="number" id="vl-avista-fec" name="vl-avista-fec" value ="<?php echo $avista?>">
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <input type="number" id="vl-avista-fec-c" name="vl-avista-fec-c" placeholder="0,00" step ="0.01" onkeydown="javascript:EnterTab('vl-rec-cred-fec-c',event)" autofocus="true"  >
+                                                    <input type="number" id="vl-avista-fec-c" name="vl-avista-fec-c" placeholder="0,00" step ="0.01" onkeydown="javascript:EnterTab('vl-rec-cred-fec-c',event)" autofocus="true">
                                                 </div>
 
                                                 <div class="col-lg-3 disab">
-                                                    <input id="vl-avista-fec-fs" name="vl-avista-fec-fs" placeholder="0,00" step ="0,01" value ="<?php echo reais(-$avista)  ?>">
+                                                    <input id="vl-avista-fec-fs" name="vl-avista-fec-fs" placeholder="0,00" step ="0,01" value ="<?php echo -$avista?>">
                                                 </div>
                                                             
                                             </div>
@@ -95,14 +98,14 @@
                                                     <h4> Recebimentos Crediário </h4>
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input type="number" id="vl-rec-cred-fec" name="vl-rec-cred-fec" value="<?php echo reais($crediarioreceb)  ?>" >
+                                                    <input type="number" id="vl-rec-cred-fec" name="vl-rec-cred-fec" value="<?php echo $crediarioreceb  ?>" >
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <input type="number" id="vl-rec-cred-fec-c" name="vl-rec-cred-fec-c" placeholder="0,00" step ="0.01"  onkeydown="javascript:EnterTab('vl-ext-fec-c',event)">
                                                 </div>
 
                                                 <div class="col-lg-3 disab" >
-                                                    <input id="vl-rec-cred-fec-fs" name="vl-rec-cred-fec-fs" placeholder="0,00" step ="0,01" value="<?php echo reais(-$crediarioreceb)  ?>" >
+                                                    <input id="vl-rec-cred-fec-fs" name="vl-rec-cred-fec-fs" placeholder="0,00" step ="0,01" value="<?php echo -$crediarioreceb?>" >
                                                 </div>
                                     
                                             </div>
@@ -115,7 +118,7 @@
                                                     <h4> Vendas Externas </h4>
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input type="number" id="vl-ext-fec" name="vl-ext-fec" value ="<?php echo reais($vendaexterna) ?>">
+                                                    <input type="number" id="vl-ext-fec" name="vl-ext-fec" value ="<?php echo $vendaexterna?>">
                                     
                                                 </div>
                                                 <div  class="col-lg-3">
@@ -123,7 +126,7 @@
                                                 </div>
 
                                                 <div class="col-lg-3 disab">
-                                                    <input id="vl-ext-fec-fs" name="vl-ext-fec-fs" placeholder="0,00" step ="0,01" value ="<?php echo reais(-$vendaexterna) ?>"  >
+                                                    <input id="vl-ext-fec-fs" name="vl-ext-fec-fs" placeholder="0,00" step ="0,01" value ="<?php echo -$vendaexterna ?>"  >
                                                 </div>
                                     
                                                 
@@ -137,14 +140,14 @@
                                                     <h4> Cartão Débito </h4>
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input type="number" id="vl-cdeb-fec" name="vl-cdeb-fec" value ="<?php echo reais($cartaodebito) ?>">
+                                                    <input type="number" id="vl-cdeb-fec" name="vl-cdeb-fec" value ="<?php echo $cartaodebito ?>">
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <input type="number" id="vl-cdeb-fec-c" name="vl-cdeb-fec-c" placeholder="0,00" step ="0.01" onkeydown="javascript:EnterTab('vl-ccre-fec-c',event)">
                                                 </div>
 
                                                 <div class="col-lg-3 disab">
-                                                    <input id="vl-cdeb-fec-fs" name="vl-cdeb-fec-fs" placeholder="0,00" step ="0,01" value ="<?php echo reais(-$cartaodebito) ?>">
+                                                    <input id="vl-cdeb-fec-fs" name="vl-cdeb-fec-fs" placeholder="0,00" step ="0,01" value ="<?php echo -$cartaodebito ?>">
                                                 </div>
                                     
                                                 
@@ -157,14 +160,14 @@
                                                      <h4> Cartão Crédito </h4>
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input type="number" id="vl-ccre-fec" name="vl-ccre-fec" value="<?php echo reais($cartaocredito) ?>" >
+                                                    <input type="number" id="vl-ccre-fec" name="vl-ccre-fec" value="<?php echo $cartaocredito ?>" >
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <input type="number" id="vl-ccre-fec-c" name="vl-ccre-fec-c"  placeholder="0,00" step ="0.01" onkeydown="javascript:EnterTab('vl-crediar-fec-c',event)">
                                                 </div>
 
                                                 <div class="col-lg-3 disab">
-                                                    <input id="vl-ccre-fec-fs" name="vl-ccre-fec-fs" placeholder="0,00" step ="0,01"  value="<?php echo reais(-$cartaocredito) ?>">
+                                                    <input id="vl-ccre-fec-fs" name="vl-ccre-fec-fs" placeholder="0,00" step ="0,01"  value="<?php echo -$cartaocredito ?>">
                                                 </div>
                                     
                                                  
@@ -178,14 +181,14 @@
                                                   <h4> Crediário </h4>
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input id="vl-crediar-fec" name="vl-crediar-fec" type="number" value="<?php echo reais($crediarios) ?>" >
+                                                    <input id="vl-crediar-fec" name="vl-crediar-fec" type="number" value="<?php echo $crediarios ?>" >
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <input type="number" id="vl-crediar-fec-c" name="vl-crediar-fec-c" placeholder="0,00" step ="0.01"  onkeydown="javascript:EnterTab('vl-ret-fec-c',event)">
                                                 </div>
 
                                                 <div class="col-lg-3 disab">
-                                                    <input id="vl-crediar-fec-fs" name="vl-crediar-fec-fs" placeholder="0,00" step ="0,01" value="<?php echo reais(-$crediarios)?>">
+                                                    <input id="vl-crediar-fec-fs" name="vl-crediar-fec-fs" placeholder="0,00" step ="0,01" value="<?php echo -$crediarios?>">
                                                 </div>
                                     
                                                 
@@ -198,14 +201,14 @@
                                                    <h4> Retiradas  </h4>
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input type="number" id="vl-ret-fec" name="vl-ret-fec" value ="<?php echo reais($retirada_dinheiro)?>">
+                                                    <input type="number" id="vl-ret-fec" name="vl-ret-fec" value ="<?php echo $retirada_dinheiro?>">
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <input type="number" id="vl-ret-fec-c" name="vl-ret-fec-c" placeholder="0,00" step ="0.01" onkeydown="javascript:EnterTab('vl-avista-fec-c',event)">
                                                 </div>
 
                                                 <div class="col-lg-3 disab">
-                                                    <input id="vl-ret-fec-fs" name="vl-ret-fec-fs" placeholder="0,00" step ="0,01" value ="<?php echo reais(-$retirada_dinheiro)?>">
+                                                    <input id="vl-ret-fec-fs" name="vl-ret-fec-fs" placeholder="0,00" step ="0,01" value ="<?php echo -$retirada_dinheiro ?>">
                                                 </div>        
                                             </div>
                                         </section>
@@ -216,14 +219,14 @@
                                                    <h4> TOTAL </h4>
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input type="number" id="vl-total-fec" name="vl-total-fec" value="<?php echo reais($valor_total_cx)?>" >
+                                                    <input id="vl-total-fec" name="vl-total-fec" step ="0.01" value="<?php echo $valor_total_cx ?>" >
                                                 </div>
                                                 <div class="col-lg-3 disab">
-                                                    <input type="number" id="vl-total-fec-c" name="vl-total-fec-c" placeholder="0,00" step ="0.01">
+                                                    <input id="vl-total-fec-c" name="vl-total-fec-c" placeholder="0,00" step ="0.01">
                                                 </div>
 
-                                                <div class="col-lg-3 disab" id ="OLA">
-                                                    <input id="vl-total-fec-fs" name="vl-total-fec-fs" placeholder="0,00" step ="0,01" value="<?php echo reais(-$valor_total_cx)?>">
+                                                <div class="col-lg-3 disab">
+                                                    <input id="vl-total-fec-fs" name="vl-total-fec-fs" placeholder="0,00" step ="0.01" value="<?php echo -$valor_total_cx?>">
                                                 </div>     
                                             </div>
                                         </section>

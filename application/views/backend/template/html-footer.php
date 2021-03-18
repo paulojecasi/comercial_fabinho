@@ -1,5 +1,6 @@
      <!-- jQuery -->
     <script src="<?php echo base_url('/assets/backend/js/jquery.min.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/jquery.mask.min.js') ?>"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo base_url('/assets/backend/js/bootstrap.min.js') ?>"></script>
@@ -15,13 +16,9 @@
     <script src="<?php echo base_url('/assets/backend/js/myscripts-sidenav.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-desconto-acrescimo-prod.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-calculo-recebimento-crediario.js') ?>"></script>
-
-    <script src="<?php echo base_url('/assets/backend/js/myscripts-calculo-fechamento-cx.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-calcula-entrada-nota.js') ?>"></script>
+    <script src="<?php echo base_url('/assets/backend/js/myscripts-calculo-fechamento-cx.js') ?>"></script>
 
-    <script src="<?php echo base_url('/assets/backend/js/jquery.mask.min.js') ?>"></script>
-
- 
 
 </body>
 

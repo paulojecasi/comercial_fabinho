@@ -36,7 +36,6 @@
                                 <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar',event)">
                                 </div>  
 
-
                                 <div class="form-group"> 
                                     <div class="col-lg-7 quantidade-ites text">
                                         <label> Quantidade  </label>

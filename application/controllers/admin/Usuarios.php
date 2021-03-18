@@ -361,6 +361,7 @@ class Usuarios extends CI_Controller {
 		$this->session->unset_userdata('tipo_acesso');
 		$this->session->unset_userdata('ultimoAviso'); 
 		$this->session->unset_userdata('idcaixa');
+		$this->session->unset_userdata('operacao'); 
 
 		redirect(base_url('home')); 
 

@@ -234,8 +234,6 @@ class Produto_model extends CI_Model
 
 		$this->db->order_by('desproduto','DESC');
 		return $this->db->get(); 
-
-
 	}
 
 	function consultajquery_produto($desproduto)
@@ -256,7 +254,6 @@ class Produto_model extends CI_Model
 
 	function getConsultajquery_produto_admin($idproduto)
 	{
-
 		if (strlen($idproduto)>0) 
 		{
 			$this->db->where('idproduto=',$idproduto);
@@ -310,8 +307,6 @@ class Produto_model extends CI_Model
 			$this->db->order_by('desproduto ASC');
 			return $this->db->get('produto')->result(); 
 		}
-
-
 	}
 
 

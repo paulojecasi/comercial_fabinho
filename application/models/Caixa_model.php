@@ -11,10 +11,9 @@ class Caixa_model extends CI_Model
 
 	}
 
-	public function getConsulta_caixa($idcaixa_usuario)
+	public function getOperacaoCaixa($idcaixa_usuario)
 	{
 		$this->db->where('idcaixa=',$idcaixa_usuario);
-		$this->db->where('situacaocaixa =1'); 
 		return $this->db->get('caixa')->result(); 
 	}
 
@@ -116,6 +115,8 @@ class Caixa_model extends CI_Model
 
 	public function getConsulta_movimento_caixa_produto($idcaixa_md, $datainicio, $datafinal)
 	{
+
+		
 		$this->db->where('md5(caixa_movimento.idcaixa)=',$idcaixa_md);
 		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
 		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
@@ -213,9 +214,10 @@ class Caixa_model extends CI_Model
 
 	public function fecha_movimento_caixa($idcaixa_md, $datainicio, $datafinal)
 	{
+		
 		$dados['fl_fechado']=1;   // 0= movimento aberto, 1= movimento fechado
 		$this->db->where('md5(idcaixa)=', $idcaixa_md); 
-		$this->db->where('fl_fechado=0'); 
+		$this->db->where('fl_fechado=',0); 
 		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
 		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
 		return $this->db->update('caixa_movimento', $dados); 

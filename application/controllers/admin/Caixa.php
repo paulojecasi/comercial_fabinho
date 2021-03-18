@@ -14,19 +14,8 @@ class Caixa extends CI_Controller {
 		}
 
 		$this->load->model('caixa_model','modelcaixas'); 
-		/*
-		$this->load->model('picklist_model','model_tipo_pagamento');
-		$this->load->model('venda_model','modelvendas');
-		$this->load->model('estoque_model','modelestoque');
-		$this->load->model('caixa_model','modelcaixa_movimento'); 
-		
-		$this->produtos = $this->modelprodutos->listar_produtos(); 
-		$this->tipo_pagamento = $this->model_tipo_pagamento->lista_tipos_pagamentos(); 
-		//$this->caixa_movimento = $this->modelcaixa_movimento->movimentos_caixa(); 
-		*/
 
 	}
-
 
 	public function index()
 	{
@@ -170,10 +159,11 @@ class Caixa extends CI_Controller {
 
 	public function confirma_fechamento($idcaixa)
 	{
-		$idcaixa_md = md5($idcaixa); 
-		$datainicio = $this->input->post('datainicio'); 
-		$datafinal =  $this->input->post('datafinal'); 
 
+		$idcaixa_md = md5($idcaixa); 
+		$datainicio = $this->input->post('dt-inicio-fecha'); 
+		$datafinal =  $this->input->post('dt-final-fecha'); 
+		
 		$dados['idcaixa'] = $idcaixa;
 		$dados['idusuario'] 	= $this->session->userdata('userLogado')->id; 
 
@@ -255,7 +245,7 @@ class Caixa extends CI_Controller {
 			$mensagem = "Fechamento do Caixa Realizada com Sucesso !"; 
 			$this->session->set_userdata('mensagemAlert',$mensagem); 
 			$this->modelcaixas->encerra_sessoes_caixa(); 
-			$this->session->unset_userdata('idcaixa');
+			//$this->session->unset_userdata('idcaixa');
 			redirect(base_url('admin/caixa')); 
 	
 		}
@@ -263,10 +253,12 @@ class Caixa extends CI_Controller {
 	}
 
 	public function consulta_dados_caixa_admin($idcaixa, $datainicio, $datafinal)
-	{
+	{ 
 
 	 	$idcaixa_md5 = md5($idcaixa); 
-
+	 	// vamos ver se nos ultimos 5 dias, se o caixa ficou aberto
+	 	$datainicio = date('Y-m-d', strtotime($datainicio. ' - 5 days'));
+ 		
 		$this->modelcaixas->encerra_sessoes_caixa(); 
 
 	 	$dados = $this->modelcaixas->getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal);
@@ -292,9 +284,14 @@ class Caixa extends CI_Controller {
 	 	$retirada_dinheiro=0; 
 	 	$vendaexterna=0; 
 	 	$fl_fechado =0; 
+	 	$datainicio =0; 
 
 		foreach ($dados as $movimento_caixa_result) 
 		{
+			if ($datainicio ==0) // pegar a data do primeiro dia de movimento 
+			{
+				$datainicio = $movimento_caixa_result->data_movimento; 
+			}
 			$tipo_movimento= $movimento_caixa_result->tipo_movimento_caixa;
 			$vl_movimento = $movimento_caixa_result->vl_movimento;
 			$vl_juros 		= $movimento_caixa_result->vl_juros;
@@ -348,7 +345,7 @@ class Caixa extends CI_Controller {
 				$valor_total_cx = $trocoini+$avista+$cartaodebito+$cartaocredito+$crediario+$crediarioreceb+$vendaexterna-$retirada_dinheiro; 
 			}
 	
-		}
+		} 
 
 		if (!$avista
 			&& 
@@ -372,7 +369,7 @@ class Caixa extends CI_Controller {
 		}
 		else
 		{
-
+			
 			$this->session->set_userdata('idcaixa',$idcaixa);
 			$this->session->set_userdata('avista',$avista);
 			$this->session->set_userdata('cartaodebito',$cartaodebito);

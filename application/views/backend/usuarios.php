@@ -135,7 +135,7 @@
                             <?php
                             $semFoto = "assets/frontend/img/usuarios/sem_foto.jpg";
 
-                            $this->table->set_heading(  "Foto", "Nome","Tipo Senha","Opera Caixa","Alterar",
+                            $this->table->set_heading(  "Foto", "Login","Tipo Senha","Opera Caixa","Alterar",
                                                         "Excluir"); 
                             $id=0;
                             $foto = "";
@@ -157,7 +157,7 @@
                                     $foto   = img($semFoto);
                                 }
 
-                                $nomeuser   = $usuario->nome;
+                                $nomeuser   = $usuario->user;
                                 foreach ($lista_tipo_acesso as $tipo_ace){
                                     if ($tipo_ace->id == $tipo_acesso){
                                         $notiposenha = $tipo_ace->desacesso; 

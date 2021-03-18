@@ -215,7 +215,9 @@
                         <h3> <?php echo reais($valor_disp_cx)  ?> </h3>
                     </div>
                     <?php 
-                    if ($valor_disp_cx!=0):
+                    $operacao_caixa = $this->session->userdata('operacao');
+
+                    if ($valor_disp_cx!=0 && $operacao_caixa=="CAIXA_ABERTO"):
                     ?>
                        <div class ="col-lg-12  btn-dados-mov-retirada text-center">
                             <a href="<?php echo base_url('caixa/retirada_caixa/').$datainicio.'/'.$datafinal ?>"> 
