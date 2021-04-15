@@ -50,7 +50,18 @@
                 <br> 
             </div>
 
+            <!--
             <div class="form-group resultado_cli col-lg-12 " id="resultado_cli" onkeydown="javascript:EnterTab('btn_buscar',event)">
+            </div>
+            -->
+
+            <div class ="resultado-cliente-venda-cred form-group col-lg-12">
+                <div class= "form-group picklist-cliente resultado_cli" id="resultado_cli" onkeydown="javascript:EnterTab('btn_buscar',event)">
+                    <select multiple class="form-control" id="idclientej" name="idclientej" size="6">
+                        <option id="option-primeira-linha" disabled> CÓDIGO   &nbsp &nbsp   NOME </option>
+
+                    </select>
+                </div>
             </div>
 
 
@@ -60,7 +71,7 @@
             <div class="form-group"> 
                 <div class ="col-lg-12 btn-consulta-cliente">
                     <a>
-                        <button class="btn btn-info btn-consulta btn_buscar_cliente" id="btn_buscar" name="btn_buscar"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
+                        <button class="btn btn-info btn-consulta btn_buscar_cliente" id="btn_buscar" name="btn_buscar"> <i class="fa fa-search" aria-hidden="true"></i>
                             Buscar
                         </button> 
                     </a>

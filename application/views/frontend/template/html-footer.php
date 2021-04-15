@@ -35,49 +35,96 @@
 
     $(document).ready(function(){
 
+        // Consulta produtos (nome/Cod Barras/ Cod Produto)
+
         load_data();
-        function load_data(nomeproduto)
+        function load_data(nomeproduto,asyncTF)
         {
             $.ajax({
                 url:"<?php echo base_url(); ?>admin/produto/consultajquery_produto",
                 method:"POST",
                 data:{nomeproduto:nomeproduto},
+                async: (asyncTF==1) ? false : true,
                 success:function(data){
-                    $('#resultado').html(data); 
+                    $('#resultado select').html(data); 
                 }
             })
         } 
-
         $('#nomeproduto').keyup(function(){
             var nomeproduto = $(this).val();
-            if (nomeproduto!= '')
-            {
-                load_data(nomeproduto);
-            }else 
+            if (nomeproduto!='' && nomeproduto.length >2)
+            {   
+                // se for codigo de barras
+                if  (!isNaN(nomeproduto)  && nomeproduto[0] != "-") {
+                    //var nomeproduto = jQuery('#nomeproduto').val();
+                    // só consulta se for a cima de 13 caract
+                    if (nomeproduto.length >=13){
+                        setTimeout(function() {
+                            load_data(nomeproduto,1);
+                        },300) // consulta depois de 0,5 segundos
+                    }
+
+                } else {
+                    
+                    if (nomeproduto[0] == "-") { // consulta pelo código do produto
+                        var tam = nomeproduto.length;
+                        var nomeproduto = nomeproduto.slice(1,tam);
+                    }
+
+                    load_data(nomeproduto,0);
+                    
+                }
+                
+            }
+            else 
             {
                 load_data(); 
             }
 
         });
+
+
+        // BUSCAR E GRAVAR ITEM DA VENDA NO CAIXA_TEMP
+
+        $('#btn_buscar_item_venda').click(function(){
+            var idproduto = jQuery('#idproduto_res').val(); 
+            var quantidade   = jQuery('#quantidade').val();
+
+            if (idproduto!=0)
+            {
+                $.ajax({
+                    url:"<?php echo base_url(); ?>venda/adicionar_produto_temp_jquery",
+                    method:"POST",
+                    data:{idproduto:idproduto,
+                            quantidade:quantidade},     
+                    //async: false,
+                    success:function(data){
+                        $('#resultado select').html(data); 
+                    }
+                });
+            }
+        });
+ 
+        // CONSULTA DE CLIENTES 
  
 
-        load_data_cli();
-        function load_data_cli(nomecliente)
-        {
-
-            $.ajax({
-                url:"<?php echo base_url(); ?>cliente/consultajquery_cliente",
-                method:"POST",
-                data:{nomecliente:nomecliente},
-                success:function(data){
-                    $('#resultado_cli').html(data); 
-                }
-            })
-        } 
-
         $('#nomecliente').keyup(function(){
-            var nomecliente = $(this).val();
-            if (nomecliente!= '')
+            load_data_cli();
+            function load_data_cli(nomecliente)
+            {
+
+                $.ajax({
+                    url:"<?php echo base_url(); ?>cliente/consultajquery_cliente",
+                    method:"POST",
+                    data:{nomecliente:nomecliente},
+                    success:function(data){
+                        $('#resultado_cli select').html(data); 
+                    }
+                })
+            }
+
+            var nomecliente = jQuery('#nomecliente').val();
+            if (nomecliente!='' && nomecliente.length >3)
             {
                 load_data_cli(nomecliente);
             }else 

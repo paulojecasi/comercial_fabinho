@@ -249,7 +249,7 @@ div.panel-geral-vendas1{
 div.panel-vendas1{
   background-color: #C0C0C0; 
   /*margin-left: 0px; */
-  margin-bottom: 0px;  
+  margin-bottom: -19px;  
 }
 
 div.area-vendas1 div.nomeproduto{
@@ -302,7 +302,7 @@ div.flexline input{
 }
 
 div.resultado{
-  margin-top: -20px;
+  margin-top: 0px;
 }
 
 button.btn-consulta{
@@ -776,6 +776,7 @@ div.tipo-de-pagamento-escolha-crediario{
 
 }
 
+
 div.titulo-tela-consulta-crediario{
   background-color: #363636;
   margin-top: -20px; 
@@ -792,6 +793,10 @@ div.link-voltar{
   margin-top: 10px; 
   margin-bottom: 0px; 
   font-size: 19px;  
+}
+
+div.link-voltar-esc-pagto{
+  margin-top: 50px; 
 }
 
 h1.valor-recebido-venda input{
@@ -982,10 +987,6 @@ div.cadastro-cliente-crediario h4:hover{
   color: #fff;
 }
 
-.panel-consulta-cliente div.resultado_cli{
-  margin-top: -25px; 
-}
-
 div.nomecliente input{
   font-size: 20px;  
 }
@@ -1008,7 +1009,7 @@ div.btn-finalizar-venda-cliente{
 }
 
 div.btn-link-cadastro{
-  margin-top: 50px; 
+  margin-top: 30px; 
   margin-bottom: 10px; 
 }
 
@@ -1203,8 +1204,6 @@ td#recebimento-normal{
 
 
 
-
-
 /* TELA CADASTRO E MANUTENCAO DE CLIENTE */
 .panel2-consulta-cliente{
   margin-top: 5px; 
@@ -1334,6 +1333,15 @@ div.link-voltar-tela-inicio a i {
 div.btn-link-casdatrar-cliente{
   margin-top: 50px; 
   margin-bottom: 10px; 
+}
+
+div.resultado-cliente{
+  height: 220px;  
+  margin-top: -27px; 
+}
+
+.panel-consulta-cliente div.resultado_cli{
+  margin-top: 0px; 
 }
 
 
@@ -1488,6 +1496,11 @@ h1.valor-total-venda-cred input{
 
 h1.valor-total-venda-cred input:disabled{
   background-color: #1C1C1C; 
+}
+
+div.resultado-cliente-venda-cred{
+  height: 180px;  
+  margin-top: -27px; 
 }
 
 /* TELA PAGAMENTO CARTAO DEBITO */
@@ -1854,7 +1867,7 @@ div.venda-externa{
 }
 
 div.venda-externa h3{
-  font-size: 18px; 
+  font-size: 20px; 
   margin-top: 10px;
   margin-bottom: 0px;
   color: white;
@@ -1878,6 +1891,16 @@ div.venda-externa img:hover{
   opacity: .6
 }
 
+div.btn-finaliza-externa{
+  align-items: center; 
+}
+
+div.btn-finaliza-externa a button{
+  width: 30%; 
+  align-items: center; 
+  margin-top: 50px; 
+  margin-bottom: 70px; 
+}
 
 /* TELA RETIRADA DE MOVIMENTOS DO CAIXA */
 div.titulo-tela-retirada-movimento-cx{
@@ -2111,3 +2134,17 @@ div.btn-dados-mov-prod button:hover, div.btn-alterar-cliente button:hover{
 div.mens-sem-movimento h1{
   color: red;
 }
+
+div.resultado-produto{
+  height: 130px;  
+  margin-top: -27px; 
+}
+
+div.resultado-produto-venda{
+  height: 150px;  
+  margin-top: -27px; 
+}
+
+
+
+

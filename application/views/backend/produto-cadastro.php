@@ -23,10 +23,12 @@
 
                         <!-- nao vamos utilizar a abertura do form, vamos usar o HELPER do
                         framework (form_open) --> 
-              
-                            <?php
-                            // aqui vamos vericar os erros de validação
-                            echo validation_errors('<div class="alert alert-warning">','</div>'); 
+                            <h4 class="text-center"> 
+                                <?php
+                                echo validation_errors('<div class="alert alert-danger">','</div>'); 
+                                ?>
+                            </h4>
+                            <?php 
                             
                             // vamos abrir o formulário,
                                         // apontando para:admin/controlador/metodo
@@ -34,17 +36,19 @@
             
                             ?> 
 
-                            <div class="form-group col-lg-7">
-                                <label> Descrição do Produto </label>
-                                <input id="txt-desproduto" name="txt-desproduto" type="text"class = "form-control" placeholder ="Digite o nome do produto" value="<?php echo set_value('txt-desproduto') ?>" onkeydown="javascript:EnterTab('codbarras',event)" autofocus="true" required> 
-                            </div>
-
                             <div class="form-group col-lg-5">
                                 <label> Codigo de Barras 
                                     <i class="fa fa-barcode" aria-hidden="true"></i>
                                 </label>
-                                <input id="codbarras" name="codbarras" type="text"class = "form-control" placeholder ="Informe o Codigo de Barras" value="<?php echo set_value('codbarras') ?>" onkeydown="javascript:EnterTab('produtoativo',event)">
+                                <input id="codbarras" name="codbarras" type="text"class = "form-control" placeholder ="Informe o Codigo de Barras" value="<?php echo set_value('codbarras') ?>" onkeydown="javascript:EnterTab('produtoativo',event)" autofocus="true">
                             </div>
+
+                            <div class="form-group col-lg-7">
+                                <label> Descrição do Produto </label>
+                                <input id="txt-desproduto" name="txt-desproduto" type="text"class = "form-control" placeholder ="Digite o nome do produto" value="<?php echo set_value('txt-desproduto') ?>" onkeydown="javascript:EnterTab('codbarras',event)" required> 
+                            </div>
+
+                           
 
                             <div class="form-group col-lg-3">
                               <label for="produtoativo"> Produto Ativo? </label>

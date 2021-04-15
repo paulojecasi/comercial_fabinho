@@ -12,7 +12,11 @@ jQuery(document).ready(function(){
     
     var vl_preco_uni = (jQuery('#vlpreco_alt').val() == '' ? 0 : jQuery('#vlpreco_alt').val());
    
+    var vl_preco_ata = (jQuery('#vlpreco_ata').val() == '' ? 0 : jQuery('#vlpreco_ata').val());
+   
     var quantidadeitens = (jQuery('#quantidadeitens_alt').val() == '' ? 0 : jQuery('#quantidadeitens_alt').val());
+    
+    var quantidadeitens_ata = (jQuery('#quantidadeitens_ata').val() == '' ? 0 : jQuery('#quantidadeitens_ata').val());
     
     if (quantidadeitens < 0){
         //alert("Quantidade de Itens NÃO pode ser MENOR que 01 (UM)!"); 
@@ -47,11 +51,13 @@ jQuery(document).ready(function(){
         jQuery('#valoracrescimo_alt').val(valoracrescimo);
     }
 
+    valortotal = (quantidadeitens < quantidadeitens_ata) ? 
+            (parseFloat(vl_preco_uni).toFixed(2) * parseFloat(quantidadeitens).toFixed(2)): 
+            (parseFloat(vl_preco_ata).toFixed(2) * parseFloat(quantidadeitens).toFixed(2));
 
-    valortotal = (parseFloat(vl_preco_uni).toFixed(2) * parseFloat(quantidadeitens).toFixed(2));
-
-    valortotal = (parseFloat(valortotal) - parseFloat(valordesconto) + parseFloat(valoracrescimo));
-
+    valortotal = (parseFloat(valortotal) 
+                - parseFloat(valordesconto) 
+                + parseFloat(valoracrescimo));
 
     //valortotal = valortotal.toLocaleString("pt-BR");
     var valortotal= parseFloat(valortotal).toFixed(2);

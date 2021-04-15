@@ -7,11 +7,13 @@ class Venda extends CI_Controller {
 	{
  
 		parent::__construct();  
-
-		if (!$this->session->userdata('logado')){
-			$this->session->set_userdata('tipo_acesso',"venda");
-			redirect(base_url('admin/login')); 
-		}
+			
+		//$this->session->set_userdata('tipo_acesso',"venda");
+		$this->load->model('empresa_model','modelempresa');	
+		$this->modelempresa->retorna_inicio_geral();
+		
+		$this->load->model('usuarios_model','modelusuarios');
+		$this->modelusuarios->retorna_inicio();
 
 		$this->load->model('produto_model','modelprodutos'); 
 		$this->load->model('picklist_model','model_tipo_pagamento');
@@ -132,7 +134,7 @@ class Venda extends CI_Controller {
 		// vamos verificar se o produto tem SALDO
 		$saldo_atual = $this->modelestoque->consulta_estoque_saldo($idproduto); 
 
-		if ($saldo_atual < 1)
+		if ($saldo_atual < 0.01)
 		{
 				// vamos pegar o nome do produto para mostrar na tela
 				foreach ($produto_temp as $prod_saldo) {
@@ -140,7 +142,7 @@ class Venda extends CI_Controller {
 					$prod_codigo = $prod_saldo->codproduto;  
 				}
 
-				$mensagem = 'Produto < '.$prod_codigo.' - '.$prod_nome.' > nao tem SALDO. Verifique o Estoque!'; 
+				$mensagem = 'Produto << '.$prod_codigo.' - '.$prod_nome.' >> não tem SALDO. Verifique o Estoque!'; 
 				$this->session->set_userdata('mensagemErro',$mensagem);
 				redirect(base_url('venda'));
 		}
@@ -168,7 +170,7 @@ class Venda extends CI_Controller {
 
 	}
 
-	public function inserir_temporario($produto_temp) 
+	public function inserir_temporario($produto_temp)  
 	{
 		foreach ($produto_temp as $produto_t) {
 
@@ -184,8 +186,12 @@ class Venda extends CI_Controller {
 			$quantidadeitens = $this->session->userdata('quantidade'); 
 			$valordesconto = 0; 
 			$valoracrescimo =0; 
-			$valortotal = $vlpreco * $quantidadeitens;
+			// calculando se vai ser valor normal ou atacado
+			$vlpreco= $qtatacado>$quantidadeitens ? $vlpreco : $vlprecoatacado; 
+			$valortotal = $vlpreco*$quantidadeitens;
 			
+			//echo $quantidadeitens."========.." .$qtatacado."===".$vlprecoatacado."----- ====>> ".$vlpreco;
+			//exit; 
 		} 
 
 		if ($this->modelvendas->adicionar_temp($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
@@ -225,7 +231,6 @@ class Venda extends CI_Controller {
 
 	}
 
-
 	public function salvar_alteracoes_produto_temp()
 	{
 		$quantidadeitens= $this->input->post('quantidadeitens_alt');
@@ -251,7 +256,6 @@ class Venda extends CI_Controller {
 		redirect(base_url('venda'));
 
 	}
-
 
 	private function totalizador_venda_caixa($idcaixa){
 		$venda = $this->modelvendas->listar_produtos_temp($idcaixa);
@@ -284,7 +288,6 @@ class Venda extends CI_Controller {
 
 	public function venda_pagamento($idcaixa, $tipo_pagamento=null){
 
-
     $dados = $this->totalizador_venda_caixa($idcaixa); 
 
 		$this->load->view('frontend/template/html-header', $dados);
@@ -315,7 +318,6 @@ class Venda extends CI_Controller {
 		$this->load->view('frontend/template/html-footer');
 
 	}
-
 
 	public function finalizar_venda($tipo_pagamento,$idcaixa){
 
@@ -470,6 +472,93 @@ class Venda extends CI_Controller {
 
 	}
 
+
+	public function inserir_temporarioj($produto_tempj, $quantidade)  
+	{
+		foreach ($produto_tempj as $produto_tj) {
+
+			$idcaixa= $this->session->userdata('idcaixa');  
+			$idproduto= $produto_tj->idproduto;
+			$codproduto= $produto_tj->codproduto; 
+			$desproduto= $produto_tj->desproduto;
+			$vlpreco= $produto_tj->vlpreco;
+			$vlprecoatacado= $produto_tj->vlprecoatacado;
+			$qtatacado=  $produto_tj->qtatacado;
+			$vlpromocao= $produto_tj->vlpromocao;
+			$vlpromocaoatacado= $produto_tj->vlprecoatacado;
+			$quantidadeitens = $quantidade; //$this->session->userdata('quantidade'); 
+			$valordesconto = 0; 
+			$valoracrescimo =0; 
+			// calculando se vai ser valor normal ou atacado
+			$vlpreco= $qtatacado>$quantidadeitens ? $vlpreco : $vlprecoatacado; 
+			$valortotal = $vlpreco*$quantidadeitens;
+			
+		} 
+
+		$this->modelvendas->adicionar_tempj($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal);
+		
+		exit; 
+
+	}
+
+
+	function adicionar_produto_temp_jquery()
+	{
+
+		$idcaixa= $this->session->userdata('idcaixa');
+
+		if ($this->input->post('idproduto'))
+		{
+
+			$idprodutoj = $this->input->post('idproduto[0]');
+			$quantidade = $this->input->post('quantidade');
+
+			
+			$produto_tempj = $this->modelprodutos->listar_produto(md5($idprodutoj)); 
+
+			$saldo_atual = $this->modelestoque->consulta_estoque_saldo($idproduto); 
+
+			/*
+			if ($saldo_atual < 0.01)
+			{
+					// vamos pegar o nome do produto para mostrar na tela
+					foreach ($produto_tempj as $prod_saldo) {
+						$prod_nome = $prod_saldo->desproduto;
+						$prod_codigo = $prod_saldo->codproduto;  
+					}
+
+					$mens = 'Produto (((=== '.$prod_codigo.' - '.$prod_nome.' ===))) não tem SALDO. Verifique o Estoque!'; 
+					echo '<script>
+				    	alert("'.$mens.'"); 
+				  </script>';
+					exit; 
+			}
+			*/ 
+
+			if ($this->inserir_temporarioj($produto_tempj, $quantidade)){
+				$produtos_temp = $this->modelvendas->listar_produtos_temp($idcaixa);
+
+				if ($produtos_temp){
+					$this->listar_produtos_temp($produtos_temp); 
+				}
+
+			}
+			
+			exit; 
+ 
+ 		}
+	}
+
+	function listagem_produto_temp_jquery($produtos_temp)
+	{
+
+		$output ='';
+		
+
+	}
+
+
+
 	function consultajquery_itens_venda()
 	{
 	 	$output = '';
@@ -478,6 +567,10 @@ class Venda extends CI_Controller {
  		if ($this->input->post('idvenda_it'))
  		{
 	 		$vendaitem = $this->input->post('idvenda_it'); 
+	 	}
+	 	else
+	 	{
+	 		return; 
 	 	}
 
 	 	$dados_venda = $this->modelvendas->consulta_venda($vendaitem);

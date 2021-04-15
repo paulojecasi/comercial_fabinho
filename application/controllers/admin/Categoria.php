@@ -9,9 +9,12 @@ class Categoria extends CI_Controller {
 		parent::__construct(); 
 
 		//vamos verificar se o usuario esta logado para acessar a pagina
-		if (!$this->session->userdata('logado')){
-				redirect(base_url('admin/login')); 
-		}
+
+		$this->load->model('empresa_model','modelempresa');	
+		$this->modelempresa->retorna_inicio_geral();
+		
+		$this->load->model('usuarios_model','modelusuarios');
+		$this->modelusuarios->retorna_inicio();
 
 				// vamos chamar o model "Categorias_model" para listagem dos models cadastrados
 				// como fosse:

@@ -11,24 +11,45 @@
             ?> 
         </h2>
  
+       
+
         <div class="panel-body acesso-ao-sistema col-sm-12">
             <div class = "btn-acesso"> 
+                <?php
+                    echo form_open('admin/login');
+                ?>
                 <div class ="col-lg-6 col-sm-12 btn-acesso text-center">
-                    <a href="<?php echo base_url('venda') ?> ">
+                    <a href="">
                         <button class="btn btn-success" type="submit" > 
                             Vendas
                         </button> 
                     </a>
                 </div>
+                <input type="hidden" name="vendas" value="1">
+
+                <?php
+                echo form_close();
+                ?>
+
+                <?php
+                echo form_open('admin/login');
+                ?>
                 <div class ="col-lg-6 col-sm-12 btn-acesso text-center">
-                    <a href="<?php echo base_url('admin') ?>">
+                    <a href="">
                         <button class="btn btn-success" type="submit" > 
                             Administração 
                         </button> 
                     </a>
                 </div>
+                <input type="hidden" name="vendas" value="2">
+
+                <?php
+                echo form_close();
+                ?>
             </div>
         </div>
+
+        
 
         
             <div class="text-center cactosdev_acesso col-lg-12">

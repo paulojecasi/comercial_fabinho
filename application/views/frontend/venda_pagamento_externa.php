@@ -22,18 +22,21 @@
        
         <div class="col-lg-12 col-sm-12 venda-externa text-center">
             <div class="form-group">
+                <br/>
                 <h3> 
                     Só confirme o pagamento após conferencia das mercadorias e valores fecharem
             
                 </h3>
-                <br> 
-                <h6> 
-                     <b id="pisca">  Clique no botão para confirmar o pagamento </b>  
-                </h6>
+                
+                
+                <div class ="col-lg-12 btn-finalizar-venda btn-finaliza-externa">
+                    <a href="<?php echo base_url('venda/finalizar_venda/8/').$idcaixa ?>">
+                        <button class="btn btn-success" type="submit" > 
+                            Confirmar Pagamento 
+                        </button> 
+                    </a>
+                </div>
                
-                <a href="<?php echo base_url('venda/finalizar_venda/8/').$idcaixa ?>"> 
-                    <img class="img-fluid" src="<?php echo base_url('/assets/frontend/img/button.png') ?>" >
-                </a> 
             </div>
         </div> 
  

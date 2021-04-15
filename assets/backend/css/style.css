@@ -711,7 +711,7 @@ div.panel-table-nt-itens{
 /* TELA CONSULTA DE ESTOQUE */
 
 div.resultado-consulta-estoque{
-	margin-top: -20px; 
+	margin-top: 0px; 
 	margin-bottom: -20px; 
 }
 div.btn-consulta-est{
@@ -863,5 +863,29 @@ div.disab input{
 	pointer-events:none;
 	background-color: #4F4F4F; 
 	color: #fff;
+}
+
+
+/* TELA ACESSO GERAL */
+
+div.acesso-geral{
+	background-color: #000; 
+	min-height: 620px;
+	width: 100%; 
+}
+
+div.panel-pass{
+	background-color: #000; 
+	color: yellow;
+}
+
+div.cactosdev_acesso{
+	margin-top: 50px; 
+	color: #fff; 
+}
+
+div.resultado-produto{
+  height: 130px;  
+  margin-top: -23px; 
 }
 

@@ -34,6 +34,28 @@ class Venda_model extends CI_Model
 		return $this->db->insert('produto_caixa_temp',$dados); 
 	}
 
+	public function adicionar_tempj($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)
+	{
+
+		$dados["idcaixa"]	= $idcaixa;
+		$dados["idproduto"]	= $idproduto;
+		$dados["codproduto"]		= $codproduto;
+		$dados["desproduto"]	= $desproduto;
+		$dados["vlpreco"]	= $vlpreco;
+		$dados["vlprecoatacado"]			= $vlprecoatacado;
+		$dados["qtatacado"]			= $qtatacado;
+		$dados["vlpromocao"]		= $vlpromocao;
+		$dados["vlpromocaoatacado"]		= $vlpromocaoatacado;
+		$dados["quantidadeitens"]= $quantidadeitens;
+		$dados["valordesconto"]			= $valordesconto;
+		$dados["valoracrescimo"]	= $valoracrescimo;
+		$dados["valortotal"]	= $valortotal;
+		$dados["situacao"]	= 0;
+
+		$this->db->insert('produto_caixa_temp',$dados); 
+		exit; 
+	}
+
 	public function excluir_produto_temp($id){
 		$this->db->where('md5(id)=',$id);
 		return $this->db->delete('produto_caixa_temp');
@@ -241,7 +263,7 @@ class Venda_model extends CI_Model
 
 			$this->db->where('md5(idcliente)=',$idcliente);
 			
-			$this->db->order_by('vlsaldo_crediario','DESC');
+			$this->db->order_by('idvenda','DESC');
 			//$this->db->order_by('datavenda','DESC');
 			return $this->db->get('venda')->result();
 	 

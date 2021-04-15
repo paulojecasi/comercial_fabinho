@@ -9,12 +9,9 @@ class Estoque extends CI_Controller {
 		parent::__construct(); 
 
 		//vamos verificar se o usuario esta logado para acessar a pagina
-
-		$this->load->model('empresa_model','modelempresa');	
-		$this->modelempresa->retorna_inicio_geral();
-		
-		$this->load->model('usuarios_model','modelusuarios');
-		$this->modelusuarios->retorna_inicio();
+		if (!$this->session->userdata('logado')){
+				redirect(base_url('admin/login')); 
+		}
 		
 		$this->load->model('estoque_model','modelestoque');
 		$this->load->model('produto_model','modelprodutos'); 
@@ -180,7 +177,7 @@ class Estoque extends CI_Controller {
 		if ($idsolicitante == "venda"){
 			$this->session->set_userdata('quantidade',$quantidade);
 			$this->session->set_userdata('solicitante',$idsolicitante);
- 			$idcodproduto = $this->input->post('idproduto_res'); 
+ 			$idcodproduto = $this->input->post('idproduto_res');
 
 
  			// vamos verificar a quantidade da venda e o saldo de estoque 

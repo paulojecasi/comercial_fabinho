@@ -8,13 +8,14 @@ class Home extends CI_Controller {
 
 		parent::__construct(); 
 
+		$this->load->model('empresa_model','modelempresa');	
+		$this->modelempresa->retorna_inicio_geral();
+
 	}
 
 	public function index()
 	{
-		// encerrar a secao TIPO_ACESSO ao entrar novamente sem deslogar 
-	  $this->session->unset_userdata('tipo_acesso');
-	  
+
 		$dados['titulo'] = "ACESSO AO SISTEMA";
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/home');
@@ -23,6 +24,4 @@ class Home extends CI_Controller {
 	}
 
 	
-
-
 }

@@ -118,7 +118,7 @@
                                 //$valortotal = $vendas_cred->valortotal;   
 
                                 
-                                $this->table->add_row($idvenda,$data,$valor,$vlsaldo, $situacao,$btn_veritens,$btn_verpagamentos, $btn_pagar);
+                                $this->table->add_row($idvenda,$data,$valor,$vlsaldo, $situacao,$btn_veritens, $btn_pagar, $btn_verpagamentos);
                                 //$desproduto,$quantidadeitens,$valorunit,$valorunit,$valortotal); 
 
 

@@ -26,15 +26,15 @@
                     ?>
                     <h4> Filtro de listagem dos Produtos </h4>
                     <div>
-                        <button  class="btn btn-default" class="tiporel" value="todos">
+                        <button  class="btn btn-default tiporel" value="todos">
                             TODOS   
                         </button>
                         
-                        <button class="btn btn-default"   class="tiporel" value="ativos"> 
+                        <button class="btn btn-default tiporel" value="ativos"> 
                             Ativos  
                         </button>
 
-                        <button class="btn btn-default" class="tiporel" value="inativos"> 
+                        <button class="btn btn-default tiporel" value="inativos"> 
                             Inativos  
                         </button>
                     </div>
@@ -53,10 +53,11 @@
                     >
                         <thead>
                             <tr>
-                                <th scope="col">Código</th>
+                                <th scope="col">Cód</th>
                                 <th scope="col">Descrição</th> 
                                 <th scope="col">Vl Nota</th> 
-                                <th scope="col">Vl Venda</th> 
+                                <th scope="col">Vl Venda </th> 
+                                <th scope="col">Vl Atacado</th>
                                 <th scope="col">Cód Barras</th> 
                                 <th scope="col">Saldo </th> 
                                 <th scope="col"> Ativo</th>

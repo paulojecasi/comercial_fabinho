@@ -7,10 +7,12 @@ class Cliente extends CI_Controller {
 	{
 
 		parent::__construct(); 
-		if (!$this->session->userdata('logado')){
-			$this->session->set_userdata('tipo_acesso',"venda");
-			redirect(base_url('admin/login')); 
-		}
+ 
+		$this->load->model('empresa_model','modelempresa');	
+		$this->modelempresa->retorna_inicio_geral();
+
+		$this->load->model('usuarios_model','modelusuarios');
+		$this->modelusuarios->retorna_inicio();
 
 		$this->load->model('cliente_model','modelcliente'); 
 		$this->load->model('venda_model','modelvendas'); 
@@ -368,8 +370,6 @@ class Cliente extends CI_Controller {
 	 	$dados_cli = $this->modelcliente->consultajquery_cliente($nomecliente);
 
  		$output .= '
- 		<div class= "form-group picklist-cliente">
-      <select multiple class="form-control" id="idclientej" name="idclientej">
       <option id="option-primeira-linha" disabled> CÓDIGO   &nbsp &nbsp   NOME </option>
 	 		';
 	 		if ($dados_cli->num_rows() > 0){
@@ -386,14 +386,6 @@ class Cliente extends CI_Controller {
 	 			}
 
 	 		}
-	 		else {
-	 			$output .= '
-	 			<option>---- Nenhum Cliente informado ---- </option>';
-	 		}
-
-	 		$output .= '
- 			</select>
- 		</div>'; 
 
  		echo $output;
  		exit; 

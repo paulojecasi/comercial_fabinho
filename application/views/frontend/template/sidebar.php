@@ -22,6 +22,14 @@
      	endif; 
      	?>
 
+      <?php
+      if ($usuario_permissao ==3):
+      ?>
+        <a style="width: 100%;" href="<?php echo base_url('admin/home') ?>"> Ir para a ADM </a>
+      <?php
+      endif; 
+      ?>
+
      	<a style="width: 100%;" href="<?php echo base_url('venda') ?>"  class="nav-link "> <i class="fa fa-home" aria-hidden="true"></i> Ir para Venda </a>
 
      	<a style="width: 100%;" href="<?php echo base_url('admin/usuarios/logout') ?>"  class="nav-link "> <i class="fa fa-sign-out fa-fw"></i>  Sair do Sistema </a>

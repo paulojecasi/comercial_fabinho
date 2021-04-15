@@ -76,6 +76,10 @@
                              <p class = "menu-admin"> </p>    
                         </li>
 
+                        <li>
+                            <a class = "opc-menu" href="<?php echo base_url('venda') ?>"><i class="fa fa-money fa-fw"></i> Ir para Vendas </a>
+                        </li
+
                         
                     </ul>
                 </div>

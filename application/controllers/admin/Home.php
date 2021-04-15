@@ -7,17 +7,16 @@ class Home extends CI_Controller {
 	{
 		parent::__construct(); 
 
-		//vamos verificar se o usuario esta logado para acessar a pagina
-	
-		if (!$this->session->userdata('logado')){
-				redirect(base_url('admin/login')); 
-		}
+		$this->load->model('empresa_model','modelempresa');	
+		$this->modelempresa->retorna_inicio_geral(); 
+	 
+		$this->load->model('usuarios_model','modelusuarios');
+		$this->modelusuarios->retorna_inicio(); 
 	
 	}
 
 	public function index()
 	{
-
 
 		// dados a serem enviados para o cabeçalho
 		$dados['titulo'] 		= 'Painel de Controle';

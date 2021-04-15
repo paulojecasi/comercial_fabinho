@@ -17,6 +17,12 @@ class Usuarios_model extends CI_Model {
 
 	}
 
+	public function autentica($usuario, $senha){
+		$this->db->where('user=',$usuario);
+		$this->db->where('senha=',md5($senha));
+		return $this->db->get('usuario')->result();
+	}
+
 	public function listar_autor($id){
 		// selecionar campos/colunas
 		$this->db->select('id, nome, historico, img');
@@ -82,6 +88,12 @@ class Usuarios_model extends CI_Model {
 		return $this->db->update('usuario',$dados);
 	}
 
+	public function retorna_inicio(){
+		if (!$this->session->userdata('logado')){
+				//redirect(base_url('admin/login')); 
+				redirect(base_url('home'));
+		}
+	}
 
 
 }

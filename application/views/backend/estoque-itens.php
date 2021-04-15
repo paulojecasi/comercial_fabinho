@@ -205,47 +205,52 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 cadnota">
-                            <?php 
-
-                                // aqui vamos vericar os erros de validação
+                                <?php 
                                 echo validation_errors('<div class="alert alert-warning">','</div>'); 
-                                
+
                                 $this->load->view('frontend/template/mensagem-alert');
                                 ?>
-                                <div class="panel panel-default title-itens-c col-lg-6 panel-consulta-prod">
-                                    <div class="panel-body">
-                                        <div class="form-group nomeproduto-admin">
-                                            <label for="nomeproduto"> Informe Produto </label>
-                                            <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
-                                            <br> 
-                                        </div>
-                                        
-                                        <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)">
-                                        </div>
+                                 
+                                    <div class="panel panel-default title-itens-c col-lg-6 panel-consulta-prod">
+                                        <div class="panel-body">
+                                            <div class="form-group nomeproduto-admin">
+                                                <label for="nomeproduto"> Informe Produto </label>
+                                                <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
+                                                <br> 
+                                            </div>
+                                            
+                                            <!--
+                                            <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)">
+                                            </div> -->
 
-                                        <!-- INPUT OCULTO PARA ENVIAR O ID--> 
-                                        <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" >
-                            
-                                        <div class ="col-lg-12 col-sm-12 text-center btn-busca-item" onkeydown="javascript:EnterTab('vlunitario',event)">
-                                            <a>
-                                                <button class="btn btn-info consulta" id="btn_buscar_item" value="<?php echo $this->input->post('idproduto_res'); ?>"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
-                                                    Buscar
-                                                </button> 
-                                            </a>
+                                            <div class ="resultado-produto form-group col-lg-12">
+                                                <div class= "form-group picklist-prod resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)" autofocus="true">
+                                                    <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="4">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- INPUT OCULTO PARA ENVIAR O ID--> 
+                                            <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" >
+                                
+                                            <div class ="col-lg-12 col-sm-12 text-center btn-busca-item" onkeydown="javascript:EnterTab('vlunitario',event)">
+                                                <a>
+                                                    <button class="btn btn-info consulta" id="btn_buscar_item" value="<?php echo $this->input->post('idproduto_res'); ?>"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
+                                                        Buscar
+                                                    </button> 
+                                                </a>
+                                            </div>
+                                
                                         </div>
-                            
                                     </div>
-                                </div>
-
-                                <?php 
-                                // fechar o formulario 
-                                //echo form_close();
-                                ?> 
+                              
 
                                 <div class="panel panel-default title-itens-c col-lg-6 panel-prod-consultado">
                                     <?php
 
-                                    echo form_open('admin/estoque/inserir_estoque_item','id="form-add-item-estoque"');
+                                    echo form_open('admin/estoque/inserir_estoque_item','id="form-add-item-estoque" autocomplete="off"');
           
                                     $this->load->view('backend/mensagem');
                                     
@@ -282,8 +287,7 @@
                                          
                                     </div>
                                     <?php
-                                    
-
+                                
                                     // fechar o formulario 
                                     echo form_close();
                                     ?>

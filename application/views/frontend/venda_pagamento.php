@@ -21,6 +21,8 @@
             <h2> Escolha a Forma de Pagamento </h2>
         </div>
         <section>
+            <div class = "col-lg-1">
+            </div>
             <div class = "col-lg-2 col-sm-4">
                 <div class="panel-body">
                     <div class="row">
@@ -106,7 +108,7 @@
             </div>
         </section>
         <div class="form-group"> 
-            <div class ="col-lg-12 text-center link-voltar">
+            <div class ="col-lg-12 text-center link-voltar link-voltar-esc-pagto">
                 <a href="<?php echo base_url('venda') ?>">
                      <?php echo img(base_url('assets/frontend/img/voltar2.png')); ?>
                         Voltar para Venda

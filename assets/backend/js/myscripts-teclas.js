@@ -18,7 +18,7 @@ $(".btn_buscar").focus(function(){
 		} 
 		setTimeout(function() {
     	teclarEnter();
-		}, 500) // 0,5 segundos 
+		}, 1000) // 1 segundo 
 });	
 
 $("#btn_buscar_item").focus(function(){
@@ -28,7 +28,7 @@ $("#btn_buscar_item").focus(function(){
         } 
         setTimeout(function() {
         teclarEnter();
-        }, 500) // 0,5 segundos 
+        }, 1000)  
 });
 
 $("#btn_consulta_est").focus(function(){
@@ -38,7 +38,7 @@ $("#btn_consulta_est").focus(function(){
         } 
         setTimeout(function() {
         teclarEnter();
-        }, 500) // 0,5 segundos 
+        }, 1000) 
 });
 
 

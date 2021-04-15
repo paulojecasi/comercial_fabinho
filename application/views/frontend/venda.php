@@ -6,7 +6,7 @@
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 area-vendas1">
 
-                                <?php 
+                                <?php  
 
                                 // encerrar a secoes 
                                 $this->session->unset_userdata('idcliente');
@@ -28,28 +28,60 @@
                                 ?>
                          
                                 <div class="form-group nomeproduto ">
-                                    <label for="nomeproduto"> Informe Produto </label>
+                                    <label for="nomeproduto"> <i class="fa fa-search" aria-hidden="true"></i>  Pesquise Produto </label>
                                     <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
                                     <br> 
                                 </div> 
                                 
-                                <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar',event)">
-                                </div>  
+                                <!--
+                                <div class ="resultado-produto form-group col-lg-12">
+                                    <div class= "form-group picklist-prod resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar',event)">
+                                        <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="4">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                --> 
+
+                                <div class ="resultado-produto-venda form-group col-lg-12">
+                                    <div class= "form-group picklist-prod resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item_venda',event)">
+                                        <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="5">
+                                            
+                                        <option id="option-primeira-linha" disabled> CÓDIGO   &nbsp &nbsp   DESCRIÇÃO </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
 
                                 <div class="form-group"> 
                                     <div class="col-lg-7 quantidade-ites text">
                                         <label> Quantidade  </label>
-                                        <input id="quantidade" name="quantidade" type="number" class="form-control" placeholder ="0" value="1" step="0.01" onkeydown="javascript:EnterTab('nomeproduto',event)">
+                                        <input id="quantidade" name="quantidade" type="number" class="form-control" value="1,00" step="0.01" onkeydown="javascript:EnterTab('nomeproduto',event)">
                                     </div>
                                 </div>
                                
+                               <!--
                                 <div class="form-group"> 
                                     <div class ="col-lg-5 text-center">
                                         <a href="">
-                                            <button class="btn btn-info btn-consulta btn_buscar" id="btn_buscar" name="btn_buscar" onkeydown="javascript:EnterTab('btn_buscar',event)"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
-                                                Buscar
+                                            <button class="btn btn-info btn-consulta btn_buscar" id="btn_buscar" name="btn_buscar" onkeydown="javascript:EnterTab('btn_buscar',event)"> 
+                                            <i class="fa fa-search" aria-hidden="true"></i> 
+                                            Buscar
                                             </button> 
                                         </a>
+                                    </div>
+                                </div>
+                                --> 
+
+                                <div class="form-group"> 
+                                    <div class ="col-lg-5 text-center">
+                                        
+                                            <button type="button" class="btn btn-info btn-consulta btn_buscar" id="btn_buscar_item_venda" name="btn_buscar_item_venda" onkeydown="javascript:EnterTab('btn_buscar',event)"> 
+                                            <i class="fa fa-search" aria-hidden="true"></i> 
+                                            Buscar
+                                            </button> 
+                                        
                                     </div>
                                 </div>
 

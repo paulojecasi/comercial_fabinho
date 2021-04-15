@@ -7,17 +7,14 @@
                     <h3 class="panel-title"> <?php echo $subtitulo ?> </h3>
                 </div>
                 <div class="panel-body">
-                    <!-- nao vamos utilizar a abertura do form, vamos usar o HELPER do
-                        framework (form_open)
-                    <form role="form">
-                    -->
+        
                     <?php
                     // aqui vamos vericar os erros de validação
                     echo validation_errors('<div class="alert alert-warning">','</div>'); 
                     
                     // vamos abrir o formulário,
                                 // apontando para:admin/controlador/metodo
-                    echo form_open('admin/usuarios/login');
+                    echo form_open('admin/usuarios/login','autocomplete="off"');
 
                     ?>
 
@@ -29,14 +26,28 @@
                                 <input class="form-control" placeholder="Senha" name="txt-senha" type="password" value="">
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <button href="index.html" class="btn btn-lg btn-success btn-block"> 
+                            <button href="" class="btn btn-lg btn-success btn-block"> 
                                   Entrar
                             </button>
                             
                         </fieldset>
 
                     <?php
-                    echo form_close();
+
+                        if ($this->session->userdata('tipo_acesso') == "venda")
+                        {
+                            ?>
+                                <input type="hidden" name="vendas" value="1">
+                            <?php
+                        }
+                        else
+                        {
+                            ?>
+                                <input type="hidden" name="vendas" value="2">
+                            <?php
+                        }
+
+                        echo form_close();
                     ?>
                     <!--
                     </form>

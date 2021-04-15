@@ -8,11 +8,13 @@ class Caixa extends CI_Controller {
 
 		parent::__construct(); 
 
-		if (!$this->session->userdata('logado')){
-			$this->session->set_userdata('tipo_acesso',"venda");
-			redirect(base_url('admin/login')); 
-		}
-
+		//$this->session->set_userdata('tipo_acesso',"venda");
+		$this->load->model('empresa_model','modelempresa');	
+		$this->modelempresa->retorna_inicio_geral();
+		
+		$this->load->model('usuarios_model','modelusuarios');
+		$this->modelusuarios->retorna_inicio(); 
+	
 		$this->load->model('caixa_model','modelcaixas'); 
 
 	}

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Produto extends CI_Controller {
+class Produto extends CI_Controller { 
 
 	public function __construct()
 	{
@@ -9,9 +9,11 @@ class Produto extends CI_Controller {
 		parent::__construct(); 
  
 		//vamos verificar se o usuario esta logado para acessar a pagina
-		if (!$this->session->userdata('logado')){
-				redirect(base_url('admin/login')); 
-		}
+		$this->load->model('empresa_model','modelempresa');	
+		$this->modelempresa->retorna_inicio_geral();
+		
+		$this->load->model('usuarios_model','modelusuarios');
+		$this->modelusuarios->retorna_inicio();
 
 				// vamos chamar o model produto_model
 		$this->load->model('produto_model','modelproduto');
@@ -58,35 +60,6 @@ class Produto extends CI_Controller {
 
 	}
 
-	public function itensporpagina($info=null){
-
-		if ($info == 'a'){
-				$qtditens = 5;
-		} elseif ($info == 'b'){
-				$qtditens = 10;
-		} elseif ($info == 'c'){
-				$qtditens = 15;
-		} elseif ($info == 'd'){
-				$qtditens = 20;
-		} elseif ($info == 'e'){
-				$qtditens = 25;
-		} elseif ($info == 'f'){
-				$qtditens = 30;
-		} elseif ($info == 'g'){
-				$qtditens = 40;
-		} elseif ($info == 'h'){
-				$qtditens = 50;
-		} else {
-				$info = 'c'; 
-				$qtditens = 15; 
-		}
-
-		$this->session->set_userdata('itensPorPagina',$qtditens);
-		$this->session->set_userdata('qtdItensInfo',$info);
-		// depois de selecionar a quantidade de itens, vamos para a pagina principal
-		redirect(base_url('admin/produto'));
-
-	}
 
 	public function tipolistagem($tipolista){
 
@@ -120,9 +93,10 @@ class Produto extends CI_Controller {
 		// validar form
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules(
-		'txt-desproduto',          // name do input (template)
-		'Descrição do Produto',		 // nome da label (template)
-		'required|min_length[3]'); 
+		'txt-desproduto', 'Descrição do Produto','required|min_length[3]'); 
+
+		$this->form_validation->set_rules('codbarras', 'Codigo de Barras',		 
+		'is_unique[produto.codbarras]');
 
 		$this->form_validation->set_rules('corproduto','Cor do Produto','required');
 
@@ -134,6 +108,8 @@ class Produto extends CI_Controller {
 		$this->form_validation->set_rules('produtoativo','Produto Ativo?','required');
 
 		$this->form_validation->set_rules('vlprecoatacado','Preço Atacado','required');
+
+		$this->form_validation->set_rules('qtatacado','Quantidade Itens Atacado','required');
 
 
 		if ($this->form_validation->run() == FALSE){
@@ -342,58 +318,44 @@ class Produto extends CI_Controller {
 
 	 	$output = ''; 
 	 	$desproduto = ''; 
+	 	$dados = null; 
 
  		if ($this->input->post('nomeproduto'))
  		{
 	 		$desproduto = $this->input->post('nomeproduto'); 
+	 		$dados = $this->modelproduto->consultajquery_produto($desproduto);
 	 	}
 
-	 	$dados = $this->modelproduto->consultajquery_produto($desproduto);
+	 	$output .= '
+ 			<option id="option-primeira-linha" disabled> CÓDIGO   &nbsp &nbsp   DESCRIÇÃO  </option>';
 
- 		$output .= '
- 		<div class= "form-group picklist-prod">
-
-      <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="3">
-      <option id="option-primeira-linha" disabled> CÓDIGO   &nbsp &nbsp   DESCRIÇÃO </option> 
-	 		';
-
-	 		if ($dados->num_rows() > 0){
-	 			foreach ($dados->result() as $row) {
-	 				$codigo = str_pad($row->codproduto,30);
-	 				$id = $row->idproduto; 
-	 				$ativo = $row->produtoativo;
-	 				if ($ativo ==1):
-	 					$output .= '
-			 			<option value="'.$id.'" selected>'.$codigo.' &nbsp &nbsp'. 
-			 								$row->desproduto. 
-			 								 
-			 			'</option>'; 
-			 		endif;
-	 			}
-
-	 		}
-	 		else {
-	 			$output .= '
-	 			<option>---- Nenhum item informado ---- </option>';
-	 		}
-
-	 		$output .= '
- 			</select>
- 		</div>'; 
-
+ 		if ($dados)
+ 		{
+ 			foreach ($dados as $row) {
+ 				$codigo = $row->codproduto;
+ 				$id 		= $row->idproduto; 
+ 				$ativo 	= $row->produtoativo;
+ 				if ($ativo ==1):
+ 					$output .= '
+		 			<option value="'.$id.'" selected>'
+		 					.'-'.$codigo.' &nbsp &nbsp' .$row->desproduto. 		 
+		 			'</option>'; 
+		 		endif;
+ 			}
+ 		}
  		echo $output;
  		exit; 
-
 	}
 
 	function consultajquery_produtos_admin()
 	{
 	 	$output = '';
 	 	$desproduto = '';
+	 	$tiporel=''; 
  
 	 	$desproduto = $this->input->post('nomeproduto'); 
 	 	$tiporel = $this->input->post('tiporel');
-
+	 	
 	 	$produtos_ = $this->modelproduto->getConsultajquery_produtos_admin($desproduto,$tiporel);
 
 	 	$this->tipolistagem($tiporel);
@@ -422,22 +384,11 @@ class Produto extends CI_Controller {
 	        $nome = $produto_admin->desproduto; 
 	        $barra= $produto_admin->codbarras;
 	        $vlpreco = $produto_admin->vlpreco;
+	        $vlprecoatacado = $produto_admin->vlprecoatacado;
 	        $qtsaldo = $produto_admin->qtsaldo; 
 	        $vlnota = $produto_admin->vlnota; 
-	      
-	        if ($produto_admin->img !=''){
-	            $foto   = img($produto_admin->img);
-	        }else{
-	            $foto   = img($semFoto);
-	        }
-	 
-	        $desproduto= $produto_admin->desproduto; 
-	       
-	        if ($produto_admin->produtoativo==1){
-	            $ativo = "SIM";
-	        }else{
-	            $ativo = "NAO";
-	        }
+
+	        $ativo = ($produto_admin->produtoativo==1)? "SIM" : "NAO";  
 
 	        
 	        $botaoalterar = anchor(base_url('admin/produto/alterar/'.md5($id)),
@@ -477,6 +428,7 @@ class Produto extends CI_Controller {
 			 			<td>					  '.$nome.	'</td>
 			 			<td>						'.reais($vlnota).		'</td>
 			 			<td>						'.reais($vlpreco).		'</td>
+			 			<td>						'.reais($vlprecoatacado).		'</td>
 			 			<td>						'.$barra.		'</td> 
 			 			<td>						'.$qtsaldo.		'</td>
 			 			<td>					  '.$ativo.'</td>
@@ -515,36 +467,36 @@ class Produto extends CI_Controller {
 	 	$dados = $this->modelproduto->getConsultajquery_produto_admin($idproduto_consultado_admin);
 
 		$codbar = "";
-    $codpro = "";
-    $nomepro= "";
-    $idproduto = 0; 
+	    $codpro = "";
+	    $nomepro= "";
+	    $idproduto = 0; 
 	 		
 		foreach ($dados as $produto_con) 
 		{
 			$codbar = $produto_con->codbarras;
-	    $codpro = $produto_con->codproduto;
-	    $nomepro= $produto_con->desproduto;
-	    $idproduto = $produto_con->idproduto; 
+		    $codpro = $produto_con->codproduto;
+		    $nomepro= $produto_con->desproduto;
+		    $idproduto = $produto_con->idproduto; 
 		}
 
 
 		$output .= '
 		<div class="form-group col-lg-8 cons-item"> 
-        <label> Codigo de Barras </label>
-        <input id="idcodbarras" name="idcodbarras" type="text" class="form-control" value="'.$codbar.'">
-    </div>
+	        <label> Codigo de Barras </label>
+	        <input id="idcodbarras" name="idcodbarras" type="text" class="form-control" value="'.$codbar.'">
+	    </div>
 
-    <div class="form-group col-lg-4 cons-item"> 
-        <label> Cod Produto </label>
-        <input id="codproduto" name="codproduto" type="text" class="form-control" value="'.$codpro.'" >
-    </div>
+	    <div class="form-group col-lg-4 cons-item"> 
+	        <label> Cod Produto </label>
+	        <input id="codproduto" name="codproduto" type="text" class="form-control" value="'.$codpro.'" >
+	    </div>
 
-    <div class="form-group col-lg-12 cons-item"> 
-        <label> Descrição  </label>
-        <input id="desproduto" name="desproduto" type="text" class="form-control" value="'.$nomepro.'" required>
-    </div>
+	    <div class="form-group col-lg-12 cons-item"> 
+	        <label> Descrição  </label>
+	        <input id="desproduto" name="desproduto" type="text" class="form-control" value="'.$nomepro.'" required>
+	    </div>
 
-    <input type="hidden" id="idproduto" name="idproduto" value= "'.$idproduto.'"> 
+	    <input type="hidden" id="idproduto" name="idproduto" value= "'.$idproduto.'"> 
      
     ';
 	 

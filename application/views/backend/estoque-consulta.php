@@ -19,7 +19,7 @@
                             
                             // vamos abrir o formulário,
                                         // apontando para:admin/controlador/metodo
-                            echo form_open('admin/estoque/buscar_produto/consulta-estoque');
+                            echo form_open('admin/estoque/buscar_produto/consulta-estoque','autocomplete="off"');
 
                             ?>
                             <div class="panel-body">
@@ -42,7 +42,16 @@
                                     <br> 
                                 </div>
                                 
+                                <!--
                                 <div class="form-group col-lg-10 resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_consulta_est',event)"  autofocus="true" >
+                                </div> -->
+
+                                <div class ="resultado-produto form-group col-lg-10">
+                                    <div class= "form-group picklist-prod resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_consulta_est',event)" autofocus="true">
+                                        <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="4">
+
+                                        </select>
+                                    </div>
                                 </div>
                            
                                 <div class ="col-lg-2 text-center btn-consulta-est">
@@ -53,7 +62,7 @@
                                     </a>
                                 </div>
                     
-                          
+                            </div>
                             <?php 
                             // fechar o formulario 
                             echo form_close();
@@ -195,10 +204,8 @@
             endif;
         endif; 
         ?>
-     
-
+    
     </div>
-
 </div>
 
 

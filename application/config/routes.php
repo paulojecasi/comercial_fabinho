@@ -56,4 +56,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['categoria/(:num)/(:any)'] = 'categorias/index/$1/$2';
 //--------------------= 'dir/controlador/metodo - PJCS'
 $route['admin/login'] = 'admin/usuarios/page_login';
+$route['admin/loginempresa'] = 'admin/empresa/page_login_empresa';
 $route['admin/produto/(:num)']    = 'admin/produto/index/$1';  // da paginação 

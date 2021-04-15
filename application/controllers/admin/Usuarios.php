@@ -7,8 +7,11 @@ class Usuarios extends CI_Controller {
 	{
 
 		parent::__construct(); 
+		$this->load->model('empresa_model','modelempresa');	
+		$this->modelempresa->retorna_inicio_geral();
 
 		$this->load->model('usuarios_model','modelusuarios');
+
 		$this->load->model('picklist_model','model_tipo_usuario'); 
 		$this->load->model('caixa_model','modelcaixas'); 
 		$this->lista_usuarios = $this->modelusuarios->listar_usuarios();
@@ -19,11 +22,6 @@ class Usuarios extends CI_Controller {
 
 	public function index()
 	{
-
-		if (!$this->session->userdata('logado')){
-				redirect(base_url('admin/login')); 
-		}
-
 		// vamos carregar a biblioteca de TABELAS
 		$this->load->library('table'); 
 
@@ -265,8 +263,22 @@ class Usuarios extends CI_Controller {
 
 	}
 
+	private function ver_tipo_acesso(){
+
+		$tipo_acesso = $this->input->post('vendas');
+	
+		if ($tipo_acesso==1){
+				$this->session->set_userdata('tipo_acesso',"venda");
+		} else{
+				$this->session->set_userdata('tipo_acesso',"admin");
+		}
+
+	}
+
 	public function page_login()
 	{
+		$this->ver_tipo_acesso(); 
+
 		$dados['titulo'] 		= 'Painel de Controle';
 
 		if ($this->session->userdata('tipo_acesso')=="venda") {
@@ -283,7 +295,9 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function login(){
-		// validar form
+
+		$this->ver_tipo_acesso(); 
+
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules(
 		'txt-user',        // id do input (template)
@@ -299,9 +313,7 @@ class Usuarios extends CI_Controller {
 				$usuario = $this->input->post('txt-user');
 				$senha   = $this->input->post('txt-senha'); 
 
-				$this->db->where('user=',$usuario);
-				$this->db->where('senha=',md5($senha));
-				$userLogado = $this->db->get('usuario')->result();
+				$userLogado = $this->modelusuarios->autentica($usuario, $senha); 
 
 				foreach ($userLogado as $user_log) {
 					 $tp_acesso = $user_log->tipo_acesso; 
@@ -313,12 +325,14 @@ class Usuarios extends CI_Controller {
 						$this->session->set_userdata($dadosSessao); 
 						$this->session->unset_userdata('ultimoAviso'); 
 						// para acesso a venda
+
 						if ($this->session->userdata('tipo_acesso')=="venda"){ 
 							
 								if ($tp_acesso ==2 || $tp_acesso == 3)
 								{
+
 									// encerrar a secao
-	          			$this->session->unset_userdata('tipo_acesso'); 
+	          			//$this->session->unset_userdata('tipo_acesso'); 
 									redirect(base_url('venda'));
 								}else{
 									$mensagem ="Usuario não tem permissão para o Acesso!"; 

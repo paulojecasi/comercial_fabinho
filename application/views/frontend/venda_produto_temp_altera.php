@@ -33,6 +33,8 @@
                             $vlacres    = reais($pro_ten_alt->valoracrescimo);
                             $vltot      = reais($pro_ten_alt->valortotal);
                             $qtd        = $pro_ten_alt->quantidadeitens;  
+                            $qtdatacado = $pro_ten_alt->qtatacado;
+                            $vlatacado  = $pro_ten_alt->vlprecoatacado; 
 
                         ?> 
 
@@ -50,12 +52,14 @@
                             <div class="form-group col-lg-3">  
                                 <label> Valor Unitario </label>
                                 <input type="text" class="form-control" id="vlpreco_alt" name="vlpreco_alt" step="0.01" placeholder="0.00" value="<?php echo $vlunit ?>" disabled>
+                                <input type="hidden" class="form-control" id="vlpreco_ata" name="vlpreco_ata" step="0.01" placeholder="0.00" value="<?php echo $vlatacado ?>">
                             </div>
 
                            
                             <div class="form-group col-lg-4"> 
                                 <label> Quantidade de itens </label>
                                 <input type="number" class="form-control" id="quantidadeitens_alt" name="quantidadeitens_alt" step="0.01" placeholder="0" value="<?php echo $qtd ?>" autofocus="true" onkeydown="javascript:EnterTab('valordesconto_alt',event)"  >
+                                <input type="hidden" class="form-control" id="quantidadeitens_ata" name="quantidadeitens_ata" step="0.01" placeholder="0" value="<?php echo $qtdatacado ?>"   >
                             </div>
 
 

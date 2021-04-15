@@ -240,14 +240,28 @@ class Produto_model extends CI_Model
 	{
 		if (strlen($desproduto)>0) 
 		{
-			$this->db->like('desproduto', $desproduto); 
-			$this->db->or_like('codbarras', $desproduto);
-			$this->db->or_where('codproduto=', $desproduto);
-			$this->db->order_by('desproduto','DESC');
-			return $this->db->get('produto'); 
-		} else {
+			// prioridade para cod barras 
+			$this->db->where('codbarras=', $desproduto);
+			$results = $this->db->get('produto')->result();
+			
+			if ($results)
+			{
+				return $results; 
+			} 
+			else
+			{
+				$this->db->like('desproduto', $desproduto);
+				$this->db->or_where('codbarras', $desproduto);
+				$this->db->or_where('codproduto', $desproduto);
+				$this->db->order_by('desproduto','DESC');
+				return $this->db->get('produto')->result(); 
+			}
+
+		} 
+		else 
+		{
 			$this->db->where('desproduto=', 'NULL'); 
-			return $this->db->get('produto'); 
+			return $this->db->get('produto')->result(); 
 		}
 
 	}
