@@ -72,13 +72,7 @@ jQuery(document).ready(function(){
 
     if (vl_recebido_caixa_cred<0)
     {
-        swal({
-          title: "ATENÇÃO !",
-          text: "Valor do Recebimento NÃO pode ser NEGATIVO ou ZERO!",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        })
+        alert("ATENÇÃO - Valor do Recebimento NÃO pode ser NEGATIVO ou ZERO!") 
         jQuery('#vl_recebido_caixa_cred').val("");
         
     }

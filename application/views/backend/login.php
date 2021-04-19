@@ -20,10 +20,10 @@
 
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Usuário" name="txt-user" type="text" autofocus>
+                                <input class="form-control campo-senha" placeholder="Usuário" name="txt-user" type="text" autofocus required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Senha" name="txt-senha" type="password" value="">
+                                <input class="form-control campo-senha" placeholder="Senha" name="txt-senha" type="password" value="" required>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
                             <button href="" class="btn btn-lg btn-success btn-block"> 

@@ -21,6 +21,16 @@ $(".btn_buscar").focus(function(){
 		}, 1000) // 1 segundo 
 });	
 
+$(".btn_buscar_item_venda").focus(function(){
+        
+        var teclarEnter = function() {  
+                $('.btn_buscar').click();
+        } 
+        setTimeout(function() {
+        teclarEnter();
+        }, 1000) // 1 segundo 
+});
+
 $("#btn_buscar_item").focus(function(){
         
         var teclarEnter = function() {  
@@ -124,6 +134,9 @@ $("#form-fechamento-caixa").bind("keypress", function (e) {
         return false;
     }
 });
+
+
+
 
 
 

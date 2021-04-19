@@ -157,16 +157,15 @@
                                     $foto   = img($semFoto);
                                 }
 
+                                $notiposenha = "NENHUM";
                                 $nomeuser   = $usuario->user;
                                 foreach ($lista_tipo_acesso as $tipo_ace){
                                     if ($tipo_ace->id == $tipo_acesso){
                                         $notiposenha = $tipo_ace->desacesso; 
-                                    }else{
-                                        $notiposenha = "NENHUM";
                                     }
+                                
                                 }
                                 
-
 
                                 $botaoalterar = anchor(base_url('admin/usuarios/alterar/'.md5($usuario->id)),
                                     '<h4 class="btn-alterar"><i class="fas fa-edit"> </i>   </h4>');

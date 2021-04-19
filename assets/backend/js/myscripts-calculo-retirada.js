@@ -19,13 +19,7 @@ jQuery(document).ready(function(){
 
     if(parseFloat(vl_retirada_caixa) > parseFloat(vl_retirada_disponivel))
     {
-        swal({
-          title: "ATENÇÃO !",
-          text: "Valor da RETIRADA não pode ser MAIOR que o Saldo do Caixa !",
-          icon: "warning",
-          buttons: true,
-          dangerMode: false,
-        })
+        alert("ATENÇÃO - Valor da RETIRADA não pode ser MAIOR que o Saldo do Caixa !")
 
         var vl_retirada_disponivel = parseFloat(vl_retirada_disponivel).toFixed(2); 
         jQuery('#vl_retirada_caixa').val(null);
@@ -34,13 +28,7 @@ jQuery(document).ready(function(){
 
     if(parseFloat(vl_retirada_caixa) <= 0)
     {
-        swal({
-          title: "ATENÇÃO !",
-          text: "Valor da RETIRADA não pode ser menor ou igual a ZERO",
-          icon: "warning",
-          buttons: true,
-          dangerMode: false,
-        })
+        alert("ATENÇÃO - Valor da RETIRADA não pode ser menor ou igual a ZERO")
 
         var vl_retirada_disponivel = parseFloat(vl_retirada_disponivel).toFixed(2); 
         jQuery('#vl_retirada_caixa').val(null);

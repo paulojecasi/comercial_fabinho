@@ -15,19 +15,19 @@
                 
                 // vamos abrir o formulário,
                             // apontando para:admin/controlador/metodo
-                echo form_open('admin/empresa/login_empresa','autocomplete="off"');
+                echo form_open('admin/empresa/login_empresa','id="form-acesso-geral" autocomplete="off"');
 
                 ?>
 
                     <fieldset>
                         <div class="form-group">
-                            <input class="form-control" placeholder="Login da Empresa" name="txt-user-empresa" type="text" autofocus>
+                            <input class="form-control campo-senha" placeholder="Login da Empresa" name="txt-user-empresa" type="text" autofocus required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="Senha" name="txt-senha-empresa" type="password" value="">
+                            <input class="form-control campo-senha" placeholder="Senha" name="txt-senha-empresa" type="password" value="" required>
                         </div>
                         <!-- Change this to a button or input when using this as a form -->
-                        <button href="index.html" class="btn btn-lg btn-success btn-block"> 
+                        <button href="index.html" class="btn btn-lg btn-success btn-block" id="btn-acesso-geral"> 
                               Entrar
                         </button>
                         

@@ -8,7 +8,7 @@ class Usuarios_model extends CI_Model {
 	public $email;
 	public $img;
 	public $historico;
-	public $user;
+	public $user; 
 	public $senha;
 
 	public function __construct(){

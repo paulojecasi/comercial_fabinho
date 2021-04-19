@@ -52,13 +52,16 @@ class Venda_model extends CI_Model
 		$dados["valortotal"]	= $valortotal;
 		$dados["situacao"]	= 0;
 
-		$this->db->insert('produto_caixa_temp',$dados); 
-		exit; 
+		return $this->db->insert('produto_caixa_temp',$dados); 
+		//exit; 
 	}
 
 	public function excluir_produto_temp($id){
-		$this->db->where('md5(id)=',$id);
-		return $this->db->delete('produto_caixa_temp');
+
+		if ($this->db->where('md5(id)=',$id)){
+			return $this->db->delete('produto_caixa_temp');
+		}
+		
 	}
 
 	public function listar_produto_temp($id)

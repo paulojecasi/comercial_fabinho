@@ -7,7 +7,7 @@ class Venda extends CI_Controller {
 	{
  
 		parent::__construct();  
-			
+	
 		//$this->session->set_userdata('tipo_acesso',"venda");
 		$this->load->model('empresa_model','modelempresa');	
 		$this->modelempresa->retorna_inicio_geral();
@@ -24,6 +24,7 @@ class Venda extends CI_Controller {
 		$this->produtos = $this->modelprodutos->listar_produtos(); 
 		$this->tipo_pagamento = $this->model_tipo_pagamento->lista_tipos_pagamentos(); 
 
+		$this->idcaixa= $this->session->userdata('idcaixa'); 
 	}
  
 	public function index()
@@ -39,14 +40,15 @@ class Venda extends CI_Controller {
 		
 		$dados = $this->totalizador_venda_caixa($idcaixa);
 
-		if ($dados['produtos_temp']){
+		/*if ($dados['produtos_temp']){
 			$this->load->library('table'); 
 		} else {
 			$dados['produtos_temp'] = null; 
 		}
+		*/
 		$dados['tipo_pagamento'] = $this->tipo_pagamento; 
-		$dados['produtoitem'] = null; 
-		$dados['produtos']=$this->produtos;
+		//$dados['produtoitem'] = null; 
+		//$dados['produtos']=$this->produtos;
 
 
 		$operacao_caixa = $this->session->userdata('operacao');
@@ -74,7 +76,7 @@ class Venda extends CI_Controller {
 		{
 			// abrir sessao para o caixa aberto
 			$this->session->set_userdata("idcaixa",$idcaixa_aberto); 
-			$idcaixa = $this->session->userdata('idcaixa');
+			//$idcaixa = $this->session->userdata('idcaixa');
 		}
 		else
 		{
@@ -107,17 +109,17 @@ class Venda extends CI_Controller {
 	public function consulta_venda($idvenda, $tipo_acesso=null)
 	{
 		$this->load->library('table');
-		$idcaixa= $this->session->userdata('idcaixa'); 
-		$dados['idcaixa']=$idcaixa; 
+		//$idcaixa= $this->session->userdata('idcaixa'); 
+		$dados['idcaixa']= $this->idcaixa; 
 		$dados['tipo_acesso']= $tipo_acesso; 
 		$dados['consulta_venda'] = $this->modelvendas->consulta_venda($idvenda);
 		$dados['consulta_venda_itens'] = $this->modelvendas->consultajquery_itens_venda($idvenda);
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
-		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('frontend/venda_consulta');
 		$this->load->view('frontend/template/footer'); 
 		$this->load->view('frontend/template/html-footer');
+		$this->load->view('frontend/template/mensagem-alert');
 	}
 
 	public function listar_produto($idproduto){
@@ -174,7 +176,7 @@ class Venda extends CI_Controller {
 	{
 		foreach ($produto_temp as $produto_t) {
 
-			$idcaixa= $this->session->userdata('idcaixa');  
+			//$idcaixa= $this->session->userdata('idcaixa');  
 			$idproduto= $produto_t->idproduto;
 			$codproduto= $produto_t->codproduto; 
 			$desproduto= $produto_t->desproduto;
@@ -194,7 +196,7 @@ class Venda extends CI_Controller {
 			//exit; 
 		} 
 
-		if ($this->modelvendas->adicionar_temp($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
+		if ($this->modelvendas->adicionar_temp($this->idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)){
 			
 		} else {
 
@@ -205,29 +207,59 @@ class Venda extends CI_Controller {
 
 	}
 
-	 public function excluir_produto_temp($id){
+	public function excluir_produto_temp($id){
 	 		
-	 		if ($this->modelvendas->excluir_produto_temp($id)){
-	 				$mensagem = "Item Excluido Com Sucesso !"; 
-					$this->session->set_userdata('mensagem',$mensagem);
-	 		} else {
-	 				$mensagem = "Erro ao Excluir o Item "; 
-					$this->session->set_userdata('mensagemErro',$mensagem);
-	 		} 
+	 	$this->db->trans_begin();
+	 	$this->modelvendas->excluir_produto_temp($id);
 
-	 		$this->index(); 
-	 }
+	 	if  ($this->db->trans_status()===FALSE ) 
+		{ 
+			  $this->db->trans_rollback(); 
+			  $mensagem = "Erro ao Excluir o Item "; 
+				$this->session->set_userdata('mensagemErro',$mensagem);
+		
+		} 
+		else 
+		{ 
+			$this->db->trans_commit(); 
+			$mensagem = "Item Excluido Com Sucesso !"; 
+			$this->session->set_userdata('mensagemAlert',$mensagem);
+		} 
 
-	 public function produto_temp_altera($id){
+	 		redirect(base_url('venda')); 
+	}
 
-		$dados['produto_temp_altera'] = $this->modelvendas->listar_produto_temp($id);
-	
+	public function produto_temp_altera($id){
+
+		$idcaixa= $this->session->userdata('idcaixa'); 
+		$idproduto_t = 0; 
+		$qtd_itens_ja_add_venda =0; 
+
+		$produto_temp_a = $this->modelvendas->listar_produto_temp($id);
+
+		foreach ($produto_temp_a as $prod_tm) {
+			$idproduto_t = $prod_tm->idproduto; 
+		}
+
+ 		$quantidade_item_venda = $this->modelprodutos->consulta_produto_temp_aberto(md5($idcaixa), md5($idproduto_t));
+		if ($quantidade_item_venda)
+		{
+			foreach ($quantidade_item_venda as $qtdaddcxv) 
+			{
+				$qtd_itens_ja_add_venda += $qtdaddcxv->quantidadeitens;
+			}
+		}
+
+		$dados['produto_temp_altera'] = $produto_temp_a;
+		$dados['saldo_atual_prod'] 		= $this->modelestoque->consulta_estoque_saldo(md5($idproduto_t)); 
+		$dados['quantidade_da_venda'] = $qtd_itens_ja_add_venda;
+
 		$this->load->view('frontend/template/html-header', $dados);
 		$this->load->view('frontend/template/header');
-		$this->load->view('backend/mensagem');
 		$this->load->view('frontend/venda_produto_temp_altera');
 		$this->load->view('frontend/template/footer');
 		$this->load->view('frontend/template/html-footer');  
+		$this->load->view('backend/mensagem');
 
 	}
 
@@ -264,14 +296,35 @@ class Venda extends CI_Controller {
 		$vl_tot_desc =0; 
 		$numero_itens=0;
 
+		$valor_total_ult =0; 
+		$vl_tot_acre_ult =0;
+		$vl_tot_desc_ult =0; 
+		$numero_itens_ult=0;
+		$vl_unitario_ult =0; 
+		$descricao_ult = "";  
+		$atual_item =0;
+		//echo $ultimo_item; 
+
 		foreach ($venda as $totaliza):
         $vl_tot_desc +=$totaliza->valordesconto;
-        
-        $vl_tot_acre +=$totaliza->valoracrescimo;
-        
+        $vl_tot_acre +=$totaliza->valoracrescimo;        
         $valor_total += $totaliza->valortotal; 
-
         $numero_itens += $totaliza->quantidadeitens;
+        
+        // vamos selecionar o ultimo item adicionado 
+        if ($atual_item == 0){
+	        $vl_tot_desc_ult =$totaliza->valordesconto;   
+	        $vl_tot_acre_ult =$totaliza->valoracrescimo;        
+	        $valor_total_ult = $totaliza->valortotal; 
+	        $numero_itens_ult= $totaliza->quantidadeitens;
+	        $vl_unitario_ult 	 = ($totaliza->qtatacado > $totaliza->quantidadeitens)
+	        					?  	$totaliza->vlpreco
+	        					: 	$totaliza->vlprecoatacado;  
+	        $descricao_ult = $totaliza->desproduto; 
+	        $atual_item++; 
+	      }
+
+
     endforeach;
 
 		$dados['valortotal_sem_conversao'] 	= $valor_total;
@@ -281,6 +334,15 @@ class Venda extends CI_Controller {
     $dados['numero_itens'] = $numero_itens;
     $dados['idcaixa']		= $idcaixa; 
     $dados['produtos_temp'] = $venda; 
+
+    $dados['valortotal_sem_conversao_ult'] 	= $valor_total_ult;
+    $dados['valortotal_ult'] 	=  $valor_total_ult; 
+    $dados['vl_tot_desc_ult'] =  $vl_tot_desc_ult;
+    $dados['vl_tot_acre_ult'] =  $vl_tot_acre_ult;
+    $dados['numero_itens_ult'] = $numero_itens_ult;
+		$dados['vl_unitario_ult'] 	= $vl_unitario_ult;
+		$dados['descricao_ult'] 	= $descricao_ult;
+
 
     return $dados; 
 
@@ -495,31 +557,44 @@ class Venda extends CI_Controller {
 			
 		} 
 
-		$this->modelvendas->adicionar_tempj($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal);
+		return $this->modelvendas->adicionar_tempj($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal);
 		
-		exit; 
-
+		//exit; 
 	}
 
 
 	function adicionar_produto_temp_jquery()
 	{
 
+		//$idcaixa= $this->session->userdata('idcaixa');
 		$idcaixa= $this->session->userdata('idcaixa');
 
 		if ($this->input->post('idproduto'))
 		{
-
 			$idprodutoj = $this->input->post('idproduto[0]');
-			$quantidade = $this->input->post('quantidade');
+			$quantidade_saindo = $this->input->post('quantidade');
+			$qtd_itens_ja_add_no_caixa =0; 
 
+			$quantidade_ja_add =  $this->modelprodutos->consulta_produto_temp_aberto(md5($idcaixa), md5($idprodutoj));
 			
+
+			if ($quantidade_ja_add)
+			{
+				foreach ($quantidade_ja_add as $qtdaddcx) 
+				{
+					$qtd_itens_ja_add_no_caixa += $qtdaddcx->quantidadeitens;
+				}
+			} 
+
+			$quantidade_tot_sai = $quantidade_saindo + $qtd_itens_ja_add_no_caixa;
+
 			$produto_tempj = $this->modelprodutos->listar_produto(md5($idprodutoj)); 
+			$saldo_atual = $this->modelestoque->consulta_estoque_saldo(md5($idprodutoj)); 
 
-			$saldo_atual = $this->modelestoque->consulta_estoque_saldo($idproduto); 
+			// vamos ver se tem saldo suficeite para a venda.
+			$saldo_atual_qtd = $saldo_atual  - $quantidade_tot_sai ;// - $qtd_itens_ja_add_no_caixa ;
 
-			/*
-			if ($saldo_atual < 0.01)
+			if ($saldo_atual_qtd < 0.01)
 			{
 					// vamos pegar o nome do produto para mostrar na tela
 					foreach ($produto_tempj as $prod_saldo) {
@@ -527,36 +602,124 @@ class Venda extends CI_Controller {
 						$prod_codigo = $prod_saldo->codproduto;  
 					}
 
-					$mens = 'Produto (((=== '.$prod_codigo.' - '.$prod_nome.' ===))) não tem SALDO. Verifique o Estoque!'; 
-					echo '<script>
-				    	alert("'.$mens.'"); 
-				  </script>';
-					exit; 
+					$mens ='Produto '.$prod_codigo.' - '.strtoupper($prod_nome).' não tem SALDO. Verifique o Estoque!'; 
+					$this->session->set_userdata('mensagemjq',$mens);
+					$dados['mens'] = $mens ;
+				 
+				 echo json_encode($dados); 
+				 
 			}
-			*/ 
-
-			if ($this->inserir_temporarioj($produto_tempj, $quantidade)){
-				$produtos_temp = $this->modelvendas->listar_produtos_temp($idcaixa);
-
-				if ($produtos_temp){
-					$this->listar_produtos_temp($produtos_temp); 
-				}
-
+			else
+			{
+				$retorno_temp = $this->inserir_temporarioj($produto_tempj, $quantidade_saindo); 
+				echo json_encode(""); 
 			}
-			
-			exit; 
- 
+
  		}
+
+ 		exit; 
 	}
+
+	function venda_lista_produto_temp_jquery()
+	{
+	
+		$idcaixa = $this->input->post('idcaixa');
+
+		$produtos_temp = $this->modelvendas->listar_produtos_temp($idcaixa);
+		if ($produtos_temp){
+			$this->listagem_produto_temp_jquery($produtos_temp); 
+		} 
+		else
+		{
+			$output = '';
+		}
+
+ 		exit; 
+	}
+
+	function totaliza_valores_venda_temp(){
+		
+		$idcaixa = $this->input->post('idcaixa');
+
+		$tot_valores = $this->totalizador_venda_caixa($idcaixa); 
+
+		echo json_encode( $tot_valores );
+
+	}
+
 
 	function listagem_produto_temp_jquery($produtos_temp)
 	{
+		/*
+		echo '<script>
+	    	alert("aloha"); 
+	  </script>'; */
 
 		$output ='';
-		
 
+		foreach ($produtos_temp as $produto_t):
+
+      $id = $produto_t->id; 
+      $idproduto = $produto_t->idproduto; 
+      $codproduto = $produto_t->codproduto; 
+      $desproduto = $produto_t->desproduto; 
+      $vlpreco    = $produto_t->vlpreco;
+      $valordesconto    = $produto_t->valordesconto;
+      $valoracrescimo    = $produto_t->valoracrescimo;
+      $quantidadeitens = $produto_t->quantidadeitens;
+      $valortotal = $produto_t->valortotal;
+
+      $vlpreco =reais($vlpreco);
+      $valordesconto = reais($valordesconto);
+      $valoracrescimo =reais($valoracrescimo);
+      $valortotal =    reais($valortotal);
+
+      $botaoalterar = anchor(base_url('venda/produto_temp_altera/'.md5($id)),
+          '<h4 class="btn-alterar"><i class="fas fa-edit"> </i> </h4>');
+
+      $botaoexcluir= '<button type="button" class="btn btn-link" data-toggle="modal" data-target=".excluir-modal-'.$id.'"> <h4 class="btn-excluir"><i class="fa fa-remove fa-fw"></i> </h4> </button>';
+
+      echo $modal= ' 
+      <div class="modal fade excluir-modal-'.$id.'" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                      </button>
+                      <h4 class="modal-title text-center" id="myModalLabel2"> <i class="fa fa-remove fa-fw"></i> Exclusão de Item </h4>
+                  </div>
+                  <div class="modal-body">
+                      <h4>Deseja Excluir o Item '.$desproduto.'?</h4>
+                      <p>Após Excluido, o Item <b>'.$desproduto.'</b> não ficara mais disponível na Venda.</p>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                      <a type="button" class="btn btn-danger" href="'.base_url('venda/excluir_produto_temp/'.md5($id)).'">Excluir</a>
+                  </div>
+
+              </div>
+          </div>
+      </div>';
+
+
+      $output.='<tr>
+						 			<td>						'.$codproduto.			'</td>  
+						 			<td>					  '.$desproduto.			'</td>
+						 			<td class="valor-unitario">					  '.$vlpreco.					'</td>
+						 			<td class="valor-desconto">					  '.$valordesconto.		'</td>
+						 			<td class="valor-juros">					  '.$valoracrescimo.	'</td>	 
+						 			<td class="quantidadeitens">					  '.$quantidadeitens.	'</td>
+						 			<td class="valor-total">					  '.$valortotal.			'</td>
+						 			<td>					  '.$botaoalterar.		'</td>  
+						 			<td>					  '.$botaoexcluir.		'</td>  
+						 		</tr>' ;
+
+  	endforeach; 
+
+ 		echo $output;
+ 		//exit; 
 	}
-
 
 
 	function consultajquery_itens_venda()

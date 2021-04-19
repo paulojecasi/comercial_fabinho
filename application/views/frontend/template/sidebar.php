@@ -11,7 +11,13 @@
       
       <a style="width: 100%;" href="<?php echo base_url('cliente/manutencao_clientes') ?>"  class="nav-link ">  Clientes </a>
       
-     	<a style="width: 100%;" href="<?php echo base_url('caixa/movimentos_caixa') ?>"  class="nav-link ">  Valores </a>
+      <?php
+      if ($usuario_permissao ==3):
+      ?>
+     	  <a style="width: 100%;" href="<?php echo base_url('caixa/movimentos_caixa') ?>"  class="nav-link ">  Valores </a>
+        <?php
+      endif; 
+      ?>
       
       <a style="width: 100%;" href="<?php echo base_url('caixa/movimentos_produtos') ?>"  class="nav-link ">  Produtos </a>
      	<?php

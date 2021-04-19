@@ -1,15 +1,15 @@
-jQuery(document).ready(function(){
-  jQuery('input').on('keyup',function(){
-    if(jQuery(this).attr('name') === 'result'){
+$(document).ready(function(){
+  $('input').on('keyup',function(){
+    if($(this).attr('name') === 'result'){
     return false;
     }
 
 
     //---------------------CALCULA VALOR DO TROCO NO PAGAMENTO A VISTA 
 
-    var vl_unitario = (jQuery('#vlunitario').val() == '' ? 0 : jQuery('#vlunitario').val());
+    var vl_unitario = ($('#vlunitario').val() == '' ? 0 : $('#vlunitario').val());
  
-    var quantidade = (jQuery('#quantidade').val() == '' ? 0 : jQuery('#quantidade').val());
+    var quantidade = ($('#quantidade').val() == '' ? 0 : $('#quantidade').val());
 
     /*
     if (vl_total > vl_recebido_caixa){
@@ -24,7 +24,7 @@ jQuery(document).ready(function(){
     //var vl_total = vl_total.toLocaleString("pt-BR");
     var vl_total = parseFloat(vl_total).toFixed(2); 
     
-    jQuery('#vltotal').val(vl_total);
+    $('#vltotal').val(vl_total);
 
 
 

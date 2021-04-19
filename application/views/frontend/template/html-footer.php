@@ -36,12 +36,14 @@
     $(document).ready(function(){
 
         // Consulta produtos (nome/Cod Barras/ Cod Produto)
+        var idcaixa = jQuery('#lista_itens_temp_venda').val();
 
         load_data();
         function load_data(nomeproduto,asyncTF)
         {
             $.ajax({
                 url:"<?php echo base_url(); ?>admin/produto/consultajquery_produto",
+                cache : false,
                 method:"POST",
                 data:{nomeproduto:nomeproduto},
                 async: (asyncTF==1) ? false : true,
@@ -58,7 +60,7 @@
                 if  (!isNaN(nomeproduto)  && nomeproduto[0] != "-") {
                     //var nomeproduto = jQuery('#nomeproduto').val();
                     // só consulta se for a cima de 13 caract
-                    if (nomeproduto.length >=13){
+                    if (nomeproduto.length >=7){
                         setTimeout(function() {
                             load_data(nomeproduto,1);
                         },300) // consulta depois de 0,5 segundos
@@ -93,45 +95,154 @@
             if (idproduto!=0)
             {
                 $.ajax({
+                    dataType:'json',
                     url:"<?php echo base_url(); ?>venda/adicionar_produto_temp_jquery",
+                    cache : false,
                     method:"POST",
                     data:{idproduto:idproduto,
                             quantidade:quantidade},     
                     //async: false,
                     success:function(data){
-                        $('#resultado select').html(data); 
+                        //template/mensagem-alert
+                        $('#mensagem_jquery').html(data); 
+
+                        // limpar campos
+                        $('#nomeproduto').val(''); 
+                        $('#idproduto_res').val('');
+                        $('#quantidade').val(1);
+                        var select = document.getElementById("idproduto_res");
+                        var length = select.options.length;
+                        for (i = length-1; i >= 0; i--) {
+                          select.options[i] = null;
+                        }
+                        // posicionar cursor no campo
+                        document.getElementById("nomeproduto").select();
+
+                        // totalizando valores 
+                        lista_itens_temp_caixa(idcaixa);
+                        totaliza_caixa_temp(1);
+                  
+                        if (data){
+                            $('#mensagem_rodape').html(data.mens);
+                            alert(data.mens);
+                            //alert(data.outro); 
+                        }
+
                     }
                 });
             }
         });
- 
+
+
+        // LISTA PRODUTOS-TEMP QUE AINDA NÃO FORAM FINALIZADOS VENDA  
+    
+        lista_itens_temp_caixa(idcaixa);
+
+        function lista_itens_temp_caixa(idcaixa){
+            if (idcaixa!=null && idcaixa !=0){
+                $.ajax({
+                    url:"<?php echo base_url(); ?>venda/venda_lista_produto_temp_jquery",
+                    cache : false,
+                    method:"POST",
+                    data:{idcaixa:idcaixa},     
+                    //async: false,
+                    success:function(data){
+                        $('#resultado_itens_temp tbody').html(data); 
+                        if (data){
+                            // totalizando valores 
+                            totaliza_caixa_temp(1);  
+                        }
+                        else
+                        {
+                            // botao só ficará disponivel caso tenha produtas para venda
+                            document.getElementById('btn-finaliza-venda').style.display = 'none';
+                        }
+                     
+                    }
+                });
+            }
+        }
+
+        var atualizar =0; 
+        function totaliza_caixa_temp(atualizar)
+        {
+
+            if (atualizar==1){
+                $.ajax({
+                    dataType:'json',
+                    url:"<?php echo base_url(); ?>venda/totaliza_valores_venda_temp",
+                    cache : false,
+                    method:"POST",
+                    data:{idcaixa:idcaixa},     
+                    //async: false,
+                    success:function(data){
+
+                        // valores totais dos intes do caixa 
+                        var nritens     = data.numero_itens
+                        
+                        if (nritens)
+                        {
+                            document.getElementById('btn-finaliza-venda').style.display = 'block';
+                         
+                            var vltotdesc   = parseFloat(data.vl_tot_desc).toFixed(2); 
+                            var vltotacre   = parseFloat(data.vl_tot_acre).toFixed(2); 
+                            var vltotalven  = parseFloat(data.valortotal_sem_conversao).toFixed(2);
+                        
+                            $('#quantidadeitens').val(nritens); 
+                            $('#venda-desconto').val(vltotdesc);//.mask('0000,00', {reverse: true}); 
+                            $('#venda-juros').val(vltotacre);//.mask('0000,00', {reverse: true}); 
+                            $('#vl-venda-total').val(vltotalven);//.mask('0000,00', {reverse: true});
+
+
+                            // valores do ultimo item adicionado
+                            var nritens_ult     = data.numero_itens_ult; 
+                            var vl_unitario_ult = parseFloat(data.vl_unitario_ult).toFixed(2); 
+                            var vltotalven_ult  = parseFloat(data.valortotal_sem_conversao_ult).toFixed(2);
+                            var descricao_ult   = data.descricao_ult; 
+
+                            $('#quantidadeitens_ult').val(nritens_ult); 
+                            $('#vl_unitario_ult').val(vl_unitario_ult);//.mask('0000,00', {reverse: true});
+                            $('#vl-venda-total_ult').val(vltotalven_ult);//.mask('0000,00', {reverse: true});
+                            $('#descricao-prod-caixa').val(descricao_ult);
+                        }
+                        else
+                        {
+
+                            // botao só ficará disponivel caso tenha produtas para venda
+                            document.getElementById('btn-finaliza-venda').style.display = 'none';
+
+                        }                
+
+                    } 
+                });
+            }
+        } 
+
         // CONSULTA DE CLIENTES 
- 
+
+        consulta_clientes();
+        function consulta_clientes(nomecliente)
+        {
+            $.ajax({
+                url:"<?php echo base_url(); ?>cliente/consultajquery_cliente",
+                cache : false,
+                method:"POST",
+                data:{nomecliente:nomecliente},
+                success:function(data){
+                    $('#resultado_cli select').html(data); 
+                }
+            })
+        } 
 
         $('#nomecliente').keyup(function(){
-            load_data_cli();
-            function load_data_cli(nomecliente)
-            {
-
-                $.ajax({
-                    url:"<?php echo base_url(); ?>cliente/consultajquery_cliente",
-                    method:"POST",
-                    data:{nomecliente:nomecliente},
-                    success:function(data){
-                        $('#resultado_cli select').html(data); 
-                    }
-                })
-            }
-
-            var nomecliente = jQuery('#nomecliente').val();
+            var nomecliente = $(this).val();
             if (nomecliente!='' && nomecliente.length >3)
             {
-                load_data_cli(nomecliente);
+                consulta_clientes(nomecliente);
             }else 
             {
-                load_data_cli(); 
+                consulta_clientes(); 
             }
-
         });
   
 
@@ -141,6 +252,7 @@
 
             $.ajax({
                 url:"<?php echo base_url(); ?>venda/consultajquery_itens_venda",
+                cache : false,
                 method:"POST",
                 data:{idvenda_it:idvenda_it},
                 success:function(data){
@@ -169,6 +281,7 @@
 
             $.ajax({
                 url:"<?php echo base_url(); ?>venda/consultajquery_pagamento",
+                cache : false,
                 method:"POST",
                 data:{idpagamento:idpagamento},
                 success:function(data){
@@ -196,6 +309,7 @@
 
             $.ajax({
                 url:"<?php echo base_url(); ?>caixa/consultajquery_dados_caixa",
+                cache : false,
                 method:"POST",
                 data:{idcaixa_mov:idcaixa_mov,
                         datainicial_mov:datainicial_mov,

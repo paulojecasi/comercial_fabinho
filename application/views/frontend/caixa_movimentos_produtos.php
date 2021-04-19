@@ -51,19 +51,30 @@
             
                     <?php
 
-                    $this->table->set_heading("Codigo","Descricao","Valor Unit","Qtd Vendida","juros","descontos","Valor Total","Saldo Estoque");
+                    $this->table->set_heading("Codigo","Descricao","Vl Custo","Vl Venda","Qt Vendida","juros","descontos","Vl Custo Tot","Vl Total","DFAT","Saldo Estq");
 
                      
                     $idproduto_ja_processado=0; 
+                    $codproduto=0;
+                    $desproduto=0;
+                    $valorNota =0; 
+                    $valorNota =0;
+                    $valorunit=0; 
+                    $quantpro=0; 
+                    $vljuros =0; 
+                    $descontos=0;
+                    $valortot=0;
+                    $saldopro=0;
 
                     foreach ($movimento_produto_caixa as $movimento_produto) 
                     {   
                         $idproduto= $movimento_produto->idproduto;
 
                         if ($idproduto != $idproduto_ja_processado)
-                        { 
+                        {   
                             $codproduto=0;
                             $desproduto=0;
+                            $valorNota =0;
                             $valorunit=0; 
                             $quantpro=0; 
                             $vljuros =0; 
@@ -77,6 +88,8 @@
                                 {
                                     $codproduto = $produto_vez->codproduto;
                                     $desproduto = $produto_vez->desproduto;
+                                    $valorNota  = $produto_vez->vlnota;
+                                    // '<b id="vl-nota-list">'.$produto_vez->vlnota.'</b>';
                                     $valorunit  = $produto_vez->vlpreco;
                                     $quantpro  += $produto_vez->quantidadeitens;
                                     $vljuros   += $produto_vez->vl_juros;
@@ -86,16 +99,44 @@
 
                                     $idproduto_ja_processado = $produto_vez->idproduto; 
 
+                                    $valortotNota=($valorNota * $quantpro + $vljuros -$descontos);
+                                    $valortot = ($valorunit * $quantpro + $vljuros -$descontos);
+
                                 }
                             } 
                             
+                            $valortotNota=($valorNota * $quantpro + $vljuros -$descontos);
                             $valortot = ($valorunit * $quantpro + $vljuros -$descontos);
+                            $vlFatLuc = ($valortot - $valortotNota); 
+                            $vlFatLuc = reais($vlFatLuc);
+                            $valorNota = reais($valorNota);
                             $valorunit = reais($valorunit); 
+                            $valortotNota = reais($valortotNota); 
                             $valortot = reais($valortot); 
                             $vljuros = reais($vljuros);
                             $descontos = reais($descontos); 
 
-                            $this->table->add_row($codproduto, $desproduto, $valorunit, $quantpro, $vljuros, $descontos, $valortot, $saldopro);
+                            $valorNota  = 
+                                    '<b class="vl-nota-list">'.$valorNota.'</b>';
+                            $valortotNota  = 
+                                    '<b class="vl-nota-list">'.$valortotNota.'</b>';
+                            $valorunit  = 
+                                    '<b id="vl-tot-ven">'.$valorunit.'</b>';
+                            $valortot  = 
+                                    '<b id="vl-tot-ven">'.$valortot.'</b>';
+                            if ($vlFatLuc < 0)
+                            {
+                                $vlFatLuc  = 
+                                    '<b id="vl-fat-neg">'.$vlFatLuc.'</b>';
+                            }
+                            else
+                            {
+                                $vlFatLuc  = 
+                                    '<b id="vl-fat-pos">'.$vlFatLuc.'</b>';
+                            }
+
+
+                            $this->table->add_row($codproduto, $desproduto, $valorNota, $valorunit, $quantpro, $vljuros, $descontos,$valortotNota, $valortot,$vlFatLuc, $saldopro);
                         } 
                     }
                     $this->table->set_template(array(

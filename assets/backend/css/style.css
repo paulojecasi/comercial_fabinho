@@ -889,3 +889,7 @@ div.resultado-produto{
   margin-top: -23px; 
 }
 
+div input.campo-senha{
+  text-transform: none; 
+}
+

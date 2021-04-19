@@ -323,5 +323,11 @@ class Produto_model extends CI_Model
 		}
 	}
 
-
+	public function consulta_produto_temp_aberto($idcaixa, $idproduto)
+	{
+		$this->db->where('md5(idcaixa)=', $idcaixa);
+		$this->db->where('md5(idproduto)=', $idproduto);
+		$this->db->where('situacao=',0);
+		return $this->db->get('produto_caixa_temp')->result(); 
+	}
 }

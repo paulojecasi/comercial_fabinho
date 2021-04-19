@@ -238,6 +238,7 @@ div#menulinks a:hover{
 .panel-geral-vendas{
   background-color: #C0C0C0;
   margin-bottom: 0px; 
+  height: 505px;
 }
 
 div.panel-geral-vendas1{
@@ -365,27 +366,34 @@ div.panel-item-escolhido{
   margin-top: 0px; 
 }
 
-h3.descricao-prod-caixa{
-  color: blue; 
-  font-size: 30px; 
-  font-weight: bold;
-  margin-top: 0px; 
-  margin-bottom: -10px;  
+div.descricao-prod-cx{
+  margin-top: 5px;
+  margin-bottom: 5px; 
 }
 
-div.desc-precos-compras h3 {
-  background-color: #191970; 
-   color: white;  
+
+div.desc-precos-compras input, input.descricao-prod-caixa {
+  background-color: #C0C0C0; 
+   color: blue;  
    font-weight: bold; 
-   font-size: 30px; 
+   font-size: 22px; 
    margin-bottom: -8px;
    margin-top: 0px; 
-   border: 2px solid;
    border-radius: 10px; 
    text-align: center;
+   width: 100%;
+   height: 30px; 
+   pointer-events :none;
 }
 
-div.tela-numero-itens h1{
+input.descricao-prod-caixa{
+
+  color: blue; 
+
+}
+
+
+div.input-precos input{
   background-color:#4F4F4F;
   color: white;
   font-weight: bold; 
@@ -396,38 +404,14 @@ div.tela-numero-itens h1{
   border: 2px solid; 
   border-radius: 10px; 
   border-color: #fff;
+  width:100%; 
+  height: 50px; 
+  pointer-events :none;
   
 }
 
-div.tela-preco-desconto h1{
-  background-color:#4F4F4F;
-  color: white;
-  font-weight: bold; 
-  font-size: 40px;
-  text-align: center; 
-  margin-top: -5px;
-  margin-bottom: 0px; 
-  border: 2px solid; 
-  border-radius: 10px; 
-  border-color: #fff;;
-  
-}
 
-div.tela-preco-acrescimo h1{
-  background-color:#4F4F4F;
-  color: white;
-  font-weight: bold; 
-  font-size: 40px;
-  text-align: center; 
-  margin-top: -5px;
-  margin-bottom: 0px; 
-  border: 2px solid; 
-  border-radius: 10px; 
-  border-color: #fff; 
- 
-}
-
-div.tela-preco-total h1{
+div.input-precost input{
   color: red;
   font-weight: bold; 
   font-size: 60px;
@@ -437,6 +421,9 @@ div.tela-preco-total h1{
   border: 3px solid; 
   border-radius: 10px; 
   border-color: #A9A9A9; 
+  width:100%; 
+  height: 63px; 
+  pointer-events :none;
 }
 
 div.tela-preco-troco h1{
@@ -876,11 +863,13 @@ div.mensagem-sistema div b#av1{
 /* ---- ALTERAÇAO DO ITEM DA VENDA ----*/
 
 .panel-principal-altera-itens-da-venda{
-  background-color: #D3D3D3; 
+  background-color: #C0C0C0; 
+  min-height: 500px; 
 }
 
 div.altera-itens-venda-titulo h2{
-  color: blue;
+  color: black;
+  font-size: 25px;
   margin-top: 5px; 
 }
 
@@ -889,30 +878,35 @@ div.altera-itens-venda-titulo h2{
 .panel-principal-altera-itens-da-venda input#vlpreco_alt,
 .panel-principal-altera-itens-da-venda input#valortotal_alt
 {
-  background-color: #DCDCDC; 
-  color: #808080;
+  background-color: #C0C0C0; 
+  color: blue;
   font-size: 30px; 
   height:50px; 
   text-align: center; 
   pointer-events :none;
-
+  font-weight: bold; 
+  border: solid 1px; 
+  border-radius: 10px; 
+  
+  border-color: white; 
+  box-shadow: -2px 2px 2px 2px #8B8989;
+   
 }
 
-.panel-principal-altera-itens-da-venda input#quantidadeitens_alt,
-.panel-principal-altera-itens-da-venda input#valordesconto_alt,
-.panel-principal-altera-itens-da-venda input#valoracrescimo_alt
+.input-alt-itens-venda input
 {
   background-color: #FFFAF0; 
   color: #999;
   font-size: 30px; 
-  height:50px; 
+  height:40px; 
+  width: 100%; 
   text-align: center; 
  
 }
 
 .panel-principal-altera-itens-da-venda input#valortotal_alt
 {
-  color: black;
+  color: blue;
   font-size: 50px; 
   height:60px; 
   font-weight: bold; 
@@ -930,7 +924,7 @@ div.altera-itens-venda-titulo h2{
 
 .panel-principal-altera-itens-da-venda label
 {
-  color: #008080;
+  color: #2F4F4F;
   font-size: 16px; 
 }
 
@@ -2143,6 +2137,22 @@ div.resultado-produto{
 div.resultado-produto-venda{
   height: 150px;  
   margin-top: -27px; 
+}
+
+::-moz-placeholder {
+  text-transform: none;  
+}
+
+b.vl-nota-list{
+  color: #A9A9A9;
+}
+
+b#vl-fat-pos{
+  color: green;
+}
+
+b#vl-fat-neg{
+  color: red;
 }
 
 
