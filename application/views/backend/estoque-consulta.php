@@ -194,7 +194,7 @@
                 endforeach;
             ?>
                 <h2 class= "text-center mens-nao-estoque"> 
-                    Não ha Estoque para o Produto 
+                    Não ha Movimento no periodo informado, para o Produto :
                     <br> 
                     <b>
                         <?php echo $codproduto." - ".$desproduto?>

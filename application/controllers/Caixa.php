@@ -108,7 +108,7 @@ class Caixa extends CI_Controller {
 		$datainicio = $this->input->post('datainicial_movp');
 		$datafinal  = $this->input->post('datafinal_movp'); 
 
-		if (!$datainicio)
+		if (!$datainicio) 
 		{
 			$datainicio = date('Y-m-d');
 			$datafinal = date('Y-m-d');
