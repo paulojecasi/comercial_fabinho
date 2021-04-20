@@ -384,17 +384,13 @@ class Venda extends CI_Controller {
 	public function finalizar_venda($tipo_pagamento,$idcaixa){
 
 		$nrnota =0 ; 
-
 		$idestoque_entrada =0; 
- 
-		$idusuario 	= $this->session->userdata('userLogado')->id;
-		
-		$venda 			= $this->totalizador_venda_caixa($idcaixa); 
-
 		$idcliente	= $this->input->post('idcliente_crediario');
-
 		$valor_recebido = $this->input->post('vl_recebido_caixa');
 		$valor_troco		= $this->input->post('vl_troco');
+		$idusuario 	= $this->session->userdata('userLogado')->id;
+		$venda 			= $this->totalizador_venda_caixa($idcaixa); 
+
 
 		if ($tipo_pagamento==4 && !$idcliente){
 
@@ -445,7 +441,7 @@ class Venda extends CI_Controller {
 				$this->db->trans_rollback(); 
 				redirect(base_url('venda')); 
 
-			}
+			} 
 
 			// vamos gravar os itens da venda (tabela VENDAITEM)
 
@@ -543,6 +539,7 @@ class Venda extends CI_Controller {
 			$idproduto= $produto_tj->idproduto;
 			$codproduto= $produto_tj->codproduto; 
 			$desproduto= $produto_tj->desproduto;
+			$vlpreco_custo= $produto_tj->vlnota; 
 			$vlpreco= $produto_tj->vlpreco;
 			$vlprecoatacado= $produto_tj->vlprecoatacado;
 			$qtatacado=  $produto_tj->qtatacado;
@@ -557,7 +554,7 @@ class Venda extends CI_Controller {
 			
 		} 
 
-		return $this->modelvendas->adicionar_tempj($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal);
+		return $this->modelvendas->adicionar_tempj($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco_custo,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal);
 		
 		//exit; 
 	}

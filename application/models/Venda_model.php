@@ -34,13 +34,14 @@ class Venda_model extends CI_Model
 		return $this->db->insert('produto_caixa_temp',$dados); 
 	}
 
-	public function adicionar_tempj($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)
+	public function adicionar_tempj($idcaixa,$idproduto,$codproduto,$desproduto,$vlpreco_custo, $vlpreco,$vlprecoatacado,$qtatacado,$vlpromocao,$vlpromocaoatacado,$quantidadeitens,$valordesconto,$valoracrescimo,$valortotal)
 	{
 
 		$dados["idcaixa"]	= $idcaixa;
 		$dados["idproduto"]	= $idproduto;
 		$dados["codproduto"]		= $codproduto;
 		$dados["desproduto"]	= $desproduto;
+		$dados["valor_custo"]	= $vlpreco_custo;
 		$dados["vlpreco"]	= $vlpreco;
 		$dados["vlprecoatacado"]			= $vlprecoatacado;
 		$dados["qtatacado"]			= $qtatacado;
@@ -175,6 +176,7 @@ class Venda_model extends CI_Model
 				$dados['idvenda']					= $idvenda; 
 				$dados['idproduto'] 			= $produto_c_t->idproduto;
 				$dados['codproduto']			= $produto_c_t->codproduto;
+				$dados['valor_custo']			= $produto_c_t->valor_custo;
 				$dados['valorunitario']	= $produto_c_t->vlpreco;
 				$dados['quantidadeitens']= $produto_c_t->quantidadeitens;
 				$dados['valortotal']			= $produto_c_t->valortotal;

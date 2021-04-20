@@ -88,7 +88,7 @@
                                 {
                                     $codproduto = $produto_vez->codproduto;
                                     $desproduto = $produto_vez->desproduto;
-                                    $valorNota  = $produto_vez->vlnota;
+                                    $valorNota  += $produto_vez->valor_custo;
                                     // '<b id="vl-nota-list">'.$produto_vez->vlnota.'</b>';
                                     $valorunit  = $produto_vez->vlpreco;
                                     $quantpro  += $produto_vez->quantidadeitens;
@@ -105,19 +105,21 @@
                                 }
                             } 
                             
-                            $valortotNota=($valorNota * $quantpro + $vljuros -$descontos);
+                            $valorCusto = $valorNota / $quantpro; 
+                            $valortotNota=($valorCusto * $quantpro + $vljuros -$descontos);
+
                             $valortot = ($valorunit * $quantpro + $vljuros -$descontos);
                             $vlFatLuc = ($valortot - $valortotNota); 
                             $vlFatLuc = reais($vlFatLuc);
-                            $valorNota = reais($valorNota);
+                            $valorCusto = reais($valorCusto);
                             $valorunit = reais($valorunit); 
                             $valortotNota = reais($valortotNota); 
                             $valortot = reais($valortot); 
                             $vljuros = reais($vljuros);
                             $descontos = reais($descontos); 
 
-                            $valorNota  = 
-                                    '<b class="vl-nota-list">'.$valorNota.'</b>';
+                            $valorCusto  = 
+                                    '<b class="vl-nota-list">'.$valorCusto.'</b>';
                             $valortotNota  = 
                                     '<b class="vl-nota-list">'.$valortotNota.'</b>';
                             $valorunit  = 
@@ -136,7 +138,7 @@
                             }
 
 
-                            $this->table->add_row($codproduto, $desproduto, $valorNota, $valorunit, $quantpro, $vljuros, $descontos,$valortotNota, $valortot,$vlFatLuc, $saldopro);
+                            $this->table->add_row($codproduto, $desproduto, $valorCusto, $valorunit, $quantpro, $vljuros, $descontos,$valortotNota, $valortot,$vlFatLuc, $saldopro);
                         } 
                     }
                     $this->table->set_template(array(

@@ -1,0 +1,13 @@
+add campo "valor_custo"
+
+nas tabelas: 
+
+produto_caixa_temp
+venda_item
+
+
+alterado os programas: 
+
+Vendas.php (Controller)
+
+Venda_model.php (models) 
