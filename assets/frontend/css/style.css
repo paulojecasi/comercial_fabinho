@@ -2155,6 +2155,14 @@ b#vl-fat-neg{
   color: red;
 }
 
+b.atalho-front{
+  color: #fff; 
+  font-size: 17px;
+  background-color: #000; 
+  border-radius: 15px; 
+  padding: 4px;  
+}
+
 
 
 

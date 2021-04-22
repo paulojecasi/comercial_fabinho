@@ -1,14 +1,10 @@
 
 <div id="page-wrapper">
 	<div class="row">
-    <div class="col-lg-9 text-center titulo-alteracao-prod">
+    <div class="col-lg-12 text-center titulo-alteracao-prod">
         <h3 class="page-header"> <?php echo $subtitulo." - Alteração" ?></h3>
     </div>
-    <div class ="col-lg-3 col-md-4 col-sm-4 text-center link-voltar-cadproduto">    
-        <a href ="<?php echo base_url('admin/produto') ?>">         
-            <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
-        </a>
-    </div>
+    
     <!-- /.col-lg-12 -->
 	</div>
 
@@ -65,7 +61,7 @@
 
 		            <div class="form-group protected-field col-lg-5">
                   <label> Codigo do Produto </label>
-                  <input id="codproduto" name="codproduto" type="text"class = "form-control" placeholder ="Codigo Gerado Automaticamente Pelo Sistema" value="<?php echo $produto_alt->codproduto ?>"  onkeydown="javascript:EnterTab('codbarras',event)">
+                  <input id="codproduto" name="codproduto" type="text" class = "form-control" value="<?php echo $produto_alt->codproduto ?>" readonly>
               	</div>
 
               	<div class="form-group col-lg-7">
@@ -194,14 +190,20 @@
 	              <input  type="hidden" id="idproduto" name="idproduto" value= "<?php echo $produto_alt->idproduto ?>" 
 	              >
 		            <br> 
-		            <div class="text-center col-lg-12">
-			            <a href="" >
-			                <button class="btn btn-primary" id="button-altera-produto" > 
-			                    Alterar Produto
-			                </button> 
-			            </a>
-			          </div>
-		      
+		            <section>
+			            <div class="text-center col-lg-6">
+				            <a href="" >
+				                <button class="btn btn-primary person btn_click_shift_f4" id="button-altera-produto" > 
+				                    &nbsp Salvar Alterações &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b>
+				                </button> 
+				            </a>
+				          </div>
+				          <div class ="col-lg-6 text-center link-voltar-cadproduto">    
+						        <a href ="<?php echo base_url('admin/produto') ?>">         
+						            <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
+						        </a>
+						    	</div>
+		      			</section>
 		            <?php 
 		            // fechar o formulario 
 		            echo form_close();

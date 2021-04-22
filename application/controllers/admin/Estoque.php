@@ -274,12 +274,16 @@ class Estoque extends CI_Controller {
 
 		} else {
 
-			$idproduto= $this->input->post('idproduto');
+			$idproduto= $this->input->post('idproduto_est');
 			$idestoque_entrada = $this->input->post('idestoque_entrada');
 			$nrnota = $this->input->post('nrnota');
 			$vlunitario = $this->input->post('vlunitario');
 			$quantidade = $this->input->post('quantidade');
 			$vltotal = $this->input->post('vltotal'); 
+
+			$vlAtualItem = $this->input->post('vl_venda_atual_est');
+			$vlAtualItemAtacado = $this->input->post('vl_atacado_atual_est');
+
 
 			// vamos verficar se o item ja foi gravado 
 			if ($this->modelestoque->verifica_item_existente(md5($idproduto),md5($idestoque_entrada)))
@@ -289,7 +293,7 @@ class Estoque extends CI_Controller {
 					redirect(base_url('admin/estoque/itens/'.md5($idestoque_entrada)));
 			}
 			
-			if ($this->modelestoque->inserir_estoque_item($idproduto,$idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal)){
+			if ($this->modelestoque->inserir_estoque_item($idproduto,$idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal,$vlAtualItem,$vlAtualItemAtacado)){
 
 				$produto_lis = $this->listar_produto(md5($idproduto));
 	

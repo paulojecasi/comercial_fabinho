@@ -57,6 +57,7 @@ class Estoque_model extends CI_Model {
 
 		$this->db->where('md5(idestoque_entrada)=', $idestoque_entrada);
 		$this->db->where('md5(idproduto)=', $idproduto);
+		$this->db->where('tiposituacao!=',2);
 		return $this->db->get('estoque_entrada_item')->result(); 
 	}
 
@@ -73,9 +74,9 @@ class Estoque_model extends CI_Model {
 		
 	}
 
-	public function inserir_estoque_item($idproduto, $idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal){
+	public function inserir_estoque_item($idproduto, $idestoque_entrada,$nrnota,$vlunitario,$quantidade,$vltotal,$vlAtualItem=null,$vlAtualItemAtacado=null){
 
-		$this->adiciona_valor_nota_produto($idproduto, $vlunitario); 
+		$this->atualiza_valor_nota_produto($idproduto,$vlunitario,$vlAtualItem,$vlAtualItemAtacado); 
 
 		$dados = array (
 			"idestoque_entrada" => $idestoque_entrada,
@@ -159,10 +160,21 @@ class Estoque_model extends CI_Model {
 		$this->db->update('produto',$dados); 
 	}
 
-	private function adiciona_valor_nota_produto($idproduto, $vlunitario)
+	private function atualiza_valor_nota_produto($idproduto, $vlunitario, $vlAtualItem=null,$vlAtualItemAtacado=null)
 	{
 		$this->db->where('idproduto=', $idproduto);
 		$dados['vlnota'] = $vlunitario;
+
+		if ($vlAtualItem > 0)
+		{
+			$dados['vlpreco'] = $vlAtualItem;
+		}
+
+		if ($vlAtualItemAtacado > 0)
+		{
+			$dados['vlprecoatacado'] = $vlAtualItemAtacado;
+		}
+
 		$this->db->update('produto',$dados); 
 	}
 

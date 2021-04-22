@@ -32,7 +32,7 @@
 
                             <div class="form-group col-lg-5 vercons"> 
                                 <label> Numero da Nota </label>
-                                <input id="nrnota" name="nrnota" type="text"class = "form-control" placeholder ="Digite o Numero da Nota" value="<?php echo set_value('nrnota') ?>" required>
+                                <input id="nrnota" name="nrnota" type="text"class = "form-control" placeholder ="Digite o Numero da Nota" value="<?php echo set_value('nrnota') ?>" autofocus ="true" required>
 
                             </div>
 
@@ -55,17 +55,17 @@
                                 <input id="emitente" name="emitente" type="text"class = "form-control" placeholder ="Digite o Emitente da Nota" value="<?php echo set_value('emitente') ?>" required>
                             </div>
 
-                            <div class="form-group col-lg-5 col-sm-12 vercons">  
+                            <div class="form-group col-lg-3 col-sm-12 vercons">  
                                 <label> Valor da Nota R$ </label>
                                 <input type="number" class="form-control" id="valornota" name="valornota" step="0.01" placeholder="0.00" value="<?php echo set_value('valornota') ?>" required>
                             </div>
 
                             <br>
 
-                            <div class ="col-lg-2 col-sm-12 text-center ">
+                            <div class ="col-lg-4 col-sm-12 text-center ">
                                 <a href="">
-                                    <button class="btn btn-primary btn-adicionar-nota"  > 
-                                        Adicionar Nota
+                                    <button class="btn btn-primary btn-adicionar-nota person btn_click_shift_f4"  > 
+                                        &nbsp Gravar Nota &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b> 
                                     </button> 
                                 </a>
                             </div>
@@ -96,7 +96,7 @@
                   
                             <!-- gerar tabela de categorias pela framework PJCS --> 
                             <?php
-                            $this->table->set_heading("DT Entrada","Numero", "Serie","Emitente","Valor R$","Situação", "Consultar Nota"); 
+                            $this->table->set_heading("DT Entrada","Numero", "Serie","Emitente","Valor R$","Situação", "Nota"); 
 
                             foreach ($estoques as $estoque)
                             { 
@@ -108,6 +108,7 @@
                                 $emitente= $estoque->emitente;
                                 $situacao = $estoque->situacao; 
                                 $valornota= number_format($estoque->valornota,2,",","."); 
+                                $nosit = " "; 
 
                                 foreach ($situacao_nota as $sitnota) {
                                     if ($situacao == $sitnota->tiposituacao)
@@ -119,6 +120,8 @@
                                             '<b class="field-aberta">'
                                                 .$nosituacao_nt.'
                                             </b>';
+                                            $nosit = "Cadastrar Item";
+
                                         }
                                         elseif ($situacao  == 1)
                                         {
@@ -126,6 +129,7 @@
                                             '<b class="field-fechada">'
                                                 .$nosituacao_nt.'
                                             </b>';
+                                            $nosit = "Consultar Nota";
                                         }
                                         elseif ($situacao  == 2)
                                         {
@@ -133,11 +137,14 @@
                                             '<b class="field-cancelada">'
                                                 .$nosituacao_nt.'
                                             </b>';
+                                            $nosit = "Consultar Nota";
                                         }
+
+                                        $botaoitens = anchor(base_url('admin/estoque/itens/'.md5($estoque->id)),'<h4 class="btn-itens"> <i class="fa fa-file-text"> </i> '.$nosit.'</h4>');
                                     }
                                 }
 
-                                $botaoitens = anchor(base_url('admin/estoque/itens/'.md5($estoque->id)),'<h4 class="btn-itens"> <i class="fa fa-file-text"> </i> Consultar Nota </h4>');
+                                
 
                                 /*
                                 $botaofechar = anchor(base_url('admin/estoque/itens/'.md5($estoque->id)),'<h4 class="btn-fechar"> <i class="fa fa-check"> </i> Fechar Nota </h4>');

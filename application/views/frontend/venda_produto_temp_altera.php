@@ -91,7 +91,7 @@
 
                 <div class ="col-lg-6 text-center link-voltar">
                     <a href="<?php echo base_url('venda') ?>">
-                         <?php echo img(base_url('assets/frontend/img/voltar2.png')); ?>
+                         <i class="fa fa-reply-all"> </i>
                             Voltar para a Venda 
                     </a>
                 </div>

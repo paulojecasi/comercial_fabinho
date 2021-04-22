@@ -36,9 +36,9 @@
                     </h4>
                 </div>
                 <div class="form-group cadastro-cliente-crediario col-lg-6 text-center">
-                    <a href = "<?php echo base_url('cliente/cadastro_cliente/crediario') ?>">
+                    <a href = "<?php echo base_url('cliente/cadastro_cliente/crediario') ?>" class= "btn_click_shift_d">
                         <h4>
-                            Cliente não tem CADASTRO? 
+                            Cliente não tem CADASTRO?  <b class="atalho-front"> sD </b>
                         </h4>
                     </a>
                 </div>
@@ -123,10 +123,10 @@
 
 
                 <div class="form-group cadastro-cliente-aberto col-lg-6 text-center">
-                    <a href = "<?php echo base_url('cliente/consulta_crediario/').md5($idcliente).'/pagamento'  ?>">
+                    <a href = "<?php echo base_url('cliente/consulta_crediario/').md5($idcliente).'/pagamento'  ?>" class= "btn_click_shift_a">
                         <h4>
                              
-                            >> Consultar vendas em aberto
+                            >> Consultar vendas em aberto <b class="atalho-front"> sA </b>
 
                         </h4>
                     </a>
@@ -165,9 +165,9 @@
             </div>
 
             <div class ="col-lg-6 text-center link-voltar">
-                <a href="<?php echo base_url('venda/venda_pagamento/').$idcaixa ?>">
-                     <?php echo img(base_url('assets/frontend/img/voltar2.png')); ?>
-                        Voltar para Escolher Pagamento
+                <a href="<?php echo base_url('venda/venda_pagamento/').$idcaixa ?>" class="btn_click_shift_r">
+                     <i class="fa fa-reply-all"> </i>
+                        Voltar para Escolher Pagamento <b class="atalho-front"> sR </b>
                 </a>
             </div>
         </div>

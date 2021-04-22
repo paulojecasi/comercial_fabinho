@@ -79,13 +79,14 @@ div.panel-default input, input.consulta-prod-admin, textarea{
 }
 
 div.panel-default input:focus, input.consulta-prod-admin:focus, textarea:focus{
-	background-color: #E0FFFF; 	
+	background-color: #DCDCDC; 	
+	color: #000;
+	font-weight: bold; 
 }
 
 div.panel-default input:hover, input.consulta-prod-admin:hover, textarea:hover{
 	background-color: #DCDCDC; 	
 }
-
 
 div.panel-default select{
   background-color: #F0F8FF; 
@@ -93,6 +94,11 @@ div.panel-default select{
 	border: 1px solid;
 	font-size: 15px;
 	font-weight: bold; 
+}
+
+div.panel-default select:focus{
+  background-color: #DCDCDC; 
+  color: #000;
 }
 
 div.panel-default select:hover{
@@ -213,8 +219,7 @@ div.btn-cadastro-produto button{
 
 }
 
-div.protected-field input#codproduto{
-	pointer-events: none;  
+div.protected-field input.codproduto{
 	background-color: #DCDCDC; 
 }
 
@@ -319,13 +324,68 @@ div.title-itens-c div label {
 	font-size: 18px; 
 }
 
+div.cons-item label{
+	font-size: 12px; 	
+}
 div.cons-item input{
 	pointer-events: none;  
 	background-color: #DCDCDC; 
 	color:#0000FF;
-	font-size: 17px; 
+	font-size: 14px; 
 	font-weight: bold;
+	height: 22px;
+	margin-bottom: -10px; 
 }
+
+div.vercons label{
+	font-size: 13px; 	
+}
+
+div.vercons input{
+
+	font-size: 16px; 
+	font-weight: bold;
+	height: 25px;
+	margin-bottom: -10px; 
+}
+
+div#panel-atualiza-vl-itens-entrada{
+	border: 1px solid;
+	border-radius: 5px; 
+	margin-top: 5px; 
+	margin-bottom: 0px; 
+}
+
+div.vercons2 label{
+	font-size: 13px; 	
+	margin-top: 5px; 
+}
+
+div.vercons2 input{
+	font-size: 16px; 
+	font-weight: bold;
+	height: 25px;
+	margin-bottom: -10px; 
+}
+
+div.vercons2 label#title-p1{
+	margin-top: 20px; 
+	color: blue; 
+}
+
+div.vercons2 label#title-p2{
+	color: blue;
+	margin-bottom: 0px; 
+}
+
+section#vl-atual-venda input{
+	color:red; 
+}
+
+section#vl-atual-atacado input{
+	color: green; 
+}
+
 
 /* template de consulta de estoque */ 
 div.panel-dados-cons-estoque div.panel-body{
@@ -503,7 +563,7 @@ div.panel-cadastro-user{
 
 div.link-voltar-cadproduto a h4{
 	padding: 0px; 
-	margin-top: 15px; 
+	margin-top: 20px; 
 	font-size: 16px; 
 	color:#D2691E;
 }
@@ -528,8 +588,8 @@ div.title-cadastro-prod{
 }
 
 div.link-voltar-cadnota a h4{
-	font-size: 20px; 
-	color: #FF6347; 
+	font-size: 17px; 
+	color: blue; 
 }
 
 
@@ -547,7 +607,7 @@ div.titulo-alteracao-prod h3{
 }
 
 div.panel-altera-pro{
-	height: 500px;
+	height: 550px;
   overflow-y: scroll;
 }
 /*--- ENTRADA DE NOTAS/ESTOQUE --*/
@@ -585,12 +645,12 @@ div.btn-busca-item button:focus{
 
 div.panel-consulta-prod{
 	background-color: #FAEBD7;
-	min-height: 270px;
+	min-height: 290px;
 }
 div.panel-prod-consultado{
-	 padding-top: 0px;
+	 padding-top: 10px;
 	 background-color: #FFFAF0;
-	 min-height: 270px;
+	 min-height: 290px;
 }
 
 div.btn-add-item-estoque{
@@ -739,20 +799,43 @@ table.table-estoque{
 }
       
 
-table {
+table{
   width: 100%;
   border-collapse: collapse;
+}
+
+table.table-uper-case {
+  text-transform: uppercase;
 }
 
 th {
   position: sticky;
   top: 0;
   background:#40E0D0;
+
 }
 
 /* paulo */
 button:disabled{
 	background-color: #C0C0C0; 
+}
+
+button.person {
+	background-color: green; 
+	color: #fff;
+	border: 1px solid;
+	border-radius: 15px; 
+	border-color: #fff; 
+	font-size: 15px; 
+	font-weight: bold; 
+	box-shadow: 4px 5px #888888;
+}
+
+button.person:hover {
+	background-color: blue; 
+	border-color: #fff; 
+	color: #fff;
+
 }
 
 
@@ -892,4 +975,18 @@ div.resultado-produto{
 div input.campo-senha{
   text-transform: none; 
 }
+
+b.atl-alt-s{
+	color: #fff; 
+	font-size: 15px;
+	background-color: #000; 
+	border-radius: 10px; 
+	padding: 2px;  
+}
+
+b.atalho-shift{
+	color: #000;
+}
+
+
 

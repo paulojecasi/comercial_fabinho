@@ -14,8 +14,8 @@
                 
                 <div class="col-lg-6 btn-cadastro-produto">
                     <a href="<?php echo base_url('/admin/produto/cadastro') ?>">
-                        <button class="btn btn-primary" > 
-                            Cadastrar Produto 
+                        <button class="btn btn-primary person btn_click_shift_c" > 
+                            &nbsp Cadastrar Produto &nbsp <b class="atl-alt-s"> &nbsp sC &nbsp </b> 
                         </button> 
                     </a>
                 </div>
@@ -49,7 +49,7 @@
             <p> </p>
             <div class="panel panel-default panel-produtos-admin-scroll">
                 <section>
-                    <table class="table table-hover consulta-produto-admin" id="resultado_consulta_produtos"
+                    <table class="table table-hover consulta-produto-admin table-uper-case" id="resultado_consulta_produtos"
                     >
                         <thead>
                             <tr>

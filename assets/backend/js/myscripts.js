@@ -13,27 +13,42 @@ var interval = window.setInterval(function(){
 // checkbox para gerar nota automatica 
 
 $(document).ready(function(){
-	var nr_nota_auto = (jQuery('#nrnota_aut').val() == '' ? 0 : jQuery('#nrnota_aut').val());
+	var nr_nota_auto = ($('#nrnota_aut').val() == '' ? 0 : $('#nrnota_aut').val());
 	var nr_nota_auto = parseInt(nr_nota_auto); 
 	$('#check-sem-nota').click(function() {
     if ($(this).is(':checked')) {
-      jQuery('#nrnota').val(nr_nota_auto +1); 
-      jQuery('#serie').val("SIS");
-      jQuery('#emitente').val("SISTEMA");
+      $('#nrnota').val(nr_nota_auto +1); 
+      $('#serie').val("SIS");
+      $('#emitente').val("SISTEMA");
       $('#nrnota').prop('readonly', true);
       $('#serie').prop('readonly', true);
       $('#emitente').prop('readonly', true);
+      document.getElementById("valornota").select();
     }
     if (!$(this).is(':checked')) {
-      jQuery('#nrnota').val("");
-      jQuery('#serie').val("");
-      jQuery('#emitente').val("");
+      $('#nrnota').val("");
+      $('#serie').val("");
+      $('#emitente').val("");
       $('#nrnota').prop('readonly', false);
       $('#serie').prop('readonly', false);
       $('#emitente').prop('readonly', false);
+      document.getElementById("nrnota").select();
+
     }
   });
+
+
 });
+
+// TELA CADASTRO DE PRODUTOS
+
+$('#vlpreco').keyup(function(){
+  var vl_preco_uni = ($('#vlpreco').val() == '' ? 0 : $('#vlpreco').val());
+  var vl_preco_uni = parseFloat(vl_preco_uni).toFixed(2);
+  $('#vlprecoatacado').val(vl_preco_uni);
+
+}); 
+  
 
 
 

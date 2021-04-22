@@ -589,7 +589,7 @@ class Venda extends CI_Controller {
 			$saldo_atual = $this->modelestoque->consulta_estoque_saldo(md5($idprodutoj)); 
 
 			// vamos ver se tem saldo suficeite para a venda.
-			$saldo_atual_qtd = $saldo_atual  - $quantidade_tot_sai ;// - $qtd_itens_ja_add_no_caixa ;
+			$saldo_atual_qtd = $saldo_atual-$quantidade_tot_sai+1; //$qtd_itens_ja_add_no_caixa ;
 
 			if ($saldo_atual_qtd < 0.01)
 			{

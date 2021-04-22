@@ -55,7 +55,7 @@
 
                         <div class="form-group"> 
                             <div class="col-lg-7 quantidade-ites text">
-                                <label> Quantidade  </label>
+                                <label> Quantidade - <b class="atalho-front"> sF1 </b>  </label>
                                 <input id="quantidade" name="quantidade" type="number" class="form-control" value="1,00" step="0.01" onkeydown="javascript:EnterTab('nomeproduto',event)">
                             </div>
                         </div>
@@ -144,8 +144,8 @@
                     
                         <div class ="col-lg-4 col-sm-12 btn-finalizar-venda" id="btn-venda">
                             <a href="">
-                                <button class="btn btn-success" type="submit" id="btn-finaliza-venda" > 
-                                    Finalizar Venda
+                                <button class="btn btn-success btn_click_shift_f2" type="submit" id="btn-finaliza-venda" > 
+                                    Finalizar Venda <b class="atalho-front"> sF2 </b>
                                 </button> 
                             </a>
                         </div>

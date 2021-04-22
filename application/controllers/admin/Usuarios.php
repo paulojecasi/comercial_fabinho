@@ -157,9 +157,6 @@ class Usuarios extends CI_Controller {
 		'Nome do Usuario',		// nome da label (template)
 		'required|min_length[3]');  
 
-		$this->form_validation->set_rules('txt-email', 'E-mail',		 
-		'required');
-
 		$this->form_validation->set_rules('idtipo_acesso', 'Tipo de Acesso',		 
 		'required');
 

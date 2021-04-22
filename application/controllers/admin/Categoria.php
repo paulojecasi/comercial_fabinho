@@ -140,8 +140,6 @@ class Categoria extends CI_Controller {
 		'txt-categoria',        // id do input (template)
 		'Nome da Categoria',		// nome da label (template)
 		'required|min_length[3]'); //requerido|minimo 3 caract|
-		$this->form_validation->set_rules(
-		'categoriadest','Destacar no Site?','required'); 
 				
 		if ($this->form_validation->run() == FALSE){
 

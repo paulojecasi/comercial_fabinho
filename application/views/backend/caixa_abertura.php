@@ -1,13 +1,9 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-10 text-center title-abertura-caixa">
+        <div class="col-lg-12 text-center title-abertura-caixa">
             <h3> <?php echo $titulo ?></h3>
         </div>
-        <div class ="col-lg-2 col-md-4 col-sm-4 text-center link-voltar-cadproduto">    
-            <a href ="<?php echo base_url('admin/caixa') ?>">         
-                <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar</h4>
-            </a>
-        </div>
+   
     </div>
     <!-- /.row -->
 
@@ -35,14 +31,22 @@
                                   <input type="number" class="form-control" id="vltrocoini" name="vltrocoini" step="0.01" placeholder="0.00">
                             </div>
 
-                            <div class="col-lg-12 text-center">
-                                <br> 
-                                <a href="">
-                                    <button class="btn btn-primary" id="btn-add-abertura-cx" type="submit" > 
-                                        Abrir Caixa 
-                                    </button> 
-                                </a>
-                            </div>
+                            <section>
+                                <div class="col-lg-6 text-center">
+                                    <br> 
+                                    <a href="">
+                                        <button class="btn btn-primary person" id="btn-add-abertura-cx" type="submit" > 
+                                            Abrir Caixa 
+                                        </button> 
+                                    </a>
+                                </div>
+
+                                <div class ="col-lg-6 col-md-4 col-sm-4 text-center link-voltar-cadproduto">    
+                                    <a href ="<?php echo base_url('admin/caixa') ?>">         
+                                        <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar</h4>
+                                    </a>
+                                </div>
+                            </section>
                             
                             <?php 
                             // fechar o formulario 

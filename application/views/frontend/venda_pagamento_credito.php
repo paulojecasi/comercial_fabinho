@@ -41,9 +41,9 @@
         <section class="btn-retorno-pag-deb"> 
             <div class="form-group col-lg-12 btn-link"> 
                 <div class ="col-lg-12 text-center link-voltar">
-                    <a href="<?php echo base_url('venda/venda_pagamento/').$idcaixa ?>">
-                         <?php echo img(base_url('assets/frontend/img/voltar2.png')); ?>
-                            Voltar para Escolher Pagamento
+                    <a href="<?php echo base_url('venda/venda_pagamento/').$idcaixa ?>" class="btn_click_shift_r">
+                         <i class="fa fa-reply-all"> </i>
+                            Voltar para Escolher Pagamento <b class="atalho-front"> sR </b>
                     </a>
                 </div>
             </div>

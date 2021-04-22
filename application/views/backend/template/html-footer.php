@@ -52,7 +52,7 @@
                 if  (!isNaN(nomeproduto)) {
                     var nomeproduto = jQuery('#nomeproduto').val();
                     // só consulta se for a cima de 13 caract
-                    if (nomeproduto.length >=13){
+                    if (nomeproduto.length >=7){
                         setTimeout(function() {
                             load_data(nomeproduto,1);
                         },300) // consulta depois de 0,5 segundos
@@ -116,11 +116,43 @@
         function carregarProduto(idproduto_cons)
         {
             $.ajax({
+                dataType:'json',
                 url:"<?php echo base_url(); ?>admin/produto/consultajquery_produto_admin",
+                cache : false,
                 method:"POST",
                 data:{idproduto_cons:idproduto_cons},
                 success:function(data){
-                    $('#resultado_prod_item').html(data); 
+                    
+                    if (data.nomepro){
+                        $('#vlunitario').val(data.vlcusto); 
+                        $('#vlvenda_est').val(data.vlpreco); 
+                        $('#vlatacado_est').val(data.vlatacado);
+                        $('#codproduto_est').val(data.codpro); 
+                        $('#desproduto_est').val(data.nomepro);
+                        $('#idproduto_est').val(data.idproduto);
+                        // vamos ver a porcentagem encima do valor de custo
+                        if (data.vlcusto>0){
+
+                            var vl_preco_venda = (data.vlpreco-data.vlcusto) / 
+                                                data.vlcusto * 100; 
+
+                            var vl_preco_atac = (data.vlatacado-data.vlcusto) / 
+                                                data.vlcusto * 100; 
+
+                            vl_preco_venda = parseFloat(vl_preco_venda).toFixed(2);
+                            vl_preco_atac = parseFloat(vl_preco_atac).toFixed(2);                           
+                            $('#percent_vl_venda').val(vl_preco_venda);
+                            $('#percent_vl_atac').val(vl_preco_atac); 
+                        } else{
+                            $('#percent_vl_venda').val(0); 
+                            $('#percent_vl_atac').val(0); 
+                        }
+
+
+                        
+                        document.getElementById("vlunitario").select();
+                    }
+                    //paulo 
                 }
             })
         } 

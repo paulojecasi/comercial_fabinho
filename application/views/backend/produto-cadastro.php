@@ -1,14 +1,10 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-9 title-cadastro-prod text-center" >
+        <div class="col-lg-12 title-cadastro-prod text-center" >
             <h3 class="page-header"> <?php echo $subtitulo ?></h3>
 
         </div>
-        <div class ="col-lg-3 col-md-4 col-sm-4 text-center link-voltar-cadproduto">    
-            <a href ="<?php echo base_url('admin/produto') ?>">         
-                <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
-            </a>
-        </div>
+        
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
@@ -40,12 +36,12 @@
                                 <label> Codigo de Barras 
                                     <i class="fa fa-barcode" aria-hidden="true"></i>
                                 </label>
-                                <input id="codbarras" name="codbarras" type="text"class = "form-control" placeholder ="Informe o Codigo de Barras" value="<?php echo set_value('codbarras') ?>" onkeydown="javascript:EnterTab('produtoativo',event)" autofocus="true">
-                            </div>
+                                <input id="codbarras" name="codbarras" type="text"class = "form-control" placeholder ="Informe o Codigo de Barras" value="<?php echo set_value('codbarras') ?>" onkeydown="javascript:EnterTab('btn-add-produto',event)" autofocus="true">
+                            </div> 
 
                             <div class="form-group col-lg-7">
                                 <label> Descrição do Produto </label>
-                                <input id="txt-desproduto" name="txt-desproduto" type="text"class = "form-control" placeholder ="Digite o nome do produto" value="<?php echo set_value('txt-desproduto') ?>" onkeydown="javascript:EnterTab('codbarras',event)" required> 
+                                <input id="txt-desproduto" name="txt-desproduto" type="text"class = "form-control" placeholder ="Digite o nome do produto" value="<?php echo set_value('txt-desproduto') ?>" onkeydown="javascript:EnterTab('produtoativo',event)" required> 
                             </div>
 
                            
@@ -144,7 +140,7 @@
                             
                             <div class="form-group col-lg-2"> 
                                 <label> Qt Itens Atacado </label>
-                                <input type="number" class="form-control" id="qtatacado" name="qtatacado" placeholder="0" value="<?php echo set_value('qtatacado') ?>" onkeydown="javascript:EnterTab('vllargura',event)">
+                                <input type="number" class="form-control" id="qtatacado" name="qtatacado" placeholder="1.00" value="1.00" onkeydown="javascript:EnterTab('vllargura',event)">
                             </div>
                             <div class="form-group col-lg-3"> 
                                 <label> Largura </label>
@@ -163,16 +159,21 @@
                                 <input type="number" class="form-control" id="vlpeso" name="vlpeso" step="0.01" placeholder="0.00" value="<?php echo set_value('vlpeso') ?>" onkeydown="javascript:EnterTab('txt-desproduto',event)">
                             </div>
                             
-                                                   
-                    
-                            <div class="col-lg-12 text-center">
-                                <br> 
-                                <a href="">
-                                    <button class="btn btn-primary" id="btn-add-produto" > 
-                                        Adicionar Produto
-                                    </button> 
-                                </a>
-                            </div>
+                            <section>
+                                <div class="col-lg-8 text-center">
+                                    <br> 
+                                    <a href="">
+                                        <button class="btn btn-primary person btn_click_shift_f4" id="btn-add-produto" placeholder="0.00" onkeydown="javascript:EnterTab('txt-desproduto',event)"> 
+                                            &nbsp Salvar &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b>
+                                        </button> 
+                                    </a>
+                                </div>
+                                <div class ="col-lg-4 text-center link-voltar-cadproduto">    
+                                    <a href ="<?php echo base_url('admin/produto') ?>">         
+                                        <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
+                                    </a>
+                                </div>
+                            </section>
                       
                             <?php 
                             // fechar o formulario 

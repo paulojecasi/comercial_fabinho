@@ -146,8 +146,8 @@
 
 
             <div class ="col-lg-4 text-center link-voltar link-voltar-tela-inicio">
-                <a href="<?php echo base_url('venda') ?>">
-                       <i class="fa fa-home" aria-hidden="true"></i> Ir para Venda
+                <a href="<?php echo base_url('venda') ?>" class="btn_click_shift_r">
+                       <i class="fa fa-home" aria-hidden="true"></i> Ir para Venda <b class="atalho-front"> sR </b>
                 </a>
             </div>
 

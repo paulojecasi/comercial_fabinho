@@ -104,6 +104,7 @@ $("#form-add-item-estoque").bind("keypress", function (e) {
     }
 });
 
+// TEMPLATE CADASTRO DE PRODUTOS 
 $("#form-cadastro-produto").bind("keypress", function (e) {
     if (e.keyCode == 13) {
         $("#btn-add-produto").attr('value');
@@ -135,6 +136,132 @@ $("#form-fechamento-caixa").bind("keypress", function (e) {
     }
 });
 
+
+
+ 
+
+var pressedShift = false;
+
+
+document.onkeyup=function(c){
+    if(c.which == 16)
+        pressedShif =false;
+}
+document.onkeydown=function(c){
+    if(c.which == 16){
+        pressedShif = true;
+    }
+
+    // SHIFT + F1
+    if(c.which == 112 && pressedShif == true) {
+        document.getElementById("quantidade").select();
+    }
+
+    // SHIFT + F2 
+    if(c.which == 113 && pressedShif == true) {
+        $('.btn_click_shift_f2').click();
+    }
+
+    // SHIFT + F4 
+    if(c.which == 115 && pressedShif == true) {
+        $('.btn_click_shift_f4').click();
+    }
+
+    // SHIFT + A
+    if(c.which == 65 && pressedShif == true) {
+        $("a.btn_click_shift_a")[0].click();
+    }
+
+    // SHIFT + B
+    if(c.which == 66 && pressedShif == true) {
+        $('.btn_click_shift_b').click();
+    }
+
+     // SHIFT + C
+    if(c.which == 67 && pressedShif == true) {
+        $('.btn_click_shift_c').click();
+    }
+
+     // SHIFT + D
+    if(c.which == 68 && pressedShif == true) {
+        $("a.btn_click_shift_d")[0].click();
+    }
+
+    // SHIFT + F
+    if(c.which == 66 && pressedShif == true) {
+        $('.btn_click_shift_f').click();
+    }
+
+    // SHIFT + P
+    if(c.which == 80 && pressedShif == true) {
+        $("a.btn_click_shift_p")[0].click();
+    }
+
+    // SHIFT + E
+    if(c.which == 69 && pressedShif == true) {
+        $("a.btn_click_shift_e")[0].click();
+    }
+
+    // SHIFT + T
+    if(c.which == 84 && pressedShif == true) {
+        $("a.btn_click_shift_t")[0].click();
+    }
+
+
+    // SHIFT + M
+    if(c.which == 77 && pressedShif == true) {
+        $("a.btn_click_shift_m")[0].click();
+    }
+
+    // SHIFT + R
+    if(c.which == 82 && pressedShif == true) {
+        $("a.btn_click_shift_r")[0].click();
+    }
+
+    // SHIFT + U
+    if(c.which == 85 && pressedShif == true) {
+        $("a.btn_click_shift_u")[0].click();
+    }
+
+    // SHIFT + V
+    if(c.which == 86 && pressedShif == true) {
+        $("a.btn_click_shift_v")[0].click();
+    }
+
+    // SHIFT + 1
+    if(c.which == 49 && pressedShif == true) {
+        $("a.btn_click_shift_1")[0].click();
+    }
+
+    // SHIFT + 2
+    if(c.which == 50 && pressedShif == true) {
+        $("a.btn_click_shift_2")[0].click();
+    }
+
+    // SHIFT + 3
+    if(c.which == 51 && pressedShif == true) {
+        $("a.btn_click_shift_3")[0].click();
+    }
+
+    // SHIFT + 4
+    if(c.which == 52 && pressedShif == true) {
+        $("a.btn_click_shift_4")[0].click();
+    }
+
+    // SHIFT + 5
+    if(c.which == 53 && pressedShif == true) {
+        $("a.btn_click_shift_5")[0].click();
+    }
+
+
+
+    
+
+
+}
+        
+     
+ 
 
 
 

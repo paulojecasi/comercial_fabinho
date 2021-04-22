@@ -198,7 +198,6 @@ class Produto extends CI_Controller {
 		'Descrição do Produto',		 // nome da label (template)
 		'required|min_length[3]'); 
 		$this->form_validation->set_rules('codbarras','Codigo de Barras','required');
-		$this->form_validation->set_rules('codproduto','Codigo do Produto');
 		$this->form_validation->set_rules('corproduto','Cor do Produto','required');
 
 		$this->form_validation->set_rules('idcategoria','Categoria do Produto','required');
@@ -216,6 +215,7 @@ class Produto extends CI_Controller {
 				// se nao validar, retorna para a pagina
 				$this->alterar($this->input->post('idproduto'));   
 		} else {
+
 			$idproduto= $this->input->post('idproduto');
 			$idcategoria= $this->input->post('idcategoria');
 			$idmarca= $this->input->post('idmarca');
@@ -235,6 +235,7 @@ class Produto extends CI_Controller {
 			$produtodestaque= $this->input->post('produtodestaque');
 			$produtosite= $this->input->post('produtosite');
 			$qtatacado= $this->input->post('qtatacado');
+
 
 			if ($this->modelproduto->alterar($idproduto,$idcategoria,$idmarca,$desproduto,$codbarras,$codproduto,$corproduto, $vlpreco,$vlprecoatacado,$vllargura,$vlaltura,$vlcomprimento,$vlpeso,$vlpromocao,$vlpromocaoatacado,$produtoativo,$produtodestaque,$produtosite, $qtatacado)){
 
@@ -473,13 +474,16 @@ class Produto extends CI_Controller {
 	 		
 		foreach ($dados as $produto_con) 
 		{
-			$codbar = $produto_con->codbarras;
-		    $codpro = $produto_con->codproduto;
-		    $nomepro= $produto_con->desproduto;
-		    $idproduto = $produto_con->idproduto; 
+			$dados['vlcusto'] = $produto_con->vlnota;
+			$dados['vlpreco'] = $produto_con->vlpreco;
+			$dados['vlatacado'] = $produto_con->vlprecoatacado;
+	    $dados['codpro'] = $produto_con->codproduto;
+	    $dados['nomepro']= $produto_con->desproduto;
+	    $dados['idproduto'] = $produto_con->idproduto;
+
 		}
 
-
+		/*
 		$output .= '
 		<div class="form-group col-lg-8 cons-item"> 
 	        <label> Codigo de Barras </label>
@@ -499,8 +503,10 @@ class Produto extends CI_Controller {
 	    <input type="hidden" id="idproduto" name="idproduto" value= "'.$idproduto.'"> 
      
     ';
+
+    */
 	 
- 		echo $output;
+ 		echo json_encode($dados);
  		exit; 
 
 	}

@@ -28,15 +28,16 @@
                             ?>
                                 <div class = "form-group">
                                     <label> Nome do Usuario </label>
-                                    <input id="txt-nome" name="txt-nome" type="text"class = "form-control" placeholder ="Digite o nome do Usuario"
-                                    value = "<?php echo $usuario_alt->nome?>"> 
+                                    <input id="txt-nome" name="txt-nome" type="text"class = "form-control campo-senha" placeholder ="Digite o nome do Usuario"
+                                    value = "<?php echo $usuario_alt->nome?>" autofocus ="true" required> 
 
                                 </div>
+                                <!--
                                 <div class = "form-group">
                                     <label> E-mail </label>
                                     <input id="txt-email" name="txt-email" type="email" class = "form-control" placeholder ="Digite o e-mail"
                                     value = "<?php echo $usuario_alt->email ?>">
-                                </div>
+                                </div> --> 
 
 
                                 <div class="form-group">
@@ -88,23 +89,23 @@
 
                                 <div class = "form-group col-lg-12">
                                     <label> Login </label>
-                                    <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login do Usuario"
-                                    value = "<?php echo $usuario_alt->user ?>">
+                                    <input id="txt-user" name="txt-user" type="text"class = "form-control campo-senha" placeholder ="Digite o Login do Usuario"
+                                    value = "<?php echo $usuario_alt->user ?>" required>
                                 </div>
                                 <div class = "form-group col-lg-6">
                                     <label> Senha </label>
-                                    <input id="txt-senha" name="txt-senha" type="password"class = "form-control" >
+                                    <input id="txt-senha" name="txt-senha" type="password"class = "form-control"  required>
                                 </div>
                                 <div class = "form-group col-lg-6">
                                     <label> Confirmar Senha  </label>
-                                    <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" >
+                                    <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" required>
                                 </div>
 
                                 <!-- INPUT OCULTO PARA ENVIAR O ID--> 
                                 <input  type="hidden" id="txt-id" name="txt-id" value= "<?php echo $usuario_alt->id ?>" 
                                 >
                                 <div class = "form-group col-lg-6 col-md-6 col-sm-6 text-center">
-                                    <button type="submit" class="btn btn-primary" > Alterar Usuário </button> 
+                                    <button type="submit" class="btn btn-primary person btn_click_shift_f4" > &nbsp Atualizar  &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b>  </button> 
                                 </div>
 
                                 <div class ="col-lg-6 col-md-6 col-sm-6 text-center link-voltar-cadproduto">    

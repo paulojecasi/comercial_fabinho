@@ -30,15 +30,17 @@
                             
                             <div class = "form-group">
                                 <label> Nome do Usuario </label>
-                                <input id="txt-nome" name="txt-nome" type="text"class = "form-control" placeholder ="Digite o nome do Usuario"
-                                value = "<?php echo set_value('txt-nome') ?>"> 
+                                <input id="txt-nome" name="txt-nome" type="text"class = "form-control campo-senha" placeholder ="Digite o nome do Usuario"
+                                value = "<?php echo set_value('txt-nome') ?>" autofocus="true" required> 
 
                             </div>
+                            <!-- 
                             <div class = "form-group">
                                 <label> E-mail </label>
                                 <input id="txt-email" name="txt-email" type="email" class = "form-control" placeholder ="Digite o e-mail"
-                                value = "<?php echo set_value('txt-email') ?>">
+                                value = "<?php echo set_value('txt-email') ?>" required>
                             </div>
+                            --> 
 
                             <div class="form-group">
                               <label for="idtipo_acesso"> Tipo de Acesso do Usuário </label>
@@ -80,16 +82,16 @@
 
                             <div class = "form-group col-lg-12">
                                 <label> Login </label>
-                                <input id="txt-user" name="txt-user" type="text"class = "form-control" placeholder ="Digite o Login"
-                                value = "<?php echo set_value('txt-user') ?>">
+                                <input id="txt-user" name="txt-user" type="text"class = "form-control  campo-senha" placeholder ="Digite o Login"
+                                value = "<?php echo set_value('txt-user') ?>" required>
                             </div>
                             <div class = "form-group col-lg-6">
                                 <label> Senha </label>
-                                <input id="txt-senha" name="txt-senha" type="password"class = "form-control" onfocus="this.removeAttribute('readonly');"  >
+                                <input id="txt-senha" name="txt-senha" type="password"class = "form-control campo-senha" onfocus="this.removeAttribute('readonly');"  required>
                             </div>
                             <div class = "form-group col-lg-6">
                                 <label> Confirmar Senha  </label>
-                                <input id="txt-csenha" name="txt-csenha" type="password"class = "form-control" onfocus="this.removeAttribute('readonly');" >
+                                <input id="txt-csenha campo-senha" name="txt-csenha" type="password"class = "form-control" onfocus="this.removeAttribute('readonly');" required>
                             </div>
                             
                             <!--
@@ -101,12 +103,13 @@
 
                             <br>
 
-                            <a href="">
-                                <button class="btn btn-primary" > 
-                                    Adicionar
-                                </button> 
-                            </a>
-                      
+                            <div class = "form-group col-lg-12">
+                                <a href="">
+                                    <button class="btn btn-primary person btn_click_shift_f4" > 
+                                        &nbsp Cadastrar  &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b>
+                                    </button> 
+                                </a>
+                            </div>
                             <?php 
                             // fechar o formulario 
                             echo form_close();

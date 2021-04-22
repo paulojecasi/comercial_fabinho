@@ -32,14 +32,14 @@
                             ?>
                             <div class="form-group"> 
                                 <label> Nome da Categoria </label>
-                                <input id="txt-categoria" name="txt-categoria" type="text"class = "form-control" placeholder ="Digite o nome da categoria">
+                                <input id="txt-categoria" name="txt-categoria" type="text"class = "form-control" placeholder ="Digite o nome da categoria" autofocus="true" required>
                             </div>
 
                        
                             <br>
                             <a href="">
-                                <button class="btn btn-primary" > 
-                                    Adicionar
+                                <button class="btn btn-primary person btn_click_shift_f4" > 
+                                    &nbsp Cadastrar  &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b> 
                                 </button> 
                             </a>
                       
@@ -116,7 +116,7 @@
                             }
 
                             $this->table->set_template(array(
-                                'table_open' => '<table class="table table-striped">'
+                                'table_open' => '<table class="table table-striped table-uper-case">'
                             ));
 
                             echo $this->table->generate(); 

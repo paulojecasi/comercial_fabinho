@@ -7,7 +7,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url('/assets/backend/js/sb-admin-2.js') ?>"></script>
 
-    <!-- meus scripts PJCS  -->
+    <!-- meus scripts PJCS  --> 
     <script src="<?php echo base_url('/assets/backend/js/myscripts.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-mask.js') ?>"></script>
     <script src="<?php echo base_url('/assets/backend/js/myscripts-teclas.js') ?>"></script>

@@ -38,7 +38,7 @@
                          
                                 <div class="form-group col-lg-6 nomeproduto-admin">
                                     <label for="nomeproduto"> Informe Produto </label>
-                                    <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
+                                    <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
                                     <br> 
                                 </div>
                                 
@@ -56,7 +56,7 @@
                            
                                 <div class ="col-lg-2 text-center btn-consulta-est">
                                     <a href="">
-                                        <button class="btn btn-info consulta" id="btn_consulta_est"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
+                                        <button class="btn btn-info consulta" id="btn_consulta_est">  <i class="fa fa-search" aria-hidden="true"></i> 
                                             Buscar
                                         </button> 
                                     </a>

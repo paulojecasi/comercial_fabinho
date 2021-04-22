@@ -18,7 +18,7 @@
                         <div class="col-lg-12 dados-notagravada">
 
                             <?php
-                            $situacao=0;
+                            $situacao=0; 
                             $disabledC ="";
                             $disabledF =""; 
                             $idestoque_entrada=0;
@@ -211,43 +211,43 @@
                                 $this->load->view('frontend/template/mensagem-alert');
                                 ?>
                                  
-                                    <div class="panel panel-default title-itens-c col-lg-6 panel-consulta-prod">
-                                        <div class="panel-body">
-                                            <div class="form-group nomeproduto-admin">
-                                                <label for="nomeproduto"> Informe Produto </label>
-                                                <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
-                                                <br> 
-                                            </div>
-                                            
-                                            <!--
-                                            <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)">
-                                            </div> -->
-
-                                            <div class ="resultado-produto form-group col-lg-12">
-                                                <div class= "form-group picklist-prod resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)" autofocus="true">
-                                                    <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="4">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-
-                                            <!-- INPUT OCULTO PARA ENVIAR O ID--> 
-                                            <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" >
-                                
-                                            <div class ="col-lg-12 col-sm-12 text-center btn-busca-item" onkeydown="javascript:EnterTab('vlunitario',event)">
-                                                <a>
-                                                    <button class="btn btn-info consulta" id="btn_buscar_item" value="<?php echo $this->input->post('idproduto_res'); ?>"> <?php echo img(base_url('assets/frontend/img/lupa.png')); ?>
-                                                        Buscar
-                                                    </button> 
-                                                </a>
-                                            </div>
-                                
+                                <div class="panel panel-default title-itens-c col-lg-5 panel-consulta-prod">
+                                    <div class="panel-body">
+                                        <div class="form-group nomeproduto-admin">
+                                            <label for="nomeproduto"> Informe Produto </label>
+                                            <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" autofocos required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
+                                            <br> 
                                         </div>
+                                        
+                                        <!--
+                                        <div class="form-group resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)">
+                                        </div> -->
+
+                                        <div class ="resultado-produto form-group col-lg-12">
+                                            <div class= "form-group picklist-prod resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item',event)" autofocus="true">
+                                                <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="4">
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- INPUT OCULTO PARA ENVIAR O ID--> 
+                                        <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" >
+                            
+                                        <div class ="col-lg-12 col-sm-12 text-center btn-busca-item" onkeydown="javascript:EnterTab('vlunitario',event)">
+                                            <a>
+                                                <button class="btn btn-info consulta" id="btn_buscar_item" value="<?php echo $this->input->post('idproduto_res'); ?>">  <i class="fa fa-search" aria-hidden="true"></i> 
+                                                    Buscar
+                                                </button> 
+                                            </a>
+                                        </div>
+                            
                                     </div>
+                                </div>
                               
 
-                                <div class="panel panel-default title-itens-c col-lg-6 panel-prod-consultado">
+                                <div class="panel panel-default title-itens-c col-lg-7 panel-prod-consultado">
                                     <?php
 
                                     echo form_open('admin/estoque/inserir_estoque_item','id="form-add-item-estoque" autocomplete="off"');
@@ -256,33 +256,96 @@
                                     
                                     ?> 
 
+                                    <!--
                                     <div class="form-group resultado_prod_item" id="resultado_prod_item" onkeydown="javascript:EnterTab('vlunitario',event)">
+                                    </div> --> 
+                                    <div class="form-group col-lg-9 cons-item"> 
+                                        <label> Descrição  </label>
+                                        <input id="desproduto_est" name="desproduto_est" type="text" class="form-control">
+                                    </div>
+
+                                    <div class="form-group col-lg-3 cons-item"> 
+                                        <label> Cod Produto </label>
+                                        <input id="codproduto_est" name="codproduto_est" type="text" class="form-control">
+                                    </div>
+
+                                    <section id="vl-atual-venda">
+                                        <div class="form-group col-lg-4 cons-item"> 
+                                            <label> Valor atual para Venda</label>
+                                            <input id="vlvenda_est" name="vlvenda_est" type="text" class="form-control" >
                                         </div>
 
-                                    <div class="form-group col-lg-8 col-sm-12 vercons">  
+                                        <div class="form-group col-lg-2 cons-item"> 
+                                            <label> % </label>
+                                            <input id="percent_vl_venda" name="percent_vl_venda" type="text" class="form-control">
+                                        </div>
+                                    </section>
+
+                                    <section id="vl-atual-atacado">
+                                        <div class="form-group col-lg-4 cons-item"> 
+                                            <label> Valor atual para atacado </label>
+                                            <input id="vlatacado_est" name="vlatacado_est" type="text" class="form-control" >
+                                        </div>
+                                        <div class="form-group col-lg-2 cons-item"> 
+                                            <label> %  </label>
+                                            <input id="percent_vl_atac" name="percent_vl_atac" type="text" class="form-control">
+                                        </div>
+                                    </section>
+
+                                    <input type="hidden" id="idproduto_est" name="idproduto_est"> 
+
+                                    <div class="form-group col-lg-4 col-sm-12 vercons">  
                                         <label> Valor Unitario </label>
                                         <input type="number" class="form-control" id="vlunitario" name="vlunitario" step="0.01" placeholder="0.00" value="<?php echo set_value('vlunitario') ?>" onkeydown="javascript:EnterTab('quantidade',event)" required>
                                     </div>
 
-                                    <div class="form-group col-lg-4 col-sm-12 vercons">  
+                                    <div class="form-group col-lg-3 col-sm-12 vercons">  
                                         <label> Quantidade </label>
                                         <input type="number" step="0.01" class="form-control" id="quantidade" name="quantidade"   placeholder="0" value="<?php echo set_value('quantidade') ?>" onkeydown="javascript:EnterTab('vlunitario',event)" required>
                                     </div>
 
-                                    <div class="form-group col-lg-8 col-sm-12 vercons">  
+                                    <div class="form-group col-lg-5 col-sm-12 vercons">  
                                         <label> Valor Total </label>
                                         <input type="number" class="form-control" id="vltotal" name="vltotal" step="0.01" placeholder="0.00" value="<?php echo set_value('vltotal') ?>" >
                                     </div>
+
+                                    <div class="form-group col-lg-12" id="panel-atualiza-vl-itens-entrada">
+                                        <div class="form-group col-lg-5 vercons2">  
+                                            <label id="title-p1"> Atualizar Vl da Venda: </label>
+                                        </div>
+                                        <div class="form-group col-lg-3 vercons2"> 
+                                            <label> %   </label> 
+                                            <input type="number" step="0.01" class="form-control" id="vl_venda_atual_perc_est" name="vl_venda_atual_perc_est"   placeholder="0" value="<?php echo set_value('vl_venda_atual_perc_est') ?>" onkeydown="javascript:EnterTab('vl_venda_atual_est',event)" >
+                                        </div>
+
+                                        <div class="form-group col-lg-4  vercons2"> 
+                                            <label> Valor a atualizar  </label>  
+                                            <input type="number" class="form-control" id="vl_venda_atual_est" name="vl_venda_atual_est" step="0.01" placeholder="0.00" value="<?php echo set_value('vl_venda_atual_est') ?>" onkeydown="javascript:EnterTab('vl_atacado_atual_perc_est',event)" >
+                                        </div>
+
+                                        <div class="form-group col-lg-5 vercons2">  
+                                            <label id="title-p2"> Atualizar Vl Atacado :  </label>
+                                        </div>
+                                        <div class="form-group col-lg-3 vercons2"> 
+                                            <input type="number" step="0.01" class="form-control" id="vl_atacado_atual_perc_est" name="vl_atacado_atual_perc_est"   placeholder="0" value="<?php echo set_value('vl_atacado_atual_perc_est') ?>" onkeydown="javascript:EnterTab('vl_atacado_atual_est',event)" >
+                                        </div>
+
+                                        <div class="form-group col-lg-4  vercons2"> 
+                                            <input type="number" class="form-control" id="vl_atacado_atual_est" name="vl_atacado_atual_est" step="0.01" placeholder="0.00" value="<?php echo set_value('vl_atacado_atual_est') ?>"  onkeydown="javascript:EnterTab('vl_venda_atual_perc_est',event)">
+                                        </div>
+                                    </div>
+
+
 
                                     <input type="hidden" id="idestoque_entrada" name="idestoque_entrada" value= "<?php echo $idestoque_entrada ?>" 
                                     >
                                     <input type="hidden" id="nrnota" name="nrnota" value= "<?php echo $nrnota ?>" 
                                     >
 
-                                    <div class ="col-lg-4 col-sm-12 btn-add-item-estoque">
+                                    <div class ="col-lg-12 col-sm-12 btn-add-item-estoque text-center">
                                       
-                                            <button class="btn btn-primary" id ="btn-item-estoque" type="submit" > 
-                                                Adicionar Produto 
+                                            <button class="btn btn-primary person btn_click_shift_f4" id ="btn-item-estoque" type="submit" > 
+                                               &nbsp Adicionar &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b>  
                                             </button> 
                                          
                                     </div>
@@ -393,7 +456,7 @@
                             }
 
                             $this->table->set_template(array(
-                                'table_open' => '<table class="table table-striped">'
+                                'table_open' => '<table class="table table-striped table-uper-case">'
                             ));
 
                             echo $this->table->generate(); 

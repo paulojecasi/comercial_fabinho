@@ -41,7 +41,7 @@
                                 >
                     
                                 <div class = "col-lg-6 col-md-6 col-sm-6"> 
-                                    <button type="submit" class="btn btn-primary" > Atualizar </button> 
+                                    <button type="submit" class="btn btn-primary person btn_click_shift_f4" > &nbsp Atualizar  &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b> </button> 
                                 </div>
 
                                 <div class ="col-lg-6 col-md-6 col-sm-6 text-center link-voltar-cadproduto">    
