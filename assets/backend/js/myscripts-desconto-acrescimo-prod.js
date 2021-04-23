@@ -14,6 +14,9 @@ jQuery(document).ready(function(){
    
     var vl_preco_ata = (jQuery('#vlpreco_ata').val() == '' ? 0 : jQuery('#vlpreco_ata').val());
    
+    var vl_preco_var = (jQuery('#vlpreco_var').val() == '' ? 0 : jQuery('#vlpreco_var').val());
+   
+
     var quantidadeitens = (jQuery('#quantidadeitens_alt').val() == '' ? 0 : jQuery('#quantidadeitens_alt').val());
     
     var quantidadeitens_ata = (jQuery('#quantidadeitens_ata').val() == '' ? 0 : jQuery('#quantidadeitens_ata').val());
@@ -61,13 +64,18 @@ jQuery(document).ready(function(){
             (parseFloat(vl_preco_uni).toFixed(2) * parseFloat(quantidadeitens).toFixed(2)): 
             (parseFloat(vl_preco_ata).toFixed(2) * parseFloat(quantidadeitens).toFixed(2));
 
+    var vlpreco_unit = (quantidadeitens < quantidadeitens_ata) ?
+            parseFloat(vl_preco_var) : parseFloat(vl_preco_ata) ;  
+
     valortotal = (parseFloat(valortotal) 
                 - parseFloat(valordesconto) 
                 + parseFloat(valoracrescimo));
 
     //valortotal = valortotal.toLocaleString("pt-BR");
     var valortotal= parseFloat(valortotal).toFixed(2);
-    jQuery('#valortotal_alt').val(valortotal);  
+    var vlpreco_unit= parseFloat(vlpreco_unit).toFixed(2);
+    $('#valortotal_alt').val(valortotal);  
+    $('#vlpreco_alt').val(vlpreco_unit);
 
   });
 });

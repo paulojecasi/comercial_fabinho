@@ -370,7 +370,9 @@ class Venda extends CI_Controller {
 		} 
 		elseif ($tipo_pagamento == 8){
 			$this->load->view('frontend/venda_pagamento_externa');
-		} 
+		}elseif ($tipo_pagamento == 11){
+			$this->load->view('frontend/venda_pagamento_pix');
+		}
 		else 
 		{
 			$this->load->view('frontend/venda_pagamento');
@@ -511,7 +513,7 @@ class Venda extends CI_Controller {
 		{ 
 			$this->db->trans_commit(); 
 			$mensagem = "Venda Realizada com Sucesso !"; 
-			$this->session->set_userdata('mensagemAlert',$mensagem); 
+			$this->session->set_userdata('mensagem',$mensagem); 
 			redirect(base_url('venda'));
 	
 		}
@@ -661,11 +663,14 @@ class Venda extends CI_Controller {
       $codproduto = $produto_t->codproduto; 
       $desproduto = $produto_t->desproduto; 
       $vlpreco    = $produto_t->vlpreco;
+      $vlpreco_atacado    = $produto_t->vlprecoatacado;
       $valordesconto    = $produto_t->valordesconto;
       $valoracrescimo    = $produto_t->valoracrescimo;
       $quantidadeitens = $produto_t->quantidadeitens;
+      $quant_atacado = $produto_t->qtatacado; 
       $valortotal = $produto_t->valortotal;
 
+      $vlpreco = $quant_atacado > $quantidadeitens ? $vlpreco : $vlpreco_atacado;  
       $vlpreco =reais($vlpreco);
       $valordesconto = reais($valordesconto);
       $valoracrescimo =reais($valoracrescimo);

@@ -41,6 +41,8 @@ class Caixa extends CI_Controller {
 		$dados['valor_disp_cx']	= null; 
 		$dados['trocoini']			= null; 
 		$dados['retirada_dinheiro']	= null; 
+		$dados['pix_transferencia']	= null; 
+		$dados['valor_total_mov']	= null; 
 
 		$dados['avista'] 				=$this->session->userdata('avista');
 		$dados['cartaodebito'] 	=$this->session->userdata('cartaodebito');
@@ -52,7 +54,9 @@ class Caixa extends CI_Controller {
 		$dados['vendaexterna']	=$this->session->userdata('vendaexterna');
 		$dados['valor_disp_cx'] =$this->session->userdata('valor_disp_cx');
 		$dados['trocoini']			=$this->session->userdata('trocoini');
-		$dados['retirada_dinheiro']			=$this->session->userdata('retirada_dinheiro');
+		$dados['retirada_dinheiro']		=$this->session->userdata('retirada_dinheiro');
+		$dados['pix_transferencia']	  =$this->session->userdata('pix_transferencia'); 
+		$dados['valor_total_mov']	= $this->session->userdata('valor_total_mov');
 
 		$idcaixa= $this->session->userdata('idcaixa'); 
 		$dados['idcaixa']= $idcaixa; 
@@ -114,7 +118,7 @@ class Caixa extends CI_Controller {
 			$datafinal = date('Y-m-d');
 		} 
 
-		$this->load->library('table');
+		$this->load->library('table'); 
 
 		$dados['movimento_produto_caixa']=$this->modelcaixa_movimento->getConsulta_movimento_caixa_produto($idcaixa_md, $datainicio, $datafinal);
 
@@ -369,7 +373,9 @@ class Caixa extends CI_Controller {
 	 	$trocoini=0; 
 	 	$valor_disp_cx =0; 
 	 	$retirada_dinheiro=0; 
-	 	$vendaexterna=0; 
+	 	$vendaexterna=0;
+	 	$pixTransfer=0;  
+	 	$valor_total_mov=0; 
 
 		foreach ($dados as $movimento_caixa_result) 
 		{
@@ -417,12 +423,20 @@ class Caixa extends CI_Controller {
 				{
 					$vendaexterna += $vl_real; 
 				}
+				elseif ($tipo_movimento ==11)
+				{
+					$pixTransfer += $vl_real; 
+				}
 				elseif ($tipo_movimento ==9)
 				{
 					$retirada_dinheiro += $vl_movimento; 
 				}
 
-				$valor_disp_cx = $trocoini+$avista+$crediarioreceb+$vendaexterna-$retirada_dinheiro; 
+				$valor_disp_cx = 	$trocoini+$avista+$crediarioreceb+$vendaexterna-
+													$retirada_dinheiro; 
+
+				$valor_total_mov = 	$valor_disp_cx + $retirada_dinheiro + $cartaodebito +
+														$cartaocredito + $crediario + $pixTransfer;  
 			}
 	
 		}
@@ -440,6 +454,8 @@ class Caixa extends CI_Controller {
 			!$vendaexterna
 			&& 
 			!$trocoini
+			&& 
+			!$pixTransfer
 		)
 		{
 			$mensagem = "Nao ha movimento no periodo informado!"; 
@@ -457,11 +473,13 @@ class Caixa extends CI_Controller {
 			$this->session->set_userdata('crediario',$crediario);
 			$this->session->set_userdata('crediarioreceb',$crediarioreceb);
 			$this->session->set_userdata('vendaexterna',$vendaexterna);
+			$this->session->set_userdata('pix_transferencia',$pixTransfer);
 			$this->session->set_userdata('datainicio',$datainicio);
 			$this->session->set_userdata('datafinal',$datafinal);
 			$this->session->set_userdata('valor_disp_cx',$valor_disp_cx);
 			$this->session->set_userdata('trocoini',$trocoini);
 			$this->session->set_userdata('retirada_dinheiro',$retirada_dinheiro);
+			$this->session->set_userdata('valor_total_mov',$valor_total_mov);
 		}
 		 
 		redirect(base_url('caixa/movimentos_caixa')); 
@@ -487,8 +505,9 @@ class Caixa extends CI_Controller {
 	 	$idcaixa_md5 = md5($idcaixa);
 	 	$mov_troco_ini  = $this->input->post('mov_troco_ini');
 	 	$mov_retirada  = $this->input->post('mov_retirada');
+	 	$mov_pix  = $this->input->post('mov_pix');
 
-	 	$dados = $this->modelcaixa_movimento->getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista, $mov_debito, $mov_credito, $mov_crediario, $mov_crediariorec, $mov_externa, $porJQuery, $mov_troco_ini, $mov_retirada);
+	 	$dados = $this->modelcaixa_movimento->getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista, $mov_debito, $mov_credito, $mov_crediario, $mov_crediariorec, $mov_externa, $porJQuery, $mov_troco_ini, $mov_retirada,$mov_pix);
 
  
 	 	$vl_movimento=0;
@@ -510,6 +529,7 @@ class Caixa extends CI_Controller {
 	 	$vl_real =0; 
 	 	$total_real=0; 
 	 	$total_can=0;
+	 	$pix_transferencia=0; 
 
 		foreach ($dados as $movimento_caixa_result) 
 		{

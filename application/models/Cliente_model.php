@@ -61,6 +61,24 @@ class Cliente_model extends CI_Model
 		return $this->db->update('cliente', $dados); 
 	}
 
+	public function lista_clientes_divida_aberto()
+	{
+		$this->db->where("vl_saldo_devedor > 0");
+		$this->db->from("venda_saldo_crediario");
+		$this->db->join("cliente","cliente.idcliente = venda_saldo_crediario.idcliente");
+		$this->db->order_by("cliente.nome"); 
+		return $this->db->get()->result(); 
+	}
+
+	public function lista_cliente_divida_aberto($idcliente)
+	{
+		$this->db->where("md5(venda_saldo_crediario.idcliente)", $idcliente);
+		$this->db->from("venda_saldo_crediario");
+		$this->db->join("cliente","cliente.idcliente = venda_saldo_crediario.idcliente");
+		return $this->db->get()->result(); 
+	}
+
+
 
 
 }

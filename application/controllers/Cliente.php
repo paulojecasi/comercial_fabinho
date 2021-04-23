@@ -19,7 +19,13 @@ class Cliente extends CI_Controller {
 		$this->load->model('caixa_model','modelcaixa_movimento');
 	}
 
-	public function manutencao_clientes(){
+	public function manutencao_clientes($tipo_acesso=null){
+
+		if ($tipo_acesso == "cliente_aberto")
+		{
+			$this->encerra_sessions(); 
+		}
+
 		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
 		$idcaixa= $this->session->userdata('idcaixa'); 
@@ -219,6 +225,20 @@ class Cliente extends CI_Controller {
 	public function consulta_crediario($idcliente, $localchamado)
 	{
 
+		$dados['nome_cli'] 		= null; 
+		$dados['codigo_cli'] 	= null;
+		$dados['saldo_cli'] 	= null;
+
+		if ($localchamado = "cliente_cred_aberto"){
+			$localchamado = "cliente"; 
+			$resultado_con = $this->modelcliente->lista_cliente_divida_aberto($idcliente);
+			foreach ($resultado_con as $cliente_divida) {
+				$dados['nome_cli'] 		= $cliente_divida->nome; 
+				$dados['codigo_cli'] 	= $cliente_divida->idcliente;
+				$dados['saldo_cli'] 	= $cliente_divida->vl_saldo_devedor;
+			}
+		}
+
 		$this->load->library('table'); 
 
 		$idcaixa= $this->session->userdata('idcaixa'); 
@@ -353,6 +373,19 @@ class Cliente extends CI_Controller {
 	}
 
 
+	private function encerra_sessions()
+	{
+
+		$this->session->unset_userdata('idcliente');
+		$this->session->unset_userdata('nome');
+		$this->session->unset_userdata('apelido');
+		$this->session->unset_userdata('endereco');
+		$this->session->unset_userdata('pontoreferencia');
+		$this->session->unset_userdata('cpf');
+
+	}
+
+
 	function consultajquery_cliente()
 		{
 
@@ -389,6 +422,71 @@ class Cliente extends CI_Controller {
 
  		echo $output;
  		exit; 
+
+	}
+
+	public function consultajquery_clientes()
+	{
+
+		$id_solicitacao = $this->input->post('id_solicitacao');
+		 	   
+		if ($id_solicitacao != 1){
+			exit;
+		}
+		
+		//$this->session->set_userdata('consulta_cli',"S");
+
+		/*
+		echo "oooooooooooooooooooooooooooooooooooooooo"; 
+		echo 
+		'<script>
+	    	alert("'.$id_solicitacao.'"); 
+	  </script>'; 
+	  */
+
+		$resultado = $this->modelcliente->lista_clientes_divida_aberto();
+		$total_saldo_aberto =0;
+
+		if ($resultado)
+		{
+			$output ='';
+			foreach ($resultado as $clientes_list):
+
+	      $codigo 	= $clientes_list->idcliente; 
+	      $nome 		= $clientes_list->nome;
+	      $apelido 	= $clientes_list->apelido;
+	      $endereco = $clientes_list->endereco;
+	      $pontoreferencia = $clientes_list->pontoreferencia;
+	      $cpf			= $clientes_list->cpf;
+	      $saldo_devedor = $clientes_list->vl_saldo_devedor;
+
+	      $total_saldo_aberto += $saldo_devedor; 
+
+				//$this->carrega_sessions($codigo, $nome, $apelido, $endereco, $pontoreferencia, $cpf);
+       	//$this->session->set_userdata('vl_saldo_devedor',$saldo_devedor);
+     
+       	$saldo_devedor = reais($saldo_devedor);  
+       	//$total_saldo_aberto = reais($total_saldo_aberto);
+	     
+	      $botaoconsultar=anchor(base_url('cliente/consulta_crediario/'.md5($codigo).'/cliente_cred_aberto'),
+	          '<h4 class="btn-alterar"><i class="fa fa-eye fa-fw"></i> </i> </h4>');
+
+	      $output.='<tr>
+							 			<td>						'.$codigo.			'</td>  
+							 			<td>					  '.$nome.				'</td>
+							 			<td>					  '.$apelido.			'</td>
+							 			<td>					  '.$cpf.					'</td>
+							 			<td class="valor-saldo-dev"> '.$saldo_devedor.					'</td>
+							 			<td>					  '.$botaoconsultar.		'</td>  
+							 		</tr>' ;
+
+	  	endforeach; 
+	  	$output.= '<th scope="row"> TOT- R$ <b id="tot-sld-ab"> '.reais($total_saldo_aberto).'</b> </th>';
+
+	  
+	 		echo $output;
+
+		}
 
 	}
 

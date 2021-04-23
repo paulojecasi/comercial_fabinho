@@ -60,7 +60,7 @@ class Caixa_model extends CI_Model
 		return $this->db->update('retiradas',$dados);
 	}
 
-	public function getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista=null, $mov_debito=null, $mov_credito=null, $mov_crediario=null, $mov_crediariorec=null, $mov_externa=null, $porJQuery=null, $mov_retirada=null, $mov_troco_ini=null)
+	public function getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista=null, $mov_debito=null, $mov_credito=null, $mov_crediario=null, $mov_crediariorec=null, $mov_externa=null, $porJQuery=null, $mov_retirada=null, $mov_troco_ini=null, $mov_pix=null)
 	{
 		if ($mov_avista){
 			$this->db->where('tipo_movimento_caixa=',$mov_avista); 
@@ -86,9 +86,12 @@ class Caixa_model extends CI_Model
 		if ($mov_retirada){
 			$this->db->or_where('tipo_movimento_caixa=',$mov_retirada); 
 		}
+		if ($mov_pix){
+			$this->db->or_where('tipo_movimento_caixa=',$mov_pix); 
+		}
 
 		if (!$mov_avista && !$mov_debito && !$mov_credito && !$mov_crediario &&
-				!$mov_crediariorec && !$mov_externa && $porJQuery=="S" && !$mov_troco_ini && !$mov_retirada)
+				!$mov_crediariorec && !$mov_externa && $porJQuery=="S" && !$mov_troco_ini && !$mov_retirada && !$mov_pix)
 		{
 			$datainicio =0;
 			$datafinal=0;
@@ -122,7 +125,7 @@ class Caixa_model extends CI_Model
 		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
 		$this->db->where('situacao=0'); 
 		
-		$tipo_mov_caixa_where = array(1,2,3,4,8);  // somente vendas 
+		$tipo_mov_caixa_where = array(1,2,3,4,8,11);  // somente vendas 
 
 		$this->db->where_in('tipo_movimento_caixa',$tipo_mov_caixa_where);
 
@@ -174,6 +177,8 @@ class Caixa_model extends CI_Model
 		$this->session->unset_userdata('valor_disp_cx');
 		$this->session->unset_userdata('trocoini');
 		$this->session->unset_userdata('retirada_dinheiro');
+		$this->session->unset_userdata('pix_transferencia'); 
+		$this->session->unset_userdata('valor_total_mov');
 
 	}
 

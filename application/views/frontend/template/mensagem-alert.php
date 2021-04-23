@@ -15,17 +15,18 @@ if (!is_null($this->session->userdata('mensagem'))):
  
   $mens =  $this->session->userdata('mensagem');  
   $this->session->set_userdata('ultimoAviso',$mens); 
-	?>
+  /*
+  ?>
 	<div class="text-center mensagem">  
     <div class="alert alert-success" role="alert">
         <b> 
-            <?php
+            <?php */ /*
               $mens; 
             ?>
         </b>
     </div>
   </div>
-    <?php 
+    <?php  */
     // encerrar a secao
     $this->session->unset_userdata('mensagem'); 
 endif;

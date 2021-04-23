@@ -19,13 +19,18 @@
                 $id         = $pro_ten_alt->id; 
                 $desc       = $pro_ten_alt->desproduto;
                 $codpro     = $pro_ten_alt->codproduto; 
-                $vlunit     = reais($pro_ten_alt->vlpreco);
+                $vlunit     = $pro_ten_alt->vlpreco;
                 $vldesc     = reais($pro_ten_alt->valordesconto);
                 $vlacres    = reais($pro_ten_alt->valoracrescimo);
                 $vltot      = reais($pro_ten_alt->valortotal);
                 $qtd        = $pro_ten_alt->quantidadeitens;  
                 $qtdatacado = $pro_ten_alt->qtatacado;
                 $vlatacado  = $pro_ten_alt->vlprecoatacado; 
+                $vlvarejo   = $pro_ten_alt->vlpreco;
+
+                $vlunit = $qtdatacado>$qtd ? $vlunit : $vlatacado; 
+
+                $vlunit = reais($vlunit);    
             ?> 
             
                 <input id="quantidade_da_venda" name="quantidade_da_venda" type="hidden"class = "form-control"  value="<?php echo $quantidade_da_venda ?> " disabled> 
@@ -46,8 +51,10 @@
                 
                 <div class="form-group col-lg-3">  
                     <label> Valor Unitario </label>
-                    <input type="text" class="form-control" id="vlpreco_alt" name="vlpreco_alt" step="0.01" placeholder="0.00" value="<?php echo $vlunit ?>" disabled>
+                    <input type="text" class="form-control" id="vlpreco_alt" name="vlpreco_alt" step="0.01" placeholder="0.00" value="<?php echo $vlunit ?>" readonly>
                     <input type="hidden" class="form-control" id="vlpreco_ata" name="vlpreco_ata" step="0.01" placeholder="0.00" value="<?php echo $vlatacado ?>">
+
+                    <input type="hidden" class="form-control" id="vlpreco_var" name="vlpreco_var" step="0.01" placeholder="0.00" value="<?php echo $vlvarejo ?>">
                 </div>
 
                

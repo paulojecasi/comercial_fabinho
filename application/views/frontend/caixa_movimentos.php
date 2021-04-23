@@ -170,6 +170,24 @@
                     ?> 
                 </div>
 
+                <div class="col-lg-12 sec-recebi sec-neutro">
+                    <div class="col-lg-7 titulo-pag">
+                         <h3> Pix-Transferencia </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo reais($pix_transferencia) ?> </h3>
+                    </div>
+                    <?php 
+                    if ($pix_transferencia!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="11" id="btn-lista-mov-cx11">
+                        </div>
+                        <?php 
+                    endif;
+                    ?> 
+                </div>
+
 
                 <div class="col-lg-12 sec-recebi sec-a-receber">
                     <div class="col-lg-7 titulo-pag">
@@ -194,7 +212,7 @@
                        <h3> Retiradas  </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
-                        <h3> <?php echo reais($retirada_dinheiro)  ?> </h3>
+                        <h3> <?php echo "- " .reais($retirada_dinheiro)  ?> </h3>
                     </div>
                     <?php 
                     if ($retirada_dinheiro!=0):
@@ -208,21 +226,25 @@
                 </div>
 
                 <div class="col-lg-12 sec-recebi sec-disponivel">
-                    <div class="col-lg-7 titulo-disp">
-                       <h3> Disponivel </h3>
+
+                    <div class="col-lg-4 valor-disp">
+                        <label> Total do movimento + </label>
+                        <h3> <?php echo reais($valor_total_mov)  ?> </h3>
                     </div>
-                    <div class="col-lg-5 valor-disp">
+                  
+                    <div class="col-lg-4 valor-disp">
+                        <label> Disponível para retirada </label>
                         <h3> <?php echo reais($valor_disp_cx)  ?> </h3>
                     </div>
                     <?php 
                     $operacao_caixa = $this->session->userdata('operacao');
 
-                    if ($valor_disp_cx!=0 && $operacao_caixa=="CAIXA_ABERTO"):
+                    if ($valor_total_mov!=0 && $operacao_caixa=="CAIXA_ABERTO"):
                     ?>
-                       <div class ="col-lg-12  btn-dados-mov-retirada text-center">
+                       <div class ="col-lg-4 btn-dados-mov-retirada text-center">
                             <a href="<?php echo base_url('caixa/retirada_caixa/').$datainicio.'/'.$datafinal ?>"> 
                                 <button class="btn btn-success" type="button" id=""  > 
-                                    Fazer Retirada
+                                    Fazer Retirada (-)
                                 </button> 
                             </a>
                         </div>

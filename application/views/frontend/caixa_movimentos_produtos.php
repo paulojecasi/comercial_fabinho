@@ -54,7 +54,7 @@
                     $this->table->set_heading("Codigo","Descricao","Vl Custo","Vl Venda","Qt Vendida","juros","descontos","Vl Custo Tot","Vl Total","DFAT","Saldo Estq");
 
                      
-                    $idproduto_ja_processado=0; 
+                    $idproduto_ja_processado=0;  
                     $codproduto=0;
                     $desproduto=0;
                     $valorNota =0; 

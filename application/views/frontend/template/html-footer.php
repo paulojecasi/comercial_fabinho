@@ -304,9 +304,8 @@
 
 
         carregarDadosCaixaMov();
-        function carregarDadosCaixaMov(idcaixa_mov, datainicial_mov, datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery,mov_retirada, mov_troco_ini)
+        function carregarDadosCaixaMov(idcaixa_mov, datainicial_mov, datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery,mov_retirada, mov_troco_ini, mov_pix)
         {
-
             $.ajax({
                 url:"<?php echo base_url(); ?>caixa/consultajquery_dados_caixa",
                 cache : false,
@@ -322,6 +321,7 @@
                         mov_externa:mov_externa,
                         porJQuery:porJQuery,
                         mov_retirada:mov_retirada,
+                        mov_pix:mov_pix,
                         mov_troco_ini:mov_troco_ini},
                 success:function(data){
                     $('#resultado_caixa_mov tbody').html(data); 
@@ -382,12 +382,46 @@
                     var mov_troco_ini=0; 
                 }
 
-                carregarDadosCaixaMov(idcaixa_mov,datainicial_mov,datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery, mov_retirada, mov_troco_ini);
+                if ($('#btn-lista-mov-cx11').is(':checked')) {
+                    var mov_pix = $('#btn-lista-mov-cx11').val(); 
+                }else{
+                    var mov_pix=0; 
+                }
+
+                carregarDadosCaixaMov(idcaixa_mov,datainicial_mov,datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery, mov_retirada, mov_troco_ini, mov_pix);
             }else 
             {
                 carregarDadosCaixaMov(); 
             }
         });
+
+        // LISTA TODOS OS CLIENTES COM DEBITO 
+
+        lista_clientes();
+        function lista_clientes(id_solicitacao)
+        {
+
+            $.ajax({
+                url:"<?php echo base_url(); ?>cliente/consultajquery_clientes",
+                cache : false,
+                method:"POST",
+                data:{id_solicitacao:id_solicitacao},
+                success:function(data){
+                    $('#resultado_clientes tbody').html(data); 
+                }
+            })
+        } 
+
+        var id_solicitacao = $('#mostrar-clientes-abertos').val();
+        if (id_solicitacao=1)
+        {
+            lista_clientes(id_solicitacao);
+        }else 
+        {
+            lista_clientes(); 
+        }
+
+       
     }); 
 
 </script>

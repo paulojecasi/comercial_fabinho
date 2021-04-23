@@ -1,7 +1,7 @@
 <div class = "row">
 
     <div class = "text-center titulo-tela-consulta-crediario">
-        <h2> Cadastro e Manutenção de Clientes </h2>
+        <h2> Cadastro e Manutenção de Clientes - Demonstração de Dividas </h2>
     </div>
 
     <?php
@@ -31,7 +31,23 @@
         ?>
         
         <div class="panel-consulta-cliente col-lg-5">
-           
+            <div class ="form-group" id ="lista-cli-aberto">
+                <?php
+                if ($idcliente):
+                    ?>
+                    <a href="<?php echo base_url('cliente/manutencao_clientes/cliente_aberto') ?>">
+                        <button class="btn btn-default" id="mostrar-clientes-aberto" value="1" type="button">
+                            Mostrar Clientes com crédito aberto 
+                            <i class="fa fa-hand-o-up" aria-hidden="true"></i> 
+                        </button>
+                    </a>
+                    <?php
+                endif;
+                ?>
+
+                <div id="mostrar-clientes-abertos" value="1" type="hidden"> 
+                </div>
+            </div>
             <div class="form-group nomecliente col-lg-12">
                 <label for="nomecliente"> Informe o Cliente </label>
                 <input type="text" id="nomecliente" name="nomecliente" class="form-control" autofocos required placeholder="Digite Codigo do Cliente, CPF ou Nome"  autofocus="true" onkeydown="javascript:EnterTab('idclientej',event)" />
@@ -125,11 +141,34 @@
         
             </div>
             <?php
-        endif 
+        else: 
         ?>
+            <div class="col-lg-7 table-cliente-divida">
+                <div class = "text-center">
+                    <h4> CLIENTES COM CREDIÁRIO EM ABERTO </h3>
+                </div>
+                <table class="table table-hover" id="resultado_clientes"
+                >
+                    <thead>
+                        <tr>
+                            <th scope="col">CODIGO</th>
+                            <th scope="col">NOME</th> 
+                            <th scope="col">APELIDO</th> 
+                            <th scope="col">CPF</th> 
+                            <th scope="col">SALDO DEVEDOR</th> 
+                            <th scope="col">CONSULTAR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                                
+            </div>
  
     
         <?php 
+        endif; 
         echo form_close();
         ?>
              

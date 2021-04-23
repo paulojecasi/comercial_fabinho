@@ -783,7 +783,7 @@ div.link-voltar{
 }
 
 div.link-voltar-esc-pagto{
-  margin-top: 50px; 
+  margin-top: 0px; 
 }
 
 h1.valor-recebido-venda input{
@@ -858,6 +858,11 @@ div.mensagem-sistema div{
 
 div.mensagem-sistema div b#av1{
  color: blue; 
+}
+
+
+section.escolha-pagamento{
+  min-height: 250px; 
 }
 
 /* ---- ALTERAÇAO DO ITEM DA VENDA ----*/
@@ -1003,8 +1008,29 @@ div.btn-finalizar-venda-cliente{
 }
 
 div.btn-link-cadastro{
-  margin-top: 30px; 
+  margin-top: 0px; 
   margin-bottom: 10px; 
+}
+
+div.table-cliente-divida{
+  background-color: #DCDCDC;
+  margin-top: 0px; 
+  margin-left: 0px;
+  margin-right:0px;
+  margin-bottom: 0px;  
+  border:2px solid; 
+  height: 390px;
+  overflow-y: scroll;
+}
+
+div.table-cliente-divida table{
+  margin-top: 10px;
+}
+
+td.valor-saldo-dev{
+  color: red;
+  font-weight: bold; 
+  font-size: 16px; 
 }
 
 /* TELA DEMONSTRACAO DE CREDIARIO DO CLIENTE */
@@ -1258,6 +1284,17 @@ div.picklist-cliente select{
 
 div.picklist-cliente select option b{
   font-size: 58px; 
+}
+
+div#lista-cli-aberto{
+  margin-top: 5px; 
+  text-align: center;
+  margin-bottom: 5px; 
+}
+
+div#lista-cli-aberto a{
+  color: #fff;
+  font-size: 16px; 
 }
 
 
@@ -1701,15 +1738,22 @@ div.sec-saida{
 }
 
 div.sec-disponivel div h3{
-  margin-top: 5px;
+  margin-top: 0px;
   color: #fff;
   font-weight: bold; 
-  font-size: 30px; 
+  font-size: 23px; 
+}
+
+div.sec-disponivel label{
+  margin-top: 0px;
+  color: yellow;
+  font-weight: bold; 
+  font-size: 11px; 
 }
 
 
 div.btn-link-mov-cx{
-  margin-top: 10px; 
+  margin-top: -10px; 
 }
 
 div.btn-ver-mov-caixa input{
@@ -1733,9 +1777,7 @@ div.table-mov-caixa{
 
 
 div.btn-dados-mov-retirada{
-  margin-top: 0px; 
-  margin-bottom: 2px; 
-
+  margin-top: 20px; 
 }
 
 div.btn-dados-mov-retirada button{
@@ -1745,7 +1787,7 @@ div.btn-dados-mov-retirada button{
   width: 100%;
   height: 100%;
   border: 3px solid;
-  font-size: 18px; 
+  font-size: 15px; 
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   border-radius: 15px; 
   border-color: #fff; 
@@ -1852,6 +1894,10 @@ div.tipo-de-pagamento-externa h2{
   color: #fff;
 }
 
+div.pagto-pix{
+  background-color: blue; 
+  opacity: .9;
+}
 
 div.venda-externa{
   border: 3px solid;
@@ -2161,6 +2207,22 @@ b.atalho-front{
   background-color: #000; 
   border-radius: 15px; 
   padding: 4px;  
+}
+
+a button#mostrar-clientes-aberto{
+  background-color: blue; 
+  border: 2px solid;
+  border-radius: 8px;  
+}
+
+a button#mostrar-clientes-aberto:hover { 
+  color: #A9A9A9; 
+  border-color: #A9A9A9;  
+}
+
+th b#tot-sld-ab{
+  color: blue;
+  font-size: 18px; 
 }
 
 

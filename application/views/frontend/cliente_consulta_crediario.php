@@ -7,9 +7,20 @@
     </div>
 
     <?php
-    $nome       = $this->session->userdata('nome');
-    $vl_saldo   = $this->session->userdata('vl_saldo_devedor');
-    $codigo     = $this->session->userdata('idcliente'); 
+
+    if ($nome_cli){
+
+        $nome       = $nome_cli;
+        $vl_saldo   = $saldo_cli;
+        $codigo     = $codigo_cli; 
+    }
+    else
+    {
+        $nome       = $this->session->userdata('nome');
+        $vl_saldo   = $this->session->userdata('vl_saldo_devedor');
+        $codigo     = $this->session->userdata('idcliente'); 
+    }
+    
     ?>
 
     <div class = "col-lg-12 col-sm-12 tela-manutencao-cli">
