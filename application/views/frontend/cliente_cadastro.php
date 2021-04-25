@@ -68,7 +68,7 @@
             
             <?php 
             if ($localchamado == "crediario"):
-                $link_retorno =  base_url('venda/venda_pagamento/').$idcaixa.'/4';
+                $link_retorno =  base_url('venda/venda_pagamento/').$idcaixa.'/4'; 
             else:
                 $link_retorno =  base_url('cliente/manutencao_clientes');
             endif ;

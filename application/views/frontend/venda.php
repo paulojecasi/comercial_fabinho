@@ -32,19 +32,10 @@
                             <br> 
                         </div> 
                         
-                        <!--
-                        <div class ="resultado-produto form-group col-lg-12">
-                            <div class= "form-group picklist-prod resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar',event)">
-                                <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="4">
-
-                                </select>
-                            </div>
-                        </div>
-                        --> 
 
                         <div class ="resultado-produto-venda form-group col-lg-12">
-                            <div class= "form-group picklist-prod resultado" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item_venda',event)">
-                                <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="5">
+                            <div class= "form-group picklist-prod resultado select-item-venda" id="resultado" onkeydown="javascript:EnterTab('btn_buscar_item_venda',event)">
+                                <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="6">
                                     
                                 <option id="option-primeira-linha" disabled> CÓDIGO   &nbsp &nbsp   DESCRIÇÃO </option>
 
@@ -60,18 +51,6 @@
                             </div>
                         </div>
                        
-                       <!--
-                        <div class="form-group"> 
-                            <div class ="col-lg-5 text-center">
-                                <a href="">
-                                    <button class="btn btn-info btn-consulta btn_buscar" id="btn_buscar" name="btn_buscar" onkeydown="javascript:EnterTab('btn_buscar',event)"> 
-                                    <i class="fa fa-search" aria-hidden="true"></i> 
-                                    Buscar
-                                    </button> 
-                                </a>
-                            </div>
-                        </div>
-                        --> 
 
                         <div class="form-group"> 
                             <div class ="col-lg-5 text-center">

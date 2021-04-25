@@ -229,8 +229,8 @@ class Cliente extends CI_Controller {
 		$dados['codigo_cli'] 	= null;
 		$dados['saldo_cli'] 	= null;
 
-		if ($localchamado = "cliente_cred_aberto"){
-			$localchamado = "cliente"; 
+		if ($localchamado == "cliente_cred_aberto"){
+			  $localchamado = "cliente"; 
 			$resultado_con = $this->modelcliente->lista_cliente_divida_aberto($idcliente);
 			foreach ($resultado_con as $cliente_divida) {
 				$dados['nome_cli'] 		= $cliente_divida->nome; 

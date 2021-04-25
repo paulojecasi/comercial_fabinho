@@ -3,6 +3,10 @@ input, table, textarea{
   text-transform: uppercase;
 }
 
+table{
+  font-size: 13px; 
+}
+
 option {
   font-family: monospace;
   font-weight: bold; 
@@ -2225,6 +2229,8 @@ th b#tot-sld-ab{
   font-size: 18px; 
 }
 
-
+div.select-item-venda select{
+  font-size: 15px;  
+}
 
 

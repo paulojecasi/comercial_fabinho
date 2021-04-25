@@ -24,7 +24,7 @@
         $apelido    =  $this->session->userdata('apelido');
         $cpf        =  $this->session->userdata('cpf');
         $endereco   =  $this->session->userdata('endereco');
-        $pontoreferencia   =  $this->session->userdata('pontoreferencia');
+        $pontoreferencia   =  $this->session->userdata('pontoreferencia'); 
         $vl_saldo   = $this->session->userdata('vl_saldo_devedor');
 
         // SESSOES SERÃO FECHADAS NO TEMPLATE "venda.php" e "cliente_cadastro.php"

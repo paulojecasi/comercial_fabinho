@@ -8,8 +8,8 @@
    
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default panel-dados-cons-estoque">
-                <div class="panel-body">
+            <div class="panel-default panel-dados-cons-estoque">
+                 
                     <div class="row">
                         <div class="col-lg-12">
                         <?php 
@@ -22,7 +22,7 @@
                             echo form_open('admin/estoque/buscar_produto/consulta-estoque','autocomplete="off"');
 
                             ?>
-                            <div class="panel-body">
+                            <div class="panel-body back-color-default">
                                 
                                 <div class="form-group col-lg-3 campo-data">
                                     <label >Data Inicial</label>
@@ -71,8 +71,7 @@
                         
                     </div>
                     <!-- /.row (nested) -->
-                </div>
-                <!-- /.panel-body -->
+           
                 
             </div>
             <!-- /.panel -->

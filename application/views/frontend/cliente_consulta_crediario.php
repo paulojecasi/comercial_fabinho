@@ -141,91 +141,6 @@
 
                             echo $this->table->generate(); 
 
-                            /*
-                            ?> 
-                            <table class="table table-striped table-hover tabela-venda-consulta">
-                                <thead class="thead-dark">
-                                    <tr>
-                                          <th scope="col"> Codigo da Venda</th>
-                                          <th scope="col"> Data Compra</th>
-                                          <th scope="col"> Valor R$ </th>
-                                          <th scope="col"> Saldo Devedor </th>
-                                          <th scope="col"> Situação </th>
-
-                                    </tr>
-                                </thead>
-
-                            <?php 
-
-                            foreach ($vendas_cli as $vendas_cred):
-                                $idvenda         = $vendas_cred->idvenda;
-                                $data       = datebr($vendas_cred->datavenda); 
-                                $valor      = reais($vendas_cred->valorvenda);
-                                $vlsaldo    = $vendas_cred->vlsaldo_crediario;
-                                $situacaovenda = $vendas_cred->situacaovenda; 
-
-                                if ($situacaovenda==0):
-                                    $situacao = "Aberta"; 
-                                    $situacao = 
-                                    '<b id="aberto">'.$situacao.'</b>';
-                                elseif ($situacaovenda==1):
-                                    $situacao = "Quitada";
-                                    $situacao = 
-                                    '<b id="quitado">'.$situacao.'</b>';
-                                else:
-                                    $situacao = "Cancelada";
-                                endif;
-
-                                ?>
-                                
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row"> <?php echo $idvenda ?> </th>
-                                            <td> <?php echo $data ?> </td>
-                                            <td> <?php echo $valor ?> </td>
-                                            <td> <?php echo $vlsaldo ?> </td>
-                                            <td> <?php echo $situacaovenda ?> </td>
-                                            <td> 
-                                                <button class="btn-ver-itens btn btn-default idvenda_it" type="button" value="<?php echo md5($idvenda) ?>" href = ""> <i class="fas fa-th-list"> </i> Ver Itens 
-                                                </button>
-                                            </td>
-                                            <?php 
-                                            if ($situacaovenda==0):
-                                                if ($localchamado == "cliente"):
-                                                    ?>
-                                                    <td> 
-                                                        <a href="<?php echo base_url('cliente/pagamento_crediario/').md5($idvenda) ?>">
-                                                            <button type="button" class="btn-pagar-cred btn btn-success"><i class="fas fa-usd"> </i> 
-                                                            PAGAR 
-                                                            </button> 
-                                                        </a>
-                                                    </td>
-                                                    <?php
-                                                else:
-                                                    ?>
-                                                    <td> 
-                                                        <h5> </h5> 
-                                                    </td>
-                                                    <?php
-                                                     
-                                                endif; 
-                                            else:
-                                                ?>
-                                                <td> 
-                                                    <h5> </h5> 
-                                                </td>
-                                                <?php
-                                                 
-                                            endif; 
-                                            ?> 
-
-                                        </tr>
-                                    </tbody>
-                                
-                                <?php
-
-                            endforeach; 
-                             */
                             ?>
                             </table>
                             <?php 
@@ -262,6 +177,7 @@
         <div class="form-group col-lg-12 btn-link btn-link-consulta-cred"> 
             
             <?php 
+  
                 if ($localchamado == "cliente")
                 {
                     $link_retorno =  base_url('cliente/manutencao_clientes');
