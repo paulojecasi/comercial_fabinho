@@ -1,19 +1,12 @@
 <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h3 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
 
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading text-center">
+                <div class="text-center title-abert-fech-cx">
                    <h4> <?php echo $subtitulo ?> </h4>
                 </div>
-                <div class="panel-body panel-cadastro-user">
+                <div class="panel-body panel-caixa">
                     <div class="row">
                         <div class="col-lg-12 fotos-usuarios">
                   

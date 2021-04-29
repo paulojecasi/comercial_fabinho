@@ -329,55 +329,55 @@
             })
         } 
         $('.ckeck-mov-caixa').click(function(){
-            var idcaixa_mov = (jQuery('#idcaixa_mov').val());
-            var datainicial_mov = (jQuery('#datainicial_mov').val());
-            var datafinal_mov = (jQuery('#datafinal_mov').val());
+            var idcaixa_mov = ($('#idcaixa_mov').val());
+            var datainicial_mov = ($('#datainicial_mov').val());
+            var datafinal_mov = ($('#datafinal_mov').val());
             var porJQuery = "S"; 
 
             if (datainicial_mov!='' & datafinal_mov!='')
             {
                 if ($('#btn-lista-mov-cx1').is(':checked')) {
-                    var mov_avista = jQuery('#btn-lista-mov-cx1').val(); 
+                    var mov_avista = $('#btn-lista-mov-cx1').val(); 
                 }else{
                     var mov_avista=0; 
                 }
             
                 if ($('#btn-lista-mov-cx2').is(':checked')) {
-                    var mov_debito = jQuery('#btn-lista-mov-cx2').val(); 
+                    var mov_debito = $('#btn-lista-mov-cx2').val(); 
                 }else{
                     var mov_debito=0; 
                 }
 
                 if ($('#btn-lista-mov-cx3').is(':checked')) {
-                    var mov_credito = jQuery('#btn-lista-mov-cx3').val(); 
+                    var mov_credito = $('#btn-lista-mov-cx3').val(); 
                 }else{
                     var mov_credito=0; 
                 }
 
                 if ($('#btn-lista-mov-cx4').is(':checked')) {
-                    var mov_crediario = jQuery('#btn-lista-mov-cx4').val(); 
+                    var mov_crediario = $('#btn-lista-mov-cx4').val(); 
                 }else{
                     var mov_crediario=0; 
                 }
 
                 if ($('#btn-lista-mov-cx5').is(':checked')) {
-                    var mov_crediariorec = jQuery('#btn-lista-mov-cx5').val(); 
+                    var mov_crediariorec = $('#btn-lista-mov-cx5').val(); 
                 }else{
                     var mov_crediariorec=0; 
                 }
 
                 if ($('#btn-lista-mov-cx8').is(':checked')) {
-                    var mov_externa = jQuery('#btn-lista-mov-cx8').val(); 
+                    var mov_externa = $('#btn-lista-mov-cx8').val(); 
                 }else{
                     var mov_externa=0; 
                 }
                 if ($('#btn-lista-mov-cx9').is(':checked')) {
-                    var mov_retirada = jQuery('#btn-lista-mov-cx9').val(); 
+                    var mov_retirada = $('#btn-lista-mov-cx9').val(); 
                 }else{
                     var mov_retirada=0; 
                 }
                 if ($('#btn-lista-mov-cx10').is(':checked')) {
-                    var mov_troco_ini = jQuery('#btn-lista-mov-cx10').val(); 
+                    var mov_troco_ini = $('#btn-lista-mov-cx10').val(); 
                 }else{
                     var mov_troco_ini=0; 
                 }
@@ -420,6 +420,95 @@
         {
             lista_clientes(); 
         }
+
+        
+        // acumula vendas de crediário para pagamentos
+        acumulaVendaCred();
+        document.getElementById('btn-pagamento-cred').style.display = 'none';
+        //document.getElementById('valor_a_pagar').style.display = 'none';
+        function acumulaVendaCred(pagamentosArr)
+        {
+            $.ajax({
+                dataType:'json',
+                url:"<?php echo base_url(); ?>venda/consultajquery_vendas_cred",
+                cache : false,
+                method:"POST",
+                data:{pagamentosArr:pagamentosArr},
+                success:function(data){
+                    if (data.valor_tot_pag)
+                    {
+                        var vl_a_pagar  = data.valor_tot_pag;
+                        var dados_v = data; 
+
+                        if (dados_v.cont>50){
+                            alert("ATENCAO.. VOCE ATINGIU A QUANIDADE MÁXIMA DE PAGAMENTOS POR VEZ ( 50 )"); 
+                        }else{
+
+                            $('#valor_a_pagar').val(vl_a_pagar);
+                            document.getElementById('btn-pagamento-cred').style.display = 'Inline';
+
+                            //alert(dados_v.venda[0]); 
+                            for (var i=0; i < dados_v.cont; i++){
+                                var id_venda = dados_v[i].id_venda;
+                                var vl_venda = dados_v[i].valor_venda;
+
+                                //alert(i); 
+                                $('#id'+i).val(id_venda);
+                                $('#vl'+i).val(vl_venda);
+                            }
+                        } 
+
+                        
+                    }
+                   
+                    //$('#resultado_caixa_mov').val(); 
+                    //alert(data.valor_tot_pag); 
+                    //for (var i=0; i<data.length; i++) {
+                        //console.log(data); 
+                    //}
+                   
+                }
+            })
+        } 
+
+        var pagamentosArr=[]; 
+        var idpagamento =0; 
+        $('.ckeck-pag-cred').click(function(){
+            var idpagamento = $(this).val();
+    
+            if (idpagamento !=0)
+            {
+                if ($('#'+idpagamento).is(':checked')) 
+                {
+                    // add ID no array
+                    pagamentosArr.push(idpagamento);
+                }
+                else
+                {
+                    $('#valor_a_pagar').val(0);
+                    $('#id').val(0);
+                    $('#vl').val(0);
+                    document.getElementById('btn-pagamento-cred').style.display = 'none';
+                    //document.getElementById('valor_a_pagar').style.display = 'none';
+                    // remover ID do array
+                        // verificando o indice do ID no array 
+                    var indice = pagamentosArr.indexOf(idpagamento);
+                    pagamentosArr.splice(indice,1);
+                }
+
+                if (pagamentosArr)
+                {
+                    acumulaVendaCred(pagamentosArr);
+                }
+                else
+                {
+                    acumulaVendaCred();
+                }
+
+            };
+
+        });
+       
 
        
     }); 

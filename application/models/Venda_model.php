@@ -295,6 +295,40 @@ class Venda_model extends CI_Model
 	}
 
 
+	public function atualiza_situacao_da_venda($idvenda, $valor)
+	{
+		// vamos ver se o valor do movimento cancelado se refere ao valor
+		// da venda, entao vamos voltar a situacao para venda para aberta 
+		//echo "<br>".$idvenda;
+		//echo "<br>".$valor;
+
+		$this->db->where('md5(idvenda)=', $idvenda);
+
+		$retorno_venda = $this->db->get('venda')->result();
+
+		foreach ($retorno_venda as $rv) {
+			$vl_venda = $rv->valorvenda; 
+		}
+
+		//echo "<br>".$vl_venda;
+		//exit; 
+
+		if ($vl_venda <= $valor)
+		{
+			$dados['situacaovenda']=0; 
+			$this->db->where('md5(idvenda)=', $idvenda);
+			return $this->db->update('venda',$dados); 
+		}
+		else
+		{
+			return true; 
+		}
+	 
+
+	}
+
+
+
 	public function tipo_pagamento()
 	{
 		

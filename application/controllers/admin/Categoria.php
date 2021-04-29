@@ -45,6 +45,7 @@ class Categoria extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('backend/mensagem');
 		$this->load->view('backend/categoria');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}
@@ -128,6 +129,7 @@ class Categoria extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('backend/mensagem');
 		$this->load->view('backend/alterar-categoria');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}

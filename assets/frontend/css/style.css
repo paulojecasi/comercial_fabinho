@@ -1,6 +1,6 @@
 
 input, table, textarea{
-  text-transform: uppercase;
+  text-transform: uppercase; 
 }
 
 table{
@@ -33,6 +33,22 @@ div.titulo-acesso-sistema h1{
   color: #fff; 
 }
 
+div.senha-usuario-acesso{
+  margin-top: 30px; 
+  border: 4px solid; 
+  border-color: #FF7F50; 
+  border-radius: 10px; 
+  margin-bottom: 30px; 
+  background-color: #FDF5E6; 
+}
+
+div.senha-usuario-acesso h1{
+  margin-top: 40px; 
+  font-size: 30px; 
+  color: #FF7F50; 
+ 
+}
+
 div.acesso-ao-sistema{ 
   width: 100%; 
   height: 100%; 
@@ -41,22 +57,30 @@ div.acesso-ao-sistema{
 
   background-color: #F5F5DC; 
   min-height: 370px; 
-  background-image: url('http://cursophp.com/comercial_fabinho/assets/frontend/img/cac.png');
+  background-image: url('../../../assets/frontend/img/cac.png');
   background-repeat: repeat; 
   /*opacity: .1;*/
   margin-top: 0px;
   margin-bottom: -10px; 
 }
 
+div.acesso-escolha-sis{ 
+  width: 100%; 
+  height: 100%; 
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px; 
+}
+
 div.btn-acesso{
-  margin-top: 45px; 
-  padding-bottom: 50px; 
+  margin-top: 20px; 
+  padding-bottom: 120px; 
 }
 
 div.btn-acesso button{
-  background-color: #191970;
-  width: 100%;
-  height: 80px;
+  background-color: #FF6347;
+  min-width: 180px;
+  height: 60px;
   border: 3px solid;
   font-size: 22px; 
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0 rgba(0,0,0,0.4);
@@ -64,7 +88,7 @@ div.btn-acesso button{
 }
 
 div.btn-acesso button:hover{
-  background-color: #0000CD;
+  background-color: #BEBEBE;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8), 0 6px 20px 0 rgba(0,0,0,0.8);
   border-color: white; 
   
@@ -102,6 +126,18 @@ div.cactosdev_acesso p img.email, div.cactosdev_acesso p img.whats{
     height: 25px;
 }
 
+div.img-acesso-escolha{
+  width: 100%; 
+  height: 100%; 
+
+  padding: 100px 0;
+  border-color: #C0C0C0; 
+  text-align: center;
+  background-image: url('http://cursophp.com/comercial_fabinho/assets/frontend/img/vendas2mf.jpg');
+
+  background-position: 30% 45%;
+  -webkit-background-size: cover;
+}
 
 img {
     max-width: 100%;
@@ -491,8 +527,8 @@ div.btn-finalizar-venda{
 }
 
 div.btn-finalizar-venda button{
-  width: 100%;
-  height: 100%;
+  min-width: 250px;
+  min-height: 100%;
   border: 2px solid;
   font-size: 18px; 
   /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
@@ -1067,6 +1103,23 @@ td.valor-saldo-dev{
   text-align: center; 
 }
 
+.panel-demostracao-cliente div input#valor_a_pagar{
+  font-size: 20px;  
+  color: yellow;
+  background-color: black; 
+  height:24px; 
+  text-align: center; 
+}
+
+.panel-demostracao-cliente div.btn-pagamento-select button{
+  padding: 0px; 
+  height: 35px;
+  min-width: 100px; 
+  margin-top: -10px;  
+  margin-bottom: 0px; 
+
+}
+
 div.panel-vendas2-2{
   background-color: #DCDCDC;
   margin-top: 0px; 
@@ -1224,6 +1277,14 @@ td#recebimento-cancelado{
 td#recebimento-normal{
   color: blue; 
   font-weight: bold; 
+}
+
+div.pag-acumula-cred input{
+  margin-top: 5px; 
+  max-width: 4px;
+  max-height: 4px;
+  transform: scale(1.5);
+  
 }
 
 
@@ -2231,6 +2292,11 @@ th b#tot-sld-ab{
 
 div.select-item-venda select{
   font-size: 15px;  
+}
+
+div.mensagem-sis-acesso{
+  margin-top: -83px; 
+  font-size: 20px; 
 }
 
 

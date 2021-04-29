@@ -1,6 +1,6 @@
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-12 text-center">
+        <div class="col-lg-12 text-center title-entrada-nota">
             <h4 class="page-header"> <?php echo "Entrada de Produtos no Estoque - Cadastro de Notas" ?>
                 
             </h4>

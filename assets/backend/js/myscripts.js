@@ -48,6 +48,14 @@ $('#vlpreco').keyup(function(){
   $('#vlprecoatacado').val(vl_preco_uni);
 
 }); 
+
+
+// links selecionados 
+for (var i = 0; i < document.links.length; i++) {
+    if (document.links[i].href == document.URL) {
+        document.links[i].className = 'linkAtivo';
+    }
+}
   
 
 

@@ -56,6 +56,7 @@ class Produto extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/produto');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}
@@ -85,6 +86,7 @@ class Produto extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/produto-cadastro');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 	}
 
@@ -173,6 +175,7 @@ class Produto extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/produto-altera');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 	}
 
@@ -197,7 +200,7 @@ class Produto extends CI_Controller {
 		'txt-desproduto',          // name do input (template)
 		'Descrição do Produto',		 // nome da label (template)
 		'required|min_length[3]'); 
-		$this->form_validation->set_rules('codbarras','Codigo de Barras','required');
+
 		$this->form_validation->set_rules('corproduto','Cor do Produto','required');
 
 		$this->form_validation->set_rules('idcategoria','Categoria do Produto','required');

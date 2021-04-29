@@ -155,7 +155,7 @@
                                         <h4>Deseja Excluir o Movimento '.$idcaixa_mov.'?</h4>
                                         <p>Após Excluir o Movimento, a Venda ou Recebimento referente ao Movimento <b>'.$idcaixa_mov.'</b>  será cancelada.</p>
                                     </div>
-                                    <div class="modal-footer">
+                                    <div class="modal-footer"> 
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                         <a type="button" class="btn btn-danger" href="'.base_url('caixa/cancelamentar_movimento/'.md5($idcaixa_mov).'/'.md5($idvenda).'/'.$tipo_movimento).'/'.$valor_real.'/'.md5($idcliente).'/'.md5($idretirada). '">Excluir</a>
                                     </div>

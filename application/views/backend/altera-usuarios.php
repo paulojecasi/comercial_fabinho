@@ -7,11 +7,13 @@
     </div>
     <!-- /.row -->
 
-    <div class="row">
-        <div class="col-lg-6">
+    <div class="row panel-atualizacao-user">
+        <div class="col-lg-7">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                   <?php echo $subtitulo ?>
+                    <h4 class="text-center">
+                        Alteração do Usuário
+                    </h4>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -108,9 +110,11 @@
                                     <button type="submit" class="btn btn-primary person btn_click_shift_f4" > &nbsp Atualizar  &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b>  </button> 
                                 </div>
 
-                                <div class ="col-lg-6 col-md-6 col-sm-6 text-center link-voltar-cadproduto">    
+                                <div class ="col-lg-6 col-md-6 col-sm-6 text-center link-voltar-cadastro">    
                                     <a href ="<?php echo base_url('admin/usuarios') ?>">         
-                                        <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
+                                        <button class="btn btn-default btn-return" id="btn-return-cad-cli" type="button"> <i class="fa fa-reply-all"> </i> 
+                                            Voltar para o Cadastro 
+                                        </button>
                                     </a>
                                 </div>
                     
@@ -131,14 +135,16 @@
 
         <!-- PARA FOTOS --> 
 
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                   Foto do Usuário 
+                    <h4 class="text-center">
+                        Foto do Usuário
+                    </h4>
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 text-center">
                             <?php 
                             $semFoto = "assets/frontend/img/usuarios/sem_foto.jpg";
                             if ($usuario_alt->img!=''){

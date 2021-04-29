@@ -81,6 +81,7 @@
                             $descontos=0;
                             $valortot=0;
                             $saldopro=0;
+                            $valorNotaTot=0; 
                              
                             foreach ($movimento_produto_caixa as $produto_vez) {
                                 
@@ -97,6 +98,7 @@
                                     //$valortot  += $produto_vez->vlpreco;
                                     $saldopro   = $produto_vez->qtsaldo;  
 
+                                    $valorNotaTot = ($valorNota*$quantpro);
                                     $idproduto_ja_processado = $produto_vez->idproduto; 
 
                                     $valortotNota=($valorNota * $quantpro + $vljuros -$descontos);
@@ -105,7 +107,9 @@
                                 }
                             } 
                             
-                            $valorCusto = $valorNota / $quantpro; 
+                            $valorCusto = $valorNotaTot / $quantpro; 
+                            //$valorCusto = $valorNota;
+
                             $valortotNota=($valorCusto * $quantpro + $vljuros -$descontos);
 
                             $valortot = ($valorunit * $quantpro + $vljuros -$descontos);

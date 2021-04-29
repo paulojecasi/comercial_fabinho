@@ -910,7 +910,42 @@ class Venda extends CI_Controller {
  		exit; 
 
 	}
+
+ 
+	public function consultajquery_vendas_cred(){
+		$id_vendas_arr = $this->input->post("pagamentosArr");
+		$vlvenda=0; 
+		$cont=0; 
+		if ($id_vendas_arr)
+		{
+			foreach ($id_vendas_arr as $idvenda) {
 	
+				$resultado_venda = $this->modelvendas->consulta_venda(md5($idvenda)); 
+				 
+				if ($resultado_venda)
+				{ 
+					foreach ($resultado_venda as $venda_acum) {
+						//$idvenda = $venda_acum->idvenda; 
+						$vlvenda += $venda_acum->valorvenda; 
+						$dado["id_venda"]=$venda_acum->idvenda; 
+						$dado["valor_venda"]=$venda_acum->valorvenda; 
+						$dados["venda"]=$dado; 
+						array_push($dados, $dado); 
+						$cont++; 
+					 
+					}
 
+					$dados['cont'] = $cont; 
+					$dados["valor_tot_pag"] = reais($vlvenda); 
+			
+				} 
+				 
+			}
+ 
+		}
+	 
+ 		echo json_encode($dados); 
 
+	}
+ 
 }

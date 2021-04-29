@@ -13,6 +13,11 @@
         $nome       = $nome_cli;
         $vl_saldo   = $saldo_cli;
         $codigo     = $codigo_cli; 
+
+        $this->session->set_userdata('nome',$nome);
+        $this->session->set_userdata('idcliente',$codigo);
+        $this->session->set_userdata('cliente_aberto',"S");
+
     }
     else
     {
@@ -21,18 +26,30 @@
         $codigo     = $this->session->userdata('idcliente'); 
     }
     
+    echo form_open('cliente/pagamento_crediario/'.md5(404),'id="form-lista-vendas" autocomplete="off"');
     ?>
+
+    <?php 
+        // vamos criar os campos se os mesmo forem != null (vindo do jquery)
+        for ($i=0; $i < 50 ; $i++) { 
+             ?>
+            <input type="" id="<?php echo 'id'.$i ?>" name="<?php echo 'id'.$i ?>"/>
+            <input type="" id="<?php echo 'vl'.$i ?>" name="<?php echo 'vl'.$i ?>"/>
+            <?php 
+        }
+    ?>
+
 
     <div class = "col-lg-12 col-sm-12 tela-manutencao-cli">
 
         <div class="panel-demostracao-cliente col-lg-12">
-            <div class="form-group cliente_venda col-lg-8">
+            <div class="form-group cliente_venda col-lg-6">
                 <label for="nome"> Cliente </label>
                 <input type="text" id="nome" name="nome" class="form-control" value = "<?php echo $nome ?>" disabled />
                 <br> 
             </div>
 
-            <div class="form-group cliente_venda col-lg-2">
+            <div class="form-group cliente_venda col-lg-1">
                 <label for="cliente_apelido"> Código </label>
                 <input type="text" id="cliente_codigo" name="cliente_codigo" class="form-control" value = "<?php echo $codigo; ?>"  disabled />
                 <br> 
@@ -45,8 +62,19 @@
                 <br> 
             </div>
 
+            <div class="form-group cliente_venda col-lg-2">
+                <label for="valor_a_pagar"> Valor Pagamento </label>
+                <input type="text" id="valor_a_pagar" name="valor_a_pagar" class="form-control" placeholder="0,00" step="0.01" value = "0" disabled/>
+                <br> 
+            </div>
+
+            <div class="form-group cliente_venda btn-pagamento-select btn-finalizar-venda">
+                <button class="btn btn-success" id="btn-pagamento-cred"> Pagar </button>
+            </div>
+
         </div>
 
+        
         <div class="panel panel-default panel-vendas2-2">
             <div class="panel-body">
                 <div class="row">
@@ -61,7 +89,9 @@
                                 '<h5>'."Data Compra".'</h5>',
                                 '<h5>'."Valor R$".'</h5>', 
                                 '<h5>'."Saldo Devedor R$".'</h5>',
-                                '<h5>'."Situacao".'</h5>'); 
+                                '<h5>'."Situacao".'</h5>',
+                                '<h5>'."Itens".'</h5>',
+                                '<h5>'."Pagamento".'</h5>'); 
                                 //'<h5>'."Produto".'</h5>',
                                 //'<h5>'."Quantidade".'</h5>',
                                 //'<h5>'."Vl Unt".'</h5>',
@@ -111,10 +141,18 @@
                                     $btn_verpagamentos = "-";
                                 endif; 
 
+                               
                                 if ($situacaovenda==0):
                                     if ($localchamado == "cliente"):
+                                        /*
                                         $btn_pagar = anchor(base_url('cliente/pagamento_crediario/').md5($idvenda),
                                             '<button class="btn-pagar-cred btn btn-success"><i class="fas fa-usd"> </i> PAGAR </button>');
+                                        */
+                                        $btn_pagar = 
+                                        '<div class="col-lg-1 form-check pag-acumula-cred">
+                                            <input class="form-check-input ckeck-pag-cred" type="checkbox" value="'.$idvenda.'" id="'.$idvenda.'">
+                                        </div>';
+
                                     else:
                                         $btn_pagar = "-";
                                     endif; 
@@ -123,6 +161,10 @@
                                         $btn_pagar = "-"; 
 
                                 endif; 
+                               
+                                
+                                
+                                
                                 //$desproduto = $vendas_cred->desproduto; 
                                 //$quantidadeitens = $vendas_cred->quantidadeitens;  
                                 //$valorunit  = $vendas_cred->valorunitario; 
@@ -163,7 +205,7 @@
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
-
+        
         <div class="panel panel-default panel-vendas2-3">
             <div class="panel-body">
                 <div class="row">
@@ -209,6 +251,11 @@
             </section>
         </div>
     </div>
+    <?php 
+    // fechar o formulario 
+    echo form_close();
+
+    ?>
 </div>
 <?php
     $this->load->view('frontend/template/mensagem-alert');

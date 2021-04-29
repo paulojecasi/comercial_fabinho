@@ -274,7 +274,7 @@ class Cliente extends CI_Controller {
 	{
 
 		$idcaixa= $this->session->userdata('idcaixa'); 
-		$dados['idcaixa'] = $idcaixa; 
+		$dados['idcaixa'] = $idcaixa;  
 		$dados['venda_cliente'] = $this->modelvendas->consulta_venda($idvenda);
 		$dados['tipo_pagamento'] = $this->modelvendas->tipo_pagamento(); 
 

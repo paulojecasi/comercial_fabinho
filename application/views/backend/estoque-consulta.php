@@ -1,12 +1,13 @@
 <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h4 class="page-header"> <?php echo "Informe Periodo e o Produto Para Consulta do Movimento de Estoque" ?></h4>
-        </div>
-        <!-- /.col-lg-12 -->
+    <div class="col-lg-12 text-center title-consulta-estoque">
+        <h4 class="page-header"> <?php echo "Informe Periodo e o Produto Para Consulta do Movimento de Estoque" ?>
+            
+        </h4>
     </div>
+        <!-- /.col-lg-12 -->
+    
    
-    <div class="row">
+    <div class="row panel-consulta-estoque">
         <div class="col-lg-12">
             <div class="panel-default panel-dados-cons-estoque">
                  
@@ -24,28 +25,26 @@
                             ?>
                             <div class="panel-body back-color-default">
                                 
-                                <div class="form-group col-lg-3 campo-data">
-                                    <label >Data Inicial</label>
-                                    <input type="date" id="datainicial" name="datainicial" maxlength="10" class="form-control" value="<?php echo date('Y-m-d'); ?>"  onkeydown="javascript:EnterTab('datafinal',event)" autofocus="true" />
+                                <section id="label-cons-est">
+                                    <div class="form-group col-lg-3 campo-data">
+                                        <label >Data Inicial</label>
+                                        <input type="date" id="datainicial" name="datainicial" maxlength="10" class="form-control" value="<?php echo date('Y-m-d'); ?>"  onkeydown="javascript:EnterTab('datafinal',event)" autofocus="true" />
 
-                                </div>
-                          
-                                <div class="form-group col-lg-3 campo-data">
-                                    <label >Data Final</label>
-                                    <input type="date" id="datafinal" name="datafinal" class="form-control" value="<?php echo date('Y-m-d'); ?>"  onkeydown="javascript:EnterTab('nomeproduto',event)" autofocus="true" />
-                                
-                                </div>
+                                    </div>
+                              
+                                    <div class="form-group col-lg-3 campo-data">
+                                        <label >Data Final</label>
+                                        <input type="date" id="datafinal" name="datafinal" class="form-control" value="<?php echo date('Y-m-d'); ?>"  onkeydown="javascript:EnterTab('nomeproduto',event)" autofocus="true" />
+                                    
+                                    </div>
+                             
+                                    <div class="form-group col-lg-6 nomeproduto-admin">
+                                        <label for="nomeproduto"> Informe Produto </label>
+                                        <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
+                                        <br> 
+                                    </div>
+                                </section>
                          
-                                <div class="form-group col-lg-6 nomeproduto-admin">
-                                    <label for="nomeproduto"> Informe Produto </label>
-                                    <input type="text" id="nomeproduto" name="nomeproduto" class="form-control nomeproduto" required placeholder="Passe o Leitor de Codigo de Barras" onkeydown="javascript:EnterTab('idproduto_res',event)" autofocus="true" />
-                                    <br> 
-                                </div>
-                                
-                                <!--
-                                <div class="form-group col-lg-10 resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_consulta_est',event)"  autofocus="true" >
-                                </div> -->
-
                                 <div class ="resultado-produto form-group col-lg-10">
                                     <div class= "form-group picklist-prod resultado resultado-consulta-estoque" id="resultado" onkeydown="javascript:EnterTab('btn_consulta_est',event)" autofocus="true">
                                         <select multiple class="form-control" id="idproduto_res" name="idproduto_res" size="4">
@@ -83,48 +82,51 @@
         ?>
         
             <div class="col-lg-12">
-                <div class="panel panel-default panel-mov-est">
-                    <div class="text-left">
 
-                        <?php
-                        foreach ($produto_est_mov as $produto_mv):
-                            $desproduto = $produto_mv->desproduto; 
-                            $codproduto = $produto_mv->codproduto; 
+                <div class="panel panel-defaul panel-dados-da-nota text-left">
 
-                        endforeach; 
+                    <?php
+                    foreach ($produto_est_mov as $produto_mv):
+                        $desproduto = $produto_mv->desproduto; 
+                        $codproduto = $produto_mv->codproduto; 
 
-                        foreach ($estoque_mov as $estov) :
-                            // pegar data inicial 
-                            if ($estov == reset($estoque_mov)):
-                                $datainicial=date("d/m/Y", strtotime($estov->datamovimento));
-                            endif;
-                            // pegar data final 
-                            if ($estov == end($estoque_mov)):
-                                $datafinal=date("d/m/Y", strtotime($estov->datamovimento));
-                            endif; 
-                        endforeach; 
-                        ?> 
+                    endforeach; 
 
-                        <div class="title-itens-mov col-lg-12">
+                    foreach ($estoque_mov as $estov) :
+                        // pegar data inicial 
+                        if ($estov == reset($estoque_mov)):
+                            $datainicial=date("d/m/Y", strtotime($estov->datamovimento));
+                        endif;
+                        // pegar data final 
+                        if ($estov == end($estoque_mov)):
+                            $datafinal=date("d/m/Y", strtotime($estov->datamovimento));
+                        endif; 
+                    endforeach; 
+                    ?> 
+
+                    <div class="title-itens-mov col-lg-12">
+                        <section id="dados-itens-movimento">
                             <div class="col-lg-12">
                                 <h4 class= "title-itens-nota">
-                                    <?php echo "  Movimento(s) do Produto :  <b> ". $codproduto." - ".$desproduto."</b>"?> 
+                                    <?php echo "Movimento(s) do Produto : &nbsp  <b> ". $codproduto." - ".$desproduto."</b>"?> 
                                 </h4>
                             </div>
                             <div class="col-lg-6">
                                 <h4 class= "title-itens-nota"> 
-                                    <?php echo "Periodo do Movimento : <b>".$datainicial." a ".$datafinal."</b>" ?> 
+                                    <?php echo "Periodo do Movimento : &nbsp &nbsp &nbsp <b>".$datainicial." a ".$datafinal."</b>" ?> 
                                 </h4>
                             </div>
                             <div class="col-lg-6">
                                 <h4 class= "title-itens-nota title-saldo"> 
-                                    <?php echo "  Saldo Atual :  <b> ".$estoque_saldo_atual."</b>"
+                                    <?php echo "  Saldo Atual : &nbsp  <b> ".$estoque_saldo_atual."</b>"
                                 ?> 
                                 </h4>
                             </div>
-                        </div>
-
+                        </section>
                     </div>
+
+                </div>
+                <div class="panel panel-default panel-mov-est">
                     <div class="panel-body">
                         <div class="row">
                                               
@@ -191,14 +193,22 @@
                     $desproduto = $produto_mv->desproduto; 
                     $codproduto = $produto_mv->codproduto; 
                 endforeach;
+
+                if (!$estoque_saldo_atual){
+                    $estoque_saldo_atual =0;
+                }
             ?>
-                <h2 class= "text-center mens-nao-estoque"> 
-                    Não ha Movimento no periodo informado, para o Produto :
+                <section class="col-lg-12">
+                <h3 class= "text-center mens-nao-estoque alert alert-danger"> 
+                    Não ha movimento no periodo informado, para o Produto:
                     <br> 
                     <b>
                         <?php echo $codproduto." - ".$desproduto?>
                     </b>
+                    <?php echo "<br>  Saldo atual no estoque:  <b> ".$estoque_saldo_atual."</b>" ?>
+                 
                 </h2>
+                </section>
             <?php
             endif;
         endif; 

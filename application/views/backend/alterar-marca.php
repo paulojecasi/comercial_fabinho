@@ -1,14 +1,11 @@
 <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h3 class="page-header"> <?php echo $subtitulo ?></h3>
-        </div>
-        <!-- /.col-lg-12 -->
+    
+    <div class="col-lg-12 text-center title-marca-prod">
+        <h3 class="page-header"> <?php echo $subtitulo ?></h3>
     </div>
-    <!-- /.row -->
-
+  
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 panel-atualiza-marca">
             <div class="panel panel-default">
                 <div class="panel-heading">
                    <?php echo $subtitulo ?>
@@ -44,9 +41,11 @@
                                     <button type="submit" class="btn btn-primary person btn_click_shift_f4" > &nbsp Atualizar  &nbsp <b class="atl-alt-s"> &nbsp  sF4 &nbsp </b> </button> 
                                 </div>
 
-                                <div class ="col-lg-6 col-md-6 col-sm-6 text-center link-voltar-cadproduto">    
+                                <div class ="col-lg-6 col-md-6 col-sm-6 text-center link-voltar-cadastro">    
                                     <a href ="<?php echo base_url('admin/marca') ?>">         
-                                        <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro</h4>
+                                        <button class="btn btn-default btn-return" id="btn-return-cad-cli" type="button"> <i class="fa fa-reply-all"> </i> 
+                                            Voltar para o Cadastro 
+                                        </button>
                                     </a>
                                 </div>
                             

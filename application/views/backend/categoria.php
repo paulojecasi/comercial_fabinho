@@ -1,13 +1,13 @@
 <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12  text-center">
-            <h3 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h3>
-        </div>
-        <!-- /.col-lg-12 -->
+     
+    <div class="col-lg-12  text-center title-categoria">
+        <h3 class="page-header"> <?php echo "Administrar ".$subtitulo ?></h3>
     </div>
+    <!-- /.col-lg-12 -->
+   
     <!-- /.row -->
 
-    <div class="row">
+    <div class="row panel-categoria">
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
@@ -61,7 +61,7 @@
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
-                   <h4> <?php echo "Alterar ".$subtitulo." existente" ?> </h4>
+                   <h4> <?php echo "Categorias Cadastradas" ?> </h4>
                 </div>
                 <div class="panel-body panel-categoria-prod">
                     <div class="row">

@@ -33,6 +33,7 @@ class Caixa extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/caixa');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}
@@ -49,6 +50,7 @@ class Caixa extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/caixa_abertura');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}
@@ -150,8 +152,9 @@ class Caixa extends CI_Controller {
 
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/template/template');
-		$this->load->view('backend/mensagem');
+		$this->load->view('backend/mensagem-alert');
 		$this->load->view('backend/caixa_fechamento');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer');
 
 		$this->modelcaixas->encerra_sessoes_caixa(); 

@@ -38,6 +38,7 @@ class Marca extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('backend/mensagem');
 		$this->load->view('backend/marca');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}
@@ -112,6 +113,7 @@ class Marca extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('backend/mensagem');
 		$this->load->view('backend/alterar-marca');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}

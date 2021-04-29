@@ -36,6 +36,7 @@ class Usuarios extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/usuarios');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}
@@ -140,6 +141,7 @@ class Usuarios extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/altera-usuarios');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer');
 
 	}
@@ -287,6 +289,7 @@ class Usuarios extends CI_Controller {
 		$this->load->view('backend/template/html-header', $dados);
 		$this->load->view('backend/login');
 		$this->load->view('backend/mensagem');
+		//$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer');
 
 	}

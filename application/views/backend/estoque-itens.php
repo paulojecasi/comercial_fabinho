@@ -1,12 +1,4 @@
 <div id="page-wrapper">
-    <div class="row panel-title-estoque">
-        <div class="col-lg-12 text-center">
-            <h4 class="page-header"> <?php echo "Entrada de Produtos no Estoque - Itens" ?></h4>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-
     <div class="row panel-dados-itens-scroll">
         <div class="col-lg-12">
             <div class="row panel panel-default panel-dados-itens">
@@ -168,7 +160,7 @@
 
                         <div class ="col-lg-6 col-md-4 col-sm-4 text-center link-voltar-cadnota">    
                             <a href ="<?php echo base_url('admin/estoque') ?>">         
-                                <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro de Notas </h4>
+                               <button class="btn btn-default btn-return" type="button" id="btn-est-voltar"> <i class="fa fa-reply-all"> </i> Voltar Para o Cadastro de Notas </button>
                             </a>
                         </div>
 

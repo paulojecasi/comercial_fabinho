@@ -137,6 +137,8 @@ class Caixa extends CI_Controller {
 	public function cancelamentar_movimento($idcaixa_mov, $idvenda=null, $tipo_movimento, $valor=null, $idcliente_md=null, $idretirada=null)
 	{
 
+		$idcliente_da_venda =0; 
+		$destipo = ""; 
 		// vamos iniciar a transação 
     $this->db->trans_begin();
 
@@ -175,15 +177,26 @@ class Caixa extends CI_Controller {
 				redirect(base_url('caixa/movimento_cancel_mov_caixa')); 
 			}
 
-			// consulta venda para  saber se a mesma tem cliente, vamos pegar o ID sem MD5 do cliente
+			/* consulta venda para  saber se a mesma tem cliente, vamos pegar o ID sem MD5 do cliente
 			$consulta_venda = $this->modelvendas->consulta_venda($idvenda); 
 
 			foreach ($consulta_venda as $vercli) 
 			{
 				$idcliente_da_venda = $vercli->idcliente;  
 			}
+			*/
 
 		}
+
+		// consulta venda para  saber se a mesma tem cliente, vamos pegar o ID sem MD5 do cliente
+		$consulta_venda = $this->modelvendas->consulta_venda($idvenda); 
+		if ($consulta_venda)
+		{
+			foreach ($consulta_venda as $vercli) 
+			{
+				$idcliente_da_venda = $vercli->idcliente;  
+			}
+		} 
 
 		// ATUALIZAR SALDO DO CLIENTE, CASO TENHA  ---------------
 		if ($idcliente_da_venda)
@@ -214,6 +227,16 @@ class Caixa extends CI_Controller {
 		// SE FOR CANCELAMENTO DE RECEBIMENTO DO CREDIARIO - VAMOS ATUALIZAR O SALDO DA VENDA
 		if ($tipo_movimento==5)
 		{
+
+			if (!$this->modelvendas->atualiza_situacao_da_venda($idvenda, $valor))
+			{
+				$mensagem = "Houve um erro ao atualiza a situacao da venda(modelvendas/atualiza_situacao_da_venda)"; 
+				$this->session->set_userdata('mensagemErro',$mensagem);
+				$this->db->trans_rollback(); 
+				redirect(base_url('caixa/movimento_cancel_mov_caixa'));
+
+			} 
+
 			$resultado_cons = $this->modelvendas->consulta_venda($idvenda); 
 			if ($resultado_cons)
 			{

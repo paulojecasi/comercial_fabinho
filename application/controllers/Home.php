@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class Home extends CI_Controller { 
 
 	public function __construct()
 	{
@@ -18,6 +18,7 @@ class Home extends CI_Controller {
 
 		$dados['titulo'] = "ACESSO AO SISTEMA";
 		$this->load->view('frontend/template/html-header', $dados);
+		//$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('frontend/home');
 
 

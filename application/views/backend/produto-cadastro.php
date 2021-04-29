@@ -169,7 +169,8 @@
                             </div>
                             <div class ="col-lg-4 text-center link-voltar-cadproduto">    
                                 <a href ="<?php echo base_url('admin/produto') ?>">         
-                                    <h4 class="btn-return"> <i class="fa fa-reply-all"> </i> Voltar Para Produtos</h4>
+                                    <button class="btn btn-default btn-return" id="btn-return-cad-cli" type="button"> <i class="fa fa-reply-all"> </i> Voltar Para Produtos 
+                                    </button>
                                 </a>
                             </div>
                         </section>

@@ -138,7 +138,7 @@ class Estoque extends CI_Controller {
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/estoque-itens');
 		$this->load->view('backend/template/footer'); 
-		$this->load->view('backend/template/html-footer'); 
+		$this->load->view('backend/template/html-footer');  
 
 	}
 
@@ -165,6 +165,7 @@ class Estoque extends CI_Controller {
 		$this->load->view('backend/template/template');
 		$this->load->view('frontend/template/mensagem-alert');
 		$this->load->view('backend/estoque-consulta');
+		$this->load->view('backend/template/footer');
 		$this->load->view('backend/template/html-footer'); 
 
 	}

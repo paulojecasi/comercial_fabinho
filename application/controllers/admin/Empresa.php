@@ -19,7 +19,7 @@ class Empresa extends CI_Controller {
 		$dados['subtitulo'] = ' Geral'; 
 
 		$this->load->view('backend/template/html-header', $dados);
-		$this->load->view('backend/mensagem');
+		//$this->load->view('backend/mensagem');
 		$this->load->view('backend/login_empresa');
 		$this->load->view('backend/template/html-footer');
 

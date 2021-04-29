@@ -19,6 +19,13 @@
         
         echo form_open('cliente/consulta_cliente/cliente','id="form-cliente-crediario" autocomplete="off"');
 
+         // vindo do cliente_consulta_crediario.php 
+        if ($this->session->userdata('cliente_aberto')== "S"){
+            $this->session->unset_userdata('nome');
+            $this->session->unset_userdata('idcliente');
+            $this->session->unset_userdata('cliente_aberto');
+        }
+
         $idcliente  =  $this->session->userdata('idcliente');
         $nome       =  $this->session->userdata('nome');
         $apelido    =  $this->session->userdata('apelido');
