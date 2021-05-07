@@ -24,6 +24,8 @@
             $this->session->unset_userdata('nome');
             $this->session->unset_userdata('idcliente');
             $this->session->unset_userdata('cliente_aberto');
+            $this->session->unset_userdata('vl_saldo_devedor');
+
         }
 
         $idcliente  =  $this->session->userdata('idcliente');

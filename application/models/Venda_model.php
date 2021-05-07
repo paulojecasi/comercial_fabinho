@@ -274,9 +274,23 @@ class Venda_model extends CI_Model
 	 
 	}
 
-	public function consulta_venda($idvenda)
+	public function consulta_venda($idvenda=null, $array_id_venda=null)
 	{
-		$this->db->where('md5(idvenda)=', $idvenda);
+
+		if ($array_id_venda)
+		{
+			
+			for ($i=0; $i<count($array_id_venda); $i++)
+			{
+				$idvenda = $array_id_venda[$i];
+				$this->db->or_where('idvenda',$idvenda);
+			}
+		}
+		else
+		{
+			$this->db->where('md5(idvenda)=', $idvenda);
+		}
+
 		return $this->db->get('venda')->result();
 
 	}
@@ -333,6 +347,7 @@ class Venda_model extends CI_Model
 	{
 		
 		$this->db->where('tipopagamento != 4');
+		$this->db->order_by('destipopagamento'); 
 		return $this->db->get('tipo_pagamento')->result(); 
 
 	}

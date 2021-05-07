@@ -32,6 +32,8 @@
 
                 $vlunit = reais($vlunit);    
             ?> 
+
+                <input id="form-alt-produto-tem" value="1" type="hidden">
             
                 <input id="quantidade_da_venda" name="quantidade_da_venda" type="hidden"class = "form-control"  value="<?php echo $quantidade_da_venda ?> " disabled> 
 
@@ -61,7 +63,12 @@
                 <div class="form-group col-lg-4 input-alt-itens-venda"> 
                     <label> Quantidade de itens </label>
                     <input type="number" class="form-control" id="quantidadeitens_alt" name="quantidadeitens_alt" step="0.01" placeholder="0" value="<?php echo $qtd ?>" autofocus="true" onkeydown="javascript:EnterTab('valordesconto_alt',event)"  >
-                    <input type="hidden" class="form-control" id="quantidadeitens_ata" name="quantidadeitens_ata" step="0.01" placeholder="0" value="<?php echo $qtdatacado ?>"   >
+
+                    <input type="hidden" id="quantidadeitens_orig" step="0.01" value="<?php echo $qtd ?>" >
+
+                    <input type="hidden" id="quantidadeitens_ata"  step="0.01" value="<?php echo $qtdatacado ?>"   >
+
+
                 </div>
 
 

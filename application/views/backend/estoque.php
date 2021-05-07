@@ -29,6 +29,8 @@
                         echo form_open('admin/estoque/inserir');
     
                         ?>
+                        <input id="form-entrada-nota-est" type="hidden" value="10">
+
                         <input id="nrnota_aut" name="nrnota_aut" type="hidden"class = "form-control"   value="<?php  echo $numero_nota_aut ?>">
 
                         <div class="form-group col-lg-5 verconsn"> 

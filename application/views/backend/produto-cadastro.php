@@ -31,6 +31,8 @@
         
                         ?> 
 
+                        <input id="form-cadastro-produt" type="hidden" value="10">
+
                         <div class="form-group col-lg-5">
                             <label> Codigo de Barras 
                                 <i class="fa fa-barcode" aria-hidden="true"></i>

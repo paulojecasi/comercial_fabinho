@@ -143,6 +143,7 @@ class Caixa extends CI_Controller {
 		$dados['vendaexterna']	=$this->session->userdata('vendaexterna');
 		$dados['valor_total_cx'] =$this->session->userdata('valor_total_cx');
 		$dados['trocoini']			=$this->session->userdata('trocoini');
+		$dados['pix_transferencia']			=$this->session->userdata('pix_transferencia');
 		$dados['retirada_dinheiro']			=$this->session->userdata('retirada_dinheiro');
 
 		// dados a serem enviados para o cabeçalho
@@ -197,6 +198,10 @@ class Caixa extends CI_Controller {
 		$dados['vltotal'] = $this->input->post('vl-total-fec');
 		$dados['vltotal_con'] = $this->input->post('vl-total-fec-c');
 		$dados['vltotal_fs'] = $this->input->post('vl-total-fec-fs');
+
+		$dados['pix_transferencia'] = $this->input->post('pix_transferencia');
+		$dados['pix_transferencia_con'] = $this->input->post('pix_transferencia_c');
+		$dados['pix_transferencia_fs'] = $this->input->post('pix_transferencia_fs');
 
 		// vamos iniciar a transação 
     $this->db->trans_begin();
@@ -290,6 +295,7 @@ class Caixa extends CI_Controller {
 	 	$vendaexterna=0; 
 	 	$fl_fechado =0; 
 	 	$datainicio =0; 
+	 	$pix_transferencia =0; 
 
 		foreach ($dados as $movimento_caixa_result) 
 		{
@@ -346,8 +352,12 @@ class Caixa extends CI_Controller {
 				{
 					$retirada_dinheiro += $vl_movimento; 
 				}
+				elseif ($tipo_movimento ==11)
+				{
+					$pix_transferencia += $vl_real; 
+				}
 
-				$valor_total_cx = $trocoini+$avista+$cartaodebito+$cartaocredito+$crediario+$crediarioreceb+$vendaexterna-$retirada_dinheiro; 
+				$valor_total_cx = $trocoini+$avista+$cartaodebito+$cartaocredito+$crediario+$crediarioreceb+$pix_transferencia+$vendaexterna-$retirada_dinheiro; 
 			}
 	
 		} 
@@ -365,6 +375,8 @@ class Caixa extends CI_Controller {
 			!$vendaexterna
 			&& 
 			!$trocoini
+			&& 
+			!$pix_transferencia
 		)
 		{
 			$mensagem = "Nao ha movimento no periodo informado!"; 
@@ -386,6 +398,7 @@ class Caixa extends CI_Controller {
 			$this->session->set_userdata('datafinal',$datafinal);
 			$this->session->set_userdata('valor_total_cx',$valor_total_cx);
 			$this->session->set_userdata('trocoini',$trocoini);
+			$this->session->set_userdata('pix_transferencia',$pix_transferencia);
 			$this->session->set_userdata('retirada_dinheiro',$retirada_dinheiro);
 		}
 		 

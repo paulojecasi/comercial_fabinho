@@ -2,7 +2,7 @@
 
     <?php
     echo validation_errors('<div class="alert alert-warning">','</div>'); 
-    
+    /*
     foreach ($venda_cliente as $venda_cli) {
         $idvenda    = $venda_cli->idvenda;
         $valorvenda = reais($venda_cli->valorvenda);
@@ -11,102 +11,163 @@
         $datavenda  = datebr($venda_cli->datavenda); 
         $idcliente = $venda_cli->idcliente; 
         //$this->session->set_userdata('vl_saldo_devedor',$vlsaldo_crediario_sem_conversao);
-    }  
+    }  */
 
     $nome       = $this->session->userdata('nome');
     $codigo     = $this->session->userdata('idcliente');
+    $idvenda = "temp"; 
 
-    echo form_open('cliente/pagamento_crediario_confirma/'.md5($idvenda).'/'.md5($idcliente),'class="form-pagamento-cred" id="form-pagamento-cred"') ;
+    echo form_open('cliente/pagamento_crediario_confirma/'.md5($codigo),'class="form-pagamento-cred" id="form-pagamento-cred"') ;
     ?>
 
-    <div class = "text-center tipo-de-pagamento-escolha tipo-de-pagamento-escolha-crediario">
+    <div class = "col-lg-6 text-center tipo-de-pagamento-escolha tipo-de-pagamento-escolha-crediario">
         <h2> Pagamento de Crediário </h2>
     </div>
+     
+    <div class= "dados-cli col-lg-6 tipo-de-pagamento-escolha-crediario">
+         
+        <div class="form-group">
+            <h4> Cliente: &nbsp <b> <?php echo $codigo. " - " .$nome ?> </b> 
+            </h4>
+        </div>
+        
+    </div>
+    
 
 
     <div class = "col-lg-12 col-sm-12 tela-pagamento-crediario">
         <div class="row">
-            <div class= "col-lg-12">
-             <section>
-                    <div class= "dados-venda col-lg-12">
-                        <div class="col-lg-4 col-sm-12">
-                            <div class="form-group">
-                                <h3> Cliente: <b> <?php echo $codigo. " - " .$nome ?> </b> 
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <div class="form-group">
-                                <h3> Codigo da Venda:  <b> <?php echo $idvenda ?> </b>  
-                                </h3>
-                            </div>
-                        </div>
 
-                        <div class="col-lg-4 col-sm-12">
-                            <div class="form-group">
-                                <h3> Valor da Venda R$:  <b id="valor-venda-cred-pag"> <?php echo $valorvenda ?> </b>  
-                                </h3>
-                            </div>
+            <div class="col-lg-5 vendas-a-pagar">
+
+                <div class="col-lg-12 panel-lista-vendas-pagamento">
+
+                    <div class="form-group title-desc-vendas">
+                        <div class="col-lg-1 title-desc">
+                            <label> Sq</label>
                         </div>
+                        <div class="col-lg-2 title-desc">
+                            <label> Cod</label>
+                        </div>
+                        <div class="col-lg-3 title-desc">
+                            <label> Valor Venda </label>
+                        </div>
+                        <div class="col-lg-3 title-desc">
+                            <label> Valor Saldo</label>
+                        </div>
+                        <div class="col-lg-3 title-desc">
+                            <label> Vl Pagamento</label>
+                        </div>
+                   
+                        <?php
+                    
+                        $id_parcial =1; 
+                        $valor_divida=0 ; 
+                        foreach ($venda_cliente as $venda_cli) {
+                            $idvenda    = $venda_cli->idvenda;
+                            $valorvenda = $venda_cli->valorvenda;
+                            $vlsaldo_crediario = reais($venda_cli->vlsaldo_crediario);
+                            $vlsaldo_crediario_sc = $venda_cli->vlsaldo_crediario; 
+                            $datavenda  = datebr($venda_cli->datavenda); 
+                            $idcliente = $venda_cli->idcliente;
+
+                            $valor_divida += $vlsaldo_crediario_sc; 
+
+                            ?>
+                            <div class="col-lg-1 info-vendas">
+                                <?php echo $id_parcial  ?>
+                            </div>
+                            <div class="col-lg-1 info-vendas">
+                                <?php echo $idvenda  ?>
+                            </div>
+                            <div class="col-lg-3 info-vendas">
+                                <?php echo $valorvenda  ?>
+                            </div>
+                            <div class="col-lg-3 info-vendas info-saldo">
+                                <?php echo $vlsaldo_crediario  ?>
+                            </div>
+                            <div class="col-lg-4 info-vendas">
+
+                                <!-- id venda -->
+                                <input type="hidden" name="<?php echo "id_ven_".$id_parcial ?>" id="<?php echo "id_ven_".$id_parcial ?>" 
+                                    value="<?php echo $idvenda ?>">
+
+                                <!-- vl saldo -->
+                                <input type="hidden" 
+                                    name="<?php echo "vl_ven_".$id_parcial ?>" 
+                                    id="<?php echo "vl_ven_".$id_parcial ?>" 
+                                    value="<?php echo $vlsaldo_crediario_sc ?>">
+
+                                <input class= "" 
+                                    type="number" id="<?php echo "pag_".$id_parcial ?>" 
+                                    name="<?php echo "pag_".$id_parcial ?>" 
+                                    value="<?php echo $vlsaldo_crediario_sc ?>"
+                                    step ="0.01" 
+                                    onkeydown="javascript:EnterTab('idpagamento',event)" required>
+                            </div>
+
+
+                            <?php 
+                            $id_parcial++; 
+
+                        }   
+
+                        $valor_divida_sc = $valor_divida; 
+                        $valor_divida = reais($valor_divida); 
+
+                    //var_dump($venda_cliente); 
+                    ?>
                     </div>
-                </section>
+                </div>
             </div>
 
-            <div class="col-lg-4">
-            </div>
-            <div class="col-lg-8">
-               
-                <div class="panel-recebidos-cred col-lg-7"> 
+            <div class="col-lg-7">   
 
-                    <section id="recebido-cre">
-                        <div class="col-lg-5 col-sm-12 campo-pag">
-                            <h3>Valor Recebido R$ : </h3>
+
+                <div class= "panel-recebidos-cred2 col-lg-6">
+                    <section>
+                        <div class="col-lg-12 col-sm-12 campo-pag">
+                                <h3> &nbsp Valor Pagamento R$ : </h3>
                         </div>
-                  
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="form-group">
-                                <h1 class="valor-recebido-venda-cred">
-                                    <input id="vl_recebido_caixa_cred" name="vl_recebido_caixa_cred" type="number" class="form-control" placeholder ="0" step="0.01" autofocus="true"  onkeydown="javascript:EnterTab('vl_juros_caixa_cred',event)" required>
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="form-group text-center valor-da-divida">
+                                <h1 class="valor-recebido-troco-cred">
+                                    <input id="vl_pg_crediario" name="vl_pg_crediario" type="text" class="form-control"  step="0.01" placeholder ="0.00" value = "<?php echo  $valor_divida ?>"  >
                                 </h1>
-                            </div>
-                        </div> 
-                    </section>
 
-                    <div id="juros-cre">
-                        <div class="col-lg-5 col-sm-12 campo-pag">
-                            <h3>Valor Juros R$ : </h3>
-                        </div>
-
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="form-group">
-                                <h1 class="valor-juros-venda-cred">
-                                    <input id="vl_juros_caixa_cred" name="vl_juros_caixa_cred" type="number" class="form-control" placeholder ="0" step="0.01" autofocus="true"  onkeydown="javascript:EnterTab('vl_desconto_caixa_cred',event)">
-                                </h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <section id = "desconto-cre">
-                        <div class="col-lg-5 col-sm-12 campo-pag">
-                            <h3>Valor Desconto R$ : </h3>
-                        </div>
-
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="form-group">
-                                <h1 class="valor-desconto-venda-cred">
-                                    <input id="vl_desconto_caixa_cred" name="vl_desconto_caixa_cred" type="number" class="form-control" placeholder ="0" step="0.01" autofocus="true"  onkeydown="javascript:EnterTab('idpagamento',event)">
-                                </h1>
+                                <input id="vl_pg_crediariosc" name="vl_pg_crediariosc" type="hidden" class="form-control"  step="0.01" placeholder ="0.00" value = "<?php echo  $valor_divida_sc ?>"  >
+                              
                             </div>
                         </div>
                     </section>
+
+
+                    <section>
+                        <div class="col-lg-12 col-sm-12 campo-pag">
+                            <h3 id="campo-troco"> &nbsp TROCO R$ : </h3>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 text-center">
+                            <div class="form-group text-center">
+                                <h1 class="valor-recebido-troco-cred"> 
+                                    <!-- <?php echo $valortotal ?> --> 
+                                    <input id="vl_troco_cred" name="vl_troco_cred" type="text" class="form-control"  step="0.01"  placeholder="0,00">
+                                </h1>
+                              
+                            </div>
+                        </div>
+                    </section>
+                    
+                </div>                
+
+                <div class="panel-recebidos-cred col-lg-6"> 
 
                     <section id ="tipopag-cre">
                         <div class="col-lg-5 col-sm-12 campo-pag">
-                            <h3> Tipo Pagamento: </h3>
+                            <h3> Tipo Pag: </h3> 
                         </div>
 
-                        <div class="form-group col-lg-7 tipo-pagamento-cred">
-                            <select class="form-control" id="idpagamento" name="idpagamento"  onkeydown="javascript:EnterTab('vl_recebido_caixa_cred',event)">
+                        <div class="form-group col-lg-7 tipo-pagamento-cred input-total-pag">
+                            <select class="form-control" id="idpagamento" name="idpagamento"  onkeydown="javascript:EnterTab('vl_recebido_caixa_cred',event)" autofocus="true" >
                                 <?php 
                                 foreach ($tipo_pagamento as $tppagto): 
                                     $idpagamento    = $tppagto->id;
@@ -123,85 +184,72 @@
                         </div>
                     </section>
 
-                </div>
 
-                <div class= "panel-recebidos-cred2 col-lg-5">
-                    <section>
-                        <div class="col-lg-5 col-sm-12 campo-pag">
-                                <h3> Valor Divida R$ : </h3>
-                        </div>
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="form-group">
-                                <h1>
-                                    <?php echo $vlsaldo_crediario ?>
-                                </h1>
-
-                                <input id="vl_saldo_crediario" name="vl_saldo_crediario" type="hidden" class="form-control"  step="0.01" placeholder ="0.00" value = "<?php echo $vlsaldo_crediario_sem_conversao ?>"  >
-                              
-                            </div>
-                        </div>
-                    </section>
-
-                    <section>
-                        <div class="col-lg-5 col-sm-12 campo-pag">
-                            <h3> Divida Atualizada R$ : </h3>
-                        </div>
-
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="form-group">
-                                <h1 class="valor-saldo-atual-cred">
-                                    <!-- <?php echo $valortotal ?> --> 
-                                    <input id="vl_saldo_atual" name="vl_saldo_atual" type="text" class="form-control"  step="0.01"  placeholder="0,00" value="<?php echo $vlsaldo_crediario ?>" disabled>
-                                </h1>
-
-                                <input id="vl_real_amortizacao" name="vl_real_amortizacao" type="hidden" class="form-control"  value = "<?php echo $vlsaldo_crediario_sem_conversao ?>"  >
-                              
-                            </div>
-                        </div>
-                    </section>
-
-                    <section>
-                        <div class="col-lg-5 col-sm-12 campo-pag">
-                            <h3> TROCO R$ : </h3>
-                        </div>
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="form-group">
-                                <h1 class="valor-recebido-troco-cred"> 
-                                    <!-- <?php echo $valortotal ?> --> 
-                                    <input id="vl_troco_cred" name="vl_troco_cred" type="text" class="form-control"  step="0.01"  placeholder="0,00">
-                                </h1>
-                              
-                            </div>
-                        </div>
-                    </section>
-                    
-                </div>
-
-         
-
-                <div class="col-lg-6 total-pagto-cre"> 
                     <section id="recebido-cre">
                         <div class="col-lg-5 col-sm-12 campo-pag">
-                            <h3> Total Pagamento R$ : </h3>
+                            <h3>Vl Recebido R$ : </h3>
                         </div>
                   
                         <div class="col-lg-7 col-sm-12">
-                            <div class="form-group">
-                                <h1 class="valor-total-venda-cred">
-                                    <input id="vl_total_pag_cred" name="vl_total_pag_cred" type="text" class="form-control" placeholder ="0" step="0.01" disabled>
+                            <div class="form-group input-total-pag">
+                                <h1 class="valor-recebido-venda-cred">
+                                    <input id="vl_recebido_caixa_cred" name="vl_recebido_caixa_cred" type="number" class="form-control" placeholder ="0" step="0.01"  onkeydown="javascript:EnterTab('vl_juros_caixa_cred',event)" required>
                                 </h1>
                             </div>
                         </div> 
                     </section>
+
+                    <section id="juros-cre">
+                        <div class="col-lg-5 col-sm-12 campo-pag">
+                            <h3>Vl Juros R$ : </h3>
+                        </div>
+
+                        <div class="col-lg-7 col-sm-12">
+                            <div class="form-group input-total-pag">
+                                <h1 class="valor-juros-venda-cred">
+                                    <input id="vl_juros_caixa_cred" name="vl_juros_caixa_cred" type="number" class="form-control" placeholder ="0" step="0.01" autofocus="true"  onkeydown="javascript:EnterTab('vl_desconto_caixa_cred',event)">
+                                </h1>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id = "desconto-cre">
+                        <div class="col-lg-5 col-sm-12 campo-pag">
+                            <h3>Vl Desconto R$ : </h3>
+                        </div>
+
+                        <div class="col-lg-7 col-sm-12">
+                            <div class="form-group input-total-pag">
+                                <h1 class="valor-desconto-venda-cred">
+                                    <input id="vl_desconto_caixa_cred" name="vl_desconto_caixa_cred" type="number" class="form-control" placeholder ="0" step="0.01" autofocus="true"  onkeydown="javascript:EnterTab('idpagamento',event)">
+                                </h1>
+                            </div>
+                        </div>
+                    </section>
+
+                    
+
                 </div>
 
+                <section class="total-pagto-cre col-lg-12" id="recebido-cre">
+                    <div class="col-lg-3 col-sm-12 campo-pag">
+                        <h3> Total Pagamento: </h3>
+                    </div>
+              
+                    <div class="col-lg-7 col-sm-12">
+                        <div class="form-group input-total-pag">
+                            <h1 class="valor-total-venda-cred">
+                                <input id="vl_total_pag_cred" name="vl_total_pag_cred" type="text" class="form-control" placeholder ="0" step="0.01" disabled>
+                            </h1>
+                        </div>
+                    </div> 
+                </section>
 
-
-                <div class="form-group col-lg-6 btn-link"> 
+                <div class="form-group col-lg-12 btn-link"> 
                     <section class = "btn-retorno-pag-cred">
-                        <div class ="col-lg-5 col-sm-12 btn-finalizar-venda  text-center">
+                        <div class ="col-lg-5 col-sm-12 btn-finalizar-venda btn-finalizar-pagto  text-center">
                             <a href="">
-                                <button class="btn btn-success" type="submit" id="btn-pagamento-cred" > 
+                                <button class="btn btn-success" type="submit" id="btn-pagamento-cred"> 
                                     Concluir Pagamento
                                 </button> 
                             </a>
@@ -209,26 +257,28 @@
 
                         <?php 
                          
-                            $link_retorno = base_url('cliente/consulta_crediario/').md5($idcliente).'/cliente';
+                            $link_retorno = base_url('cliente/consulta_crediario/').md5($codigo).'/cliente';
                             
                         ?>
 
-                        <div class ="col-lg-3 text-center link-voltar link-voltar-tela-inicio">
+                    
+                        <div class ="col-lg-3 text-center link-voltar link-voltar-tela-inicio btn-finalizar-pagto">
                             <a href="<?php echo $link_retorno ?>">
                                    <i class="fa fa-reply" aria-hidden="true"></i> Voltar
                             </a>
                         </div>
 
-                        <div class ="col-lg-4 text-center link-voltar link-voltar-tela-inicio">
+                        <div class ="col-lg-4 text-center link-voltar link-voltar-tela-inicio btn-finalizar-pagto">
                             <a href="<?php echo base_url('venda') ?>">
                                    <i class="fa fa-home" aria-hidden="true"></i> Ir para Venda
                             </a>
                         </div>
+                       
                     </section>
-
-
                 </div>
+
             </div>
+
         </div>
     
     </div>

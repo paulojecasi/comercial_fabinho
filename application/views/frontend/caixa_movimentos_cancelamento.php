@@ -53,7 +53,7 @@
             
                     <?php
 
-                    $this->table->set_heading("Cod","Cod Venda","Data","Usuário","Tipo","Pagamento","Juros","Descontos","Vl Movimento","Situacao","Ver Venda","Cancelar" );
+                    $this->table->set_heading("Cod","Cod Venda","Cliente","Data","Usuário","Tipo","Pagamento","Juros","Descontos","Vl Movimento","Situacao","Cancelar" );
 
                     $vl_movimento=0;
                     $vl_juros =0;
@@ -104,6 +104,7 @@
                         $vl_real = reais($vl_real); 
 
                         $botaocancelar = ""; 
+                        $cliente_acesso = "";
                         if ($situacao==0)
                         {
                             $situacao = "Normal"; 
@@ -133,13 +134,26 @@
                             || $tipo_movimento==9
                             || $tipo_movimento==10){
 
-                            $botaovenda ="";
+                            $botaovenda ="-";
                         } 
                         else
                         {
                             $botaovenda = anchor(base_url('venda/consulta_venda/'.md5($idvenda)),
-                            '<h4 class="btn-alterar"><i class="fas fa-shopping-cart"> </i> </h4>');
+                            '<h4 class="btn-alterar">'.$idvenda.' - <i class="fas fa-shopping-cart"> </i> </h4>');
                         }
+
+                        if (!$idcliente)
+                        {
+
+                            $cliente_acesso ="NI";
+                        } 
+                        else
+                        {
+                            $cliente_acesso = anchor(base_url('cliente/consulta_crediario/'.md5($idcliente).'/cliente_caixa_mov'),
+                            '<h4 class="btn-alterar"> <b>'.$idcliente.' </b>  - <i class="fa fa-eye" aria-hidden="true"></i> </h4>');
+                        }
+
+
 
 
                         echo $modal= ' <div class="modal fade excluir-modal-'.$idcaixa_mov.'" tabindex="-1" role="dialog" aria-hidden="true">
@@ -165,7 +179,7 @@
                         </div>';
 
 
-                        $this->table->add_row($idcaixa_mov,$idvenda,$data_movimento,$codigousuario,$desmovimento,$despagamento,$vl_juros,$vl_desconto, $vl_real,$situacao, $botaovenda, $botaocancelar);
+                        $this->table->add_row($idcaixa_mov, $botaovenda,$cliente_acesso,$data_movimento,$codigousuario,$desmovimento,$despagamento,$vl_juros,$vl_desconto, $vl_real,$situacao, $botaocancelar);
                     }
                     $this->table->set_template(array(
                                     'table_open' => '<table class="table table-striped">'

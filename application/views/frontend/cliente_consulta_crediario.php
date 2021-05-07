@@ -16,6 +16,7 @@
 
         $this->session->set_userdata('nome',$nome);
         $this->session->set_userdata('idcliente',$codigo);
+        $this->session->set_userdata('vl_saldo_devedor',$vl_saldo);
         $this->session->set_userdata('cliente_aberto',"S");
 
     }
@@ -26,15 +27,15 @@
         $codigo     = $this->session->userdata('idcliente'); 
     }
     
-    echo form_open('cliente/pagamento_crediario/'.md5(404),'id="form-lista-vendas" autocomplete="off"');
+    echo form_open('cliente/pagamento_crediario/','id="form-lista-vendas" autocomplete="off"');
     ?>
 
     <?php 
         // vamos criar os campos se os mesmo forem != null (vindo do jquery)
         for ($i=0; $i < 50 ; $i++) { 
              ?>
-            <input type="" id="<?php echo 'id'.$i ?>" name="<?php echo 'id'.$i ?>"/>
-            <input type="" id="<?php echo 'vl'.$i ?>" name="<?php echo 'vl'.$i ?>"/>
+            <input type="hidden" id="<?php echo 'id'.$i ?>" name="<?php echo 'id'.$i ?>"/>
+            <!-- <input type="" id="<?php echo 'vl'.$i ?>" name="<?php echo 'vl'.$i ?>"/> -->
             <?php 
         }
     ?>
@@ -62,14 +63,22 @@
                 <br> 
             </div>
 
-            <div class="form-group cliente_venda col-lg-2">
-                <label for="valor_a_pagar"> Valor Pagamento </label>
-                <input type="text" id="valor_a_pagar" name="valor_a_pagar" class="form-control" placeholder="0,00" step="0.01" value = "0" disabled/>
-                <br> 
-            </div>
+            <?php
+            if ($localchamado == "cliente"):
+            ?>
+    
+                <div class="form-group cliente_venda col-lg-2">
+                    <label for="valor_a_pagar"> Valor Pagamento </label>
+                    <input type="text" id="valor_a_pagar" name="valor_a_pagar" class="form-control" placeholder="0,00" step="0.01" value = "0" disabled/>
+                    <br> 
+                </div>
+
+            <?php
+            endif; 
+            ?>
 
             <div class="form-group cliente_venda btn-pagamento-select btn-finalizar-venda">
-                <button class="btn btn-success" id="btn-pagamento-cred"> Pagar </button>
+                <button class="btn btn-success" id="btn-pagamento-cred-acu"> Pagar </button>
             </div>
 
         </div>
@@ -83,6 +92,14 @@
                             <!-- gerar tabela de categorias pela framework PJCS --> 
                         <?php
                         if ($vendas_cli):
+
+                            $desc_pag =""; 
+                            $btn_pagar="";
+                            $btn_verpagamentos = "-";
+
+                            if ($localchamado == "cliente"):
+                                $desc_pag = "Pagamento";
+                            endif; 
                         
                             $this->table->set_heading(
                                 '<h5>'."Codigo da Venda".'</h5>',
@@ -91,7 +108,7 @@
                                 '<h5>'."Saldo Devedor R$".'</h5>',
                                 '<h5>'."Situacao".'</h5>',
                                 '<h5>'."Itens".'</h5>',
-                                '<h5>'."Pagamento".'</h5>'); 
+                                '<h5>'.$desc_pag.'</h5>'); 
                                 //'<h5>'."Produto".'</h5>',
                                 //'<h5>'."Quantidade".'</h5>',
                                 //'<h5>'."Vl Unt".'</h5>',
@@ -133,12 +150,11 @@
                                     '<button class="btn-ver-itens btn idvenda_it" type="submit"  value="'.md5($idvenda).'"> <i class="fas fa-th-list"> </i>Ver Itens </button>';
                                     */
 
-                                $btn_veritens = '<button class="btn-ver-itens btn btn-success idvenda_it" value="'.md5($idvenda).'"><i class="fas fa-th-list"> </i> Ver Itens </button>';
+                                $btn_veritens = '<button class="btn-ver-itens btn btn-success idvenda_it" type="button" value="'.md5($idvenda).'"><i class="fas fa-th-list"> </i> Ver Itens </button>';
 
                                 if ($vlsaldo_o < $valor_o):
-                                    $btn_verpagamentos = '<button class="btn-ver-pagamentos btn btn-success idpagamento" value="'.md5($idvenda).'"><i class="fas fa-th-list"> </i> Ver Pagamentos </button>';
-                                else:
-                                    $btn_verpagamentos = "-";
+                                    $btn_verpagamentos = '<button class="btn-ver-pagamentos btn btn-success idpagamento" value="'.md5($idvenda).'" type="button"><i class="fas fa-th-list"> </i> Ver Pagamentos </button>';
+                                
                                 endif; 
 
                                
@@ -152,9 +168,7 @@
                                         '<div class="col-lg-1 form-check pag-acumula-cred">
                                             <input class="form-check-input ckeck-pag-cred" type="checkbox" value="'.$idvenda.'" id="'.$idvenda.'">
                                         </div>';
-
-                                    else:
-                                        $btn_pagar = "-";
+                                        
                                     endif; 
                                 else:
                 
@@ -223,6 +237,10 @@
                 if ($localchamado == "cliente")
                 {
                     $link_retorno =  base_url('cliente/manutencao_clientes');
+                }
+                elseif ($localchamado == "cliente_caixa_mov")
+                {
+                    $link_retorno =  base_url('caixa/movimento_cancel_mov_caixa');
                 }
                 else
                 {

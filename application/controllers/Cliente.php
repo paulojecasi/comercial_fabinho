@@ -228,15 +228,23 @@ class Cliente extends CI_Controller {
 		$dados['nome_cli'] 		= null; 
 		$dados['codigo_cli'] 	= null;
 		$dados['saldo_cli'] 	= null;
+		$localchamado_provisorio = $localchamado; 
 
-		if ($localchamado == "cliente_cred_aberto"){
-			  $localchamado = "cliente"; 
+		if ($localchamado == "cliente_cred_aberto" ||
+				$localchamado == "cliente_caixa_mov" )
+		{
+			$localchamado = "cliente"; 
 			$resultado_con = $this->modelcliente->lista_cliente_divida_aberto($idcliente);
 			foreach ($resultado_con as $cliente_divida) {
 				$dados['nome_cli'] 		= $cliente_divida->nome; 
 				$dados['codigo_cli'] 	= $cliente_divida->idcliente;
 				$dados['saldo_cli'] 	= $cliente_divida->vl_saldo_devedor;
 			}
+		}
+
+		if ($localchamado_provisorio == "cliente_caixa_mov")
+		{
+			$localchamado = $localchamado_provisorio; 
 		}
 
 		$this->load->library('table'); 
@@ -270,12 +278,31 @@ class Cliente extends CI_Controller {
 
 	}
 
-	public function pagamento_crediario($idvenda)
+	public function pagamento_crediario()
 	{
+		$errors_add = 0; 
+		$idvenda=0; 
+		$array_id_venda = []; 
+		$idV = 0;
+		while ( $idV <= 50) 
+		{
+				$id_venda = $this->input->post("id".$idV);
+
+				if (!$id_venda)
+				{
+					break;
+				}
+				array_push($array_id_venda, $id_venda); 
+				$idV++;
+		}
+	
+	  //$result12 = $this->modelvendas->consulta_venda($idvenda, $array_id_venda);
+	  //var_dump($result12);
+	  //exit; 
 
 		$idcaixa= $this->session->userdata('idcaixa'); 
 		$dados['idcaixa'] = $idcaixa;  
-		$dados['venda_cliente'] = $this->modelvendas->consulta_venda($idvenda);
+		$dados['venda_cliente'] = $this->modelvendas->consulta_venda($idvenda, $array_id_venda);
 		$dados['tipo_pagamento'] = $this->modelvendas->tipo_pagamento(); 
 
 		$this->load->view('frontend/template/html-header',$dados);
@@ -287,69 +314,120 @@ class Cliente extends CI_Controller {
 
 	}
 
-	public function pagamento_crediario_confirma($idvenda_md, $idcliente_md)
+	public function pagamento_crediario_confirma($idcliente_md)
 	{
+
+		$qt_contrato =1;
+		while ($qt_contrato <=50)
+		{		
+			$id_venda = $this->input->post('id_ven_'.$qt_contrato);
+			if (!$id_venda)
+			{
+				$qt_contrato--;
+				break; 
+			}
+
+			$qt_contrato++; 	
+
+		}
 
 		$idcaixa= $this->session->userdata('idcaixa');
 		$idusuario 	= $this->session->userdata('userLogado')->id;
-		$vl_amortizacao = $this->input->post('vl_real_amortizacao');
+		//$vl_amortizacao = $this->input->post('vl_real_amortizacao');
 		$tipo_pagamento = $this->input->post('idpagamento');
+		$vl_recebido_pag   	= $this->input->post('vl_recebido_caixa_cred'); 
+		$vl_troco_pag 			=	$this->input->post('vl_troco_cred'); 
+		$vl_movimento 	= $vl_recebido_pag - $vl_troco_pag; 
+		$vl_juros_pag				= $this->input->post('vl_juros_caixa_cred');
+		$vl_desconto_pag		= $this->input->post('vl_desconto_caixa_cred');
 
-		$vl_recebido   	= $this->input->post('vl_recebido_caixa_cred'); 
-		$vl_troco 			=	$this->input->post('vl_troco_cred'); 
-		$vl_movimento 	= $vl_recebido - $vl_troco; 
-		$vl_juros				= $this->input->post('vl_juros_caixa_cred');
-		$vl_desconto		= $this->input->post('vl_desconto_caixa_cred');
-		// vamos iniciar a transação 
+		$vl_juros_pag = (double)$vl_juros_pag; 
+		$vl_desconto_pag = (double)$vl_desconto_pag; 
 
-		if ($vl_recebido <=0)
-		{
-			$mensagem = "Informe o Valor Recebido!"; 
-			$this->session->set_userdata('mensagemErro',$mensagem); 
-			redirect(base_url('cliente/pagamento_crediario/').$idvenda_md);
+		$id_parcial =1;
+		while ($id_parcial <= $qt_contrato)
+		{		
+
+				$id_venda = $this->input->post('id_ven_'.$id_parcial); 
+				$vl_receb   = $this->input->post('pag_'.$id_parcial);
+				$vl_receb = (double)$vl_receb; 
+
+				$idvenda_md = md5($id_venda); 
+				$vl_amortizacao = $vl_receb; 
+				$vl_recebido = $vl_receb;
+				$vl_troco = $vl_troco_pag / $qt_contrato; 
+				//$vl_movimento 	= $vl_receb; 
+				$vl_juros = $vl_juros_pag / $qt_contrato;
+				$vl_desconto 	= $vl_desconto_pag / $qt_contrato; 
+				$vl_movimento 	= $vl_recebido + $vl_juros - $vl_desconto; 
+
+				//echo "amort == " .$vl_amortizacao; 
+				//exit; 
+
+				if (!$id_venda)
+				{
+					break; 
+				}
+
+				// vamos iniciar a transação 
+
+				if ($vl_recebido <=0)
+				{
+					$mensagem = "Informe o Valor Recebido!"; 
+					$this->session->set_userdata('mensagemErro',$mensagem); 
+					$errors_add = 1; 
+					break; 
+				}
+				
+		    $this->db->trans_begin();
+
+					$resultado = $this->modelvendas->consulta_venda($idvenda_md); 
+					foreach ($resultado as $venda) {
+						$valorvenda = $venda->valorvenda;
+						$vlsaldo_crediario_atual = $venda->vlsaldo_crediario;
+						$idcliente = $venda->idcliente; 
+						$situacaovenda = $venda->situacaovenda; 
+						$idvenda = $venda->idvenda;
+					}
+
+					// vamos amortizar o saldo 
+					$vlsaldo_crediario =  $vlsaldo_crediario_atual-$vl_amortizacao;
+
+					if ($vlsaldo_crediario <=0)
+					{
+						$situacaovenda =1;  // se zerar o saldo, vamos quitar a venda 
+					}
+
+					$this->modelvendas->atualiza_venda_crediario($idvenda_md,$situacaovenda,$vlsaldo_crediario);
+
+					$this->modelvendas->atualiza_saldo_crediario($idcliente,$idcliente_md,$vl_amortizacao,"pagamento");
+
+					$tipomovimento_caixa = 5; // recebimento crediario  
+					$this->modelcaixa_movimento->grava_caixa_mov($idcaixa,$idvenda,$idcliente,$idusuario,$tipomovimento_caixa,$vl_movimento,$vl_juros,$vl_desconto,$tipo_pagamento,$vl_recebido,$vl_troco); 
+
+					// consulta e atualiza saldo devedor do cliente 
+					$this->consulta_saldo_crediario($idcliente_md);
+
+				if  ($this->db->trans_status()===FALSE ) 
+				{ 
+				  $this->db->trans_rollback(); 
+				  $mensagem = "Houve um ERRO de TRANSAÇÃO! (venda_model/baixa_pagamento_crediario)"; 
+					$this->session->set_userdata('mensagemErro',$mensagem); 
+				} 
+				else 
+				{ 
+					$this->db->trans_commit(); 
+					$mensagem = "Pagamento Realizado com Sucesso !"; 
+					$this->session->set_userdata('mensagemAlert',$mensagem); 
+			
+				}
+
+				$id_parcial++; 
 		}
-		
-    $this->db->trans_begin();
 
-			$resultado = $this->modelvendas->consulta_venda($idvenda_md); 
-			foreach ($resultado as $venda) {
-				$valorvenda = $venda->valorvenda;
-				$vlsaldo_crediario_atual = $venda->vlsaldo_crediario;
-				$idcliente = $venda->idcliente; 
-				$situacaovenda = $venda->situacaovenda; 
-				$idvenda = $venda->idvenda;
-			}
-
-			// vamos amortizar o saldo 
-			$vlsaldo_crediario =  $vlsaldo_crediario_atual-$vl_amortizacao;
-
-			if ($vlsaldo_crediario <=0)
-			{
-				$situacaovenda =1;  // se zerar o saldo, vamos quitar a venda 
-			}
-
-			$this->modelvendas->atualiza_venda_crediario($idvenda_md,$situacaovenda,$vlsaldo_crediario);
-
-			$this->modelvendas->atualiza_saldo_crediario($idcliente,$idcliente_md,$vl_amortizacao,"pagamento");
-
-			$tipomovimento_caixa = 5; // recebimento crediario  
-			$this->modelcaixa_movimento->grava_caixa_mov($idcaixa,$idvenda,$idcliente,$idusuario,$tipomovimento_caixa,$vl_movimento,$vl_juros,$vl_desconto,$tipo_pagamento,$vl_recebido,$vl_troco); 
-
-			// consulta e atualiza saldo devedor do cliente 
-			$this->consulta_saldo_crediario($idcliente_md);
-
-		if  ($this->db->trans_status()===FALSE ) 
-		{ 
-		  $this->db->trans_rollback(); 
-		  $mensagem = "Houve um ERRO de TRANSAÇÃO! (venda_model/baixa_pagamento_crediario)"; 
-			$this->session->set_userdata('mensagemErro',$mensagem); 
-		} 
-		else 
-		{ 
-			$this->db->trans_commit(); 
-			$mensagem = "Pagamento Realizado com Sucesso !"; 
-			$this->session->set_userdata('mensagemAlert',$mensagem); 
-	
+		if ($errors_add == 1)
+		{
+			redirect(base_url('cliente/pagamento_crediario/').$idvenda_md);
 		}
 			 
 		redirect(base_url('cliente/consulta_crediario/').$idcliente_md.'/cliente');

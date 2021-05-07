@@ -8,7 +8,7 @@
 
                         <?php  
                         // encerrar a secoes 
-                        $this->session->unset_userdata('idcliente');
+                        $this->session->unset_userdata('idcliente'); 
                         $this->session->unset_userdata('nome');
                         $this->session->unset_userdata('apelido'); 
                         $this->session->unset_userdata('cpf'); 

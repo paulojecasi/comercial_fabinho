@@ -18,6 +18,10 @@
                 echo form_open('admin/empresa/login_empresa','id="form-acesso-geral" autocomplete="off"');
 
                 ?>
+                <!--
+                <input id ="form-acesso-gera" type="hidden" value="1">
+                <input class ="base_url" type="hidden" value="<?php echo base_url() ?>">
+                <input id ="acesso" type="hidden" value="0"> --> 
 
                     <fieldset>
                         <div class="form-group input-usuario-g">
@@ -29,7 +33,7 @@
                             <input class="form-control campo-senha" placeholder="Senha" name="txt-senha-empresa" type="password" value="" required>
                         </div>
                         <!-- Change this to a button or input when using this as a form -->
-                        <button href="index.html" class="btn btn-lg btn-success btn-block btn-acesso-sis col-md-offset-3" id="btn-acesso-geral"> 
+                        <button href="index.html" class="btn btn-lg btn-success btn-block btn-acesso-sis col-md-offset-3" id="btn-acesso-geral">                            > 
                               Entrar
                         </button>
                         

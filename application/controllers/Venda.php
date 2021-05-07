@@ -30,6 +30,7 @@ class Venda extends CI_Controller {
 	public function index()
 	{
 
+
 		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
 		$this->usuario_autorizado(); 
@@ -914,7 +915,7 @@ class Venda extends CI_Controller {
  
 	public function consultajquery_vendas_cred(){
 		$id_vendas_arr = $this->input->post("pagamentosArr");
-		$vlvenda=0; 
+		$vl_saldo_venda=0; 
 		$cont=0; 
 		if ($id_vendas_arr)
 		{
@@ -925,8 +926,7 @@ class Venda extends CI_Controller {
 				if ($resultado_venda)
 				{ 
 					foreach ($resultado_venda as $venda_acum) {
-						//$idvenda = $venda_acum->idvenda; 
-						$vlvenda += $venda_acum->valorvenda; 
+						$vl_saldo_venda += $venda_acum->vlsaldo_crediario; 
 						$dado["id_venda"]=$venda_acum->idvenda; 
 						$dado["valor_venda"]=$venda_acum->valorvenda; 
 						$dados["venda"]=$dado; 
@@ -936,7 +936,7 @@ class Venda extends CI_Controller {
 					}
 
 					$dados['cont'] = $cont; 
-					$dados["valor_tot_pag"] = reais($vlvenda); 
+					$dados["valor_tot_pag"] = reais($vl_saldo_venda); 
 			
 				} 
 				 

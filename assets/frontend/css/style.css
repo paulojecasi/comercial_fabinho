@@ -133,7 +133,7 @@ div.img-acesso-escolha{
   padding: 100px 0;
   border-color: #C0C0C0; 
   text-align: center;
-  background-image: url('http://cursophp.com/comercial_fabinho/assets/frontend/img/vendas2mf.jpg');
+  background-image: url('../../../assets/frontend/img/vendas2mf.jpg');
 
   background-position: 30% 45%;
   -webkit-background-size: cover;
@@ -524,10 +524,11 @@ div.cactosdev_acesso{
 div.btn-finalizar-venda{
   margin-top: 12px; 
   margin-bottom: 0px; 
+
 }
 
 div.btn-finalizar-venda button{
-  min-width: 250px;
+  min-width: 200px;
   min-height: 100%;
   border: 2px solid;
   font-size: 18px; 
@@ -789,12 +790,12 @@ div.tipo-de-pagamento-escolha h2{
   margin-top: 0px;
   margin-bottom: 0px; 
   padding: 10px; 
+  font-size: 23px; 
 
 }
 
 div.tipo-de-pagamento-escolha h4{
   color: #FFFF00;
-
 }
 
 div.tipo-de-pagamento-escolha-crediario{
@@ -1027,7 +1028,9 @@ div.cadastro-cliente-crediario h4:hover{
 }
 
 div.nomecliente input{
-  font-size: 20px;  
+  font-size: 20px;
+  margin-left: -15px;  
+  width: 105%;  
 }
 
 div.nomecliente input:focus{
@@ -1345,6 +1348,8 @@ div.cadastro-cliente-aberto h4:hover{
 div.picklist-cliente select{
   font-size: 18px; 
   margin-top: -5px; 
+  margin-left: -15px;
+  width: 105%;  
 }
 
 div.picklist-cliente select option b{
@@ -1455,7 +1460,7 @@ div.btn-link-consulta-cred{
 .tela-pagamento-crediario{
   margin-top: 0px; 
   background-color: #4F4F4F;
-  min-height: 448px; 
+  min-height: 458px; 
 }
 
 
@@ -1463,9 +1468,23 @@ div.btn-link-consulta-cred{
   color: yellow; 
 }
 
+.tela-pagamento-crediario div.campo-pag{
+  padding: 0px;  
+}
+
 .tela-pagamento-crediario div.campo-pag h3{
   color: yellow; 
-  font-size: 20px; 
+  font-size: 18px; 
+  margin-left: 10px; 
+}
+
+div.campo-pag h3#campo-troco{
+  padding: 0px; 
+  margin-top: 7px; 
+}
+
+.input-total-pag input, select{
+  margin-left: 10px; 
 }
 
 .tela-pagamento-crediario div h1{
@@ -1487,17 +1506,17 @@ div.panel-recebidos-cred2{
 
 h1.valor-recebido-venda-cred input{
   color: #fff; 
-  font-size: 35px; 
+  font-size: 25px; 
   background-color: #1C1C1C;
   width: 100%;
-  height: 50px; 
+  height: 40px; 
   text-align: left;
     
 }
 
 h1.valor-juros-venda-cred input{
   color: #fff; 
-  font-size: 28px; 
+  font-size: 25px; 
   background-color: #1C1C1C;
   width: 100%;
   height: 40px; 
@@ -1507,7 +1526,7 @@ h1.valor-juros-venda-cred input{
 
 h1.valor-desconto-venda-cred input{
   color: #fff; 
-  font-size: 28px; 
+  font-size: 25px; 
   background-color: #1C1C1C;
   width: 100%;
   height: 40px; 
@@ -1517,7 +1536,8 @@ h1.valor-desconto-venda-cred input{
 
 div.tipo-pagamento-cred select{
   background-color: #1C1C1C; 
-  margin-top: 10px; 
+  margin-top: 12px; 
+  margin-bottom: 0px; 
   height: 40px;
   color: white; 
   font-size: 20px; 
@@ -1525,7 +1545,7 @@ div.tipo-pagamento-cred select{
 
 h1.valor-saldo-atual-cred input{
   color: red; 
-  font-size: 40px; 
+  font-size: 30px; 
   background-color: #1C1C1C;
   width: 100%;
   height: 50px; 
@@ -1535,12 +1555,13 @@ h1.valor-saldo-atual-cred input{
 
 h1.valor-recebido-troco-cred input{
   color: #FFD700; 
-  font-size: 40px; 
+  font-size: 35px; 
   background-color: #1C1C1C;
   width: 100%;
   height: 50px; 
   pointer-events :none;
   margin-top: -10px;
+  text-align: center; 
 }
 
 h1.valor-recebido-troco-cred label{
@@ -1554,12 +1575,13 @@ h1.valor-recebido-troco-cred input:disabled, h1.valor-saldo-atual-cred input:dis
 }
 
 div.dados-venda{
-  margin-top: -10px; 
+  margin-top: 0px; 
   margin-bottom: -5px;
   color: #fff;
   border-bottom: 1px solid; 
   border-color: #fff;
 }
+
 
 div.dados-venda b{
   color: #00BFFF;
@@ -1571,32 +1593,126 @@ div.dados-venda b#valor-venda-cred-pag{
   color: yellow;
 }
 
+div.dados-cli{
+  margin-top: 0px; 
+  margin-bottom: -5px;
+  color: #fff;
+  border-bottom: 1px solid; 
+  border-color: #fff;
+}
+
+div.dados-cli b{
+  color: yellow;
+  font-size: 25px; 
+
+}
+
+div.dados-cli h4{
+  font-size: 25px; 
+  margin-bottom: -8px; 
+
+}
+
 section.btn-retorno-pag-cred{
   margin-top: -10px; 
 }
 
-div.total-pagto-cre{
+section.total-pagto-cre{
   margin-left: -10px; 
   margin-bottom: 0px; 
 }
 
 h1.valor-total-venda-cred input{
   color: yellow; 
-  font-size: 50px; 
+  font-size: 35px; 
   width: 100%;
-  height: 60px; 
-  text-align: left;
+  height: 50px; 
+  text-align: center;
   font-weight: bold;
     
 }
 
 h1.valor-total-venda-cred input:disabled{
-  background-color: #1C1C1C; 
+  background-color: #696969; 
 }
 
 div.resultado-cliente-venda-cred{
   height: 180px;  
   margin-top: -27px; 
+}
+
+div.btn-finalizar-pagto{
+  padding: 0px; 
+  margin-top: 30px;  
+}
+
+div.btn-finalizar-pagto button, a{
+  min-width: 100px; 
+  font-size: 17px; 
+}
+
+div.vendas-a-pagar{
+  background-color: #FAF0E6; 
+  height: 450px;
+  overflow-y: scroll;
+  background-color: #DCDCDC; 
+}
+
+div.panel-lista-vendas-pagamento{
+  padding: 0px; 
+  color: #000;
+  margin-top: 5px; 
+}
+
+div.title-desc-vendas{
+  padding: 0px; 
+  margin-left: -10px; 
+  margin-right: -10px; 
+}
+
+div.title-desc{
+  padding-top:2px; 
+  color: #fff;
+  background-color: #000; 
+}
+
+div.info-vendas{
+  margin-top: 5px;  
+  font-size: 18px; 
+  text-align: center; 
+}
+
+div.info-saldo{
+  color: red; 
+  font-weight: bold; 
+}
+
+div.info-vendas input{  
+  font-size: 18px; 
+  width:150px; 
+  text-align: center;
+  background-color: #363636; 
+  color: #fff;
+}
+
+div.info-vendas input:hover{  
+  background-color: #000; 
+  color: yellow;
+}
+
+div.info-vendas input:focus{  
+  background-color: #000; 
+  color: yellow;
+}
+
+div.valor-da-divida h1{
+  padding-top: 12px; 
+  margin-top: 0px; 
+}
+
+div.valor-da-divida input{
+  color: #fff;
+  text-align: center; 
 }
 
 /* TELA PAGAMENTO CARTAO DEBITO */
@@ -2292,6 +2408,8 @@ th b#tot-sld-ab{
 
 div.select-item-venda select{
   font-size: 15px;  
+  margin-left: -15px; 
+  width: 106%; 
 }
 
 div.mensagem-sis-acesso{

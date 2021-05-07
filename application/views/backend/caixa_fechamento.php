@@ -16,6 +16,8 @@
                     echo form_open('admin/caixa/confirma_fechamento/'.$idcaixa,'autocomplete="off" id="form-fechamento-caixa"');
 
                     ?> 
+
+                    <input value="10" id="form-fechamento-caix" type="hidden">
                     <div class="form-group col-lg-12 panel-fechamento-caixa">
     
                         <div class = "col-lg-12 col-sm-12 tela-fechamento-cx">
@@ -155,11 +157,31 @@
                                                 <input type="number" id="vl-ccre-fec" name="vl-ccre-fec" value="<?php echo $cartaocredito ?>" >
                                             </div>
                                             <div class="col-lg-3">
-                                                <input type="number" id="vl-ccre-fec-c" name="vl-ccre-fec-c"  placeholder="0,00" step ="0.01" onkeydown="javascript:EnterTab('vl-crediar-fec-c',event)">
+                                                <input type="number" id="vl-ccre-fec-c" name="vl-ccre-fec-c"  placeholder="0,00" step ="0.01" onkeydown="javascript:EnterTab('pix_transferencia_c',event)">
                                             </div>
 
                                             <div class="col-lg-3 disab">
                                                 <input id="vl-ccre-fec-fs" name="vl-ccre-fec-fs" placeholder="0,00" step ="0,01"  value="<?php echo -$cartaocredito ?>">
+                                            </div>
+                                
+                                             
+                                        </div>
+                                    </section>
+
+                                    <section class="col-lg-12 desc-mov-fecha">
+                                        <div class="col-lg-12 confe-fecha">
+                                            <div class="col-lg-3">
+                                                 <h4> Pix-Transferencia </h4>
+                                            </div>
+                                            <div class="col-lg-3 disab">
+                                                <input type="number" id="pix_transferencia" name="pix_transferencia" value="<?php echo $pix_transferencia ?>" >
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input type="number" id="pix_transferencia_c" name="pix_transferencia_c"  placeholder="0,00" step ="0.01" onkeydown="javascript:EnterTab('vl-crediar-fec-c',event)">
+                                            </div>
+
+                                            <div class="col-lg-3 disab">
+                                                <input id="pix_transferencia_fs" name="pix_transferencia_fs" placeholder="0,00" step ="0,01"  value="<?php echo -$pix_transferencia ?>">
                                             </div>
                                 
                                              
@@ -176,7 +198,7 @@
                                                 <input id="vl-crediar-fec" name="vl-crediar-fec" type="number" value="<?php echo $crediarios ?>" >
                                             </div>
                                             <div class="col-lg-3">
-                                                <input type="number" id="vl-crediar-fec-c" name="vl-crediar-fec-c" placeholder="0,00" step ="0.01"  onkeydown="javascript:EnterTab('vl-ret-fec-c',event)">
+                                                <input type="number" id="vl-crediar-fec-c" name="vl-crediar-fec-c" value="<?php echo $crediarios ?>" placeholder="0,00" step ="0.01"  onkeydown="javascript:EnterTab('vl-ret-fec-c',event)">
                                             </div>
 
                                             <div class="col-lg-3 disab">

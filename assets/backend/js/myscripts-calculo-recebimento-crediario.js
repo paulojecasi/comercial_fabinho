@@ -1,54 +1,55 @@
-jQuery(document).ready(function(){
-  jQuery('input').on('keyup',function(){
-    if(jQuery(this).attr('name') === 'result'){
-    return false;
+$(document).ready(function(){
+
+    $("#btn-pagamento-cred").css("display","none");
+
+  $('input').on('keyup',function(){
+
+    if ($(this).attr('name') === 'result'){
+
+        return false;
+
     }
+    var vl_recebido_caixa_cred = ($('#vl_recebido_caixa_cred').val() == '' ? 0 :
+                                 $('#vl_recebido_caixa_cred').val());
+    var vl_juros_caixa_cred = ($('#vl_juros_caixa_cred').val() == '' ? 0 :
+                                $('#vl_juros_caixa_cred').val());
+    var vl_desconto_caixa_cred = ($('#vl_desconto_caixa_cred').val() == '' ? 0 : 
+                                $('#vl_desconto_caixa_cred').val());
+    var vl_saldo_crediario = (  $('#vl_saldo_crediario_sc').val() == '' ? 0 : 
+                                $('#vl_saldo_crediario_sc').val());
 
-    //---------------------CALCULA VALOR DO TROCO E SALDO DO CREDIARIO
-    var vl_saldo_crediario = (  jQuery('#vl_saldo_crediario').val() == '' ? 0 : 
-                                jQuery('#vl_saldo_crediario').val());
- 
-    var vl_recebido_caixa_cred = (jQuery('#vl_recebido_caixa_cred').val() == '' ? 0 :
-                                 jQuery('#vl_recebido_caixa_cred').val());
+    var idpagamento = ( $('#idpagamento').val() == '' ? 0 : 
+                        $('#idpagamento').val());
+    
+    var vl_pg_crediario = 0; 
 
-    var vl_juros_caixa_cred = (jQuery('#vl_juros_caixa_cred').val() == '' ? 0 :
-                                jQuery('#vl_juros_caixa_cred').val());
+    var qt_vendas =1; 
+    while (qt_vendas <=50)
+    { 
+        var pagvendas = ("pag_"+qt_vendas);
+        
+        pagvendas = ($('#'+pagvendas).val() == '' ? 0 : 
+                    $('#'+pagvendas).val());
+       
+        if (pagvendas==null || !pagvendas){
+            break; 
+        }
 
-    var vl_desconto_caixa_cred = (jQuery('#vl_desconto_caixa_cred').val() == '' ? 0 : 
-                                jQuery('#vl_desconto_caixa_cred').val());
+        vl_pg_crediario = (vl_pg_crediario+ parseFloat(pagvendas));
+
+        qt_vendas++; 
+  
+    }
 
     var vl_troco_cred = (   parseFloat(vl_recebido_caixa_cred)  - 
-                            parseFloat(vl_saldo_crediario)      -
-                            parseFloat(vl_juros_caixa_cred)     +
-                            parseFloat(vl_desconto_caixa_cred));
-   
-    var vl_saldo_atual = (  parseFloat(vl_saldo_crediario) - 
-                            parseFloat(vl_recebido_caixa_cred));
+                            parseFloat(vl_pg_crediario) -
+                            parseFloat(vl_juros_caixa_cred)     + 
+                            parseFloat(vl_desconto_caixa_cred)); 
+ 
 
-    var vl_recebido_caixa_cred = parseFloat(vl_recebido_caixa_cred);
-
-    var vl_saldo_crediario = parseFloat(vl_saldo_crediario); 
-
-    // calcular o valor da amortização 
-    if (vl_recebido_caixa_cred < vl_saldo_crediario)
-    {
-        var vl_real_amortizacao = parseFloat(vl_recebido_caixa_cred); 
-    }
-     else
-    {
-        var vl_real_amortizacao = parseFloat(vl_saldo_crediario); 
-    }
-    
-    var vl_total_pag_cred = (   parseFloat(vl_recebido_caixa_cred) +
+    var vl_total_pag_cred = (   parseFloat(vl_pg_crediario) + 
                                 parseFloat(vl_juros_caixa_cred)     - 
-                                parseFloat(vl_desconto_caixa_cred)); 
-
-    if (vl_troco_cred > 0){
-        var vl_total_pag_cred = (   parseFloat(vl_total_pag_cred) - 
-                                    parseFloat(vl_troco_cred)); 
-        //var vl_troco_cred = vl_troco_cred.toLocaleString("pt-BR");
-        
-    }
+                                parseFloat(vl_desconto_caixa_cred));
 
     if(vl_recebido_caixa_cred==0 | vl_troco_cred < 0) 
     {
@@ -59,24 +60,55 @@ jQuery(document).ready(function(){
     {
         var vl_saldo_atual=0;
     }
+   
+    vl_troco_cred = parseFloat(vl_troco_cred).toFixed(2);
+    vl_pg_crediario = parseFloat(vl_pg_crediario).toFixed(2); 
+    vl_total_pag_cred = parseFloat(vl_total_pag_cred).toFixed(2); 
+    vl_total_pag_cred = 
+        vl_total_pag_cred.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
-
-    var vl_troco_cred = parseFloat(vl_troco_cred).toFixed(2); 
-    var vl_saldo_atual = parseFloat(vl_saldo_atual).toFixed(2); 
-    var vl_total_pag_cred = parseFloat(vl_total_pag_cred).toFixed(2); 
-    
-    jQuery('#vl_real_amortizacao').val(vl_real_amortizacao);
-    jQuery('#vl_troco_cred').val(vl_troco_cred);
-    jQuery('#vl_saldo_atual').val(vl_saldo_atual);
-    jQuery('#vl_total_pag_cred').val(vl_total_pag_cred); 
-
-    if (vl_recebido_caixa_cred<0)
-    {
-        alert("ATENÇÃO - Valor do Recebimento NÃO pode ser NEGATIVO ou ZERO!") 
-        jQuery('#vl_recebido_caixa_cred').val("");
-        
+  
+    if (parseFloat(vl_recebido_caixa_cred) < parseFloat(vl_pg_crediario))
+    {     
+        $("#btn-pagamento-cred").css("display","none"); 
     }
- 
+    else
+    {
+        $("#btn-pagamento-cred").css("display","inline");
+    }
+
+    /*
+    if ((parseFloat(idpagamento) == 5))
+    {
+         $('#vl_recebido_caixa_cred').prop('readonly', true);
+         
+    } 
+    else
+    {
+          $('#vl_recebido_caixa_cred').prop('readonly', false);
+    }
+    */
+
+    $('#vl_pg_crediario').val(vl_pg_crediario);
+    $('#vl_troco_cred').val(vl_troco_cred);
+    $('#vl_total_pag_cred').val(vl_total_pag_cred); 
+
   });
 });
+
+$("#btn-pagamento-cred").hover(function(){
+    var idpagamento = ( $('#idpagamento').val() == '' ? 0 : 
+                        $('#idpagamento').val());
+
+    var vl_recebido_caixa_cred = ($('#vl_recebido_caixa_cred').val() == '' ? 0 :
+                                 $('#vl_recebido_caixa_cred').val());
+
+     if (parseFloat(idpagamento) == 5 && parseFloat(vl_recebido_caixa_cred) > 0)
+     {
+        alert("Informe tipo de pagamento");  
+        //document.getElementById("vl_recebido_caixa_cred").select();
+        $("#idpagamento").focus()
+        $("#idpagamento").css("background-color","red");
+     }
+}); 
 

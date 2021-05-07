@@ -22,6 +22,8 @@
         echo form_open('cliente/inserir/'.$localchamado.'','class="form-add-cliente" id="form-add-cliente"');
     ?> 
 
+    <input class="form-cliente-val-cpf" value = "1" type="hidden">    
+
     <div class = "col-lg-12 col-sm-12 tela-manutencao-cli">
 
 
@@ -46,7 +48,7 @@
 
             <div class="form-group cliente_venda col-lg-6">
                 <label for="cliente_cpf"> CPF </label>
-                <input type="text" id="cpf" name="cpf" class="form-control" value = "<?php echo set_value('cpf'); ?>" onkeydown="javascript:EnterTab('endereco',event)" autofocus="true"  />
+                <input type="text" id="cpf" name="cpf" class="form-control" value = "<?php echo set_value('cpf'); ?>" onkeydown="javascript:EnterTab('endereco',event)" autofocus="true"  onblur="javascript: validarCPF(this.value);" maxlength="14"/>
                 <br> 
             </div>
 

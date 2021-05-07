@@ -1,4 +1,4 @@
- <!-- jQuery -->
+ <!-- jQuery --> 
     <script src="<?php echo base_url('/assets/backend/js/jquery.min.js') ?>"></script>
 
     <!-- Bootstrap Core JavaScript -->
@@ -424,7 +424,7 @@
         
         // acumula vendas de crediário para pagamentos
         acumulaVendaCred();
-        document.getElementById('btn-pagamento-cred').style.display = 'none';
+        document.getElementById('btn-pagamento-cred-acu').style.display = 'none';
         //document.getElementById('valor_a_pagar').style.display = 'none';
         function acumulaVendaCred(pagamentosArr)
         {
@@ -445,7 +445,7 @@
                         }else{
 
                             $('#valor_a_pagar').val(vl_a_pagar);
-                            document.getElementById('btn-pagamento-cred').style.display = 'Inline';
+                            document.getElementById('btn-pagamento-cred-acu').style.display = 'Inline';
 
                             //alert(dados_v.venda[0]); 
                             for (var i=0; i < dados_v.cont; i++){
@@ -454,19 +454,10 @@
 
                                 //alert(i); 
                                 $('#id'+i).val(id_venda);
-                                $('#vl'+i).val(vl_venda);
+                                //$('#vl'+i).val(vl_venda);
                             }
-                        } 
-
-                        
+                        }    
                     }
-                   
-                    //$('#resultado_caixa_mov').val(); 
-                    //alert(data.valor_tot_pag); 
-                    //for (var i=0; i<data.length; i++) {
-                        //console.log(data); 
-                    //}
-                   
                 }
             })
         } 
@@ -485,10 +476,23 @@
                 }
                 else
                 {
+                    var id_parcial =0; 
+                    while ( id_parcial <=50)
+                    {
+                        if ($('#id'+id_parcial).val() >0)
+                        {
+                            $('#id'+id_parcial).val(0);
+                        }
+                        else
+                        {
+                            break; 
+                        }
+                        id_parcial++; 
+                    }
+
                     $('#valor_a_pagar').val(0);
-                    $('#id').val(0);
-                    $('#vl').val(0);
-                    document.getElementById('btn-pagamento-cred').style.display = 'none';
+                  
+                    document.getElementById('btn-pagamento-cred-acu').style.display = 'none';
                     //document.getElementById('valor_a_pagar').style.display = 'none';
                     // remover ID do array
                         // verificando o indice do ID no array 
@@ -508,8 +512,6 @@
             };
 
         });
-       
-
        
     }); 
 
