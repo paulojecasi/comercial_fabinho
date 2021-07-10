@@ -512,6 +512,9 @@ class Venda extends CI_Controller {
 		} 
 		else 
 		{ 
+
+			//echo "asdasdasdasdasdasdasd";
+			//exit;
 			$this->db->trans_commit(); 
 			$mensagem = "Venda Realizada com Sucesso !"; 
 			$this->session->set_userdata('mensagem',$mensagem); 

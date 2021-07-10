@@ -44,6 +44,22 @@
                 <div class="sidebar-nav navbar-collapse col-lg-12 navbar-scroll">
                     <ul class="nav" id="side-menu">
                         <li>
+                             <p class = "menu-admin"> </p>    
+                        </li>
+
+                        <!--
+                        <li class= "navegacao text-center" id="navegacao-backup">
+                            <a href="<?php echo 'http://localhost/phpmyadmin/db_export.php?db=comercial_fabinho' ?>" target="_blank"> <i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp  Fazer Backup </a>
+                        </li>
+                        --> 
+
+                        <li class= "navegacao text-center" id="navegacao-backu">
+                            <a href="<?php echo 'http://localhost/phpmyadmin/db_export.php?db=comercial_fabinho' ?>" target="_blank"> 
+                                <img src="<?php echo base_url("assets/frontend/img/backp.png"); ?>">
+                            </a>
+                        </li>
+                        
+                        <li>
                              <p class = "menu-admin"> Caixa </p>    
                         </li>
                          <li  class= "navegacao">
@@ -53,6 +69,11 @@
                        <?php
                         if ($usuario_permissao ==3):
                         ?>
+
+                            <li  class= "navegacao">
+                                <a href="<?php echo base_url('admin/relatorios/') ?>" class="opc-menu btn_click_shift_a ">  <b class="atalho-shift atl-atl"> sR </b> &nbsp Relatórios  </a> 
+                            </li>
+
                             <li>
                                  <p class = "menu-admin"> Produtos </p>    
                             </li>
@@ -89,11 +110,8 @@
 
                         <li class= "navegacao">
                             <a class = "opc-menu btn_click_shift_v" href="<?php echo base_url('venda') ?>"><b class="atalho-shift atl-atl"> sV </b> &nbsp  Ir para Vendas </a>
-                        </li
-
-                        
-
-                        
+                        </li>
+                   
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

@@ -16,7 +16,7 @@
     echo form_open('caixa/movimento_cancel_mov_caixa');
     ?>
 
-    <div class = "col-lg-12 col-sm-12 tela-movimento-caixa">
+    <div class = "col-lg-12 col-sm-12 tela-movimento-caixa-mov">
 
         <section id="dt-movimento-caixa">
             <div class="form-group col-lg-3 campo-titulo-mov-cx">
@@ -47,7 +47,7 @@
         </section>
 
 
-        <div class="col-lg-12 table-mov-caixa">
+        <div class="col-lg-12 table-mov-caixa"> 
             <div>
                 <section id="table-scroll">
             

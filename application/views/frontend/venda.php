@@ -96,7 +96,7 @@
                             </div>
                         </div>
 
-                        <div class= "tela-preco-desconto input-precos">
+                        <div class= "tela-preco-desconto input-precos"> 
                             <div class="form-group col-lg-4 col-sm-12">  
                                 <label> Valor Desconto R$ </label>
                                 <input type="text" class = "venda-desconto" id="venda-desconto" step="0,01"/>

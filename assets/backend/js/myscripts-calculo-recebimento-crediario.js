@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    $("#btn-pagamento-cred").css("display","none");
+    //$("#btn-pagamento-cred").css("display","none");
 
   $('input').on('keyup',function(){
 
@@ -68,14 +68,7 @@ $(document).ready(function(){
         vl_total_pag_cred.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
   
-    if (parseFloat(vl_recebido_caixa_cred) < parseFloat(vl_pg_crediario))
-    {     
-        $("#btn-pagamento-cred").css("display","none"); 
-    }
-    else
-    {
-        $("#btn-pagamento-cred").css("display","inline");
-    }
+    
 
     /*
     if ((parseFloat(idpagamento) == 5))
@@ -96,6 +89,7 @@ $(document).ready(function(){
   });
 });
 
+/*
 $("#btn-pagamento-cred").hover(function(){
     var idpagamento = ( $('#idpagamento').val() == '' ? 0 : 
                         $('#idpagamento').val());
@@ -111,4 +105,8 @@ $("#btn-pagamento-cred").hover(function(){
         $("#idpagamento").css("background-color","red");
      }
 }); 
+
+*/
+
+
 

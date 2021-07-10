@@ -266,13 +266,18 @@ class Venda_model extends CI_Model
 	public function consulta_crediarios_cliente($idcliente)
 	{
 
+			$this->db->select ('*');
 			$this->db->where('md5(idcliente)=',$idcliente);
+			$this->db->from('venda');
 			
-			$this->db->order_by('idvenda','DESC');
-			//$this->db->order_by('datavenda','DESC');
-			return $this->db->get('venda')->result();
+			//$this->db->order_by('idvenda','DESC');
+			$this->db->order_by("situacaovenda ASC");
+			$this->db->order_by("idvenda DESC");
+			return $this->db->get()->result();
 	 
 	}
+
+
 
 	public function consulta_venda($idvenda=null, $array_id_venda=null)
 	{
@@ -308,6 +313,20 @@ class Venda_model extends CI_Model
 		return $this->db->update('venda',$dados);
 	}
 
+	public function getConsulta_vendas_crediario_rel($idcaixa_md, $datainicio, $datafinal)
+	{
+
+		
+		$this->db->where('md5(venda.idcaixa)=',$idcaixa_md);
+		$this->db->where('DATE(datavenda) >=', date('Y-m-d',strtotime($datainicio)));
+		$this->db->where('DATE(datavenda) <=', date('Y-m-d',strtotime($datafinal)));
+		$this->db->where('situacaovenda!=2'); 
+		$this->db->where('tipovenda=2'); 
+
+		$this->db->order_by('venda.datavenda','ASC');
+		return $this->db->get('venda')->result(); 
+
+	}
 
 	public function atualiza_situacao_da_venda($idvenda, $valor)
 	{
@@ -338,9 +357,7 @@ class Venda_model extends CI_Model
 			return true; 
 		}
 	 
-
 	}
-
 
 
 	public function tipo_pagamento()

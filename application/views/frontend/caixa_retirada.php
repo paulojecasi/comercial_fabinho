@@ -101,7 +101,7 @@
                         <div class="col-lg-6 col-sm-12 retvalor">
                             <div class="form-group">
                                 <h1 class="valor-retirada-caixa">
-                                    <input id="vl_retirada_caixa" name="vl_retirada_caixa" type="number" class="form-control" placeholder ="0,00" step="0.01" required value="1,00" onkeydown="javascript:EnterTab('id_retirada_mov',event)">
+                                    <input id="vl_retirada_caixa" name="vl_retirada_caixa" type="number" class="form-control" placeholder ="0,00" step="0.01" required  onkeydown="javascript:EnterTab('id_retirada_mov',event)">
                                 </h1>
                               
                             </div>
@@ -125,12 +125,12 @@
                         </div>
                     </section>
 
-                    <div class ="col-lg-12 col-sm-12 btn-finalizar-venda btn-finalizar-retirada text-center">
-                        <a href="">
-                            <button class="btn btn-success" type="submit" id="btn-concluir-retirada" > 
+                    <div class ="col-lg-12 col-sm-12 btn-finalizar-venda-a btn-finalizar-retirada text-center">
+                    
+                            <a class="btn btn-success"  id="btn-concluir-retirada" onclick="retirada_Caixa()" > 
                                 Confirmar Retirada
-                            </button> 
-                        </a>
+                            </a> 
+                     
                     </div>
                 </div>
 
@@ -156,4 +156,37 @@
  
 
 </div>
+
+<script type="text/javascript">
+    function retirada_Caixa(){     
+        var vl_retirada_caixa = ( $('#vl_retirada_caixa').val() == '' ? 0 : 
+                                $('#vl_retirada_caixa').val());
+
+        var descricao_ret = ( $('#descricao_ret').val() == '' ? 0 : 
+                                $('#descricao_ret').val());
+
+        var form = document.getElementById("form-retirada-valor");
+
+        if(parseFloat(vl_retirada_caixa) <= 0)
+        {
+            alert("ATENÇÃO - Valor da RETIRADA não pode ser menor ou igual a ZERO")
+            $("#vl_retirada_caixa").focus()
+            $("#vl_retirada_caixa").css("background-color","yellow");
+            return;  
+    
+        }
+
+        if(parseFloat(descricao_ret) == "")
+        {
+            alert("Descreva o motivo da Retirada")
+            $("#descricao_ret").focus()
+            $("#descricao_ret").css("background-color","yellow");
+            return;  
+    
+        }
+        form.submit();
+
+    }
+
+</script>
 

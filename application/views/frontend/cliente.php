@@ -1,13 +1,8 @@
 <div class = "row">
 
     <div class = "text-center titulo-tela-consulta-crediario">
-        <h2> Cadastro e Manutenção de Clientes - Demonstração de Dividas </h2>
+        <h2> Cadastro e Manutenção de Clientes - Demonstração de Dividas </h2> 
     </div>
-
-    <?php
-    // tela VALOR DA VENDA
-    //$this->load->view('frontend/template/valor-venda');
-    ?>
 
     <div class = "col-lg-12 col-sm-12 tela-manutencao-cli">
 
@@ -16,7 +11,6 @@
         echo validation_errors('<div class="alert alert-warning">','</div>'); 
         
         // vamos abrir o formulário,
-        
         echo form_open('cliente/consulta_cliente/cliente','id="form-cliente-crediario" autocomplete="off"');
 
          // vindo do cliente_consulta_crediario.php 
@@ -35,6 +29,8 @@
         $endereco   =  $this->session->userdata('endereco');
         $pontoreferencia   =  $this->session->userdata('pontoreferencia'); 
         $vl_saldo   = $this->session->userdata('vl_saldo_devedor');
+
+        $usuario_permissao  = $this->session->userdata('userLogado')->tipo_acesso;
 
         // SESSOES SERÃO FECHADAS NO TEMPLATE "venda.php" e "cliente_cadastro.php"
         ?>
@@ -82,6 +78,7 @@
             value= "<?php echo $idcaixa ?>" />
 
             <div class="form-group"> 
+                
                 <div class ="col-lg-12 btn-consulta-cliente">
                     <a href="">
                         <button class="btn btn-info btn-consulta btn_buscar_cliente" id="btn_buscar" name="btn_buscar"> <i class="fa fa-search" aria-hidden="true"></i>
@@ -184,7 +181,7 @@
 
         <div class="form-group col-lg-12 btn-link-cadastro"> 
             
-            <div class ="col-lg-4 col-sm-12 btn-finalizar-venda  btn-add-cliente text-center">
+            <div class ="col-lg-3 col-sm-12 btn-finalizar-venda  btn-add-cliente text-center">
                 <a href="<?php echo base_url('cliente/cadastro_cliente'); ?> ">
                     <button class="btn btn-success" type="submit"  > 
                         Cadastrar novo Cliente
@@ -193,17 +190,16 @@
             </div>
 
 
-            <div class ="col-lg-4 text-center link-voltar link-voltar-tela-inicio">
+            <div class ="col-lg-3 text-center link-voltar link-voltar-tela-inicio">
                 <a href="<?php echo base_url('venda') ?>" class="btn_click_shift_r">
                        <i class="fa fa-home" aria-hidden="true"></i> Ir para Venda <b class="atalho-front"> sR </b>
                 </a>
             </div>
 
             <?php
-
             if ($idcliente):
                 ?>
-                <div class ="col-lg-4 col-sm-12 btn-finalizar-venda  btn-alterar-cliente text-center">
+                <div class ="col-lg-3 col-sm-12 btn-finalizar-venda  btn-alterar-cliente text-center">
                     <a href="<?php echo base_url('cliente/altera_cliente/').md5($idcliente); ?>">
                         <button class="btn btn-success" type="submit" > 
                             Alterar dados do Cliente
@@ -212,8 +208,33 @@
                 </div>
 
                 <?php
+            else:
+                ?>
+                 <div class ="col-lg-3 col-sm-12 btn-finalizar-venda  btn-alterar-cliente text-center">
+                 </div>
+                <?php 
             endif;
+            ?>
 
+            <?php
+            if (!$idcliente && $usuario_permissao ==3):
+                ?>
+                <div class ="col-lg-3 btn-consulta-cliente-wa">
+                    <a href="https://api.whatsapp.com/send?phone=5586999182581&text=
+                        <?php 
+
+                            foreach ($clientes_wa as $cli_wa) {
+                                echo "\n ----> NOME: ".$cli_wa->nome.",  VALOR DIVIDA R$: ".$cli_wa->vl_saldo_devedor ;
+                                echo "\n ======================================="; 
+                            }
+
+                        ?>"  target="_blank">
+                        
+                        <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <?php 
+            endif;
             ?>
   
         </div>

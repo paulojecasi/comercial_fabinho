@@ -6,7 +6,7 @@ class Home extends CI_Controller {
 	public function __construct()
 	{
 
-		parent::__construct(); 
+		parent::__construct();  
 
 		$this->load->model('empresa_model','modelempresa');	
 		$this->modelempresa->retorna_inicio_geral();
@@ -22,6 +22,13 @@ class Home extends CI_Controller {
 		$this->load->view('frontend/home');
 
 
+	}
+
+	public function calc()
+	{
+		$this->load->view('frontend/template/html-header');
+		$this->load->view('frontend/calc');
+		$this->load->view('frontend/template/html-footer');
 	}
 
 	

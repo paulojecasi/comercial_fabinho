@@ -137,6 +137,7 @@ $("#form-fechamento-caixa").bind("keypress", function (e) {
 });
 
 
+
 var pressedShift = false;
 
 
@@ -253,6 +254,11 @@ document.onkeydown=function(c){
     // SHIFT + 6
     if(c.which == 54 && pressedShif == true) {
         $("a.btn_click_shift_6")[0].click();
+    }
+
+    // SHIFT + F2 
+    if(c.which == 48) {
+        $('#btn_0').click();
     }
 
 }

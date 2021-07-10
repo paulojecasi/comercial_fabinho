@@ -23,7 +23,7 @@
                             echo validation_errors('<div class="alert alert-danger">','</div>'); 
                             ?>
                         </h4>
-                        <?php 
+                        <?php  
                         
                         // vamos abrir o formulário,
                                     // apontando para:admin/controlador/metodo

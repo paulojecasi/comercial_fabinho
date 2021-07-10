@@ -5,8 +5,6 @@ $(document).ready(function(){
     }
 
 
-    //---------------------CALCULA VALOR DO TROCO NO PAGAMENTO A VISTA 
-
     var vl_unitario = ($('#vlunitario').val() == '' ? 0 : $('#vlunitario').val());
  
     var quantidade = ($('#quantidade').val() == '' ? 0 : $('#quantidade').val());
@@ -23,7 +21,10 @@ $(document).ready(function(){
     var vl_total = (parseFloat(vl_unitario) * parseFloat(quantidade));
    
     //var vl_total = vl_total.toLocaleString("pt-BR");
-    var vl_total = parseFloat(vl_total).toFixed(2); 
+
+    //vl_total.replace(".","")..replace(",",".")
+
+    vl_total = parseFloat(vl_total).toFixed(2); 
 
     var vl_venda_atual = parseFloat(vl_venda_atual).toFixed(2);
 

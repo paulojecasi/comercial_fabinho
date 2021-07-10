@@ -9,9 +9,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>
-        COMERCIAL FABINHO    
-    </title>
+    <title> Mercadinho o Fabinho </title>
+    <link rel="icon" href="<?php echo base_url('/assets/frontend/img/fabimim.png') ?>" >
  
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
@@ -31,8 +30,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/owl.carousel.css') ?> ">
     <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/style.css') ?> ">
     <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/responsive.css') ?> ">
-
-    <script src="<?php echo base_url('/assets/backend/js/sweetalert.min.js') ?>"></script>
 
   </head>
   <body>

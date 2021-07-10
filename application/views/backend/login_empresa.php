@@ -53,9 +53,13 @@
             </div>
         </div>
     </div>
+    <div class="logo-marca-ps text-center col-lg-12 col-sm-12">
+        <h3> 
+             <img  src="<?php echo base_url('/assets/frontend/img/_PS_Solucoes2.png') ?>" height="65" width="300" >
+        </h3>
+    </div>
     <div class="form-group text-center cactosdev_acesso col-lg-12">          
-            <p> <img class="img-fluid email" src=" <?php echo base_url('assets/frontend/img/email.png'); ?>"> <b> cactosdev@gmail.com </b>  &nbsp &nbsp
-            <img class="img-fluid whats" src=" <?php echo base_url('assets/frontend/img/whats.png'); ?>"> <b> (86) 99973 3764 </b>  </p>
+        <img class="img-fluid whats" src=" <?php echo base_url('assets/frontend/img/whats.png'); ?>"> <b> (86) 99973 3764 </b>  </p>
     </div>
 </div>
  

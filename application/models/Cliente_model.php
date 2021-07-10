@@ -11,6 +11,12 @@ class Cliente_model extends CI_Model
 
 	}
 
+	function getConsultaClientes()
+	{
+		$this->db->from('cliente');
+		return $this->db->get()->result(); 
+	}
+
 
 	function consultajquery_cliente($nomecliente)
 	{
@@ -76,6 +82,25 @@ class Cliente_model extends CI_Model
 		$this->db->from("venda_saldo_crediario");
 		$this->db->join("cliente","cliente.idcliente = venda_saldo_crediario.idcliente");
 		return $this->db->get()->result(); 
+	}
+
+	public function getCliente_faixa_atraso_rel($datainicio, $datafinal)
+	{
+
+		$this->db->where('venda_saldo_crediario.vl_saldo_devedor > 0');
+		$this->db->where('DATE(venda.datavenda) >=', date('Y-m-d',strtotime($datainicio)));
+		$this->db->where('DATE(venda.datavenda) <=', date('Y-m-d',strtotime($datafinal)));
+		$this->db->where('venda.vlsaldo_crediario > 0');
+		
+		$this->db->from("cliente");
+
+		$this->db->join("venda_saldo_crediario","venda_saldo_crediario.idcliente = cliente.idcliente");
+		$this->db->join("venda","venda.idcliente = cliente.idcliente");
+
+		$this->db->order_by("venda.datavenda"); 
+		$this->db->order_by("venda.idcliente"); 
+		return $this->db->get()->result(); 
+
 	}
 
 

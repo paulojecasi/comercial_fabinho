@@ -1,6 +1,6 @@
 <div class = "row">
 
-    <div class = "text-center titulo-tela-consulta-crediario">
+    <div class = "text-center titulo-tela-consulta-crediario"> 
         <h2>
              Demonstração de Crediário do Cliente 
          </h2>
@@ -165,7 +165,8 @@
                                             '<button class="btn-pagar-cred btn btn-success"><i class="fas fa-usd"> </i> PAGAR </button>');
                                         */
                                         $btn_pagar = 
-                                        '<div class="col-lg-1 form-check pag-acumula-cred">
+                                        //'<div class="col-lg-1 form-check pag-acumula-cred">
+                                        '<div class="col-lg-1 form-check btn-ver-mov-caixa">
                                             <input class="form-check-input ckeck-pag-cred" type="checkbox" value="'.$idvenda.'" id="'.$idvenda.'">
                                         </div>';
                                         

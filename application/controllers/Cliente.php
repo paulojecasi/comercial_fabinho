@@ -29,7 +29,8 @@ class Cliente extends CI_Controller {
 		$this->modelcaixa_movimento->encerra_sessoes_caixa(); 
 
 		$idcaixa= $this->session->userdata('idcaixa'); 
-		$dados['idcaixa'] = $idcaixa; 
+		$dados['idcaixa'] = $idcaixa;
+		$dados['clientes_wa'] = $this->modelcliente->lista_clientes_divida_aberto(); 
 
 		$this->load->view('frontend/template/html-header',$dados);
 		$this->load->view('frontend/template/header');
@@ -68,7 +69,7 @@ class Cliente extends CI_Controller {
 		'pontoreferencia', 'Ponto de Referencia','min_length[8]'); 
 
 
-		if ($this->form_validation->run() == FALSE){
+		if ($this->form_validation->run() == FALSE){ 
 
 				$this->cadastro_cliente($localchamado);    
 
@@ -113,12 +114,12 @@ class Cliente extends CI_Controller {
 
 		//encerrar seçoes
 		$this->session->unset_userdata('idcliente');
-    $this->session->unset_userdata('nome');
-    $this->session->unset_userdata('apelido'); 
-    $this->session->unset_userdata('cpf'); 
-    $this->session->unset_userdata('endereco'); 
-    $this->session->unset_userdata('pontoreferencia');
-    $this->session->unset_userdata('vl_saldo_devedor');
+	    $this->session->unset_userdata('nome');
+	    $this->session->unset_userdata('apelido'); 
+	    $this->session->unset_userdata('cpf'); 
+	    $this->session->unset_userdata('endereco'); 
+	    $this->session->unset_userdata('pontoreferencia');
+	    $this->session->unset_userdata('vl_saldo_devedor');
 
 		$idcliente_consultado = $this->input->post('idclientej');
 		$idcliente = md5($idcliente_consultado); 
@@ -550,7 +551,7 @@ class Cliente extends CI_Controller {
 	          '<h4 class="btn-alterar"><i class="fa fa-eye fa-fw"></i> </i> </h4>');
 
 	      $output.='<tr>
-							 			<td>						'.$codigo.			'</td>  
+							 			<td>					  '.$codigo.			'</td>  
 							 			<td>					  '.$nome.				'</td>
 							 			<td>					  '.$apelido.			'</td>
 							 			<td>					  '.$cpf.					'</td>

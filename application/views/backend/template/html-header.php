@@ -9,7 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> <?php echo $titulo." - ".$subtitulo ?> </title>
+    <title> Mercadinho o Fabinho </title>
+    <link rel="icon" href="<?php echo base_url('/assets/frontend/img/fabimim.png') ?>" >
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url('assets/backend/css/bootstrap.min.css') ?>" rel="stylesheet">

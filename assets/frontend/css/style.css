@@ -1,4 +1,10 @@
 
+body {
+    max-width: 1500px;
+    margin: 0 auto !important;
+    border: 3px solid;
+}
+
 input, table, textarea{
   text-transform: uppercase; 
 }
@@ -133,7 +139,8 @@ div.img-acesso-escolha{
   padding: 100px 0;
   border-color: #C0C0C0; 
   text-align: center;
-  background-image: url('../../../assets/frontend/img/vendas2mf.jpg');
+  /*background-image: url('../../../assets/frontend/img/vendas2mf.jpg'); */
+  background-image: url('../../../assets/frontend/img/fab02.png');
 
   background-position: 30% 45%;
   -webkit-background-size: cover;
@@ -158,6 +165,7 @@ img {
 .footer-bottom-area {background: #000;color: #fff; 
   width: 100%;
   height: 100%;
+
 }
 .footer-about-us span {
   color: #e67e22;
@@ -208,6 +216,7 @@ a:hover, a:focus {color: #17a78b}
   background: none repeat scroll 0 0 #000;
   color: #fff;
   padding-bottom: 40px;
+
 }
 
 
@@ -560,11 +569,8 @@ div.logo-marca h3{
   margin-top: 9px;
   margin-bottom: 0px;
   margin-left: 44px; 
-  font-size: 20px; 
-  color: #FFFF00;
-  border: 5px ridge;
-  border-radius: 20px 20px; 
-  border-color: #FF0000;
+  width: 130px;
+
 }
 
 div.logo-titulo h1.desc-titulo{
@@ -831,7 +837,7 @@ h1.valor-recebido-venda input{
   color: #fff; 
   font-size: 50px; 
   background-color: #1C1C1C;
-  width: 50%;
+  width: 90%;
   height: 60px; 
   text-align: left;
 
@@ -841,7 +847,7 @@ h1.valor-recebido-troco input{
   color: #FFD700; 
   font-size: 50px; 
   background-color: #1C1C1C;
-  width: 50%;
+  width: 90%;
   height: 60px; 
   pointer-events :none;
 }
@@ -1037,6 +1043,22 @@ div.nomecliente input:focus{
   background-color: #E0FFFF; 
 }
 
+div.btn-consulta-cliente-wa{
+  margin-top: 20px;
+  text-align: center;
+  border-radius: 10px;
+  width: 10%;
+}
+
+div.btn-consulta-cliente-wa a i{
+  background-color: green;
+  border-radius: 30px;
+  padding: 4px;
+  color:  #fff;  
+  font-size: 35px;
+}
+
+
 div.btn-consulta-cliente{
   text-align: right;  
 }
@@ -1130,7 +1152,7 @@ div.panel-vendas2-2{
   margin-right:0px;
   margin-bottom: 0px;  
   border:2px solid; 
-  height: 230px;
+  height: 330px;
   overflow-y: scroll;
 }
 div.panel-vendas2-2 table{
@@ -1641,12 +1663,40 @@ div.resultado-cliente-venda-cred{
   margin-top: -27px; 
 }
 
+div.btn-finalizar-venda-a{
+  margin-top: 12px; 
+  margin-bottom: 0px; 
+
+}
+
+div.btn-finalizar-venda-a a{
+  min-width: 200px;
+  min-height: 100%;
+  border: 2px solid;
+  font-size: 18px; 
+  /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+  border-radius: 50px; 
+
+  position: relative;
+  top: 0.0em;
+  transition: all 300ms ease-in-out;
+  box-shadow: 0 0.4em #000, 0 0.5em  #fff; 
+}
+
+div.btn-finalizar-venda-a a:active{
+  background-color: #006400; 
+  border-color: #000; 
+  top: 0.4em;
+  box-shadow: 0 0.1em #000, 0 0.2em  #fff; 
+}
+
+
 div.btn-finalizar-pagto{
   padding: 0px; 
   margin-top: 30px;  
 }
 
-div.btn-finalizar-pagto button, a{
+div.btn-finalizar-pagto a{
   min-width: 100px; 
   font-size: 17px; 
 }
@@ -1801,6 +1851,7 @@ div.tela-movimento-caixa{
   background-color: #708090;
   border-bottom: 3px solid; 
   border-color: #fff; 
+  height: 46px;
 }
 
 div.tela-movimento-caixa input{
@@ -1818,7 +1869,7 @@ section#dt-movimento-caixa{
 }
 
 section div.campo-titulo-mov-cx h4{
-  font-size: 24px; 
+  font-size: 20px; 
   margin-top: 0px;
   color: #fff;
   text-align: center;
@@ -1828,9 +1879,12 @@ section div.campo-data-movcx label{
   color: #fff;
 }
 section div.campo-data-movcx input{
-  font-size: 21px; 
+  font-size: 18px; 
   padding: 0px;
   text-align: center;
+  height: 30px;
+  margin-top: -5px;
+  margin-bottom: -10px;
 }
 
 section div.campo-data-movcx input:hover{
@@ -1860,6 +1914,8 @@ div.btn-dados-mov-caixa{
 div.btn-dados-mov-caixa button{
   background-color: green;  
   padding: 0px; 
+  margin-top: -5px;
+  margin-bottom: -10;
 }
 
 div.btn-dados-mov-caixa button:hover, div.btn-alterar-cliente button:hover{
@@ -1868,7 +1924,7 @@ div.btn-dados-mov-caixa button:hover, div.btn-alterar-cliente button:hover{
 } 
 
 .receb-caixa-mov{
-  margin-top: 2px; 
+  margin-top: 0px; 
   border: 2px solid; 
   border-radius: 10px; 
   border-color: #DCDCDC; 
@@ -1896,14 +1952,16 @@ div.btn-dados-mov-caixa button:hover, div.btn-alterar-cliente button:hover{
 }
 
 .receb-caixa-mov div.titulo-pag h3{
-  font-size: 18px; 
+  font-size: 15px; 
   margin-top: 5px;
   margin-bottom: 0px;
 }
 
 .receb-caixa-mov div.valor-pag h3{
   margin-top: 0px;
-  margin-bottom: 0px;
+  margin-bottom: -5px;
+  font-size: 18px;
+  text-align: right;
 }
 
 div.sec-entrada{
@@ -1922,14 +1980,22 @@ div.sec-disponivel div h3{
   margin-top: 0px;
   color: #fff;
   font-weight: bold; 
-  font-size: 23px; 
+  font-size: 22px; 
 }
 
 div.sec-disponivel label{
-  margin-top: 0px;
-  color: yellow;
+  margin-top: 5px;
+  color: #fff;
   font-weight: bold; 
-  font-size: 11px; 
+  font-size: 12px; 
+}
+
+div.valor-disp-ret label{
+  color:  #00FF7F;
+}
+
+div.valor-disp-ret h3#vl-disp-ret{
+  color:  #00FF7F;
 }
 
 
@@ -1938,10 +2004,10 @@ div.btn-link-mov-cx{
 }
 
 div.btn-ver-mov-caixa input{
-  margin-top: 9px; 
+  margin-top: 0px; 
   min-width: 5px;
   min-height: 5px;
-  transform: scale(2);
+  transform: scale(1.3);
   border-radius: 20px; 
   
 }
@@ -1972,6 +2038,7 @@ div.btn-dados-mov-retirada button{
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   border-radius: 15px; 
   border-color: #fff; 
+  margin-top: -5px;
 }
 
 div.btn-dados-mov-retirada button:hover{
@@ -2186,6 +2253,7 @@ section div.campo-titulo-mov-cx-retirada h4{
   margin-top: 0px;
   color: #fff;
   text-align: center;
+  margin-bottom: -10px;
 }
 
 section div.campo-data-movcx-retirada label{
@@ -2252,7 +2320,7 @@ div.btn-finalizar-retirada{
   align-items:  center; 
 }
 
-div.btn-finalizar-retirada button{  
+div.btn-finalizar-retirada a{  
   text-align: center; 
   width: 400px; 
 }
@@ -2296,6 +2364,14 @@ div.tela-movimento-caixa-pro input{
   text-transform: uppercase; 
 }
 
+div.tela-movimento-caixa-mov{
+  background-color: #708090;
+  border-bottom: 3px solid; 
+  border-color: #fff; 
+}
+
+div.tela-movimento-caixa-mov input{
+  text-transform: uppercase; 
 }
 
 section#dt-movimento-caixa-pro{
@@ -2416,5 +2492,99 @@ div.mensagem-sis-acesso{
   margin-top: -83px; 
   font-size: 20px; 
 }
+
+/* CALCULADORA */
+.calculadora{
+  border: 3px solid;
+  border-radius: 15px;
+  background-color: #87CEFA;
+
+}
+
+.input_calc{
+  margin-top: 10px;
+  margin-bottom: 20px; 
+  text-align: center;
+}
+
+.input_calc input{
+  width: 100%; 
+  height: 40px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: solid 2px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.input_calc input#input_resc{
+  background-color: #4682B4;
+  color: #fff;
+}
+
+.btn-number-calc button{
+  margin-top: -15px;
+  margin-bottom: 0px;
+  font-size: 20px;
+  width: 100%;
+  background-color: #000;
+  border: 3px solid;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.btn-item button{
+  width: 100%;
+  height: 50px;
+  font-size: 24px; 
+  background-color: #808080;
+  text-align: center;
+}
+
+.btn-item button#btn_som{
+  height: 70px;
+   width: 100%;
+   background-color: #1E90FF; 
+   text-align: center;
+}
+
+.btn-item button#btn_resultado{
+  height: 70px;
+   width: 100%;
+   text-align: center;
+}
+
+.btn-item button#btn_CE{
+  height: 40px;
+  width: 60%;
+  padding: 0px;
+  text-align: center;
+}
+
+a#av3{
+  margin-top: -5px;
+  margin-bottom: -5px; 
+  color: #fff;
+}
+
+div.logo-marca-pss{
+  padding: 0px;
+  margin-top: -10px;
+  margin-bottom: -30px
+}
+
+div.logo-marca-pss h3 img{
+  padding: 0px;
+  margin-top: -10px;
+  margin-bottom: -20px;
+  border:dotted 5px;
+  border-color: #fff;
+  border-radius: 4px 30px 30px;
+}
+
+
+
+
+
 
 

@@ -4,7 +4,7 @@
         
         	<div class="logo-marca text-center col-lg-2 col-sm-2">
                 <h3> 
-                    M F
+                     <img  src="<?php echo base_url('/assets/frontend/img/fabimim.png') ?>" >
                 </h3>
           </div>
           <div class="logo-titulo text-center col-lg-7 col-sm-7">

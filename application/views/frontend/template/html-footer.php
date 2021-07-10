@@ -304,7 +304,7 @@
 
 
         carregarDadosCaixaMov();
-        function carregarDadosCaixaMov(idcaixa_mov, datainicial_mov, datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery,mov_retirada, mov_troco_ini, mov_pix)
+        function carregarDadosCaixaMov(idcaixa_mov, datainicial_mov, datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec,mov_crediariorec_2,mov_crediariorec_3,mov_crediariorec_7, mov_externa, porJQuery,mov_retirada, mov_troco_ini, mov_pix)
         {
             $.ajax({
                 url:"<?php echo base_url(); ?>caixa/consultajquery_dados_caixa",
@@ -318,6 +318,9 @@
                         mov_credito:mov_credito,
                         mov_crediario:mov_crediario,
                         mov_crediariorec:mov_crediariorec,
+                        mov_crediariorec_2:mov_crediariorec_2,
+                        mov_crediariorec_3:mov_crediariorec_3,
+                        mov_crediariorec_7:mov_crediariorec_7,
                         mov_externa:mov_externa,
                         porJQuery:porJQuery,
                         mov_retirada:mov_retirada,
@@ -366,6 +369,25 @@
                     var mov_crediariorec=0; 
                 }
 
+                if ($('#btn-lista-mov-cx5_2').is(':checked')) {
+                    var mov_crediariorec_2 = $('#btn-lista-mov-cx5_2').val(); 
+
+                }else{
+                    var mov_crediariorec_2=0; 
+                }
+
+                if ($('#btn-lista-mov-cx5_3').is(':checked')) {
+                    var mov_crediariorec_3 = $('#btn-lista-mov-cx5_3').val(); 
+                }else{
+                    var mov_crediariorec_3=0; 
+                }
+
+                if ($('#btn-lista-mov-cx5_7').is(':checked')) {
+                    var mov_crediariorec_7 = $('#btn-lista-mov-cx5_7').val(); 
+                }else{
+                    var mov_crediariorec_7=0; 
+                }
+
                 if ($('#btn-lista-mov-cx8').is(':checked')) {
                     var mov_externa = $('#btn-lista-mov-cx8').val(); 
                 }else{
@@ -388,7 +410,7 @@
                     var mov_pix=0; 
                 }
 
-                carregarDadosCaixaMov(idcaixa_mov,datainicial_mov,datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_externa, porJQuery, mov_retirada, mov_troco_ini, mov_pix);
+                carregarDadosCaixaMov(idcaixa_mov,datainicial_mov,datafinal_mov,mov_avista, mov_debito, mov_credito, mov_crediario, mov_crediariorec, mov_crediariorec_2,mov_crediariorec_3,mov_crediariorec_7, mov_externa, porJQuery, mov_retirada, mov_troco_ini, mov_pix);
             }else 
             {
                 carregarDadosCaixaMov(); 

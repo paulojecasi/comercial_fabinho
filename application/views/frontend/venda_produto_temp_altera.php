@@ -95,12 +95,12 @@
             ?> 
            
             <div class="form-group col-lg-12 btn-link panel-btn-aplicar-voltar"> 
-                <div class ="col-lg-6 col-sm-12 btn-finalizar-venda text-center">
-                    <a href=" ">
-                        <button class="btn btn-success" type="submit" id="btn-alt-produto_temp" > 
+                <div class ="col-lg-6 col-sm-12 btn-finalizar-venda-a text-center">
+                  
+                        <a class="btn btn-success"  id="btn-alt-produto_temp" onclick="alteracaoItemVenda()" > 
                             Aplicar alterações 
-                        </button> 
-                    </a>
+                        </a> 
+                 
                 </div>
 
                 <div class ="col-lg-6 text-center link-voltar">
@@ -119,4 +119,26 @@
         </div>
         
     </div>
+
+    <script type="text/javascript">
+    function alteracaoItemVenda(){     
+        var quantidadeitens_alt = ( $('#quantidadeitens_alt').val() == '' ? 0 : 
+                                $('#quantidadeitens_alt').val());
+
+        var form = document.getElementById("form-alt-produto-temp");
+
+        if(parseFloat(quantidadeitens_alt) <= 0)
+        {
+            alert("ATENÇÃO - Quantidade de Itens não pode ser menor ou igual a ZERO")
+            $("#quantidadeitens_alt").focus()
+            $("#quantidadeitens_alt").css("background-color","yellow");
+            
+            return;  
+    
+        }
+        form.submit();
+
+    }
+
+    </script>
 

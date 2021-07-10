@@ -6,7 +6,7 @@ class Caixa extends CI_Controller {
 	public function __construct()
 	{
 
-		parent::__construct(); 
+		parent::__construct();  
 
 		$this->load->model('empresa_model','modelempresa');	
 		$this->modelempresa->retorna_inicio_geral();
@@ -49,6 +49,9 @@ class Caixa extends CI_Controller {
 		$dados['cartaocredito'] =$this->session->userdata('cartaocredito');
 		$dados['crediario']			=$this->session->userdata('crediario');
 		$dados['crediarioreceb']=$this->session->userdata('crediarioreceb');
+		$dados['crediarioreceb_cred']=$this->session->userdata('crediarioreceb_cred');
+		$dados['crediarioreceb_deb']=$this->session->userdata('crediarioreceb_deb');
+		$dados['crediarioreceb_pix']=$this->session->userdata('crediarioreceb_pix');
 		$dados['datainicio'] 		=$this->session->userdata('datainicio');
 		$dados['datafinal']			=$this->session->userdata('datafinal');
 		$dados['vendaexterna']	=$this->session->userdata('vendaexterna');
@@ -393,6 +396,9 @@ class Caixa extends CI_Controller {
 	 	$cartaocredito =0;
 	 	$crediario =0;
 	 	$crediarioreceb =0; 
+	 	$crediarioreceb_deb =0;
+	 	$crediarioreceb_cred =0;
+	 	$crediarioreceb_pix =0;
 	 	$trocoini=0; 
 	 	$valor_disp_cx =0; 
 	 	$retirada_dinheiro=0; 
@@ -440,7 +446,23 @@ class Caixa extends CI_Controller {
 				}
 				elseif ($tipo_movimento ==5)
 				{
-					$crediarioreceb += $vl_real; 
+					if ($despagamento ==1)
+					{
+						$crediarioreceb += $vl_real; 
+					}
+					elseif ($despagamento==2)
+					{
+						$crediarioreceb_deb += $vl_real; 
+					}
+					elseif ($despagamento==3)
+					{
+						$crediarioreceb_cred += $vl_real; 
+					}
+					elseif ($despagamento==7)
+					{
+						$crediarioreceb_pix += $vl_real; 
+					}
+					
 				}
 				elseif ($tipo_movimento ==8)
 				{
@@ -479,6 +501,14 @@ class Caixa extends CI_Controller {
 			!$trocoini
 			&& 
 			!$pixTransfer
+			&&
+			!$crediarioreceb
+			&&
+			!$crediarioreceb_deb
+			&&
+			!$crediarioreceb_cred
+			&&
+			!$crediarioreceb_pix
 		)
 		{
 			$mensagem = "Nao ha movimento no periodo informado!"; 
@@ -495,6 +525,9 @@ class Caixa extends CI_Controller {
 			$this->session->set_userdata('cartaocredito',$cartaocredito);
 			$this->session->set_userdata('crediario',$crediario);
 			$this->session->set_userdata('crediarioreceb',$crediarioreceb);
+			$this->session->set_userdata('crediarioreceb_deb',$crediarioreceb_deb);
+			$this->session->set_userdata('crediarioreceb_cred',$crediarioreceb_cred);
+			$this->session->set_userdata('crediarioreceb_pix',$crediarioreceb_pix);
 			$this->session->set_userdata('vendaexterna',$vendaexterna);
 			$this->session->set_userdata('pix_transferencia',$pixTransfer);
 			$this->session->set_userdata('datainicio',$datainicio);
@@ -523,6 +556,9 @@ class Caixa extends CI_Controller {
 	 	$mov_credito  = $this->input->post('mov_credito');
 	 	$mov_crediario  = $this->input->post('mov_crediario');
 	 	$mov_crediariorec  = $this->input->post('mov_crediariorec');
+	 	$mov_crediariorec_2  = $this->input->post('mov_crediariorec_2');
+	 	$mov_crediariorec_3  = $this->input->post('mov_crediariorec_3');
+	 	$mov_crediariorec_7  = $this->input->post('mov_crediariorec_7');
 	 	$mov_externa  = $this->input->post('mov_externa');
 	 	$porJQuery = $this->input->post('porJQuery'); 
 	 	$idcaixa_md5 = md5($idcaixa);
@@ -530,7 +566,7 @@ class Caixa extends CI_Controller {
 	 	$mov_retirada  = $this->input->post('mov_retirada');
 	 	$mov_pix  = $this->input->post('mov_pix');
 
-	 	$dados = $this->modelcaixa_movimento->getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista, $mov_debito, $mov_credito, $mov_crediario, $mov_crediariorec, $mov_externa, $porJQuery, $mov_troco_ini, $mov_retirada,$mov_pix);
+	 	$dados = $this->modelcaixa_movimento->getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista, $mov_debito, $mov_credito, $mov_crediario, $mov_crediariorec, $mov_crediariorec_2, $mov_crediariorec_3, $mov_crediariorec_7, $mov_externa, $porJQuery, $mov_troco_ini, $mov_retirada,$mov_pix);
 
  
 	 	$vl_movimento=0;

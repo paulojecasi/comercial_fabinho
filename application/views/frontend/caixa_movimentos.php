@@ -7,7 +7,7 @@
 
     <?php
     // tela VALOR DA VENDA
-    //$this->load->view('frontend/template/valor-venda');
+    //$this->load->view('frontend/template/valor-venda'); 
     echo form_open('caixa/consulta_dados_caixa');
         if (!$datainicio){
             $datainicio =date('Y-m-d');
@@ -80,7 +80,7 @@
 
                 <div class="col-lg-12 sec-recebi sec-entrada">
                     <div class="col-lg-7 titulo-pag">
-                       <h3> A Vista  </h3>
+                       <h3> Vendas a Vista  </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
                         <h3> <?php echo reais($avista)  ?> </h3>
@@ -94,25 +94,6 @@
                         <?php 
                     endif;
                     ?>            
-                </div>
-
-                <div class="col-lg-12 sec-recebi sec-entrada">
-                    <div class="col-lg-7 titulo-pag">
-                        <h3> Recebimentos Crediário </h3>
-                    </div>
-                    <div class="col-lg-4 valor-pag">
-                        <h3> <?php echo reais($crediarioreceb)  ?> </h3>
-                    </div>
-                    <?php 
-                    if ($crediarioreceb!=0):
-                    ?>
-                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
-                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="5" id="btn-lista-mov-cx5">
-                        </div> 
-                        <?php 
-                    endif;
-                    ?>
-
                 </div>
 
                 <div class="col-lg-12 sec-recebi sec-entrada">
@@ -133,10 +114,9 @@
                     ?>
                 </div>
 
-
                 <div class="col-lg-12 sec-recebi sec-neutro">
                     <div class="col-lg-7 titulo-pag">
-                        <h3> Cartão Débito </h3>
+                        <h3>Vendas Cartão Débito </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
                         <h3> <?php echo reais($cartaodebito) ?>  </h3>
@@ -154,7 +134,7 @@
 
                 <div class="col-lg-12 sec-recebi sec-neutro">
                     <div class="col-lg-7 titulo-pag">
-                         <h3> Cartão Crédito </h3>
+                         <h3>Vendas Cartão Crédito </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
                         <h3> <?php echo reais($cartaocredito) ?> </h3>
@@ -172,7 +152,7 @@
 
                 <div class="col-lg-12 sec-recebi sec-neutro">
                     <div class="col-lg-7 titulo-pag">
-                         <h3> Pix-Transferencia </h3>
+                         <h3>Vendas Pix-Transferencia </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
                         <h3> <?php echo reais($pix_transferencia) ?> </h3>
@@ -188,10 +168,9 @@
                     ?> 
                 </div>
 
-
                 <div class="col-lg-12 sec-recebi sec-a-receber">
                     <div class="col-lg-7 titulo-pag">
-                      <h3> Crediário </h3>
+                      <h3>Vendas no Crediário </h3>
                     </div>
                     <div class="col-lg-4 valor-pag">
                         <h3> <?php echo reais($crediario) ?> </h3>
@@ -201,6 +180,77 @@
                     ?>
                         <div class="col-lg-1 form-check btn-ver-mov-caixa">
                             <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="4" id="btn-lista-mov-cx4">
+                        </div> 
+                        <?php 
+                    endif;
+                    ?>
+                </div>
+
+                <div class="col-lg-12 sec-recebi sec-entrada">
+                    <div class="col-lg-7 titulo-pag">
+                        <h3> Recebimentos Crediário a Vista </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo reais($crediarioreceb)  ?> </h3>
+                    </div>
+                    <?php 
+                    if ($crediarioreceb!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="5" id="btn-lista-mov-cx5">
+                        </div> 
+                        <?php 
+                    endif;
+                    ?>
+                </div>
+
+                <div class="col-lg-12 sec-recebi sec-neutro">
+                    <div class="col-lg-7 titulo-pag">
+                        <h3> Recebimentos Crediário Cartão Débito </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo reais($crediarioreceb_deb)  ?> </h3>
+                    </div>
+                    <?php 
+                    if ($crediarioreceb_deb!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="5" id="btn-lista-mov-cx5_2">
+                        </div> 
+                        <?php 
+                    endif;
+                    ?>
+                </div>
+                <div class="col-lg-12 sec-recebi sec-neutro">
+                    <div class="col-lg-7 titulo-pag">
+                        <h3> Recebimentos Crediário Cartão Crédito </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo reais($crediarioreceb_cred)  ?> </h3>
+                    </div>
+                    <?php 
+                    if ($crediarioreceb_cred!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="5" id="btn-lista-mov-cx5_3">
+                        </div> 
+                        <?php 
+                    endif;
+                    ?>
+                </div>
+
+                <div class="col-lg-12 sec-recebi sec-neutro">
+                    <div class="col-lg-7 titulo-pag">
+                        <h3> Recebimentos Crediário Pix-Transferencia </h3>
+                    </div>
+                    <div class="col-lg-4 valor-pag">
+                        <h3> <?php echo reais($crediarioreceb_pix)  ?> </h3>
+                    </div>
+                    <?php 
+                    if ($crediarioreceb_pix!=0):
+                    ?>
+                        <div class="col-lg-1 form-check btn-ver-mov-caixa">
+                            <input class="form-check-input ckeck-mov-caixa" type="checkbox" value="5" id="btn-lista-mov-cx5_7">
                         </div> 
                         <?php 
                     endif;
@@ -232,9 +282,9 @@
                         <h3> <?php echo reais($valor_total_mov)  ?> </h3>
                     </div>
                   
-                    <div class="col-lg-4 valor-disp">
+                    <div class="col-lg-4 valor-disp-ret">
                         <label> Disponível para retirada </label>
-                        <h3> <?php echo reais($valor_disp_cx)  ?> </h3>
+                        <h3 id="vl-disp-ret"> <?php echo reais($valor_disp_cx)  ?> </h3> 
                     </div>
                     <?php 
                     $operacao_caixa = $this->session->userdata('operacao');

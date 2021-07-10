@@ -26,6 +26,7 @@ jQuery(document).ready(function(){
         jQuery('#vl_saldo_caixa_ret').val(vl_retirada_disponivel);
     }
 
+    /*
     if(parseFloat(vl_retirada_caixa) <= 0)
     {
         alert("ATENÇÃO - Valor da RETIRADA não pode ser menor ou igual a ZERO")
@@ -34,6 +35,7 @@ jQuery(document).ready(function(){
         jQuery('#vl_retirada_caixa').val(null);
         jQuery('#vl_saldo_caixa_ret').val(vl_retirada_disponivel);
     }
+    */
 
   });
 });

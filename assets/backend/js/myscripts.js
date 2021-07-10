@@ -51,7 +51,6 @@ if ($('#form-cadastro-produt').val() ==10) {
     $('#vlprecoatacado').val(vl_preco_uni);
 
   }); 
-
 }
 
 
@@ -82,7 +81,29 @@ if ($('#form-acesso-gera').val() ==1) {
 
   });
 
-} */
+} 
+
+
+if ($('#form-caixa-rels').val() ==11) {
+  function OpenWindow() { //v2.0
+    var theURL = $('.base-url').val() + 'admin/caixa/rel_caixa_fecha';
+
+    return window.open(theURL, 
+    "toolbar=no,width=660,height=430,top=40,left=40,location=no,toolbar=no,menubar=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no");
+
+  }
+} 
+
+*/
+
+
+// tela opcoes de relatorios 
+if ($('.form-caixa-rel').val() ==11) {
+
+  $('#datainicial_fecha').prop('readonly', true);
+  $('#datafinal_fecha').prop('readonly', true);
+
+}
 
 
 

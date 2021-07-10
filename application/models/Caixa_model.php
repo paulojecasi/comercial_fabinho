@@ -60,46 +60,87 @@ class Caixa_model extends CI_Model
 		return $this->db->update('retiradas',$dados);
 	}
 
-	public function getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista=null, $mov_debito=null, $mov_credito=null, $mov_crediario=null, $mov_crediariorec=null, $mov_externa=null, $porJQuery=null, $mov_retirada=null, $mov_troco_ini=null, $mov_pix=null)
+	private function get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal)
 	{
+		$this->db->where('md5(caixa_movimento.idcaixa)=',$idcaixa_md5);
+		$this->db->where('DATE(caixa_movimento.data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
+		$this->db->where('DATE(caixa_movimento.data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
+	}
+
+	public function getConsulta_movimento_caixa($idcaixa_md5, $datainicio, $datafinal, $mov_avista=null, $mov_debito=null, $mov_credito=null, $mov_crediario=null, $mov_crediariorec=null, $mov_crediariorec_2=null, $mov_crediariorec_3=null, $mov_crediariorec_7=null, $mov_externa=null, $porJQuery=null, $mov_retirada=null, $mov_troco_ini=null, $mov_pix=null)
+	{
+
 		if ($mov_avista){
-			$this->db->where('tipo_movimento_caixa=',$mov_avista); 
+			$this->db->where('tipo_movimento_caixa=',$mov_avista);
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal); 
 		}
 		if ($mov_debito){
 			$this->db->or_where('tipo_movimento_caixa=',$mov_debito); 
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
 		}
 		if ($mov_credito){
-			$this->db->or_where('tipo_movimento_caixa=',$mov_credito); 
+			$this->db->or_where('tipo_movimento_caixa=',$mov_credito);
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal); 
 		}
 		if ($mov_crediario){
-			$this->db->or_where('tipo_movimento_caixa=',$mov_crediario); 
+			$this->db->or_where('tipo_movimento_caixa=',$mov_crediario);
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal); 
 		}
 		if ($mov_crediariorec){
 			$this->db->or_where('tipo_movimento_caixa=',$mov_crediariorec); 
+			$this->db->where('tipo_pagamento_crediario=1');  // dinheiro 
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
 		}
+
+		if ($mov_crediariorec_2){
+			$this->db->or_where('tipo_movimento_caixa=',$mov_crediariorec_2); 
+			$this->db->where('tipo_pagamento_crediario=2');  // cartao debito
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
+		}
+
+		if ($mov_crediariorec_3){
+			$this->db->or_where('tipo_movimento_caixa=',$mov_crediariorec_3); 
+			$this->db->where('tipo_pagamento_crediario=3');  // cartao credito
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
+		}
+
+		if ($mov_crediariorec_7){
+			$this->db->or_where('tipo_movimento_caixa=',$mov_crediariorec_7); 
+			$this->db->where('tipo_pagamento_crediario=7');  // pix-transferencia
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
+		}
+		
 		if ($mov_externa){
 			$this->db->or_where('tipo_movimento_caixa=',$mov_externa); 
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
 		}
 		if ($mov_troco_ini){
-			$this->db->or_where('tipo_movimento_caixa=',$mov_troco_ini); 
+			$this->db->or_where('tipo_movimento_caixa=',$mov_troco_ini);
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal); 
 		}
 		if ($mov_retirada){
 			$this->db->or_where('tipo_movimento_caixa=',$mov_retirada); 
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
 		}
 		if ($mov_pix){
 			$this->db->or_where('tipo_movimento_caixa=',$mov_pix); 
+			$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
 		}
 
 		if (!$mov_avista && !$mov_debito && !$mov_credito && !$mov_crediario &&
-				!$mov_crediariorec && !$mov_externa && $porJQuery=="S" && !$mov_troco_ini && !$mov_retirada && !$mov_pix)
+			!$mov_crediariorec && !$mov_crediariorec_2 && !$mov_crediariorec_3 &&
+			!$mov_crediariorec_7 && !$mov_externa && $porJQuery=="S" && !$mov_troco_ini && !$mov_retirada && !$mov_pix)
 		{
 			$datainicio =0;
 			$datafinal=0;
 		}
 
+		$this->get_caixa_periodo($idcaixa_md5,$datainicio,$datafinal);
+
 		$this->db->where('md5(caixa_movimento.idcaixa)=',$idcaixa_md5);
-		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
-		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
+		$this->db->where('DATE(caixa_movimento.data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
+		$this->db->where('DATE(caixa_movimento.data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
+
 		 
 		$this->db->from('caixa_movimento');
 		$this->db->join('tipo_movimento_caixa',
@@ -110,6 +151,9 @@ class Caixa_model extends CI_Model
 										'venda.idvenda = caixa_movimento.idvenda','left'); 
 
 		$this->db->order_by('data_movimento','ASC'); 
+
+		//var_dump($this->db->get()->result());
+		//exit; 
 	
 		return $this->db->get()->result(); 
 
@@ -124,6 +168,7 @@ class Caixa_model extends CI_Model
 		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
 		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
 		$this->db->where('situacao=0'); 
+		$this->db->where('situacaovenda!=2'); 
 		
 		$tipo_mov_caixa_where = array(1,2,3,4,8,11);  // somente vendas 
 
@@ -144,6 +189,45 @@ class Caixa_model extends CI_Model
 		return $this->db->get()->result(); 
 
 	}
+
+	public function getConsulta_movimento_caixa_produto_crediario($idcaixa_md, $datainicio, $datafinal, $tp_rel)
+	{
+
+		
+		$this->db->where('md5(caixa_movimento.idcaixa)=',$idcaixa_md);
+		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
+		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
+		$this->db->where('situacao=0'); 
+		$this->db->where('situacaovenda!=2'); 
+		
+		$tipo_mov_caixa_where = 4;  // somente vendas crediario
+		$this->db->where('tipo_movimento_caixa',$tipo_mov_caixa_where);
+		
+		if ($tp_rel ==4) // QUITADOS
+		{
+			$this->db->where('situacaovenda=1');
+		}
+		elseif ($tp_rel ==5) // ABERTOS 
+		{
+			$this->db->where('situacaovenda=0');
+		}
+
+		$this->db->from('caixa_movimento');
+
+		$this->db->join('venda',
+										'venda.idvenda = caixa_movimento.idvenda'); 
+
+		$this->db->join('vendaitem',
+										'vendaitem.idvenda = venda.idvenda'); 
+
+		$this->db->join('produto',
+										'produto.idproduto = vendaitem.idproduto'); 
+
+		$this->db->order_by('produto.idproduto','ASC');
+		return $this->db->get()->result(); 
+
+	}
+
 
 	public function cancela_movimento_caixa($idcaixa_mov, $tipo_movimento)
 	{
@@ -171,6 +255,9 @@ class Caixa_model extends CI_Model
 		$this->session->unset_userdata('cartaocredito');
 		$this->session->unset_userdata('crediario');
 		$this->session->unset_userdata('crediarioreceb');
+		$this->session->unset_userdata('crediarioreceb_cred');
+		$this->session->unset_userdata('crediarioreceb_deb');
+		$this->session->unset_userdata('crediarioreceb_pix');
 		$this->session->unset_userdata('vendaexterna');
 		$this->session->unset_userdata('datainicio');
 		$this->session->unset_userdata('datafinal');
@@ -226,5 +313,15 @@ class Caixa_model extends CI_Model
 		$this->db->where('DATE(data_movimento) >=', date('Y-m-d',strtotime($datainicio)));
 		$this->db->where('DATE(data_movimento) <=', date('Y-m-d',strtotime($datafinal)));
 		return $this->db->update('caixa_movimento', $dados); 
+	}
+
+	public function relatorio_caixa_fechamento($idcaixa_md, $datainicio, $datafinal)
+	{
+		$this->db->where('md5(idcaixa)=', $idcaixa_md); 
+		$this->db->where('DATE(datafecha) >=', date('Y-m-d',strtotime($datainicio)));
+		$this->db->where('DATE(datafecha) <=', date('Y-m-d',strtotime($datafinal)));
+		$this->db->order_by('datafecha'); 
+		return $this->db->get('caixa_fecha')->result(); 
+
 	}
 }

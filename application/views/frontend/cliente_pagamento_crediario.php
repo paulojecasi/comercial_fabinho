@@ -247,12 +247,12 @@
 
                 <div class="form-group col-lg-12 btn-link"> 
                     <section class = "btn-retorno-pag-cred">
-                        <div class ="col-lg-5 col-sm-12 btn-finalizar-venda btn-finalizar-pagto  text-center">
-                            <a href="">
-                                <button class="btn btn-success" type="submit" id="btn-pagamento-cred"> 
-                                    Concluir Pagamento
-                                </button> 
-                            </a>
+                        <div class ="col-lg-5 col-sm-12 btn-finalizar-venda-a btn-finalizar-pagto  text-center">
+                         
+                            <a class="btn btn-success" type="button" id="btn-pagamento-cred" onclick="recebePag()"> 
+                                Concluir Pagamento
+                            </a> 
+                   
                         </div>
 
                         <?php 
@@ -261,7 +261,6 @@
                             
                         ?>
 
-                    
                         <div class ="col-lg-3 text-center link-voltar link-voltar-tela-inicio btn-finalizar-pagto">
                             <a href="<?php echo $link_retorno ?>">
                                    <i class="fa fa-reply" aria-hidden="true"></i> Voltar
@@ -286,6 +285,76 @@
     <?php 
         echo form_close();
     ?>
+
+    <script type="text/javascript">
+            function recebePag(){     
+        var idpagamento = ( $('#idpagamento').val() == '' ? 0 : 
+                            $('#idpagamento').val());
+
+        var vl_recebido_caixa_cred = ($('#vl_recebido_caixa_cred').val() == '' ? 0 :
+                                     $('#vl_recebido_caixa_cred').val());
+
+        var vl_recebido_caixa_cred = ($('#vl_recebido_caixa_cred').val() == '' ? 0 :
+                                     $('#vl_recebido_caixa_cred').val());
+
+        var vl_pg_crediario = 0; 
+
+        var qt_vendas =1; 
+        while (qt_vendas <=50)
+        { 
+            var pagvendas = ("pag_"+qt_vendas);
+            
+            pagvendas = ($('#'+pagvendas).val() == '' ? 0 : 
+                        $('#'+pagvendas).val());
+           
+            if (pagvendas==null || !pagvendas){
+                break; 
+            }
+
+            vl_pg_crediario = (vl_pg_crediario+ parseFloat(pagvendas));
+
+            qt_vendas++; 
+      
+        }
+
+        var form = document.getElementById("form-pagamento-cred");
+
+        if (parseFloat(idpagamento) == 5)
+        {
+            alert("Informe tipo de pagamento");  
+           
+            $("#idpagamento").focus()
+            $("#idpagamento").css("background-color","red");
+            return; 
+       
+        }
+
+        if (parseFloat(vl_recebido_caixa_cred) == 0)
+        {
+            alert("Informe Valor do pagamento");  
+            
+            $("#vl_recebido_caixa_cred").focus()
+            $("#vl_recebido_caixa_cred").css("background-color","red");
+            return; 
+        }
+
+        vl_pg_crediario = parseFloat(vl_pg_crediario).toFixed(2);
+
+        if (parseFloat(vl_recebido_caixa_cred) < vl_pg_crediario)
+        { 
+            alert("Valor Recebido nao pode ser menor que o Valor do Pagamento !");  
+           
+            $("#vl_recebido_caixa_cred").focus()
+            $("#vl_recebido_caixa_cred").css("background-color","red");
+            return;    
+              
+        }
+      
+        form.submit();
+
+    }
+
+    </script>
     
     
 </div>
